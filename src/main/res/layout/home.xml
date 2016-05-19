@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorAccent"
+              android:orientation="vertical"
+    >
+    <!-- 顶部标题栏 -->
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/cartitle"
+        style="@style/pagetitle">
+        <TextView
+            style="@style/pagetitletext"
+            android:text="home"
+            />
+    </RelativeLayout>
+
+
+
+
+
+    <!-- 内容 -->
+    <ScrollView
+        android:id="@+id/homecontent"
+        style="@style/pagecontent">
+
+
+
+    </ScrollView>
+
+
+</LinearLayout>

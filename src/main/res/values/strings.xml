@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">38慧眼</string>
+    <string name="hometitle">首页</string>
+    <string name="sorttilte">分类</string>
+    <string name="cartitle">购物车</string>
+    <string name="usertitle">我的</string>
+</resources>
