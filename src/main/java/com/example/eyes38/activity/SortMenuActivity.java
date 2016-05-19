@@ -1,11 +1,11 @@
 package com.example.eyes38.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.eyes38.R;
@@ -56,7 +56,8 @@ public class SortMenuActivity extends AppCompatActivity {
         sort_sortAdapter.setmOnItemClickListener(new Sort_SortAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Goods goods) {
-                Log.e("jqchen",goods.getGoods_id()+"");
+                Intent intent = new Intent(SortMenuActivity.this,GoodDetailActivity.class);
+                startActivity(intent);
             }
         });
     }

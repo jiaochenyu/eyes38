@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-       <!-- <item name="colorPrimaryDark">@color/topical</item>-->
+        <!-- <item name="colorPrimaryDark">@color/topical</item>-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -23,11 +23,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="bottom_radiogroup">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/white</item>
     </style>
+
     <style name="bottom_radio">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -70,5 +72,67 @@
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/sort_sortmenu_textcolor</item>
+    </style>
+    <!--商品详情底部-->
+    <style name="goods_detail_bottom">
+        <item name="android:layout_weight">3</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!--商品详情规格字体属性-->
+    <style name="goods_detail_unit_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/goods_detail_buynow</item>
+    </style>
+    <!--商品详情备注字体属性-->
+    <style name="goods_detail_remark">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!--商品详情界面 购买区域radiogroup属性-->
+    <style name="goods_detail_raio_consult">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">咨询</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="goods_detail_radio_car">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">购物车</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="goods_detail_radio_buynow">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">立即购买</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@color/goods_detail_buynow</item>
+    </style>
+
+    <style name="goods_detail_radio_addcar">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">加入购物车</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@color/goods_detail_addcar</item>
     </style>
 </resources>

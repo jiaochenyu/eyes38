@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +75,6 @@ public class Sort_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             contentAdapter.setmOnItemClickListener(new Sort_ContentContentAdapter.OnRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, SortContentContent scc) {
-                    Log.e("jqchen",scc.getConten());
                     Intent intent = new Intent(mContext, SortMenuActivity.class);
                     intent.putExtra("values",scc);
                     mContext.startActivity(intent);

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.eyes38.activity.GoodDetailActivity">
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/sorttitle"
+        style="@style/pagetitle">
+        <!--sort_sort_title分类中标题-->
+        <TextView
+            android:id="@+id/sort_sort_title"
+            style="@style/pagetitletext"
+            android:text="@string/goods_details_title" />
+    </RelativeLayout>
+    <!-- 内容 -->
+    <LinearLayout style="@style/pagecontent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/goods_details" />
+                <!--显示规格-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/goods_detail_unit_text"
+                        android:text="￥" />
+
+                    <TextView
+                        android:id="@+id/goods_detail_unit"
+                        style="@style/goods_detail_unit_text"
+                        android:text="0.01/个" />
+                </LinearLayout>
+                <!--显示库存-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/goods_stock" />
+
+                    <TextView
+                        android:id="@+id/goods_detail_stock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="88" />
+                </LinearLayout>
+
+                <!--商品备注-->
+                <TextView
+                    style="@style/goods_detail_remark"
+                    android:text="美国猪带骨肉眼大排 500g 盒装" />
+                <!--评论区域-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="评论(" />
+                    <!--评论数量-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/goods_detail_commentcount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=")" />
+                    </LinearLayout>
+                    <!--右边箭头-->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/android" />
+                </LinearLayout>
+                <!--图文详解-->
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/goods_detail_addcar"
+                    android:text="图文详情"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/goods_detail_txt_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/android" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+    <!--加入购物车或购买-->
+    <LinearLayout
+        style="@style/goods_detail_bottom">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                style="@style/goods_detail_raio_consult"
+                android:drawableTop="@drawable/android"/>
+
+            <RadioButton
+                style="@style/goods_detail_radio_car"
+                android:drawableTop="@drawable/car"/>
+
+            <RadioButton
+                style="@style/goods_detail_radio_buynow"/>
+
+            <RadioButton
+               style="@style/goods_detail_radio_addcar"/>
+        </RadioGroup>
+    </LinearLayout>
+
+</LinearLayout>
