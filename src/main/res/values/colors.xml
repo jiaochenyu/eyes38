@@ -8,4 +8,9 @@
     <color name="topical">#E6831E</color>
     <color name="background">#F0F0F0</color>
     <color name="white">#FFFFFF</color>
+    <color name="sort_title_background">#F2F2F2</color>
+    <color name="sort_content_background">#FFFFFF</color>
+    <color name="text">#A5A5A4</color>
+    <color name="texton">#00A653</color>
+    <color name="textout">#999999</color>
 </resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/sort_content_content_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/android" />
+
+    <TextView
+        android:id="@+id/sort_content_content_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test"/>
+
+</LinearLayout>
