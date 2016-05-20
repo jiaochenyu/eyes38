@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.example.eyes38.R;
@@ -39,10 +40,10 @@ public class SortMenuActivity extends AppCompatActivity {
 
     private void initData() {
         mList = new ArrayList<>();
-        Goods g1 = new Goods(1,"苹果",null,"水果","100g","10/100g",null,null,11f,10f,0,0);
-        Goods g2 = new Goods(2,"苹果",null,"水果","100g","10/100g",null,null,11f,10f,0,0);
-        Goods g3 = new Goods(3,"苹果",null,"水果","100g","10/100g",null,null,11f,10f,0,0);
-        Goods g4 = new Goods(4,"苹果",null,"水果","100g","10/100g",null,null,11f,10f,0,0);
+        Goods g1 = new Goods(1,"苹果",null,"水果","100g","10/100g",null,null,11f,10f,0,0,100);
+        Goods g2 = new Goods(2,"苹果",null,"水果","100g","10/100g",null,null,11f,10f,0,0,100);
+        Goods g3 = new Goods(3,"苹果",null,"水果","100g","10/100g",null,null,11f,10f,0,0,100);
+        Goods g4 = new Goods(4,"苹果",null,"水果","100g","10/100g",null,null,11f,10f,0,0,100);
         mList.add(g1);
         mList.add(g2);
         mList.add(g3);
@@ -56,6 +57,7 @@ public class SortMenuActivity extends AppCompatActivity {
         sort_sortAdapter.setmOnItemClickListener(new Sort_SortAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Goods goods) {
+                Log.e("jqchen","跳转详情界面");
                 Intent intent = new Intent(SortMenuActivity.this,GoodDetailActivity.class);
                 startActivity(intent);
             }
