@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.eyes38.user_activity.User_orderActivity">
+
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/usertitle"
+        style="@style/pagetitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/user_set_back"/>
+
+            <TextView
+                style="@style/pagetitletext"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="我的订单"
+                android:textSize="15sp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- 内容 -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/usercontent"
+        style="@style/pagecontent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <include
+                layout="@layout/user_bottom_merge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+       <!--分割线-->
+        <TextView
+            android:layout_weight="0.5"
+            android:background="#f2f2f2"
+            android:text=""
+            android:textSize="5sp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+        <FrameLayout
+            android:id="@+id/user_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="25">
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

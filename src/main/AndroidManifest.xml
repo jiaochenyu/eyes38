@@ -15,6 +15,27 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".user_activity.User_phone_setActivity">
+        </activity>
+        <activity android:name=".user_activity.User_message_setActivity">
+        </activity>
+        <activity android:name=".user_activity.User_personal_centerActivity">
+        </activity>
+        <activity android:name=".user_activity.User_orderActivity">
+        </activity>
+        <activity android:name=".user_activity.User_take_addressActivity">
+        </activity>
+        <activity android:name=".user_activity.Update_user_passwordActivity">
+        </activity>
+        <activity android:name=".user_activity.User_BindPhoneActivity">
+        </activity>
+        <activity android:name=".user_activity.User_loginActivity">
+        </activity>
+        <activity android:name=".user_activity.User_creditsActivity">
+        </activity>
+        <activity android:name=".user_activity.User_backgoodActivity">
+        </activity>
+        <activity android:name=".user_activity.Update_user_passwordActivity"></activity>
     </application>
 
 </manifest>
