@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/sort_sort_item_imageview"
-        android:src="@drawable/car" />
+        android:src="@drawable/cart" />
 
     <TextView
         android:id="@+id/sort_sort_item_nametextview"
