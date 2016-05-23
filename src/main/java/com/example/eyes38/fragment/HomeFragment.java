@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Home_ad_adapter;
+import com.example.eyes38.fragment.home.HomeRecycleView;
 
 import java.util.ArrayList;
 
@@ -29,9 +31,10 @@ public class HomeFragment extends Fragment {
     public static final int REFRESHTIME = 5 * 1000;
     public static final int IMAGE_CHANGED = 2;
     ViewPager mViewPager;
+    RecyclerView mRecyclerView;
     ArrayList<View> mViewList;
     int mCurrentItem = Integer.MAX_VALUE / 2;
-
+    HomeRecycleView mHomeRecycleView;
 
 
     @Nullable
@@ -46,6 +49,9 @@ public class HomeFragment extends Fragment {
         mViewPager.setAdapter(myAdapter);
         mViewPager.setCurrentItem(mCurrentItem);
         mHandler.sendEmptyMessageDelayed(IMAGE_UPDATE,REFRESHTIME);
+
+        mHomeRecycleView = new HomeRecycleView(mMainActivity,mRecyclerView);
+        mHomeRecycleView.startItem();
         return view;
     }
 
@@ -79,6 +85,7 @@ public class HomeFragment extends Fragment {
 
     private void initView() {
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
     }
 
 
