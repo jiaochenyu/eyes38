@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.SortMenuActivity">
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/sorttitle"
+        style="@style/pagetitle">
+        <!--sort_sort_title分类中标题-->
+        <TextView
+            android:id="@+id/sort_sort_title"
+            style="@style/pagetitletext"
+            android:text="@string/sorttilte" />
+    </RelativeLayout>
+    <!-- 内容 -->
+    <LinearLayout style="@style/pagecontent">
+
+        <!--导入导航栏-->
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/sort_sort_meun"></include>
+
+        <!--刷新区域-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/sort_sort_swiprefresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="27">
+            <!--分类界面-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sort_sort_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

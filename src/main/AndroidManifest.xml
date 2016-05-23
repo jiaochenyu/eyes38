@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.eyes38">
+    package="com.example.eyes38">
 
     <application
         android:allowBackup="true"
@@ -10,11 +10,12 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <!-- user -->
         <activity android:name=".user_activity.User_phone_setActivity">
         </activity>
@@ -45,6 +46,11 @@
         </activity>
         <activity android:name=".user_activity.User_registerActivity">
         </activity>
+=======
+        <activity android:name=".activity.SortMenuActivity" />
+        <activity android:name=".activity.GoodDetailActivity" />
+        <activity android:name=".activity.CommentActivity"></activity>
+>>>>>>> a8a80229f4437033fb1dbb3b7c2081d9a8807927
     </application>
 
 </manifest>

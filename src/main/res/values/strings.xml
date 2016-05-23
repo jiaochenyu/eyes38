@@ -3,10 +3,17 @@
     <string name="hometitle">首页</string>
     <string name="sorttilte">分类</string>
     <string name="cartitle">购物车</string>
-    <string name="usertitle">个人中心</string>
-    <string-array name="sex">
-        <item>男</item>
-        <item>女</item>
+    <string name="usertitle">我的</string>
 
-    </string-array>
+    <string name="sort_menu_default">默认</string>
+    <string name="sort_menu_new">最新</string>
+    <string name="sort_menu_amount">销量</string>
+    <string name="sort_menu_price">价格</string>
+    <!--商品详情的标题-->
+    <string name="goods_details_title">产品详情</string>
+
+    <!--人民币字样-->
+    <string name="rmb">￥</string>
+    <!--库存-->
+    <string name="goods_stock">库存:</string>
 </resources>
