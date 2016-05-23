@@ -4,17 +4,19 @@
     <string name="sorttilte">分类</string>
     <string name="cartitle">购物车</string>
     <string name="usertitle">我的</string>
+    <string-array name="sex">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
 
     <string name="sort_menu_default">默认</string>
     <string name="sort_menu_new">最新</string>
     <string name="sort_menu_amount">销量</string>
     <string name="sort_menu_price">价格</string>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
 
     <string name="cart_empty_button">随便看看</string>
-=======
+
     <!--商品详情的标题-->
     <string name="goods_details_title">产品详情</string>
 
@@ -22,6 +24,5 @@
     <string name="rmb">￥</string>
     <!--库存-->
     <string name="goods_stock">库存:</string>
->>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
->>>>>>> 1c26917280a48cf6bddab8c263caca7a8662f7c5
+
 </resources>

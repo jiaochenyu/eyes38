@@ -32,7 +32,7 @@ public class User_orderActivity extends AppCompatActivity {
     private CommitFragment mCommitFragment;
     //事务
     private FragmentManager mFragmentManager;
-    private android.support.v4.app.FragmentTransaction mFragmentTransaction;
+    private FragmentTransaction mFragmentTransaction;
     private  RadioButton user_order_all,user_order_pay,user_order_deliever,user_order_receiver;
 
     @Override

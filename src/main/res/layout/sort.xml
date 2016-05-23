@@ -15,7 +15,7 @@
     <!-- 内容 -->
     <LinearLayout style="@style/pagecontent">
 
-<<<<<<< HEAD
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -39,9 +39,7 @@
                 android:layout_weight="3"
                 android:background="@color/sort_content_background"></FrameLayout>
         </LinearLayout>
-=======
 
->>>>>>> f6b78481a62417b5db9fb73f1b210c6af01b1b10
     </LinearLayout>
 
 

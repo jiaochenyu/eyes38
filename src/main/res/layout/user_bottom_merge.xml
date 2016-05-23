@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       >
+
+    <RadioGroup
+        android:id="@+id/group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottom_radiogroup_topborder"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:id="@+id/user_order_all"
+            style="@style/order_bottom_radio"
+            android:text="全部"
+            android:checked="true"
+            />
+
+
+        <RadioButton
+            android:id="@+id/user_order_pay"
+            style="@style/order_bottom_radio"
+            android:text="待付款"
+
+            />
+
+        <RadioButton
+            android:id="@+id/user_order_deliever"
+            style="@style/order_bottom_radio"
+            android:text="待发货"
+            />
+
+
+        <RadioButton
+            android:id="@+id/user_order_receiver"
+            style="@style/order_bottom_radio"
+            android:text="待收货"
+
+            />
+
+        <RadioButton
+            android:id="@+id/user_order_commit"
+            style="@style/order_bottom_radio"
+            android:text="待评价"
+            />
+
+    </RadioGroup>
+
+
+</merge>
