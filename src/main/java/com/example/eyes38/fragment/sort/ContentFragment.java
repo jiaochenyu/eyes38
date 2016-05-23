@@ -29,6 +29,7 @@ public class ContentFragment extends Fragment {
     View mView;
     List<SortContent> mList;
     List<SortContentContent> mmList;
+    Sort_ContentAdapter scAdapter;
     //下拉刷新控件
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -64,7 +65,7 @@ public class ContentFragment extends Fragment {
     }
 
     private void initAdapter() {
-        Sort_ContentAdapter scAdapter = new Sort_ContentAdapter(getContext(), mList);
+        scAdapter = new Sort_ContentAdapter(getContext(), mList);
         mRecyclerView.setAdapter(scAdapter);
     }
 

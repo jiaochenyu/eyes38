@@ -2,12 +2,15 @@ package com.example.eyes38.fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,16 @@ import com.example.eyes38.adapter.Sort_TitleAdapter;
 import com.example.eyes38.beans.SortTitle;
 import com.example.eyes38.fragment.sort.ContentFragment;
 import com.example.eyes38.utils.DividerItemDecoration;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.OnResponseListener;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +39,7 @@ import java.util.List;
  * Created by jcy on 2016/5/8.
  */
 public class SortFragment extends Fragment {
+    public static final int FINSH = 1;
     View view;
     RecyclerView mRecyclerView;
     //适配器
@@ -37,22 +51,38 @@ public class SortFragment extends Fragment {
     FragmentTransaction mTransaction;
     ContentFragment mContentFragment;
 
+    //测试获取json数据
+    //创建 请求队列成员变量
+    private RequestQueue mRequestQueue;
+    private final static int mWhat = 520;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.sort, null);
         //初始化数据
         initData();
-        //初始化适配器
-        initView();
-        //这是监听
-        initAdapter();
+
         //初始化布局
-        initListener();
+        initView();
+
         //初始化碎片
         initFragment();
         return view;
     }
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case FINSH:
+                    //初始化适配器
+                    initAdapter();
+                    //这是监听
+                    initListener();
+            }
+        }
+    };
 
     private void initAdapter() {
         titleAdapter = new Sort_TitleAdapter(mList);
@@ -60,7 +90,9 @@ public class SortFragment extends Fragment {
     }
 
     private void initData() {
-        //以及标题
+        getHttpMedthod();
+
+        /*//以及标题
         mList = new ArrayList<>();
         SortTitle s1 = new SortTitle(0, "蔬菜豆菇", true);
         SortTitle s2 = new SortTitle(1, "新鲜蔬果", false);
@@ -81,8 +113,59 @@ public class SortFragment extends Fragment {
         mList.add(s7);
         mList.add(s8);
         mList.add(s9);
-        mList.add(s10);
+        mList.add(s10);*/
     }
+
+    private void getHttpMedthod() {
+        mRequestQueue = NoHttp.newRequestQueue();
+        String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata";
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.add("size", "7");
+        mRequestQueue.add(mWhat, request, mOnResponseListener);
+    }
+
+    /**
+     * 请求http结果  回调对象，接受请求结果
+     */
+    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == mWhat) {
+                //请求成功
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("goods");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        String string = jsonObject.getString("id");
+                        Log.e("jqchen", string);
+                        SortTitle s = new SortTitle(i, string, false);
+                        mList.add(s);
+                    }
+                    handler.sendEmptyMessage(FINSH);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
 
     private void initView() {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.sort_title);

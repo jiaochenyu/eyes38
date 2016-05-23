@@ -49,4 +49,16 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
             comment_timeTextView = (TextView) itemView.findViewById(R.id.comment_time);
         }
     }
+    //刷新添加数据
+    public void addItem(List<Comments> newDatas){
+        newDatas.addAll(mList);
+        mList.removeAll(mList);
+        mList.addAll(newDatas);
+        notifyDataSetChanged();
+    }
+    //加载数据
+    public void addMoreItem(List<Comments> newDatas) {
+        mList.addAll(newDatas);
+        notifyDataSetChanged();
+    }
 }
