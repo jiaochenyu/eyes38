@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:background="@drawable/cart_item_bottom_border"
+    >
+
+    <LinearLayout
+        android:id="@+id/linear_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/checkbox_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/goodspicture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_toRightOf="@+id/linear_checkbox"
+        android:background="@drawable/cart_addsub_border"
+        android:src="@drawable/p1"/>
+
+    <TextView
+        android:id="@+id/goodstitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/goodspicture"
+        android:text="全国哈密瓜"
+        />
+
+    <LinearLayout
+        android:id="@+id/addandminus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/goodspicture"
+        android:layout_alignLeft="@+id/goodstitle"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/minusbutton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cart_addsub_border"
+            android:text="-"/>
+
+        <TextView
+            android:id="@+id/goods_count"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cart_addsub_text_border"
+            android:gravity="center"
+            android:text="3"/>
+
+        <Button
+            android:id="@+id/addbutton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cart_addsub_border"
+
+            android:text="+"
+            android:textColor="@color/topical"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cart_list_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="0.01"
+        android:textColor="@color/topical"/>
+
+    <TextView
+        android:id="@+id/rmb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/cart_list_price"
+        android:text="¥"
+        android:textColor="@color/topical"/>
+
+    <Button
+        android:id="@+id/dayOrder"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@+id/goodspicture"
+        android:layout_alignRight="@+id/cart_list_price"
+        android:background="@color/topical"
+        android:text="当日订单"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        />
+
+
+</RelativeLayout>

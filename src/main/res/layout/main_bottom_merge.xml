@@ -1,6 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
        style="@style/mm">
+<<<<<<< HEAD
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/bottomRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            >
+
+            <RadioGroup
+                android:id="@+id/group"
+                style="@style/bottom_radiogroup"
+                android:background="@drawable/bottom_radiogroup_topborder"
+                android:orientation="horizontal"
+                >
+
+                <RadioButton
+                    android:id="@+id/homeRadiobutton"
+                    style="@style/bottom_radio"
+                    android:checked="true"
+                    android:drawableTop="@drawable/home"
+                    android:text="首页"
+                    />
+
+                <RadioButton
+                    android:id="@+id/sortRadiobutton"
+                    style="@style/bottom_radio"
+                    android:drawableTop="@drawable/sort"
+                    android:text="分类"/>
+
+                <RadioButton
+                    android:id="@+id/carRadiobutton"
+                    style="@style/bottom_radio"
+                    android:drawableTop="@drawable/cart"
+                    android:text="购物车"/>
+
+                <RadioButton
+                    android:id="@+id/userRadiobutton"
+                    style="@style/bottom_radio"
+                    android:drawableTop="@drawable/user"
+                    android:text="我"/>
+            </RadioGroup>
+            <!-- 实现提醒信息用的 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#00000000"
+                android:orientation="horizontal"
+                >
+                <!-- 显示提醒信息的button android:layout_weight=1  是3个butto，平分手机界面的宽度-->
+
+                <!-- 占位置的button，以便适应不同分辨率手机 -->
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    />
+                <!-- 占位置的button，以便适应不同分辨率手机 -->
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    />
+
+                <Button
+                    android:id="@+id/car_badgeviewbutton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:layout_marginRight="22dp"
+                    />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+=======
     <RadioGroup
         android:id="@+id/group"
         style="@style/bottom_radiogroup"
@@ -30,5 +118,6 @@
             android:drawableTop="@drawable/user"
             android:text="我"/>
     </RadioGroup>
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 
 </merge>

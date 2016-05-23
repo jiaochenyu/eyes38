@@ -6,16 +6,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+<<<<<<< HEAD
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+=======
+>>>>>>> f6b78481a62417b5db9fb73f1b210c6af01b1b10
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+<<<<<<< HEAD
 import com.example.eyes38.adapter.Sort_TitleAdapter;
 import com.example.eyes38.beans.SortTitle;
 import com.example.eyes38.fragment.sort.ContentFragment;
@@ -33,12 +38,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+=======
+>>>>>>> f6b78481a62417b5db9fb73f1b210c6af01b1b10
 
 
 /**
  * Created by jcy on 2016/5/8.
  */
 public class SortFragment extends Fragment {
+<<<<<<< HEAD
     public static final int FINSH = 1;
     View view;
     RecyclerView mRecyclerView;
@@ -200,4 +208,15 @@ public class SortFragment extends Fragment {
         mTransaction.add(R.id.right, mContentFragment);
         mTransaction.commit();
     }
+=======
+    MainActivity mMainActivity;
+    View view;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mMainActivity = (MainActivity) getActivity();
+        view = inflater.inflate(R.layout.sort,null);
+        return view;
+    }
+>>>>>>> f6b78481a62417b5db9fb73f1b210c6af01b1b10
 }

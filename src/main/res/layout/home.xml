@@ -10,21 +10,350 @@
     <RelativeLayout
         android:id="@+id/cartitle"
         style="@style/pagetitle">
+
+        <TextView
+<<<<<<< HEAD
+            android:id="@+id/home_chenshi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:text="全国"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
         <TextView
             style="@style/pagetitletext"
+            android:text="首页" />
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/home_chenshi"
+            android:src="@drawable/home_chengshixuanze"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="-5dp"
+            android:padding="5dp"
+            android:src="@drawable/home_fangdajing"
+=======
+            style="@style/pagetitletext"
             android:text="home"
+>>>>>>> 1c26917280a48cf6bddab8c263caca7a8662f7c5
             />
     </RelativeLayout>
-
-
-
 
 
     <!-- 内容 -->
     <ScrollView
         android:id="@+id/homecontent"
-        style="@style/pagecontent">
+<<<<<<< HEAD
+        style="@style/pagecontent"
+        android:scrollbars="none"
+        android:background="#f4f4f4">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+<!--顶部广告轮播图-->
+            <android.support.v4.view.ViewPager
+                android:id="@+id/main_ad_show"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                />
+<!--四个大类图标-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        style="@style/home_sort_imagebutton"
+                        android:src="@drawable/ion_fruit"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:text="水果"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        style="@style/home_sort_imagebutton"
+                        android:src="@drawable/ion_meat"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="鲜肉"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        style="@style/home_sort_imagebutton"
+                        android:src="@drawable/ion_aquatic"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="水产"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        style="@style/home_sort_imagebutton"
+                        android:src="@drawable/ion_vegetable"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="蔬菜"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"></LinearLayout>
+            <!--一周菜谱头部-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp"
+                >
+
+                <ImageView
+                    android:id="@+id/home_shutiao"
+                    android:layout_width="10dp"
+                    android:layout_height="15dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home_shutiao"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/home_shutiao"
+                    android:text="一周菜谱"
+                    android:textColor="@color/black"/>
+
+                <ImageView
+                    android:id="@+id/home_yzcpgengduo"
+                    android:layout_width="20dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home_gengduo"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/home_yzcpgengduo"
+                    android:text="更多"
+                    android:textColor="@color/black"/>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"></LinearLayout>
+            <!--一周菜谱内容-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:padding="1dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="暂无商品"
+                    android:textColor="@color/black"
+                    />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"></LinearLayout>
+            <!--新品推荐头部-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp"
+                >
+
+                <ImageView
+                    android:id="@+id/home_xptjshutiao"
+                    android:layout_width="10dp"
+                    android:layout_height="15dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home_shutiao"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/home_xptjshutiao"
+                    android:text="新品推荐"
+                    android:textColor="@color/black"/>
+
+                <ImageView
+                    android:id="@+id/home_xptjgengduo"
+                    android:layout_width="20dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home_gengduo"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/home_xptjgengduo"
+                    android:text="更多"
+                    android:textColor="@color/black"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></LinearLayout>
+<!--新品推荐内容-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/home_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp"></LinearLayout>
+            <!--每日特价头部-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp"
+                >
+
+                <ImageView
+                    android:id="@+id/home_mrtjshutiao"
+                    android:layout_width="10dp"
+                    android:layout_height="15dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home_shutiao"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/home_mrtjshutiao"
+                    android:text="每日特价"
+                    android:textColor="@color/black"/>
+
+                <ImageView
+                    android:id="@+id/home_mrtegengduo"
+                    android:layout_width="20dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/home_gengduo"/>
+=======
+        style="@style/pagecontent">
+>>>>>>> 1c26917280a48cf6bddab8c263caca7a8662f7c5
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/home_mrtegengduo"
+                    android:text="更多"
+                    android:textColor="@color/black"/>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"></LinearLayout>
+            <!--每日特价内容-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:padding="1dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="暂无商品"
+                    android:textColor="@color/black"
+                    />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
 
     </ScrollView>

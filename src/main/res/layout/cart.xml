@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/cartitle"
+        style="@style/pagetitle">
+
+        <TextView
+            style="@style/pagetitletext"
+            android:text="@string/cartitle"
+            />
+        <Button
+            android:id="@+id/addcounttest"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#00000000"
+            android:textSize="12sp"
+            android:text="+"/>
+        <Button
+            android:layout_toRightOf="@+id/addcounttest"
+            android:id="@+id/minuscounttest"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#00000000"
+            android:textSize="12sp"
+            android:text="-"/>
+    </RelativeLayout>
+    <!-- 内容 -->
+    <FrameLayout
+        android:id="@+id/cartcontent"
+        style="@style/pagecontent">
+
+        <!--<android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/cart_SwipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </android.support.v4.widget.SwipeRefreshLayout>-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cart_RecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+    </FrameLayout>
+
+
+</LinearLayout>
