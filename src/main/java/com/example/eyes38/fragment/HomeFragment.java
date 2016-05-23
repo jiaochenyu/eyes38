@@ -49,7 +49,6 @@ public class HomeFragment extends Fragment {
         mViewPager.setAdapter(myAdapter);
         mViewPager.setCurrentItem(mCurrentItem);
         mHandler.sendEmptyMessageDelayed(IMAGE_UPDATE,REFRESHTIME);
-
         mHomeRecycleView = new HomeRecycleView(mMainActivity,mRecyclerView);
         mHomeRecycleView.startItem();
         return view;
