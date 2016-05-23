@@ -2,6 +2,7 @@ package com.example.eyes38.fragment;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import com.example.eyes38.user_activity.User_take_addressActivity;
  * Created by jcy on 2016/5/8.
  */
 public class UserFragment extends Fragment {
+    private  SharedPreferences sp;
     MainActivity mMainActivity;
     ImageView user_set, user_message;
     View view;
@@ -50,7 +52,7 @@ public class UserFragment extends Fragment {
         toMyAddress();
         //监听并传值
         ListenerValues();
-        //向我的订单页面传值，告诉其应该默认页面
+        //向我的订单页面传值，告诉其应该默认页
         return view;
     }
 

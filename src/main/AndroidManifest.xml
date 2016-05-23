@@ -15,6 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- user -->
         <activity android:name=".user_activity.User_phone_setActivity">
         </activity>
         <activity android:name=".user_activity.User_message_setActivity">
@@ -35,7 +36,15 @@
         </activity>
         <activity android:name=".user_activity.User_backgoodActivity">
         </activity>
-        <activity android:name=".user_activity.Update_user_passwordActivity"></activity>
+        <activity android:name=".user_activity.Update_user_passwordActivity"/>
+        <activity android:name=".user_activity.User_findpasswordActivity">
+        </activity>
+        <activity android:name=".user_activity.User_findpassword2Activity">
+        </activity>
+        <activity android:name=".user_activity.User_find_password3Activity">
+        </activity>
+        <activity android:name=".user_activity.User_registerActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
+    android:background="#FFF"
     android:orientation="vertical"
-    tools:context="com.example.eyes38.user_activity.User_phone_setActivity">
-
+    tools:context="com.example.eyes38.user_activity.Update_user_passwordActivity">
     <!--顶部标题-->
     <RelativeLayout
         android:id="@+id/usertitle"
@@ -16,26 +15,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"/>
+
             <ImageView
-                android:onClick="user_set_back"
+                android:onClick="user_register_back"
+                android:id="@+id/password_set_back"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/user_set_back"/>
+
             <TextView
                 style="@style/pagetitletext"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:text="设置"
+                android:text="注册"
                 />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -45,95 +44,44 @@
         style="@style/pagecontent"
         android:orientation="vertical"
         >
-        <!--修改密码-->
+        <!--旧密码-->
         <LinearLayout
-            android:id="@+id/user_go_update"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2.45"
             android:background="#FFF">
-            <TextView
+            <ImageView
+                android:src="@drawable/user_my_findtel"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+            <EditText
+                android:background="@drawable/edittext"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="0dp"
-                android:layout_weight="2"
-                android:gravity="center|right"
-                android:text="修改密码"
-                android:textSize="15sp"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:layout_weight="6"
-                android:gravity="center|right"
-                android:text=""
+                android:layout_weight="10"
+                android:gravity="center|left"
+                android:hint="手机号"
                 android:textColor="#d9d9d9"
                 android:textSize="15sp"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:src="@drawable/indicator_right"/>
-        </LinearLayout>
 
+        </LinearLayout>
         <!--分割线-->
         <TextView
+            android:background="#F2F2F2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"
             android:text=""
             android:textSize="0.1sp"/>
-
-        <!--手机绑定-->
-        <LinearLayout
-            android:onClick="user_bindphone_set"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2.45"
-            android:background="#FFF">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:layout_weight="2"
-                android:gravity="center|right"
-                android:text="手机绑定"
-                android:textSize="15sp"/>
-
-
-            <!--手机绑定-->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:layout_weight="6"
-                android:gravity="center|right"
-                android:text="已绑定15538299972"
-                android:textColor="#d9d9d9"
-                android:textSize="15sp"/>
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:src="@drawable/indicator_right"/>
-        </LinearLayout>
         <!--分割线-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.1"
+            android:layout_weight="0.5"
             android:text=""
             android:textSize="0.1sp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.67"
-            android:background="#fff">
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -145,13 +93,13 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:onClick="user_back_login"
-                android:id="@+id/back_login"
+                android:onClick="user_register_next"
+                android:id="@+id/user_password_save"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
-                android:background="#E6831E"
-                android:text="退出登录"
+                android:background="@color/topical"
+                android:text="下一步"
                 android:textColor="#fff"
                 android:textSize="15sp"/>
 
@@ -161,11 +109,48 @@
                 android:layout_weight="1"/>
 
         </LinearLayout>
-        <!---底部-->
         <TextView
+            android:layout_weight="0.3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"/>
+        <LinearLayout
+            android:layout_weight="2"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="20"/>
+            android:layout_height="0dp">
+            <TextView
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:onClick="user_forget_password"
+                android:textSize="12sp"
+                android:background="#fff"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:text="已有账号?"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+            <Button
+                android:layout_margin="5dp"
+                android:onClick="user_register_login"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/topical"
+                android:textSize="12sp"
+                android:background="@drawable/user_login_border"
+                android:text="登录"
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:background="#FFF"
+            android:layout_weight="20"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"></LinearLayout>
+
 
     </LinearLayout>
+
+
 </LinearLayout>

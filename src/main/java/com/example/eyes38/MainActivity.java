@@ -1,18 +1,23 @@
 package com.example.eyes38;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.RadioGroup;
 
 import com.example.eyes38.fragment.CarFragment;
 import com.example.eyes38.fragment.HomeFragment;
 import com.example.eyes38.fragment.SortFragment;
 import com.example.eyes38.fragment.UserFragment;
+import com.example.eyes38.user_activity.User_loginActivity;
 
 public class MainActivity extends AppCompatActivity {
-
+    private SharedPreferences sp;
+    int count;
     private static final int HOME = 1;
     private static final int SORT = 2;
     private static final int CAR = 3;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
+        sp=this.getSharedPreferences("userInfo",MODE_PRIVATE);
     }
 
     //初始化数据
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case CAR:
+
                 if (mCarFragment == null) {
                     mCarFragment = new CarFragment();
                     mFragmentTransaction.add(R.id.fragment_container, mCarFragment);
@@ -134,7 +141,16 @@ public class MainActivity extends AppCompatActivity {
                 showFragment(CAR);
                 break;
             case R.id.user:
-                showFragment(USER);
+               int login_state=sp.getInt("STATE",0);
+                Log.e("login",login_state+"");
+                if (login_state==1){
+                    showFragment(USER);
+                }
+                else {
+                    Intent intent=new Intent(MainActivity.this,User_loginActivity.class);
+                    startActivity(intent);
+                }
+
                 break;
             default:
                 break;

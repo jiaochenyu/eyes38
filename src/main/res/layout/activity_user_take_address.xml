@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.eyes38.user_activity.User_orderActivity">
+    tools:context=".user_activity.User_take_addressActivity">
     <!--顶部标题-->
     <RelativeLayout
         android:id="@+id/usertitle"
@@ -21,7 +21,7 @@
                 android:layout_weight="0.5"/>
 
             <ImageView
-                android:onClick="user_good_back_back"
+                android:onClick="user_take_address"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -31,12 +31,16 @@
                 style="@style/pagetitletext"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:text="售后服务-订单列表"
+                android:text="收货地址管理"
                 />
 
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
         </LinearLayout>
     </RelativeLayout>
+
     <!--设置主体内容-->
     <LinearLayout
         android:id="@+id/user_set_content"
@@ -74,7 +78,7 @@
             <TextView
                 android:textSize="12sp"
                 android:gravity="center"
-                android:text="尚未有维修记录"
+                android:text="您未添加任何收货地址。"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>
@@ -85,9 +89,35 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
         </LinearLayout>
+        <!--新建地址-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <TextView
+                android:background="#f2f2f2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:id="@+id/back_login"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:background="#E6831E"
+                android:text="新建地址"
+                android:textColor="#fff"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:background="#f2f2f2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    </LinearLayout>
-
-
+</LinearLayout>

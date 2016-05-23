@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -183,5 +184,8 @@ public class User_orderActivity extends AppCompatActivity {
                 break;
         }
     }
-
+    //返回键
+    public void user_myorder_back(View view) {
+        onBackPressed();
+    }
 }
