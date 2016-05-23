@@ -1,18 +1,36 @@
 package com.example.eyes38;
 
+<<<<<<< HEAD
+import android.graphics.Color;
+=======
+import android.content.Intent;
+import android.content.SharedPreferences;
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
+import android.widget.Button;
+import android.widget.RadioButton;
+=======
+import android.util.Log;
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 import android.widget.RadioGroup;
 
-import com.example.eyes38.fragment.CarFragment;
+import com.example.eyes38.fragment.CartFragment;
 import com.example.eyes38.fragment.HomeFragment;
 import com.example.eyes38.fragment.SortFragment;
 import com.example.eyes38.fragment.UserFragment;
+<<<<<<< HEAD
+import com.example.eyes38.utils.CartBadgeView;
+=======
+import com.example.eyes38.user_activity.User_loginActivity;
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 
 public class MainActivity extends AppCompatActivity {
-
+    private SharedPreferences sp;
+    int count;
     private static final int HOME = 1;
     private static final int SORT = 2;
     private static final int CAR = 3;
@@ -21,11 +39,15 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mRadioGroup;
     private HomeFragment mHomeFragment;
     private SortFragment mSortFragment;
-    private CarFragment mCarFragment;
+    private CartFragment mCarFragment;
     private UserFragment mUserFragment;
 
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
+
+    RadioButton  mCarradioButton ;
+    RadioButton  mhomeRadioButton;
+    Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
 
 
     @Override
@@ -40,6 +62,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
+<<<<<<< HEAD
+        //初始化 cartradiobutton
+        mCarradioButton = (RadioButton) findViewById(R.id.carRadiobutton);
+        mhomeRadioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
+        mcar_badgebutton = (Button) findViewById(R.id.car_badgeviewbutton);
+        //CartBadgeView这是购物车上的徽章
+        CartBadgeView mCartBadgeView = new CartBadgeView(MainActivity.this,mcar_badgebutton);
+        //mCartBadgeView.setBackgroundResource(R.drawable.badge_ifaux);
+        mCartBadgeView.setText("3");
+        mCartBadgeView.setTextColor(Color.WHITE);
+        mCartBadgeView.setTextSize(12);
+        //mCartBadgeView.setBadgeMargin(30,30);
+        mCartBadgeView.setBadgeMargin(5);//各个边的边隔
+        mCartBadgeView.setBadgeBackgroundColor(this.getResources().getColor(R.color.topical));
+        mCartBadgeView.setBadgePosition(CartBadgeView.POSITION_TOP_RIGHT);
+        mCartBadgeView.show();
+    }
+
+
+    //设置徽章上显示的数据
+    private void badgeViewNum(){
+
+=======
+        sp=this.getSharedPreferences("userInfo",MODE_PRIVATE);
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
     }
 
     //初始化数据
@@ -76,8 +123,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case CAR:
+
                 if (mCarFragment == null) {
-                    mCarFragment = new CarFragment();
+                    mCarFragment = new CartFragment();
                     mFragmentTransaction.add(R.id.fragment_container, mCarFragment);
                 } else {
                     mFragmentTransaction.show(mCarFragment);
@@ -119,22 +167,50 @@ public class MainActivity extends AppCompatActivity {
                 resetPager(checkedId);
             }
         });
+
+      /*  //点击 carradiobutton
+        mhomeRadioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "我是购物车112", Toast.LENGTH_SHORT).show();
+                CartBadgeView mCartBadgeView = new CartBadgeView(MainActivity.this,mcar_badgebutton);
+                mCartBadgeView.setBackgroundResource(R.drawable.badge_ifaux);
+                mCartBadgeView.setText("3");
+                mCartBadgeView.setBadgePosition(CartBadgeView.POSITION_TOP_RIGHT);
+                mCartBadgeView.show();
+            }
+        });*/
     }
 
     //选定界面
     private void resetPager(int checkedId) {
         switch (checkedId) {
-            case R.id.home:
+            case R.id.homeRadiobutton:
                 showFragment(HOME);
                 break;
-            case R.id.sort:
+            case R.id.sortRadiobutton:
                 showFragment(SORT);
                 break;
-            case R.id.car:
+            case R.id.carRadiobutton:
+
                 showFragment(CAR);
                 break;
-            case R.id.user:
+<<<<<<< HEAD
+            case R.id.userRadiobutton:
                 showFragment(USER);
+=======
+            case R.id.user:
+               int login_state=sp.getInt("STATE",0);
+                Log.e("login",login_state+"");
+                if (login_state==1){
+                    showFragment(USER);
+                }
+                else {
+                    Intent intent=new Intent(MainActivity.this,User_loginActivity.class);
+                    startActivity(intent);
+                }
+
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
                 break;
             default:
                 break;

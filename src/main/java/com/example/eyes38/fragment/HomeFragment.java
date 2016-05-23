@@ -2,23 +2,26 @@ package com.example.eyes38.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+<<<<<<< HEAD
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+=======
+>>>>>>> 1c26917280a48cf6bddab8c263caca7a8662f7c5
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+<<<<<<< HEAD
 import com.example.eyes38.adapter.Home_ad_adapter;
 import com.example.eyes38.fragment.home.HomeRecycleView;
 
 import java.util.ArrayList;
+=======
+>>>>>>> 1c26917280a48cf6bddab8c263caca7a8662f7c5
 
 
 /**
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     MainActivity mMainActivity;
     View view;
+<<<<<<< HEAD
     public static final int IMAGE_UPDATE = 1;
     public static final int REFRESHTIME = 5 * 1000;
     public static final int IMAGE_CHANGED = 2;
@@ -37,11 +41,13 @@ public class HomeFragment extends Fragment {
     HomeRecycleView mHomeRecycleView;
 
 
+=======
+>>>>>>> 1c26917280a48cf6bddab8c263caca7a8662f7c5
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.home, null);
         mMainActivity = (MainActivity) getActivity();
+<<<<<<< HEAD
         initView();
         initData(savedInstanceState);
         setLinstener();
@@ -118,4 +124,9 @@ public class HomeFragment extends Fragment {
         }
     };
 
+=======
+        view = inflater.inflate(R.layout.home,null);
+        return view;
+    }
+>>>>>>> 1c26917280a48cf6bddab8c263caca7a8662f7c5
 }

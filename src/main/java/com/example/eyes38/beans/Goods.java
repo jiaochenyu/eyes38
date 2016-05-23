@@ -20,18 +20,9 @@ public class Goods implements Serializable {
     private float goods_platform_price;
     private float goods_discount;
     private int goods_comment_count;
+    private int goods_stock;
 
-    public Uri getUri() {
-        return uri;
-    }
-
-    public void setUri(Uri uri) {
-        this.uri = uri;
-    }
-
-    public Goods(int goods_id, String goods_name, Uri uri, String goods_brand, String goods_specification,
-                 String goods_unit, String goods_shengben, String goods_remark, float goods_market_price,
-                 float goods_platform_price, float goods_discount, int goods_comment_count) {
+    public Goods(int goods_id, String goods_name, Uri uri, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
         this.goods_id = goods_id;
         this.goods_name = goods_name;
         this.uri = uri;
@@ -44,6 +35,23 @@ public class Goods implements Serializable {
         this.goods_platform_price = goods_platform_price;
         this.goods_discount = goods_discount;
         this.goods_comment_count = goods_comment_count;
+        this.goods_stock = goods_stock;
+    }
+
+    public int getGoods_stock() {
+        return goods_stock;
+    }
+
+    public void setGoods_stock(int goods_stock) {
+        this.goods_stock = goods_stock;
+    }
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 
     public int getGoods_id() {
