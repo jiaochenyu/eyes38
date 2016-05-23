@@ -4,40 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.SortMenuActivity">
+    tools:context="com.example.eyes38.activity.CommentActivity">
     <!--顶部标题-->
     <RelativeLayout
         android:id="@+id/sorttitle"
         style="@style/pagetitle">
         <!--sort_sort_title分类中标题-->
+        <ImageView
+            android:id="@+id/goods_detail_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="back"
+            android:src="@drawable/arrow_left"/>
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
-            android:text="@string/sorttilte" />
+            android:text="@string/goods_details_title" />
     </RelativeLayout>
     <!-- 内容 -->
     <LinearLayout style="@style/pagecontent">
-
-        <!--导入导航栏-->
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/sort_sort_meun"></include>
-
-        <!--刷新区域-->
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/sort_sort_swiprefresh"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="27">
-            <!--分类界面-->
+            android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/sort_sort_recyclerview"
+                android:id="@+id/goods_comment_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
-
     </LinearLayout>
-
 </LinearLayout>

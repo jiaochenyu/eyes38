@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SortMenuActivity" />
-        <activity android:name=".activity.GoodDetailActivity"></activity>
+        <activity android:name=".activity.GoodDetailActivity" />
+        <activity android:name=".activity.CommentActivity"></activity>
     </application>
 
 </manifest>

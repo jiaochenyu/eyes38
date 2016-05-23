@@ -1,8 +1,11 @@
 package com.example.eyes38.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.eyes38.R;
@@ -13,6 +16,8 @@ public class GoodDetailActivity extends AppCompatActivity {
     Goods goods;
     ImageView goodsPicImageView,goodsTxtPicImageView;
     TextView goodsUnitTextView,goodsStockTextView,goodsRemarkTextView,goodsCommentCountTextView;
+    LinearLayout linearLayout;
+    ImageView backImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,11 +25,25 @@ public class GoodDetailActivity extends AppCompatActivity {
         initView();
         initData();
         setViewToData();
-//        initListener();
+        initListener();
     }
 
     private void initListener() {
-
+        //对评论区域监听
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GoodDetailActivity.this,CommentActivity.class);
+                startActivity(intent);
+            }
+        });
+        //对返回键监听
+        backImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void setViewToData() {
@@ -50,5 +69,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         goodsStockTextView = (TextView) findViewById(R.id.goods_detail_stock);
         goodsRemarkTextView = (TextView) findViewById(R.id.goods_detai_remark);
         goodsCommentCountTextView = (TextView) findViewById(R.id.goods_detail_commentcount);
+        linearLayout = (LinearLayout) findViewById(R.id.goods_comment_layout);
+        backImageView = (ImageView) findViewById(R.id.goods_detail_back);
     }
 }

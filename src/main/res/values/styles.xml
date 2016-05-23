@@ -67,10 +67,11 @@
     <!--分类界面导航栏属性-->
     <style name="sort_menu_radio">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">30dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/radio_onclick</item>
         <item name="android:textColor">@drawable/sort_sortmenu_textcolor</item>
     </style>
     <!--商品详情底部-->
@@ -86,12 +87,15 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">30sp</item>
-        <item name="android:textColor">@color/goods_detail_buynow</item>
+        <item name="android:textColor">@color/goods_detail_addcar</item>
     </style>
     <!--商品详情备注字体属性-->
     <style name="goods_detail_remark">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:background">@color/white</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
