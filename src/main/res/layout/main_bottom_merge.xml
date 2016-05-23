@@ -28,7 +28,7 @@
             android:id="@+id/user"
             style="@style/bottom_radio"
             android:drawableTop="@drawable/user"
-            android:text="我"/>
+            android:text="个人中心"/>
     </RadioGroup>
 
 </merge>

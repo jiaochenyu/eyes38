@@ -1,4 +1,4 @@
-package com.example.eyes38.fragment;
+package com.example.eyes38.user_fragment;
 
 
 import android.os.Bundle;
@@ -10,19 +10,20 @@ import android.view.ViewGroup;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+import com.example.eyes38.user_activity.User_orderActivity;
 
 
 /**
- * Created by jcy on 2016/5/8.
+ * Created by cfj on 2016/5/8.
  */
-public class SortFragment extends Fragment {
-    MainActivity mMainActivity;
+public class DelieverFragment extends Fragment {
+    User_orderActivity mMainActivity;
     View view;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mMainActivity = (MainActivity) getActivity();
-        view = inflater.inflate(R.layout.sort,null);
+        mMainActivity = ( User_orderActivity) getActivity();
+        view = inflater.inflate(R.layout.activity_user_deliever,null);
         return view;
     }
 }
