@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
           package="com.example.eyes38">
     <uses-permission android:name="android.permission.INTERNET"/>
+=======
+    package="com.example.eyes38">
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 
     <application
         android:name=".Application.Application"
@@ -12,12 +16,47 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SortMenuActivity"/>
+<<<<<<< HEAD
+        <!-- user -->
+        <activity android:name=".user_activity.User_phone_setActivity">
+        </activity>
+        <activity android:name=".user_activity.User_message_setActivity">
+        </activity>
+        <activity android:name=".user_activity.User_personal_centerActivity">
+        </activity>
+        <activity android:name=".user_activity.User_orderActivity">
+        </activity>
+        <activity android:name=".user_activity.User_take_addressActivity">
+        </activity>
+        <activity android:name=".user_activity.Update_user_passwordActivity">
+        </activity>
+        <activity android:name=".user_activity.User_BindPhoneActivity">
+        </activity>
+        <activity android:name=".user_activity.User_loginActivity">
+        </activity>
+        <activity android:name=".user_activity.User_creditsActivity">
+        </activity>
+        <activity android:name=".user_activity.User_backgoodActivity">
+        </activity>
+        <activity android:name=".user_activity.Update_user_passwordActivity"/>
+        <activity android:name=".user_activity.User_findpasswordActivity">
+        </activity>
+        <activity android:name=".user_activity.User_findpassword2Activity">
+        </activity>
+        <activity android:name=".user_activity.User_find_password3Activity">
+        </activity>
+        <activity android:name=".user_activity.User_registerActivity">
+        </activity>
+=======
+        <activity android:name=".activity.SortMenuActivity" />
+        <activity android:name=".activity.GoodDetailActivity" />
+        <activity android:name=".activity.CommentActivity"></activity>
+>>>>>>> a8a80229f4437033fb1dbb3b7c2081d9a8807927
     </application>
 
 </manifest>

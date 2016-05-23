@@ -1,22 +1,36 @@
 package com.example.eyes38;
 
+<<<<<<< HEAD
 import android.graphics.Color;
+=======
+import android.content.Intent;
+import android.content.SharedPreferences;
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
 import android.widget.Button;
 import android.widget.RadioButton;
+=======
+import android.util.Log;
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 import android.widget.RadioGroup;
 
 import com.example.eyes38.fragment.CartFragment;
 import com.example.eyes38.fragment.HomeFragment;
 import com.example.eyes38.fragment.SortFragment;
 import com.example.eyes38.fragment.UserFragment;
+<<<<<<< HEAD
 import com.example.eyes38.utils.CartBadgeView;
+=======
+import com.example.eyes38.user_activity.User_loginActivity;
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 
 public class MainActivity extends AppCompatActivity {
-
+    private SharedPreferences sp;
+    int count;
     private static final int HOME = 1;
     private static final int SORT = 2;
     private static final int CAR = 3;
@@ -48,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
+<<<<<<< HEAD
         //初始化 cartradiobutton
         mCarradioButton = (RadioButton) findViewById(R.id.carRadiobutton);
         mhomeRadioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
@@ -69,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
     //设置徽章上显示的数据
     private void badgeViewNum(){
 
+=======
+        sp=this.getSharedPreferences("userInfo",MODE_PRIVATE);
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
     }
 
     //初始化数据
@@ -105,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case CAR:
+
                 if (mCarFragment == null) {
                     mCarFragment = new CartFragment();
                     mFragmentTransaction.add(R.id.fragment_container, mCarFragment);
@@ -176,8 +195,22 @@ public class MainActivity extends AppCompatActivity {
 
                 showFragment(CAR);
                 break;
+<<<<<<< HEAD
             case R.id.userRadiobutton:
                 showFragment(USER);
+=======
+            case R.id.user:
+               int login_state=sp.getInt("STATE",0);
+                Log.e("login",login_state+"");
+                if (login_state==1){
+                    showFragment(USER);
+                }
+                else {
+                    Intent intent=new Intent(MainActivity.this,User_loginActivity.class);
+                    startActivity(intent);
+                }
+
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
                 break;
             default:
                 break;

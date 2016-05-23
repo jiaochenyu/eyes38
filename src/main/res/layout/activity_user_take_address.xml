@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".user_activity.User_take_addressActivity">
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/usertitle"
+        style="@style/pagetitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <ImageView
+                android:onClick="user_take_address"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/user_set_back"/>
+
+            <TextView
+                style="@style/pagetitletext"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="收货地址管理"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!--设置主体内容-->
+    <LinearLayout
+        android:id="@+id/user_set_content"
+        style="@style/pagecontent"
+        android:orientation="vertical"
+        >
+        <!--上部分空白-->
+        <LinearLayout
+            android:layout_weight="4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="6"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <ImageView
+                android:src="@drawable/notice"
+                android:id="@+id/user_getmesssage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <!--下部分空白-->
+        <LinearLayout
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+        </LinearLayout>
+        <!--文字部分-->
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:textSize="12sp"
+                android:gravity="center"
+                android:text="您未添加任何收货地址。"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <!--下部分空白-->
+        <LinearLayout
+            android:layout_weight="15"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+        </LinearLayout>
+        <!--新建地址-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <TextView
+                android:background="#f2f2f2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:id="@+id/back_login"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:background="#E6831E"
+                android:text="新建地址"
+                android:textColor="#fff"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:background="#f2f2f2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

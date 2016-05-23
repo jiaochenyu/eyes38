@@ -13,4 +13,7 @@
     <color name="text">#A5A5A4</color>
     <color name="texton">#00A653</color>
     <color name="textout">#999999</color>
+    <color name="sort_title_textcolor">#E6831E</color>
+    <color name="goods_detail_buynow">#FFB03F</color>
+    <color name="goods_detail_addcar">#E6831E</color>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
        style="@style/mm">
+<<<<<<< HEAD
 
 
 
@@ -87,5 +88,36 @@
             </LinearLayout>
 
         </RelativeLayout>
+=======
+    <RadioGroup
+        android:id="@+id/group"
+        style="@style/bottom_radiogroup"
+        android:background="@drawable/bottom_radiogroup_topborder"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:id="@+id/home"
+            style="@style/bottom_radio"
+            android:drawableTop="@drawable/home"
+            android:checked="true"
+            android:text="首页"
+            />
+        <RadioButton
+            android:id="@+id/sort"
+            style="@style/bottom_radio"
+            android:drawableTop="@drawable/sort"
+            android:text="分类"/>
+        <RadioButton
+            android:id="@+id/car"
+            style="@style/bottom_radio"
+            android:drawableTop="@drawable/car"
+            android:text="购物车"/>
+        <RadioButton
+            android:id="@+id/user"
+            style="@style/bottom_radio"
+            android:drawableTop="@drawable/user"
+            android:text="个人中心"/>
+    </RadioGroup>
+>>>>>>> 35bdab15fc3437f68a6f079b9e5d5fb3df9047df
 
 </merge>

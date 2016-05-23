@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/a1"
             style="@style/sort_menu_radio"
+            android:checked="true"
             android:text="@string/sort_menu_default"/>
 
         <RadioButton
+            android:id="@+id/a2"
             style="@style/sort_menu_radio"
             android:text="@string/sort_menu_new"/>
 
         <RadioButton
+            android:id="@+id/a3"
             style="@style/sort_menu_radio"
             android:text="@string/sort_menu_amount"/>
 
         <RadioButton
+            android:id="@+id/a4"
             style="@style/sort_menu_radio"
             android:text="@string/sort_menu_price"/>
     </RadioGroup>
