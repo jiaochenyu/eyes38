@@ -18,7 +18,7 @@
         android:paddingTop="5dp">
 
         <CheckBox
-            android:id="@+id/operationCheckbox"
+            android:id="@+id/DiscountCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/operationCheckbox"
+            android:layout_toRightOf="@+id/DiscountCheckbox"
             android:text="0"
             />
 
@@ -43,6 +43,7 @@
             android:text="件商品(暂无包邮优惠)"/>
 
         <TextView
+            android:id="@+id/DeleteOperationTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -86,20 +87,35 @@
             android:layout_marginLeft="5dp"
             android:text="全选"/>
         <!-- 合计的布局 -->
-        <TextView
-            android:id="@+id/allGoodsCountPrice"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:paddingRight="10dp"
-            android:text="合计:￥0.00"
-            android:textColor="#F63A19"/>
+            android:orientation="horizontal"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/heji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="合计:￥"
+                android:textColor="#F63A19"/>
+
+            <TextView
+                android:id="@+id/allGoodsCountPrice"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/heji"
+                android:layout_toRightOf="@+id/heji"
+                android:gravity="left"
+                android:paddingRight="10dp"
+                android:text="00.00"
+                android:textColor="#F63A19"/>
+        </LinearLayout>
         <!-- 去结算的布局 -->
 
         <TextView
-            android:id="@+id/jiesuan_button"
+            android:id="@+id/jiesuanButton"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -108,6 +124,7 @@
             android:gravity="center"
             android:text="结算"
             android:textColor="@color/white"/>
+
     </RelativeLayout>
 
 </LinearLayout>
