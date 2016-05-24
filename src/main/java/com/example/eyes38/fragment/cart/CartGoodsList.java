@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
@@ -49,7 +48,7 @@ public class CartGoodsList extends Fragment {
     private CheckBox mCheckBoxAll; //全选商品的 checkbox
     private TextView mJiesuanTV; // 选中商品结算按钮
     private TextView mTotalPriceTV; // 选中的总金额
-    private boolean allChecked = true; // 默认全选
+    private boolean allChecked = false; // 默认全选
     Cart_GoodsAdapter mCart_goodsAdapter = null;
     //采用 NoHttp
     //创建 请求队列成员变量
@@ -62,7 +61,7 @@ public class CartGoodsList extends Fragment {
             switch (msg.what) {
                 case mFINFISH:
                     //加载数据完成
-                    mCart_goodsAdapter.notifyDataSetChanged();
+                    //mCart_goodsAdapter.notifyDataSetChanged();
                     initListener();
                     break;
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
@@ -74,6 +73,7 @@ public class CartGoodsList extends Fragment {
                     //如果都被选中那么全选按钮也要被选中
                     //记录是否被全选
                     allChecked = !(Boolean) msg.obj;
+                    Log.e("获取通知","获取通知的allchecked"+allChecked);
                     mCheckBoxAll.setChecked((Boolean) msg.obj);
                     break;
             }
@@ -112,12 +112,12 @@ public class CartGoodsList extends Fragment {
 
     private void initListener() {
         //测试 点击item 获取 Bean 对象
-        mCart_goodsAdapter.setOnItemClickListener(new Cart_GoodsAdapter.OnRecyclerViewItemClickListener() {
+       /* mCart_goodsAdapter.setOnItemClickListener(new Cart_GoodsAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, CartGoods cartGoods) {
                 Toast.makeText(mMainActivity, cartGoods.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         ClickListener mClickListener = new ClickListener();
         mCheckBoxAll.setOnClickListener(mClickListener);
 
@@ -218,6 +218,7 @@ public class CartGoodsList extends Fragment {
                     break;
                 case R.id.checkboxAllGoods:
                     //选中全部商品
+
                     selectedAll();
                     break;
                 case R.id.jiesuanButton:
@@ -229,8 +230,10 @@ public class CartGoodsList extends Fragment {
 
     // 全部选中
     private void selectedAll() {
+        Log.e("selectedAll","allchecked"+allChecked);
         for (int i = 0; i < mList.size(); i++) {
             Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
         }
+       mCart_goodsAdapter.notifyDataSetChanged();
     }
 }

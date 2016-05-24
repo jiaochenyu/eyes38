@@ -3,6 +3,7 @@ package com.example.eyes38.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,7 +148,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
      */
 
 
-    //初始化每一个item 设置为false 没选中
+    //初始化每一个item 设置为false 选中
     private void initDate() {
         isSelected = new HashMap<>();
         for (int i = 0; i < mList.size(); i++) {
@@ -155,7 +156,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         }
         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
         //如果商品全部被选中，则全选按钮也被 默认为选中
-        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+       // mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
     }
 
     //为加减按钮 设置监听器
@@ -223,6 +224,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                 totalPrice += mCartGoods.getNum() * mCartGoods.getPrice();
             }
         }
+        Log.e("mlist.size()",totalPrice+"");
         return totalPrice;
     }
 
