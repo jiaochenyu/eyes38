@@ -85,7 +85,7 @@
     <!--分类界面导航栏属性-->
     <style name="sort_menu_radio">
         <item name="android:layout_width">0dp</item>
-
+        <item name="android:background">@drawable/radio_onclick</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:button">@null</item>

@@ -14,23 +14,25 @@ import java.util.List;
 /**
  * Created by jqchen on 2016/5/20.
  */
-public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyViewHolder>{
+public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyViewHolder> {
     List<Comments> mList;
-
     public Comment_Adapter(List<Comments> mList) {
         this.mList = mList;
     }
 
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comments_item,parent,false);
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comments_item, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
+
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.comment_usernamTextView.setText(mList.get(position).getId()+"");
+        holder.comment_usernamTextView.setText(mList.get(position).getId() + "");
         holder.comment_contentTextView.setText(mList.get(position).getContent());
         holder.comment_timeTextView.setText(mList.get(position).getTime());
     }
@@ -41,7 +43,8 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView comment_usernamTextView,comment_contentTextView,comment_timeTextView;
+        TextView comment_usernamTextView, comment_contentTextView, comment_timeTextView;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             comment_usernamTextView = (TextView) itemView.findViewById(R.id.comment_username);
@@ -49,13 +52,15 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
             comment_timeTextView = (TextView) itemView.findViewById(R.id.comment_time);
         }
     }
+
     //刷新添加数据
-    public void addItem(List<Comments> newDatas){
+    public void addItem(List<Comments> newDatas) {
         newDatas.addAll(mList);
         mList.removeAll(mList);
         mList.addAll(newDatas);
         notifyDataSetChanged();
     }
+
     //加载数据
     public void addMoreItem(List<Comments> newDatas) {
         mList.addAll(newDatas);

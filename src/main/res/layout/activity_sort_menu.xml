@@ -21,18 +21,21 @@
         <!--导入导航栏-->
         <include
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             layout="@layout/sort_sort_meun"></include>
 
         <!--刷新区域-->
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/sort_sort_swiprefresh"
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_height="0dp"
             android:layout_weight="27">
             <!--分类界面-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/sort_sort_recyclerview"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 

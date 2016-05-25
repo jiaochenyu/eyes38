@@ -20,13 +20,13 @@ import java.util.List;
 public class CommentActivity extends AppCompatActivity {
     public static final int REFRESH = 0;
     public static final int LOADING = 1;
-    RecyclerView mRecyclerView;
-    List<Comments> mList;
-    Comment_Adapter comment_adapter;
-    SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayoutManager linearLayoutManager;
-    boolean isLoading = false;
-    Handler handler = new Handler(){
+    private RecyclerView mRecyclerView;
+    private List<Comments> mList;
+    private Comment_Adapter comment_adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean isLoading = false;
+    private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -67,6 +67,7 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
                 if (newState == mRecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == comment_adapter.getItemCount());{
                     swipeRefreshLayout.setRefreshing(true);
                     handler.sendEmptyMessageDelayed(LOADING,1000);
@@ -76,28 +77,57 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
             }
         });*/
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
+                if (lastVisibleItemPosition+1 == comment_adapter.getItemCount() && dy > 0){
+                    boolean isRefreshing=swipeRefreshLayout.isRefreshing();
+                    if (isRefreshing){
+                        comment_adapter.notifyItemRemoved(comment_adapter.getItemCount());
+                        return;
+                    }
+                    if (!isLoading){
+                        isLoading = true;
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                handler.sendEmptyMessageDelayed(LOADING,1000);
+                                isLoading = false;
+                            }
+                        },3000);
+                    }
+                }
+            }
+        });
     }
 
     private void Loading() {
         //加更多数据，现在是写死的
+        swipeRefreshLayout.setRefreshing(false);
         List<Comments> list = new ArrayList<Comments>();
-        Comments c1 = new Comments(6, "eeeee", "555");
-        list.clear();
+        Comments c1 = new Comments(LOADING, "loading", "new");
+        list.add(c1);
+        list.add(c1);
         list.add(c1);
         comment_adapter.addMoreItem(list);
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void Refresh() {
+        swipeRefreshLayout.setRefreshing(false);
         List<Comments> list = new ArrayList<Comments>();
-        Comments c1 = new Comments(5, "eeeee", "555");
-        list.clear();
+        Comments c1 = new Comments(REFRESH, "refresh", "new");
         list.add(c1);
         comment_adapter.addItem(list);
-        swipeRefreshLayout.setRefreshing(false);
+
     }
 
     private void initAdapter() {
@@ -107,6 +137,10 @@ public class CommentActivity extends AppCompatActivity {
 
     private void initData() {
         mList = new ArrayList<>();
+        /*for (int i = 0; i < 20; i++) {
+            Comments c1 = new Comments(i, "aaaaa", i+"");
+            mList.add(c1);
+        }*/
         Comments c1 = new Comments(1, "aaaaa", "111");
         Comments c2 = new Comments(2, "bbbbb", "222");
         Comments c3 = new Comments(3, "ccccc", "333");

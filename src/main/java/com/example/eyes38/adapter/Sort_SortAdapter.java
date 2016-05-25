@@ -2,11 +2,13 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
 
@@ -49,6 +51,13 @@ public class Sort_SortAdapter extends RecyclerView.Adapter<Sort_SortAdapter.MyVi
         holder.priceTextView.setText(mList.get(position).getGoods_platform_price()+"");
         holder.unitTextView.setText(mList.get(position).getGoods_unit());
         holder.itemView.setTag(mList.get(position));
+        //对商品中购物车按钮监听
+        holder.carImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("jqchen","点击了购物车按钮");
+            }
+        });
     }
 
     @Override
@@ -64,11 +73,12 @@ public class Sort_SortAdapter extends RecyclerView.Adapter<Sort_SortAdapter.MyVi
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView mImageView;
+        ImageView mImageView,carImageView;
         TextView nameTextView,priceTextView,unitTextView;
         public MyViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.sort_sort_item_imageview);
+            carImageView = (ImageView) itemView.findViewById(R.id.sort_sort_item_carimageview);
             nameTextView = (TextView) itemView.findViewById(R.id.sort_sort_item_nametextview);
             priceTextView = (TextView) itemView.findViewById(R.id.sort_sort_item_pricetextview);
             unitTextView = (TextView) itemView.findViewById(R.id.sort_sort_item_unittextview);

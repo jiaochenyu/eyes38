@@ -3,28 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RadioGroup
+        android:id="@+id/sort_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/a1"
+            android:id="@+id/sort_menu_default"
             style="@style/sort_menu_radio"
             android:checked="true"
             android:text="@string/sort_menu_default"/>
 
         <RadioButton
-            android:id="@+id/a2"
+            android:id="@+id/sort_menu_new"
             style="@style/sort_menu_radio"
             android:text="@string/sort_menu_new"/>
 
         <RadioButton
-            android:id="@+id/a3"
+            android:id="@+id/sort_menu_sale"
             style="@style/sort_menu_radio"
             android:text="@string/sort_menu_amount"/>
 
         <RadioButton
-            android:id="@+id/a4"
+            android:id="@+id/sort_menu_price"
             style="@style/sort_menu_radio"
             android:text="@string/sort_menu_price"/>
     </RadioGroup>
