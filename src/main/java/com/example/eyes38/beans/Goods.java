@@ -1,7 +1,5 @@
 package com.example.eyes38.beans;
 
-import android.net.Uri;
-
 import java.io.Serializable;
 
 /**
@@ -10,7 +8,7 @@ import java.io.Serializable;
 public class Goods implements Serializable {
     private int goods_id;
     private String goods_name;
-    private Uri uri;
+    private String uri;
     private String goods_brand;
     private String goods_specification;
     private String goods_unit;
@@ -22,7 +20,7 @@ public class Goods implements Serializable {
     private int goods_comment_count;
     private int goods_stock;
 
-    public Goods(int goods_id, String goods_name, Uri uri, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
+    public Goods(int goods_id, String goods_name, String uri, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
         this.goods_id = goods_id;
         this.goods_name = goods_name;
         this.uri = uri;
@@ -35,7 +33,7 @@ public class Goods implements Serializable {
         this.goods_platform_price = goods_platform_price;
         this.goods_discount = goods_discount;
         this.goods_comment_count = goods_comment_count;
-        this.goods_stock = goods_stock;
+        this.goods_stock = goods_stock; // 库存
     }
 
     public int getGoods_stock() {
@@ -46,11 +44,11 @@ public class Goods implements Serializable {
         this.goods_stock = goods_stock;
     }
 
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 
