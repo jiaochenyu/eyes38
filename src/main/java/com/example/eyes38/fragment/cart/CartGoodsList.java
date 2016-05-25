@@ -159,7 +159,6 @@ public class CartGoodsList extends Fragment {
                         mCartGoods.setTitle(jsonObject.getString("title"));
                         mCartGoods.setPrice(i);
                         mCartGoods.setNum(i);
-                        mCartGoods.setChecked(true);
                         Log.e("获取的数据jjjj", jsonObject.getString("pic") + jsonObject.getString("title"));
                         mList.add(mCartGoods);
                     }
