@@ -3,7 +3,6 @@ package com.example.eyes38.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.CartGoods;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,7 +92,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         holder.mTitleTextView.setText(mList.get(position).getTitle());
         holder.mCountTextView.setText(mList.get(position).getNum() + "");
         holder.mCheckBox.setTag(position);
-        holder.mCheckBox.setChecked(getIsSelected().get(position)); //isSelected<position,?>
+        //holder.mCheckBox.setChecked(getIsSelected().get(position)); //isSelected<position,?>
+        holder.mCheckBox.setChecked(mList.get(position).isSelected());
         holder.mCheckBox.setOnCheckedChangeListener(new CheckBoxChangedListener());
         holder.addButton.setOnClickListener(new ButtonOnClickListener(position));
         holder.subButton.setOnClickListener(new ButtonOnClickListener(position));
@@ -125,7 +124,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
         public CartGoodsViewHolder(View itemView) {
             super(itemView);
-
             initViews(itemView);
         }
 
@@ -150,13 +148,19 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
     //初始化每一个item 设置为true 选中
     private void initDate() {
-        isSelected = new HashMap<>();
+        //isSelected = new HashMap<>();
         for (int i = 0; i < mList.size(); i++) {
-            getIsSelected().put(i, true);
+            //getIsSelected().put(i, true);
+            mList.get(i).setSelected(true);
         }
-        //mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
+        if(isAllSelected()){
+            mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
+            //如果商品全部被选中，则全选按钮也被 默认为选中
+            mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+        }
+        //mHandler.sendMessage(mHandler.obtainMessage(2, getTotalPrice()));
         //如果商品全部被选中，则全选按钮也被 默认为选中
-        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+        //mHandler.sendMessage(mHandler.obtainMessage(1, true));
     }
 
     //为加减按钮 设置监听器
@@ -199,12 +203,11 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position = (int) buttonView.getTag();
-            getIsSelected().put(position, isChecked);
+            //getIsSelected().put(position, isChecked);
             CartGoods mCartGoods = mList.get(position);
             mCartGoods.setSelected(isChecked);
             //通知改变总价格 将总价格传给Handler
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
-
             //如果商品全部被选中，则全选按钮也被 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
         }
@@ -219,13 +222,13 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         CartGoods mCartGoods = null;
         float totalPrice = 0;
         for (int i = 0; i < mList.size(); i++) {
-            Log.e(i+"当前状态",mList.get(i).isSelected()+"");
+            //Log.e(i+"当前状态",mList.get(i).isSelected()+"");
             mCartGoods = mList.get(i);
             if (mCartGoods.isSelected()) {
                 totalPrice += mCartGoods.getNum() * mCartGoods.getPrice();
             }
         }
-        Log.e("mlist.size()",totalPrice+""+mList.size());
+        //Log.e("mlist.size()",totalPrice+""+mList.size());
         return totalPrice;
     }
 
@@ -237,9 +240,12 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private boolean isAllSelected() {
         boolean flag = true;
         for (int i = 0; i < mList.size(); i++) {
-            if (!getIsSelected().get(i)) {
+           /* if (!getIsSelected().get(i)) {
                 flag = false;
                 break;
+            }*/
+            if(!mList.get(i).isSelected()){
+                flag = false;
             }
         }
         return flag;
