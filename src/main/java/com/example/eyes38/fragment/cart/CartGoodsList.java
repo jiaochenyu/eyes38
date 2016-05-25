@@ -55,7 +55,7 @@ public class CartGoodsList extends Fragment {
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     //Handler
-    private Handler mHandler = new Handler() {
+    private Handler mmHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
@@ -64,6 +64,7 @@ public class CartGoodsList extends Fragment {
                     //加载数据完成
                     //mCart_goodsAdapter.notifyDataSetChanged();
                     //selectedAll();
+
                     initListener();
                     break;
                /* case 1:
@@ -159,6 +160,14 @@ public class CartGoodsList extends Fragment {
                 String result = response.get();
                 //JSON解析
                 jsonMethod(result);
+                mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mmHandler);
+                mRecyclerView.setAdapter(mCart_goodsAdapter);
+                mCart_goodsAdapter.notifyDataSetChanged();
+                Message message = new Message();
+                message.what = mFINFISH;
+                //Log.e("请求完成", "66666666666666");
+                mmHandler.sendMessage(message);
+                mCountTopTextView.setText(mList.size() + "");
             }
         }
         @Override
@@ -215,9 +224,9 @@ public class CartGoodsList extends Fragment {
                 JSONArray mJsonArray2 = jsonObject.getJSONArray("data");
                 for (int j = 0; i < mJsonArray2.length(); j++) {
                     JSONObject jsonObject2 = mJsonArray2.getJSONObject(j);
-
                     String product_name = jsonObject2.getString("product_name"); //商品名
                     int quantity = jsonObject2.getInt("quantity"); //数量
+                    Log.e("quantity",quantity+"");
                     JSONObject jsonObject3 = jsonObject2.getJSONObject("product");
                     String path = jsonObject3.getString("image"); //获取图片路径
                     double price = jsonObject3.getDouble("price"); // 商品价格
@@ -239,20 +248,22 @@ public class CartGoodsList extends Fragment {
                     int goods_stock = jsonObject4.getInt("stock_num");
                     Goods mGoods = new Goods(goods_id, goods_name, uri, goods_brand, goods_specification, goods_unit, goods_shengben, goods_remark, goods_market_price, goods_platform_price, goods_discount, goods_comment_count, goods_stock);
                     //mCartGoods.setPath("http://hz-ifs.ilexnet.com/eyes38/599334_1_pic500_120.jpg");
-                    CartGoods cartGoods = new CartGoods(path, product_name, price, quantity, goods_id, mGoods);
+                    //CartGoods cartGoods = new CartGoods(path, product_name, price, quantity, goods_id, mGoods);
+
+                    CartGoods cartGoods = new CartGoods();
+
+                    cartGoods.setPath(path);
+                    cartGoods.setTitle(product_name);
+                    cartGoods.setNum(quantity);
+                    cartGoods.setPrice(price);
+                    cartGoods.setGoods(mGoods);
                     mList.add(cartGoods);
+                    Log.e("mlist", mList.size()+""+mList.toString());
                 }
             }
-            mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mHandler);
-            mRecyclerView.setAdapter(mCart_goodsAdapter);
-            Message message = new Message();
-            message.what = mFINFISH;
-            //Log.e("请求完成", "66666666666666");
-            mHandler.sendMessage(message);
-            mCountTopTextView.setText(mList.size() + "");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 }

@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Goods implements Serializable {
     private int goods_id;
     private String goods_name;
-    private String uri;
+    private String path;
     private String goods_brand;
     private String goods_specification;
     private String goods_unit;
@@ -23,7 +23,7 @@ public class Goods implements Serializable {
     public Goods(int goods_id, String goods_name, String uri, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
         this.goods_id = goods_id;
         this.goods_name = goods_name;
-        this.uri = uri;
+        this.path = uri;
         this.goods_brand = goods_brand;
         this.goods_specification = goods_specification;
         this.goods_unit = goods_unit;
@@ -44,12 +44,12 @@ public class Goods implements Serializable {
         this.goods_stock = goods_stock;
     }
 
-    public String getUri() {
-        return uri;
+    public String getPath() {
+        return path;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setPath(String uri) {
+        this.path = uri;
     }
 
     public int getGoods_id() {

@@ -1,7 +1,5 @@
 package com.example.eyes38.beans;
 
-import android.net.Uri;
-
 import java.io.Serializable;
 
 
@@ -12,13 +10,13 @@ import java.io.Serializable;
  */
 public class SortContentContent implements Serializable{
     private int id;
-    private Uri uri;
+    private String path;
     private String conten;
 
-    public SortContentContent(int id, Uri uri, String conten) {
+    public SortContentContent(int id, String conten, String path) {
         this.id = id;
-        this.uri = uri;
         this.conten = conten;
+        this.path = path;
     }
 
     public int getId() {
@@ -29,12 +27,12 @@ public class SortContentContent implements Serializable{
         this.id = id;
     }
 
-    public Uri getUri() {
-        return uri;
+    public String getPath() {
+        return path;
     }
 
-    public void setUri(Uri uri) {
-        this.uri = uri;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getConten() {
