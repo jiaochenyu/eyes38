@@ -8,6 +8,7 @@
         android:id="@+id/sort_content_title"
         android:layout_width="match_parent"
         android:layout_marginLeft="15dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/background"/>
 
 </LinearLayout>

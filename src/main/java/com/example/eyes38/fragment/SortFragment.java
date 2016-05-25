@@ -86,7 +86,7 @@ public class SortFragment extends Fragment {
     };
 
     private void initAdapter() {
-        titleAdapter = new Sort_TitleAdapter(mList);
+        titleAdapter = new Sort_TitleAdapter(mList,getContext());
         mRecyclerView.setAdapter(titleAdapter);
     }
 

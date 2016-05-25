@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.SortTitle;
 
@@ -31,9 +32,9 @@ public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.My
         this.mOnItemClickListener = listener;
     }
 
-    public Sort_TitleAdapter(List<SortTitle> mList) {
+    public Sort_TitleAdapter(List<SortTitle> mList,Context mContext) {
         this.mList = mList;
-//        this.mContext = mContext;
+        this.mContext = mContext;
     }
 
     //创建新View，被LayoutManager所调用
@@ -55,7 +56,7 @@ public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.mTextView.setText(mList.get(position).getContent());
-//        Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
+        Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
 //        Log.e("jqchen",mList.get(position));
 
         //将对象保存在itemview的tag中，以便点击时进行获取

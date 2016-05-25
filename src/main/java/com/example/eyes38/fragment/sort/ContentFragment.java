@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,7 +168,6 @@ public class ContentFragment extends Fragment {
             if (what == mWhat) {
                 //请求成功
                 String result = response.get();
-                Log.e("test",result);
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray array = object.getJSONArray("data");
@@ -187,7 +185,8 @@ public class ContentFragment extends Fragment {
                                 if (parent_id1 == category_id){
                                     int category_id1 = jsonObject1.getInt("category_id");
                                     String name1 = jsonObject1.getString("name");
-                                    SortContentContent scc = new SortContentContent(category_id1,null,name1);
+                                    String path = jsonObject1.getString("image");
+                                    SortContentContent scc = new SortContentContent(category_id1,name1,path);
                                     mmList.add(scc);
                                 }
                             }
