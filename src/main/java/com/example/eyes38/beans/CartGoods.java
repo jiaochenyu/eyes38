@@ -7,7 +7,8 @@ public class CartGoods {
     private String path; //商品图片
     private String title; // 商品标题
     private float price; // 商品价格
-    private int num;
+    private int num; // 商品数量
+    private boolean isChecked; // 是否被选中
 
     public CartGoods() {
     }
@@ -49,6 +50,14 @@ public class CartGoods {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     @Override

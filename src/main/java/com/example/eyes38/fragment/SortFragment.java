@@ -199,5 +199,4 @@ public class SortFragment extends Fragment {
         mTransaction.add(R.id.right, mContentFragment);
         mTransaction.commit();
     }
-
 }
