@@ -53,10 +53,11 @@
         <activity android:name=".activity.CommentActivity"/>
         <activity android:name=".user_activity.AddressInfo.User_addAddressActivity">
         </activity>
+        <activity android:name=".activity.home.HomexptjActivity">
+        </activity>
         <activity android:name=".EventActivity.EventActivity"/>
-        <activity android:name=".activity.home.HomexptjActivity"/>
 
-
+        
     </application>
 
 </manifest>

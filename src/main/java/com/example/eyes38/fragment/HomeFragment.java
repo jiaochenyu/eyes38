@@ -13,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.eyes38.EventActivity.EventActivity;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.home.HomexptjActivity;
@@ -45,7 +47,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //封装的spinner的实现类
     HomeSpinnerView mHomeSpinnerView;
 
-    ImageView home_xptjgengduo;
+    ImageView home_xptjgengduo,home_yzcpgengduo;
 
     ImageView mImageView;
     int height;
@@ -80,6 +82,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void setonClick() {
         home_xptjgengduo.setOnClickListener(this);
+        home_yzcpgengduo.setOnClickListener(this);
     }
 
     private void initView() {
@@ -88,6 +91,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mSpinner = (Spinner) view.findViewById(R.id.home_spinner);
         mImageView = (ImageView) view.findViewById(R.id.home_jisuan);
         home_xptjgengduo = (ImageView) view.findViewById(R.id.home_xptjgengduo);
+        home_yzcpgengduo= (ImageView) view.findViewById(R.id.home_yzcpgengduo);
     }
 
     @Override
@@ -112,6 +116,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.home_yzcpgengduo:
+                Intent intent1 = new Intent(mMainActivity, EventActivity.class);
+                startActivity(intent1);
+                break;
+
         }
     }
 }
