@@ -2,11 +2,11 @@ package com.example.eyes38.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.eyes38.R;
@@ -18,12 +18,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentActivity extends AppCompatActivity {
-    RecyclerView mRecyclerView;
-    List<Comments> mList;
-    Comment_Adapter comment_adapter;
-    SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayoutManager linearLayoutManager;
-    boolean isLoading = false;
+    public static final int REFRESH = 0;
+    public static final int LOADING = 1;
+    private RecyclerView mRecyclerView;
+    private List<Comments> mList;
+    private Comment_Adapter comment_adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean isLoading = false;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case REFRESH:
+                    //下拉刷新
+                    Refresh();
+                    break;
+                case LOADING:
+                    //上拉加载
+                    Loading();
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,58 +50,84 @@ public class CommentActivity extends AppCompatActivity {
         initView();
         initData();
         initAdapter();
-        initRefresh();
-        initLoading();
+        initListener();
     }
 
-    private void initLoading() {
-        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        //在这里进行监听，滑动布局滑到了底部，然后又进行加载数据
-                        int scrollY = v.getScrollY();
-                        int height = v.getHeight();
-                        int scrollViewMeasureHeight = swipeRefreshLayout.getChildAt(0).getMeasuredHeight();
-                        if ((scrollY + height) >= scrollViewMeasureHeight) {
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    List<Comments> list = new ArrayList<Comments>();
-                                    Comments c1 = new Comments(5, "eeeee", "555");
-                                    list.add(c1);
-                                    comment_adapter.addMoreItem(list);
-                                    swipeRefreshLayout.setRefreshing(false);
-                                }
-                            }, 3000);
-                        }
-
-                }
-                return false;
-            }
-        });
-    }
-
-    private void initRefresh() {
+    private void initListener() {
         //下拉刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        List<Comments> list = new ArrayList<Comments>();
-                        Comments c1 = new Comments(5, "eeeee", "555");
-                        list.add(c1);
-                        comment_adapter.addItem(list);
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 3000);
+                handler.sendEmptyMessageDelayed(REFRESH,1000);
             }
         });
+        //上拉加载
+        /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                if (newState == mRecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == comment_adapter.getItemCount());{
+                    swipeRefreshLayout.setRefreshing(true);
+                    handler.sendEmptyMessageDelayed(LOADING,1000);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });*/
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
+                if (lastVisibleItemPosition+1 == comment_adapter.getItemCount() && dy > 0){
+                    boolean isRefreshing=swipeRefreshLayout.isRefreshing();
+                    if (isRefreshing){
+                        comment_adapter.notifyItemRemoved(comment_adapter.getItemCount());
+                        return;
+                    }
+                    if (!isLoading){
+                        isLoading = true;
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                handler.sendEmptyMessageDelayed(LOADING,1000);
+                                isLoading = false;
+                            }
+                        },3000);
+                    }
+                }
+            }
+        });
+    }
+
+    private void Loading() {
+        //加更多数据，现在是写死的
+        swipeRefreshLayout.setRefreshing(false);
+        List<Comments> list = new ArrayList<Comments>();
+        Comments c1 = new Comments(LOADING, "loading", "new");
+        list.add(c1);
+        list.add(c1);
+        list.add(c1);
+        comment_adapter.addMoreItem(list);
+    }
+
+    private void Refresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        List<Comments> list = new ArrayList<Comments>();
+        Comments c1 = new Comments(REFRESH, "refresh", "new");
+        list.add(c1);
+        comment_adapter.addItem(list);
+
     }
 
     private void initAdapter() {
@@ -92,6 +137,10 @@ public class CommentActivity extends AppCompatActivity {
 
     private void initData() {
         mList = new ArrayList<>();
+        /*for (int i = 0; i < 20; i++) {
+            Comments c1 = new Comments(i, "aaaaa", i+"");
+            mList.add(c1);
+        }*/
         Comments c1 = new Comments(1, "aaaaa", "111");
         Comments c2 = new Comments(2, "bbbbb", "222");
         Comments c3 = new Comments(3, "ccccc", "333");

@@ -1,15 +1,18 @@
 package com.example.eyes38.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.utils.CartBadgeView;
 
 public class GoodDetailActivity extends AppCompatActivity {
     //数据源
@@ -18,6 +21,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     TextView goodsUnitTextView,goodsStockTextView,goodsRemarkTextView,goodsCommentCountTextView;
     LinearLayout linearLayout;
     ImageView backImageView;
+    Button mButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +30,21 @@ public class GoodDetailActivity extends AppCompatActivity {
         initData();
         setViewToData();
         initListener();
+        setCartBadgeView();
+    }
+
+    private void setCartBadgeView() {
+        //CartBadgeView这是购物车上的徽章
+        CartBadgeView mCartBadgeView = new CartBadgeView(GoodDetailActivity.this,mButton);
+        //mCartBadgeView.setBackgroundResource(R.drawable.badge_ifaux);
+        mCartBadgeView.setText("1");
+        mCartBadgeView.setTextColor(Color.WHITE);
+        mCartBadgeView.setTextSize(12);
+        //mCartBadgeView.setBadgeMargin(30,30);
+        mCartBadgeView.setBadgeMargin(5);//各个边的边隔
+        mCartBadgeView.setBadgeBackgroundColor(this.getResources().getColor(R.color.topical));
+        mCartBadgeView.setBadgePosition(CartBadgeView.POSITION_TOP_RIGHT);
+        mCartBadgeView.show();
     }
 
     private void initListener() {
@@ -71,5 +90,6 @@ public class GoodDetailActivity extends AppCompatActivity {
         goodsCommentCountTextView = (TextView) findViewById(R.id.goods_detail_commentcount);
         linearLayout = (LinearLayout) findViewById(R.id.goods_comment_layout);
         backImageView = (ImageView) findViewById(R.id.goods_detail_back);
+        mButton = (Button) findViewById(R.id.goods_detail_carbutton);
     }
 }

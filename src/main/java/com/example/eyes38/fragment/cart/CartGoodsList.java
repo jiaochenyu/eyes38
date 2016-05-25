@@ -11,8 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
@@ -36,35 +36,46 @@ import java.util.List;
  * Created by jqchen on 2016/5/20.
  */
 public class CartGoodsList extends Fragment {
-    private final static int mWhat = 520;
+    private final static int mWhat = 381; //请求成功
+    private final static int mFINFISH = 382; // 数据加载完成
     private View mView;
     MainActivity mMainActivity;
     private List<CartGoods> mList;
     private RecyclerView mRecyclerView;
-    private TextView mCountTopTextView;  // n件商品 有包邮优惠
+    private TextView mCountTopTextView;  // n件商品有包邮优惠
+    private TextView mDeleteOperationTV;// 编辑删除操作
+    private CheckBox mDiscountCheckBox; // 全选含有优惠信息商品 的checkbox
+    private CheckBox mCheckBoxAll; //全选商品的 checkbox
+    private TextView mJiesuanTV; // 选中商品结算按钮
+    private TextView mTotalPriceTV; // 选中的总金额
+    private boolean allChecked = false; // 默认全选
     Cart_GoodsAdapter mCart_goodsAdapter = null;
     //采用 NoHttp
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     //Handler
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
-            switch (msg.what){
-                case 6666:
-                    /*mCart_goodsAdapter = new Cart_GoodsAdapter(mList,mMainActivity);*/
-                  /*  mCart_goodsAdapter.setOnItemClickListener(new Cart_GoodsAdapter.OnRecyclerViewItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, CartGoods cartGoods) {
-                            Toast.makeText(mMainActivity,cartGoods.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });*/
-                    Log.e("handler接受message","测试事实上司是事实");
-                    //Toast.makeText(mMainActivity, "andler接受messag", Toast.LENGTH_SHORT).show();
+            switch (msg.what) {
+                case mFINFISH:
+                    //加载数据完成
+                    //mCart_goodsAdapter.notifyDataSetChanged();
                     initListener();
                     break;
-
+                case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
+                    //更改购物车中商品总价格
+                    float price = (float) msg.obj;
+                    mTotalPriceTV.setText(price + "");
+                    break;
+                case Cart_GoodsAdapter.NOTIFICHANGEALLSELECTED:
+                    //如果都被选中那么全选按钮也要被选中
+                    //记录是否被全选
+                    allChecked = !(Boolean) msg.obj;
+                    Log.e("获取通知","获取通知的allchecked"+allChecked);
+                    mCheckBoxAll.setChecked((Boolean) msg.obj);
+                    break;
             }
             super.handleMessage(msg);
         }
@@ -78,14 +89,21 @@ public class CartGoodsList extends Fragment {
         initViews();
         initData();
         getHttpMethod();
-       // initListener();
+        // initListener();
         return mView;
     }
 
+    // 初始化界面
     private void initViews() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.car_goods_list_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mCountTopTextView = (TextView) mView.findViewById(R.id.checkedCountTop);
+        mDeleteOperationTV = (TextView) mView.findViewById(R.id.DeleteOperationTV);
+        mCheckBoxAll = (CheckBox) mView.findViewById(R.id.checkboxAllGoods);
+        mDiscountCheckBox = (CheckBox) mView.findViewById(R.id.DiscountCheckbox);
+        mJiesuanTV = (TextView) mView.findViewById(R.id.jiesuanButton);
+        mTotalPriceTV = (TextView) mView.findViewById(R.id.allGoodsCountPrice);
+
     }
 
     private void initData() {
@@ -93,12 +111,16 @@ public class CartGoodsList extends Fragment {
     }
 
     private void initListener() {
-        mCart_goodsAdapter.setOnItemClickListener(new Cart_GoodsAdapter.OnRecyclerViewItemClickListener() {
+        //测试 点击item 获取 Bean 对象
+       /* mCart_goodsAdapter.setOnItemClickListener(new Cart_GoodsAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, CartGoods cartGoods) {
-                Toast.makeText(mMainActivity,cartGoods.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mMainActivity, cartGoods.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
+        ClickListener mClickListener = new ClickListener();
+        mCheckBoxAll.setOnClickListener(mClickListener);
+
     }
 
 
@@ -137,24 +159,17 @@ public class CartGoodsList extends Fragment {
                         mCartGoods.setTitle(jsonObject.getString("title"));
                         mCartGoods.setPrice(i);
                         mCartGoods.setNum(i);
+                        mCartGoods.setChecked(true);
                         Log.e("获取的数据jjjj", jsonObject.getString("pic") + jsonObject.getString("title"));
                         mList.add(mCartGoods);
                     }
 
-                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity);
+                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mHandler);
                     mRecyclerView.setAdapter(mCart_goodsAdapter);
                     Message message = new Message();
-                    message.what = 6666;
-                    Log.e("请求完成","66666666666666");
+                    message.what = mFINFISH;
+                    Log.e("请求完成", "66666666666666");
                     mHandler.sendMessage(message);
-
-                 /*   mCart_goodsAdapter.setOnItemClickListener(new Cart_GoodsAdapter.OnRecyclerViewItemClickListener() {
-
-                        @Override
-                        public void onItemClick(View view, CartGoods data) {
-                            Toast.makeText(mMainActivity, data.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });*/
                     mCountTopTextView.setText(mList.size() + "");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -187,4 +202,38 @@ public class CartGoodsList extends Fragment {
 
         }
     };
+
+    //事件监听器  监听优惠信息复选框 编辑按钮 监听全选复选框 结算按钮
+    private class ClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.DiscountCheckbox:
+                    // 选中含有优惠信息的商品
+
+                    break;
+                case R.id.DeleteOperationTV:
+                    //便捷按钮删除操作
+                    break;
+                case R.id.checkboxAllGoods:
+                    //选中全部商品
+
+                    selectedAll();
+                    break;
+                case R.id.jiesuanButton:
+                    //结算购物车
+                    break;
+            }
+        }
+    }
+
+    // 全部选中
+    private void selectedAll() {
+        Log.e("selectedAll","allchecked"+allChecked);
+        for (int i = 0; i < mList.size(); i++) {
+            Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
+        }
+       mCart_goodsAdapter.notifyDataSetChanged();
+    }
 }

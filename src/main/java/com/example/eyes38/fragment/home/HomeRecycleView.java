@@ -38,7 +38,6 @@ public class HomeRecycleView {
         mRecyclerView.setLayoutManager(gridLayoutManager);
     }
 
-
     private void initData() {
        mData = new ArrayList<HomeGrid>();
         HomeGrid hg1 = new HomeGrid(R.drawable.home_c1);

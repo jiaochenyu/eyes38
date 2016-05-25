@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,9 +119,8 @@ public class SortFragment extends Fragment {
 
     private void getHttpMedthod() {
         mRequestQueue = NoHttp.newRequestQueue();
-        String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata";
+        String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.add("size", "7");
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 
@@ -142,12 +140,11 @@ public class SortFragment extends Fragment {
                 String result = response.get();
                 try {
                     JSONObject object = new JSONObject(result);
-                    JSONArray array = object.getJSONArray("goods");
+                    JSONArray array = object.getJSONArray("data");
                     mList = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
-                        String string = jsonObject.getString("id");
-                        Log.e("jqchen", string);
+                        String string = jsonObject.getString("name");
                         SortTitle s = new SortTitle(i, string, false);
                         mList.add(s);
                     }
@@ -202,5 +199,4 @@ public class SortFragment extends Fragment {
         mTransaction.add(R.id.right, mContentFragment);
         mTransaction.commit();
     }
-
 }

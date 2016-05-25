@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.example.eyes38.fragment.HomeFragment;
-
 import java.util.List;
 
 /**
@@ -15,7 +13,7 @@ import java.util.List;
 public class Home_ad_adapter  extends PagerAdapter {
     List<View> mViewList;
 
-    public Home_ad_adapter(List<View> viewList, HomeFragment mainActivity) {
+    public Home_ad_adapter(List<View> viewList) {
         mViewList = viewList;
     }
 

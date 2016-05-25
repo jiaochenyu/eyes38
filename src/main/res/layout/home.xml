@@ -10,35 +10,27 @@
     <RelativeLayout
         android:id="@+id/cartitle"
         style="@style/pagetitle">
-
-        <TextView
-            android:id="@+id/home_chenshi"
+        <Spinner
+            android:id="@+id/home_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="5dp"
-            android:text="全国"
-            android:textColor="@color/white"
-            android:textSize="15sp"/>
+            android:dropDownHorizontalOffset="500dp"
+            android:dropDownVerticalOffset="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            />
+
         <TextView
             style="@style/pagetitletext"
             android:text="首页" />
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@+id/home_chenshi"
-            android:src="@drawable/home_chengshixuanze"
-            />
+
+<ImageView
+    android:id="@+id/home_jisuan"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            />
-
-        <ImageView
+            android:id="@+id/home_fangdajing"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -251,7 +243,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/home_gengduo"/>
+                    android:src="@drawable/home_gengduo"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -269,7 +262,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/sort_title_background">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/home_recycler_view"
