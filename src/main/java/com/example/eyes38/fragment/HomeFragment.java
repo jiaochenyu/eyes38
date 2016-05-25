@@ -51,6 +51,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     int height;
 
     private RequestQueue mRequestQueue;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 60a4f3967656157dfb4f23b349000cbcab04a36c
 
     @Nullable
     @Override
@@ -58,16 +63,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.home, null);
         mMainActivity = (MainActivity) getActivity();
         initView();
+
+
         //初始化轮播图并实现
-//        mHomeLunboView = new HomeLunboView(mMainActivity,mViewPager);
-//        mHomeLunboView.startLubo();
+        /*mHomeLunboView = new HomeLunboView(mMainActivity, mViewPager);
+        mHomeLunboView.startLubo();*/
+
+
         //初始化recycleview并实现
-        mHomeRecycleView = new HomeRecycleView(mMainActivity,mRecyclerView);
+        mHomeRecycleView = new HomeRecycleView(mMainActivity, mRecyclerView);
         mHomeRecycleView.startItem();
         //计算屏幕的尺寸
         caculate();
         //初始化spinner并实现
-        mHomeSpinnerView = new HomeSpinnerView(mMainActivity,mSpinner,height);
+        mHomeSpinnerView = new HomeSpinnerView(mMainActivity, mSpinner, height);
         mHomeSpinnerView.startspinner();
         setonClick();
         return view;
@@ -91,18 +100,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void caculate() {
-        WindowManager manager = (WindowManager)mMainActivity.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm=new DisplayMetrics();
+        WindowManager manager = (WindowManager) mMainActivity.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(dm);
-        int width2=dm.widthPixels;
-        height=dm.heightPixels;
+        int width2 = dm.widthPixels;
+        height = dm.heightPixels;
         Toast.makeText(mMainActivity, "height:" + height, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View v) {
         int buttonid = v.getId();
-        switch (buttonid){
+        switch (buttonid) {
             case R.id.home_xptjgengduo:
                 Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
                 startActivity(intent);
