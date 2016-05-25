@@ -14,12 +14,6 @@
             android:layout_width="0dp"
             android:src="@drawable/tool_search_n"
             android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/event_find"
-            android:layout_weight="10"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"/>
-
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
