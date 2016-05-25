@@ -1,6 +1,7 @@
 package com.example.eyes38.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
@@ -28,7 +30,6 @@ import com.example.eyes38.user_activity.User_take_addressActivity;
  * Created by jcy on 2016/5/8.
  */
 public class UserFragment extends Fragment {
-    private  SharedPreferences sp;
     MainActivity mMainActivity;
     ImageView user_set, user_message;
     View view;
@@ -38,6 +39,8 @@ public class UserFragment extends Fragment {
     LinearLayout user_myorder;//我的订单
     LinearLayout user_mycredits;//我的积分
     LinearLayout user_address;//我的积分
+    TextView user_tel_set;
+    SharedPreferences sp;
 
     @Nullable
     @Override
@@ -50,10 +53,20 @@ public class UserFragment extends Fragment {
         toUserPersonalMessage();
         toMyCredits();
         toMyAddress();
+        //修改登录名
+        updateUsername();
         //监听并传值
         ListenerValues();
         //向我的订单页面传值，告诉其应该默认页
         return view;
+    }
+
+    private void updateUsername() {
+        sp=getContext().getSharedPreferences("userInfo",Context.MODE_PRIVATE);
+        String username=sp.getString("USER_NAME","");
+        user_tel_set.setText(username);
+        user_tel_set.setTextSize(12);
+
     }
 
     private void ListenerValues() {
@@ -178,6 +191,7 @@ public class UserFragment extends Fragment {
 
     //初始化控件
     private void initViews() {
+        user_tel_set= (TextView) view.findViewById(R.id.username_tel_set);
         user_set = (ImageView) view.findViewById(R.id.user_set);
         user_message = (ImageView) view.findViewById(R.id.user_message);
         user_person_set = (LinearLayout) view.findViewById(R.id.user_person_set);
@@ -188,6 +202,7 @@ public class UserFragment extends Fragment {
         user_send = (RadioButton) view.findViewById(R.id.user_send);
         user_receive = (RadioButton) view.findViewById(R.id.user_receive);
         user_back = (RadioButton) view.findViewById(R.id.user_back);
+
     }
 
 

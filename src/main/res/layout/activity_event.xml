@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.eyes38.user_activity.User_orderActivity">
+
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/usertitle"
+        style="@style/pagetitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <ImageView
+                android:onClick="user_myorder_back"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/user_set_back"/>
+
+            <TextView
+                style="@style/pagetitletext"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="一周菜谱"
+                android:textSize="15sp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <!--上部分日期显示-->
+    <RelativeLayout
+        android:background="#F2F2F2"
+        android:id="@+id/event_date_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.example.eyes38.EventActivity.EventSyncHorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fadingEdge="none"
+            android:scrollbars="none"
+            >
+            <RelativeLayout
+                android:id="@+id/event_day_relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:background="@color/topical"
+                >
+                <RadioGroup
+                    android:id="@+id/event_day_radiogroup"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:background="#F2F2F2"
+                    android:orientation="horizontal"
+                    android:layout_height="38dp">
+                </RadioGroup>
+                <!--下划线-->
+                <ImageView
+                    android:id="@+id/event_day_indicator"
+                    android:layout_width="1dp"
+                    android:layout_height="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/topical"
+                    android:scaleType="matrix"
+                    />
+            </RelativeLayout>
+
+        </com.example.eyes38.EventActivity.EventSyncHorizontalScrollView>
+        <ImageView
+            android:id="@+id/event_day_scroll_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="1dp"
+            android:src="@drawable/event_day_navagation_scroll_left"
+            android:visibility="gone" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/event_day_scroll_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="1dip"
+            android:src="@drawable/event_day_navagation_scroll_right"
+            android:visibility="visible" >
+        </ImageView>
+    </RelativeLayout>
+
+    <!--内容-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/event_content_viewpager"
+        style="@style/pagecontent"
+      >
+    </android.support.v4.view.ViewPager>
+
+
+</LinearLayout>

@@ -22,7 +22,6 @@ import com.example.eyes38.utils.CartBadgeView;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences sp;
-    int count;
     private static final int HOME = 1;
     private static final int SORT = 2;
     private static final int CAR = 3;

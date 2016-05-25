@@ -239,4 +239,38 @@
         <item name="android:textColor">@drawable/bottom_text_selector</item>
         <item name="android:background">@drawable/user_selector_line</item>
     </style>
+    <!--新建收货地址-->
+    <style name="addaddress_linear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">2.45</item>
+        <item name="android:background">#FFF</item>
+    </style>
+    <!--新建收货地址text1-->
+    <style name="addaddress_text1">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!--新建收货地址text2-->
+    <style name="addaddress_text2">
+        <item name="android:background">@drawable/edittext</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:layout_weight">8</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <!--新建收货地址editText-->
+    <style name="addaddress_edit">
+        <item name="android:background">@drawable/edittext</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:layout_weight">20</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 </resources>

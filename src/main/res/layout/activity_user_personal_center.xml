@@ -168,10 +168,15 @@
                 android:text="性别"
                 style="@style/user_person_center_text1"/>
             <!--手机-->
+            <TextView
+                android:layout_weight="15"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
             <Spinner
+                android:spinnerMode="dialog"
                 android:id="@+id/spinner_sex"
                 android:entries="@array/sex"
-                android:layout_weight="18"
+                android:layout_weight="4"
                 android:textAlignment="gravity"
                 android:gravity="center|right"
                 android:layout_width="0dp"

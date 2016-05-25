@@ -1,6 +1,7 @@
 package com.example.eyes38.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.eyes38.EventActivity.EventActivity;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Home_ad_adapter;
@@ -35,7 +37,7 @@ public class HomeFragment extends Fragment {
     ArrayList<View> mViewList;
     int mCurrentItem = Integer.MAX_VALUE / 2;
     HomeRecycleView mHomeRecycleView;
-
+    ImageView home_yzcpgengduo;
 
     @Nullable
     @Override
@@ -70,6 +72,13 @@ public class HomeFragment extends Fragment {
 
             }
         });
+        home_yzcpgengduo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), EventActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData(Bundle savedInstanceState) {
@@ -86,6 +95,7 @@ public class HomeFragment extends Fragment {
     private void initView() {
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
+        home_yzcpgengduo= (ImageView) view.findViewById(R.id.home_yzcpgengduo);
     }
 
 

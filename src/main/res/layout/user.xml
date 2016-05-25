@@ -88,7 +88,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/user_tel_set"
+                    android:id="@+id/username_tel_set"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1.18"
