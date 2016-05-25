@@ -1,9 +1,11 @@
 package com.example.eyes38.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.eyes38.R;
@@ -17,6 +19,7 @@ import java.util.List;
 public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.MyViewHolder> implements View.OnClickListener{
     //数据源
     private List<SortTitle> mList;
+    Context mContext;
     //记录上一次选中的位置,默认为0，即点击第一行
     private int preid = 0;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
@@ -30,7 +33,9 @@ public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.My
 
     public Sort_TitleAdapter(List<SortTitle> mList) {
         this.mList = mList;
+//        this.mContext = mContext;
     }
+
     //创建新View，被LayoutManager所调用
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,6 +55,7 @@ public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.mTextView.setText(mList.get(position).getContent());
+//        Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
 //        Log.e("jqchen",mList.get(position));
 
         //将对象保存在itemview的tag中，以便点击时进行获取
@@ -91,12 +97,14 @@ public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.My
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        //布局只有一行数据
+        //布局只有一行数据和图片
         TextView mTextView;
+        ImageView mImageView;
         public MyViewHolder(View itemView) {
             super(itemView);
             //使用自定义视图
             mTextView = (TextView) itemView.findViewById(R.id.tite_item);
+            mImageView = (ImageView) itemView.findViewById(R.id.sort_title_image);
         }
     }
 }

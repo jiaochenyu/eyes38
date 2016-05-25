@@ -121,6 +121,8 @@ public class SortFragment extends Fragment {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.add("active",1);
+        request.add("parent_id",0);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 
@@ -144,8 +146,10 @@ public class SortFragment extends Fragment {
                     mList = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
-                        String string = jsonObject.getString("name");
-                        SortTitle s = new SortTitle(i, string, false);
+                        int id = jsonObject.getInt("category_id");
+                        String name = jsonObject.getString("name");
+                        String path = jsonObject.getString("image");
+                        SortTitle s = new SortTitle(i,id,name, false,path);
                         mList.add(s);
                     }
                     handler.sendEmptyMessage(FINSH);
@@ -182,11 +186,10 @@ public class SortFragment extends Fragment {
                 mTransaction = mFragmentManager.beginTransaction();
                 mContentFragment = new ContentFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("id", sortTitle.getId());
+                bundle.putInt("id", sortTitle.getCategory_id());
                 mContentFragment.setArguments(bundle);
                 mTransaction.replace(R.id.right, mContentFragment);
                 mTransaction.commit();
-
             }
 
         });
