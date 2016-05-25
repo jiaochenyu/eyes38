@@ -148,15 +148,15 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
      */
 
 
-    //初始化每一个item 设置为false 选中
+    //初始化每一个item 设置为true 选中
     private void initDate() {
         isSelected = new HashMap<>();
         for (int i = 0; i < mList.size(); i++) {
             getIsSelected().put(i, true);
         }
-        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
+        //mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
         //如果商品全部被选中，则全选按钮也被 默认为选中
-       // mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
     }
 
     //为加减按钮 设置监听器
@@ -201,7 +201,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             int position = (int) buttonView.getTag();
             getIsSelected().put(position, isChecked);
             CartGoods mCartGoods = mList.get(position);
-            mCartGoods.setChecked(isChecked);
+            mCartGoods.setSelected(isChecked);
             //通知改变总价格 将总价格传给Handler
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
 
@@ -219,12 +219,13 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         CartGoods mCartGoods = null;
         float totalPrice = 0;
         for (int i = 0; i < mList.size(); i++) {
+            Log.e(i+"当前状态",mList.get(i).isSelected()+"");
             mCartGoods = mList.get(i);
-            if (mCartGoods.isChecked()) {
+            if (mCartGoods.isSelected()) {
                 totalPrice += mCartGoods.getNum() * mCartGoods.getPrice();
             }
         }
-        Log.e("mlist.size()",totalPrice+"");
+        Log.e("mlist.size()",totalPrice+""+mList.size());
         return totalPrice;
     }
 

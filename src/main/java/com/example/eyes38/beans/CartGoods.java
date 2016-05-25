@@ -8,7 +8,7 @@ public class CartGoods {
     private String title; // 商品标题
     private float price; // 商品价格
     private int num; // 商品数量
-    private boolean isChecked; // 是否被选中
+    private boolean isSelected; // 是否被选中
 
     public CartGoods() {
     }
@@ -52,12 +52,12 @@ public class CartGoods {
         this.num = num;
     }
 
-    public boolean isChecked() {
-        return isChecked;
+    public boolean isSelected() {
+        return isSelected;
     }
 
-    public void setChecked(boolean checked) {
-        isChecked = checked;
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     @Override
