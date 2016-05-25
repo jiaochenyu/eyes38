@@ -51,15 +51,12 @@
         <activity android:name=".activity.SortMenuActivity"/>
         <activity android:name=".activity.GoodDetailActivity"/>
         <activity android:name=".activity.CommentActivity"/>
-<<<<<<< HEAD
         <activity android:name=".user_activity.AddressInfo.User_addAddressActivity">
         </activity>
         <activity android:name=".user_activity.AddressInfo.CityActivity">
         </activity>
         <activity android:name=".EventActivity.EventActivity">
-=======
         <activity android:name=".activity.home.HomexptjActivity">
->>>>>>> 6dd9009ac7a43db7746e7bb6336098aed009c088
         </activity>
     </application>
 
