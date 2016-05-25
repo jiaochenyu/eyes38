@@ -5,19 +5,32 @@ package com.example.eyes38.beans;
  */
 public class CartGoods {
     private String path; //商品图片
-    private String title; // 商品标题
-    private float price; // 商品价格
+    private String title; // 商品标题 名称
+    private double price; // 商品价格
     private int num; // 商品数量
+    private int productID;  // 商品id
     private boolean isSelected; // 是否被选中
+    //商品信息
+    private Goods mGoods;
+
+    public Goods getGoods() {
+        return mGoods;
+    }
+
+    public void setGoods(Goods goods) {
+        mGoods = goods;
+    }
 
     public CartGoods() {
     }
 
-    public CartGoods(String path, String title, float price,int num) {
+    public CartGoods(String path, String title, double price, int num, int productID, Goods goods) {
         this.path = path;
         this.title = title;
         this.price = price;
         this.num = num;
+        this.productID = productID;
+        mGoods = goods;
     }
 
     public String getPath() {
@@ -36,11 +49,11 @@ public class CartGoods {
         this.title = title;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -58,6 +71,14 @@ public class CartGoods {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
     @Override
