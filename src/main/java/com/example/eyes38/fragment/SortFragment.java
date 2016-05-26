@@ -67,6 +67,7 @@ public class SortFragment extends Fragment {
         //初始化布局
         initView();
 
+
         //初始化碎片
         initFragment();
         return view;
@@ -121,6 +122,7 @@ public class SortFragment extends Fragment {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setRequestFailedReadCache(true);
         request.add("active",1);
         request.add("parent_id",0);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
@@ -146,13 +148,16 @@ public class SortFragment extends Fragment {
                     mList = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
+                        boolean ischecked = false;
+                        ischecked = (i == 0 ?true:false);
                         int id = jsonObject.getInt("category_id");
                         String name = jsonObject.getString("name");
                         String path = jsonObject.getString("image");
-                        SortTitle s = new SortTitle(i,id,name, false,path);
+                        SortTitle s = new SortTitle(i,id,name, ischecked,path);
                         mList.add(s);
                     }
                     handler.sendEmptyMessage(FINSH);
+//                    titleAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

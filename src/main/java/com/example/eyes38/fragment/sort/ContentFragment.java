@@ -6,18 +6,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Sort_ContentAdapter;
 import com.example.eyes38.beans.SortContent;
 import com.example.eyes38.beans.SortContentContent;
+import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -32,6 +31,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+
 /**
  * Created by jqchen on 2016/4/28.
  */
@@ -42,12 +46,12 @@ public class ContentFragment extends Fragment {
     List<SortContent> mList;
     Sort_ContentAdapter scAdapter;
     //下拉刷新控件
-    SwipeRefreshLayout mSwipeRefreshLayout;
 
     //测试获取json数据
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     private final static int mWhat = 520;
+    private PtrClassicFrameLayout ptrFrame;
 
     @Nullable
     @Override
@@ -57,11 +61,35 @@ public class ContentFragment extends Fragment {
         initView();
         //初始化数据
         initData();
-        //设置下拉刷新
-        initRefresh();
+        initListener();
 
         return mView;
     }
+
+    private void initListener() {
+        LoadMoreFooterView header = new LoadMoreFooterView(mView.getContext());
+        ptrFrame.setHeaderView(header);
+        ptrFrame.addPtrUIHandler(header);
+        //刷新
+        ptrFrame.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ptrFrame.refreshComplete();
+                    }
+                },1800);
+
+            }
+        });
+    }
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -75,22 +103,6 @@ public class ContentFragment extends Fragment {
             }
         }
     };
-
-    private void initRefresh() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(getContext(),"下拉刷新",Toast.LENGTH_SHORT).show();
-                    }
-                },3000);
-
-            }
-        });
-    }
 
     private void initAdapter() {
         scAdapter = new Sort_ContentAdapter(getContext(), mList);
@@ -150,6 +162,7 @@ public class ContentFragment extends Fragment {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setRequestFailedReadCache(true);
         request.add("active",1);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
@@ -214,11 +227,10 @@ public class ContentFragment extends Fragment {
     };
 
     private void initView() {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.sort_swiprefresh);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.texton));
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.sort_content_recycler);
         LinearLayoutManager linear = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linear);
+        ptrFrame = (PtrClassicFrameLayout) mView.findViewById(R.id.sort_content_ptr);
     }
 
     //获取Recyclerview传来的的值：id
