@@ -4,10 +4,16 @@
               android:layout_height="match_parent"
               android:gravity="center"
               android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="第三页"/>
+
+     <com.lhh.ptrrv.library.PullToRefreshRecyclerView
+         android:background="#FFF"
+          android:id="@+id/eventrecycle3"
+          android:layout_width="match_parent"
+          android:scrollbars="vertical"
+          android:layout_height="match_parent">
+
+     </com.lhh.ptrrv.library.PullToRefreshRecyclerView>
+
+
 
 </LinearLayout>
