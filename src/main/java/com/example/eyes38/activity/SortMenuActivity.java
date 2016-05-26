@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.Sort_SortAdapter;
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.beans.SortContentContent;
+import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -30,16 +31,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+
 public class SortMenuActivity extends AppCompatActivity {
     public static final int FINISHED = 1;
     RecyclerView mRecyclerView;
-    SwipeRefreshLayout mSwipeRefreshLayout;
     Sort_SortAdapter sort_sortAdapter;
     List<Goods> mList;
     //分类导航栏
     private RadioGroup mRadioGroup;
     private TextView titleTextView;
     private String titlecontent;
+    //刷新界面
+    private PtrClassicFrameLayout ptrFrame;
 
     //测试获取json数据
     //创建 请求队列成员变量
@@ -54,10 +61,38 @@ public class SortMenuActivity extends AppCompatActivity {
         initData();
         getDatas();
         setUI();
+        initListener();
 
     }
 
+    private void initListener() {
+        LoadMoreFooterView header = new LoadMoreFooterView(this);
+        ptrFrame.setHeaderView(header);
+        ptrFrame.addPtrUIHandler(header);
+        //刷新
+        ptrFrame.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("load","加载了");
+                        getHttpMedthod();
+                        ptrFrame.refreshComplete();
+                    }
+                },1800);
+
+            }
+        });
+    }
+
     private void setUI() {
+        //设置标题栏的内容
         titleTextView.setText(titlecontent);
     }
 
@@ -110,13 +145,13 @@ public class SortMenuActivity extends AppCompatActivity {
 
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.sort_sort_recyclerview);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.sort_sort_swiprefresh);
         //显示两列
         GridLayoutManager grid = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(grid);
         //分类界面的导航栏
         mRadioGroup = (RadioGroup) findViewById(R.id.sort_menu);
         titleTextView = (TextView) findViewById(R.id.sort_sort_title);
+        ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.sort_sort_ptr);
     }
 
     private void initData() {

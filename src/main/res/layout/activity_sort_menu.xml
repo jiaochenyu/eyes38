@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".activity.SortMenuActivity">
     <!--顶部标题-->
@@ -25,21 +26,26 @@
             layout="@layout/sort_sort_meun"></include>
 
         <!--刷新区域-->
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/sort_sort_swiprefresh"
+        <in.srain.cube.views.ptr.PtrClassicFrameLayout
+            android:id="@+id/sort_sort_ptr"
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="0dp"
-            android:layout_weight="27">
+            android:layout_marginTop="10dp"
+            android:layout_weight="27"
+            cube_ptr:ptr_resistance="1.7"
+            cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+            cube_ptr:ptr_duration_to_close="300"
+            cube_ptr:ptr_duration_to_close_header="2000"
+            cube_ptr:ptr_keep_header_when_refresh="true"
+            cube_ptr:ptr_pull_to_fresh="false">
             <!--分类界面-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/sort_sort_recyclerview"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:layout_width="match_parent"
+                android:background="@color/background"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
     </LinearLayout>
 

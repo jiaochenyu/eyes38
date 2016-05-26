@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.eyes38.R;
@@ -32,9 +34,11 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.comment_usernamTextView.setText(mList.get(position).getId() + "");
+        holder.comment_usernamTextView.setText(mList.get(position).getName());
         holder.comment_contentTextView.setText(mList.get(position).getContent());
         holder.comment_timeTextView.setText(mList.get(position).getTime());
+        holder.mRatingBar.setRating(mList.get(position).getRatingbar());
+
     }
 
     @Override
@@ -43,10 +47,13 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageView portraitImageView;
+        RatingBar mRatingBar;
         TextView comment_usernamTextView, comment_contentTextView, comment_timeTextView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            mRatingBar = (RatingBar) itemView.findViewById(R.id.comment_ratingbar);
             comment_usernamTextView = (TextView) itemView.findViewById(R.id.comment_username);
             comment_contentTextView = (TextView) itemView.findViewById(R.id.comment_content);
             comment_timeTextView = (TextView) itemView.findViewById(R.id.comment_time);

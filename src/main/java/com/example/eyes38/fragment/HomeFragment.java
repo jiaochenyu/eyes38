@@ -81,8 +81,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     int height;
     private RequestQueue mRequestQueue;
 
-<<<<<<< HEAD
-=======
+
     //4个home_sort的图标和文字初始化
     private ImageView home_sort1image;
     private ImageView home_sort2image;
@@ -92,7 +91,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView home_sort2text;
     private TextView home_sort3text;
     private TextView home_sort4text;
->>>>>>> a752d0ba7cc6e3861a377ea584215dac90f0d7f1
+
 
     @Nullable
     @Override
