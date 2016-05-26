@@ -22,38 +22,16 @@
             style="@style/pagetitletext"
             android:text="新品推荐"/>
 
-
-
-
     </RelativeLayout>
 
-
     <!-- 内容 -->
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/homecontent"
         style="@style/pagecontent"
         android:background="#f4f4f4"
         android:scrollbars="none">
         <!--新品推荐的RecyclerView-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/home_xptj_view"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--/>-->
-
-            <FrameLayout
-                android:id="@+id/xptjframelayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/sort_content_background"></FrameLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
