@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="150dp"
+              android:gravity="center"
+              android:layout_marginTop="6dp"
+              android:layout_marginRight="6dp"
+              android:layout_marginLeft="35dp"
+              android:background="@drawable/event_content_border"
+              android:layout_height="150dp">
+    <ImageView
+        android:src="@drawable/android"
+        android:scaleType="fitXY"
+        android:id="@+id/event_content_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"/>
+    <TextView
+        android:text="Event Test"
+        android:layout_marginTop="5dp"
+        android:textSize="12sp"
+        android:id="@+id/event_content_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
     <!--顶部标题-->
     <RelativeLayout
         android:id="@+id/sorttitle"
@@ -10,7 +10,7 @@
 
         <TextView
             style="@style/pagetitletext"
-            android:text="@string/sorttilte" />
+            android:text="@string/sorttilte"/>
     </RelativeLayout>
     <!-- 内容 -->
     <LinearLayout style="@style/pagecontent">
@@ -30,14 +30,15 @@
                 android:id="@+id/sort_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/sort_title_background"
-                android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+                android:layout_weight="1"
+                android:background="@color/sort_title_background"></android.support.v7.widget.RecyclerView>
+
             <FrameLayout
                 android:id="@+id/right"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:background="@color/sort_content_background"></FrameLayout>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/sort_content_background"></FrameLayout>
         </LinearLayout>
 
     </LinearLayout>

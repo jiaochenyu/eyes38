@@ -19,10 +19,10 @@ public class HomexptjActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homexptj);
-        mRecyclerView = (RecyclerView) findViewById(R.id.home_xptj_view);
+    //    mRecyclerView = (RecyclerView) findViewById(R.id.home_xptj_view);
         //初始化recycleview并实现
-        mHomeRecycleView = new HomeRecycleView(this,mRecyclerView);
-        mHomeRecycleView.startItem();
+//        mHomeRecycleView = new HomeRecycleView(this,mRecyclerView);
+//        mHomeRecycleView.startItem();
     }
 
     public void xptj_back(View view) {

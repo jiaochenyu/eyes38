@@ -47,6 +47,10 @@ public class Sort_SortAdapter extends RecyclerView.Adapter<Sort_SortAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //绑定数据
+<<<<<<< HEAD
+=======
+
+>>>>>>> a752d0ba7cc6e3861a377ea584215dac90f0d7f1
         Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
         holder.nameTextView.setText(mList.get(position).getGoods_name());
         holder.priceTextView.setText(mList.get(position).getGoods_platform_price()+"");

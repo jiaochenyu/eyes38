@@ -18,7 +18,6 @@ import com.example.eyes38.R;
 import com.example.eyes38.beans.CartGoods;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jqchen on 2016/5/20.
@@ -29,9 +28,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private List<CartGoods> mList;
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener = null;//监听事件
-
-    private static Map<Integer, Boolean> isSelected; // 是否选中
-    private int resourceId;                //适配器视图资源ID
 
     Handler mHandler;
 
@@ -44,17 +40,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         //初始化数据
         initDate();
     }
-
-    //get 方法
-    public static Map<Integer, Boolean> getIsSelected() {
-        return isSelected;
-    }
-
-    //set 方法
-    public static void setIsSelected(Map<Integer, Boolean> isSelected) {
-        Cart_GoodsAdapter.isSelected = isSelected;
-    }
-
 
     //监听事件接口 回调
     public static interface OnRecyclerViewItemClickListener {
