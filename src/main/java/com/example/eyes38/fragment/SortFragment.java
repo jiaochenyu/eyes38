@@ -67,6 +67,7 @@ public class SortFragment extends Fragment {
         //初始化布局
         initView();
 
+
         //初始化碎片
         initFragment();
         return view;
@@ -153,6 +154,7 @@ public class SortFragment extends Fragment {
                         mList.add(s);
                     }
                     handler.sendEmptyMessage(FINSH);
+//                    titleAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

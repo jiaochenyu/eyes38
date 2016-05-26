@@ -51,11 +51,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     int height;
 
     private RequestQueue mRequestQueue;
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 60a4f3967656157dfb4f23b349000cbcab04a36c
 
     @Nullable
     @Override

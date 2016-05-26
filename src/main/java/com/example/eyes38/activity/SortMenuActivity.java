@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Sort_SortAdapter;
@@ -37,6 +38,8 @@ public class SortMenuActivity extends AppCompatActivity {
     List<Goods> mList;
     //分类导航栏
     private RadioGroup mRadioGroup;
+    private TextView titleTextView;
+    private String titlecontent;
 
     //测试获取json数据
     //创建 请求队列成员变量
@@ -49,8 +52,15 @@ public class SortMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sort_menu);
         initView();
         initData();
+        getDatas();
+        setUI();
 
     }
+
+    private void setUI() {
+        titleTextView.setText(titlecontent);
+    }
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -106,6 +116,7 @@ public class SortMenuActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(grid);
         //分类界面的导航栏
         mRadioGroup = (RadioGroup) findViewById(R.id.sort_menu);
+        titleTextView = (TextView) findViewById(R.id.sort_sort_title);
     }
 
     private void initData() {
@@ -182,11 +193,11 @@ public class SortMenuActivity extends AppCompatActivity {
     };
 
     //获取传来的商品的id
-    private int getId(){
+    private void getDatas(){
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         SortContentContent scc = (SortContentContent) bundle.get("values");
-        return scc.getId();
+        titlecontent = scc.getConten();
     }
 
     private void initAdapter() {

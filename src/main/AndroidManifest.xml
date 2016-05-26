@@ -53,16 +53,14 @@
         <activity android:name=".activity.CommentActivity"/>
         <activity android:name=".user_activity.AddressInfo.User_addAddressActivity">
         </activity>
-<<<<<<< HEAD
+
         <activity android:name=".activity.home.HomexptjActivity">
 
         </activity>
-=======
+
         <activity android:name=".EventActivity.EventActivity"/>
-        <activity android:name=".activity.home.HomexptjActivity"/>
 
 
->>>>>>> 60a4f3967656157dfb4f23b349000cbcab04a36c
     </application>
 
 </manifest>
