@@ -171,6 +171,7 @@ public class SortMenuActivity extends AppCompatActivity {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setRequestFailedReadCache(true);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 

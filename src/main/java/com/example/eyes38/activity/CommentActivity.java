@@ -16,6 +16,7 @@ import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
@@ -112,7 +113,9 @@ public class CommentActivity extends AppCompatActivity {
     private void getHttpRequest() {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
-        Request<String> mRequest = NoHttp.createStringRequest(url);
+        Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        //设置缓存
+        mRequest.setRequestFailedReadCache(true);
         mRequestQueue.add(WHAT, mRequest, mOnResponseListener);
     }
 

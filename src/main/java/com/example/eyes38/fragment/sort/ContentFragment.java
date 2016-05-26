@@ -162,6 +162,7 @@ public class ContentFragment extends Fragment {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setRequestFailedReadCache(true);
         request.add("active",1);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
