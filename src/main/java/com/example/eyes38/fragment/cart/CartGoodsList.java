@@ -50,6 +50,7 @@ public class CartGoodsList extends Fragment {
     private TextView mJiesuanTV; // 选中商品结算按钮
     private TextView mTotalPriceTV; // 选中的总金额
     private boolean allChecked = false; // 默认全选
+    private boolean deleteChecked = false ; // 点击按钮的状态
     Cart_GoodsAdapter mCart_goodsAdapter = null;
     //采用 NoHttp
     //创建 请求队列成员变量
@@ -67,11 +68,6 @@ public class CartGoodsList extends Fragment {
 
                     initListener();
                     break;
-               /* case 1:
-                    //默认全选
-                    break;
-                case 2:
-                    break;*/
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
                     //更改购物车中商品总价格
                     float price = (float) msg.obj;
@@ -81,9 +77,9 @@ public class CartGoodsList extends Fragment {
                     //如果都被选中那么全选按钮也要被选中
                     //记录是否被全选
                     allChecked = !(Boolean) msg.obj;
-                    // Log.e("获取通知","获取通知的allchecked"+allChecked);
                     mCheckBoxAll.setChecked((Boolean) msg.obj);
                     break;
+
             }
             super.handleMessage(msg);
         }
@@ -106,13 +102,11 @@ public class CartGoodsList extends Fragment {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.car_goods_list_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mCountTopTextView = (TextView) mView.findViewById(R.id.checkedCountTop);
-        mDeleteOperationTV = (TextView) mView.findViewById(R.id.DeleteOperationTV);
+        mDeleteOperationTV = (TextView) mView.findViewById(R.id.DeleteOperationTV);  //编辑按钮
         mCheckBoxAll = (CheckBox) mView.findViewById(R.id.checkboxAllGoods);
-        //mCheckBoxAll.setChecked(true);
         mDiscountCheckBox = (CheckBox) mView.findViewById(R.id.DiscountCheckbox);
         mJiesuanTV = (TextView) mView.findViewById(R.id.jiesuanButton);
         mTotalPriceTV = (TextView) mView.findViewById(R.id.allGoodsCountPrice);
-
     }
 
     private void initData() {
@@ -129,19 +123,20 @@ public class CartGoodsList extends Fragment {
         });*/
         ClickListener mClickListener = new ClickListener();
         mCheckBoxAll.setOnClickListener(mClickListener);
+        mDeleteOperationTV.setOnClickListener(mClickListener);
 
     }
 
 
-    //请求http 获取图片
+    //请求http 获取购物车信息
     private void getHttpMethod() {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
         String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setRequestFailedReadCache(true);
         //request.add("shoppingCartIds", "219");
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
-
     /**
      * 请求http结果  回调对象，接受请求结果
      */
@@ -189,7 +184,8 @@ public class CartGoodsList extends Fragment {
                     // 选中含有优惠信息的商品
                     break;
                 case R.id.DeleteOperationTV:
-                    //便捷按钮删除操作
+                    //编辑按钮删除操作  将删除按钮显示出来
+                    showDelete();
                     break;
                 case R.id.checkboxAllGoods:
                     //选中全部商品
@@ -200,6 +196,13 @@ public class CartGoodsList extends Fragment {
                     break;
             }
         }
+    }
+
+    private void showDelete() {
+        // 将删除按钮显示出来
+        mCart_goodsAdapter.setShowDelete(!deleteChecked);
+        deleteChecked = !deleteChecked;
+        mCart_goodsAdapter.notifyDataSetChanged();
     }
 
     // 全部选中
@@ -225,6 +228,7 @@ public class CartGoodsList extends Fragment {
                 for (int j = 0; i < mJsonArray2.length(); j++) {
                     JSONObject jsonObject2 = mJsonArray2.getJSONObject(j);
                     String product_name = jsonObject2.getString("product_name"); //商品名
+                    int shopping_cart_id = jsonObject2.getInt("shopping_cart_id"); // 购物车id shopping_cart_id
                     int quantity = jsonObject2.getInt("quantity"); //数量
                     Log.e("quantity",quantity+"");
                     JSONObject jsonObject3 = jsonObject2.getJSONObject("product");
@@ -246,19 +250,22 @@ public class CartGoodsList extends Fragment {
                     int goods_comment_count = jsonObject4.getInt("comment_num");//评论数量
                     int goods_sales = jsonObject4.getInt("sales");   //销量
                     int goods_stock = jsonObject4.getInt("stock_num");
+
                     Goods mGoods = new Goods(goods_id, goods_name, uri, goods_brand, goods_specification, goods_unit, goods_shengben, goods_remark, goods_market_price, goods_platform_price, goods_discount, goods_comment_count, goods_stock);
+
+
                     //mCartGoods.setPath("http://hz-ifs.ilexnet.com/eyes38/599334_1_pic500_120.jpg");
                     //CartGoods cartGoods = new CartGoods(path, product_name, price, quantity, goods_id, mGoods);
 
                     CartGoods cartGoods = new CartGoods();
-
                     cartGoods.setPath(path);
                     cartGoods.setTitle(product_name);
                     cartGoods.setNum(quantity);
                     cartGoods.setPrice(price);
                     cartGoods.setGoods(mGoods);
+                    cartGoods.setShopping_cart_id(shopping_cart_id);
                     mList.add(cartGoods);
-                    Log.e("mlist", mList.size()+""+mList.toString());
+                    //Log.e("mlist", mList.size()+""+mList.toString());
                 }
             }
 

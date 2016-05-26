@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/sort_title_background"
+              android:orientation="vertical">
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/usertitle"
+        style="@style/pagetitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="user_myorder_back"
+                android:src="@drawable/user_set_back"/>
+
+            <TextView
+                style="@style/pagetitletext"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="结算"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <!--收货信息-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="28">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:text="收货信息"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/shouhuoAdress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="20dp"
+                    android:background="@drawable/cart_addsub_text_border"
+                    android:text="您未添加任何收货地址。"
+                    />
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/tiaozhuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/home_gengduo"
+                    />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cart_addsub_text_border"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:text="订单信息"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </ScrollView>
+    <!--底部 -->
+    <RelativeLayout
+        android:id="@+id/jiesuan_bottom"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+            <TextView
+                android:id="@+id/zj"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="总计:¥"
+                android:padding="10dp"
+                android:textSize="15sp"
+                />
+            <TextView
+                android:id="@+id/jiesuan_price"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/zj"
+                android:layout_alignBottom="@+id/zj"
+                android:gravity="left|center"
+                android:text="00.00"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:layout_alignParentRight="true"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@color/topical"
+                android:gravity="center"
+                android:text="去付款"
+                />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
