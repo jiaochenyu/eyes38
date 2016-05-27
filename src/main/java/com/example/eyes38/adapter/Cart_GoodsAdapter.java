@@ -54,10 +54,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private RequestQueue mRequestQueue; //请求队列
     private int position; // 删除位置
     private int cartGoodsCount;
-    MainActivity mMainActivity;
-
-
+    MainActivity mMainActivity = new MainActivity();
     Handler mHandler;
+    Handler mainHandler = mMainActivity.mainHandler;
     private Handler httpHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -270,7 +269,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     } else {
                         mList.get(position).setNum(mList.get(position).getNum() - 1);
                         notifyDataSetChanged();
-                        setCartGoodsCount(getCartGoodsCount());
+                        mainHandler.sendMessage(mainHandler.obtainMessage(308,getAllGoodsCount()));
                         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
                     }
                     break;
@@ -366,7 +365,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         } else {
             mList.get(getPosition()).setNum(mList.get(getPosition()).getNum() + 1);
             notifyDataSetChanged();
-            setCartGoodsCount(getAllGoodsCount());
+            mainHandler.sendMessage(mainHandler.obtainMessage(308,getAllGoodsCount()));
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
 
         }
@@ -377,7 +376,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         //删除操作
         mList.remove(getPosition());
         notifyDataSetChanged();
-        setCartGoodsCount(getAllGoodsCount());
+        //setCartGoodsCount(getAllGoodsCount());
+        mainHandler.sendMessage(mainHandler.obtainMessage(308,getAllGoodsCount()));
     }
 
     // 统计购物车中的数量C

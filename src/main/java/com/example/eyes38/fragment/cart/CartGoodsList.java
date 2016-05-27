@@ -19,6 +19,7 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.fragment.CartFragment;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -50,22 +51,24 @@ public class CartGoodsList extends Fragment {
     private TextView mJiesuanTV; // 选中商品结算按钮
     private TextView mTotalPriceTV; // 选中的总金额
     private boolean allChecked = false; // 默认全选
-    private boolean deleteChecked = false ; // 点击按钮的状态
+    private boolean deleteChecked = false; // 点击按钮的状态
     Cart_GoodsAdapter mCart_goodsAdapter = null;
     //采用 NoHttp
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
+    CartFragment mCartFragment = new CartFragment();
+
     //Handler
-    private Handler mmHandler = new Handler() {
+    Handler mmHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
                 case mFINFISH:
                     //加载数据完成
-                    //mCart_goodsAdapter.notifyDataSetChanged();
-                    //selectedAll();
-
+                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mmHandler);
+                    mRecyclerView.setAdapter(mCart_goodsAdapter);
+                    mCart_goodsAdapter.notifyDataSetChanged();
                     initListener();
                     break;
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
@@ -84,6 +87,7 @@ public class CartGoodsList extends Fragment {
             super.handleMessage(msg);
         }
     };
+
 
     @Nullable
     @Override
@@ -137,6 +141,7 @@ public class CartGoodsList extends Fragment {
         //request.add("shoppingCartIds", "219");
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
+
     /**
      * 请求http结果  回调对象，接受请求结果
      */
@@ -145,7 +150,6 @@ public class CartGoodsList extends Fragment {
         public void onStart(int what) {
 
         }
-
         @Override
         public void onSucceed(int what, Response<String> response) {
             if (what == mWhat) {
@@ -155,9 +159,6 @@ public class CartGoodsList extends Fragment {
                 String result = response.get();
                 //JSON解析
                 jsonMethod(result);
-                mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mmHandler);
-                mRecyclerView.setAdapter(mCart_goodsAdapter);
-                mCart_goodsAdapter.notifyDataSetChanged();
                 Message message = new Message();
                 message.what = mFINFISH;
                 //Log.e("请求完成", "66666666666666");
@@ -165,6 +166,7 @@ public class CartGoodsList extends Fragment {
                 mCountTopTextView.setText(mList.size() + "");
             }
         }
+
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
         }
@@ -230,7 +232,7 @@ public class CartGoodsList extends Fragment {
                     String product_name = jsonObject2.getString("product_name"); //商品名
                     int shopping_cart_id = jsonObject2.getInt("shopping_cart_id"); // 购物车id shopping_cart_id
                     int quantity = jsonObject2.getInt("quantity"); //数量
-                    Log.e("quantity",quantity+"");
+                    Log.e("quantity", quantity + "");
                     JSONObject jsonObject3 = jsonObject2.getJSONObject("product");
                     String path = jsonObject3.getString("image"); //获取图片路径
                     double price = jsonObject3.getDouble("price"); // 商品价格

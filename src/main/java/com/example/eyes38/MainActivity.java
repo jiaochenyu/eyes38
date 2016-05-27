@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +14,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.fragment.CartFragment;
 import com.example.eyes38.fragment.HomeFragment;
 import com.example.eyes38.fragment.SortFragment;
@@ -36,12 +37,28 @@ public class MainActivity extends AppCompatActivity {
     private int cartGoodsCount = 0;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
+    public static  CartBadgeView mCartBadgeView;
 
-    private Cart_GoodsAdapter mCart_goodsAdapter;
 
-    RadioButton  mCarradioButton ;
-    RadioButton  mhomeRadioButton;
-    Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
+    RadioButton mCarradioButton;
+    RadioButton mhomeRadioButton;
+    public  Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
+    public Handler mainHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 308:
+                    if (((Integer) msg.obj) != 0) {
+                        Log.e("购物车传值", msg.obj + "");
+                        mCartBadgeView.setText(msg.obj + "");
+                        mCartBadgeView.show();
+                    } else {
+                        mCartBadgeView.hide();
+                    }
+            }
+        }
+    };
 
 
     public int getCartGoodsCount() {
@@ -69,43 +86,42 @@ public class MainActivity extends AppCompatActivity {
         mhomeRadioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
         mcar_badgebutton = (Button) findViewById(R.id.car_badgeviewbutton);
         //CartBadgeView这是购物车上的徽章
-        CartBadgeView mCartBadgeView = new CartBadgeView(MainActivity.this,mcar_badgebutton);
-
         //mCartBadgeView.setBackgroundResource(R.drawable.badge_ifaux);
-
-        initCartBadge(mCartBadgeView,getCartGoodsCount());
-        sp=this.getSharedPreferences("userInfo",MODE_PRIVATE); //偏好设置,记录用户登录信息
+        mCartBadgeView = new CartBadgeView(MainActivity.this, mcar_badgebutton);
+        mCartBadgeView.setTextColor(Color.WHITE);
+        mCartBadgeView.setTextSize(12);
+        //mCartBadgeView.setBadgeMargin(30,30);
+        mCartBadgeView.setBadgeMargin(5);//各个边的边隔
+        mCartBadgeView.setBadgeBackgroundColor(this.getResources().getColor(R.color.topical));
+        mCartBadgeView.setBadgePosition(CartBadgeView.POSITION_TOP_RIGHT);
+        sp = this.getSharedPreferences("userInfo", MODE_PRIVATE); //偏好设置,记录用户登录信息
+        initCartBadge();
     }
 
-
     //设置徽章 样式
-    private void initCartBadge(CartBadgeView mCartBadgeView, int cartGoodsCount){
-        if(cartGoodsCount == 0){
+    private void initCartBadge() {
+       int login_state = sp.getInt("STATE", 0);
+        if (login_state == 0 ) {
             mCartBadgeView.hide();
-        }else{
-            mCartBadgeView.setText(cartGoodsCount+"");
-            mCartBadgeView.setTextColor(Color.WHITE);
-            mCartBadgeView.setTextSize(12);
-            //mCartBadgeView.setBadgeMargin(30,30);
-            mCartBadgeView.setBadgeMargin(5);//各个边的边隔
-            mCartBadgeView.setBadgeBackgroundColor(this.getResources().getColor(R.color.topical));
-            mCartBadgeView.setBadgePosition(CartBadgeView.POSITION_TOP_RIGHT);
-            mCartBadgeView.show();
+        } else {
+                if (getCartGoodsCount() == 0){
+                    mCartBadgeView.hide();
+                }else {
+                    mCartBadgeView.show();
+                }
         }
 
     }
 
-
-
-
     //初始化数据
+
     private void initData() {
-        mCart_goodsAdapter = new Cart_GoodsAdapter();
-        setCartGoodsCount(mCart_goodsAdapter.getCartGoodsCount());
         mFragmentManager = getSupportFragmentManager();
+
         //设置home 为默认页面
         showFragment(HOME);
     }
+
 
     //显示fragment
     private void showFragment(int index) {
@@ -140,20 +156,8 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mFragmentTransaction.show(mCarFragment);
                 }*/
-
-                    mCarFragment = new CartFragment();
-                    mFragmentTransaction.add(R.id.fragment_container, mCarFragment);
-                /*else{
-                    mCarFragment = new CartFragment();
-                    mFragmentTransaction.replace(R.id.fragment_container,mCarFragment);
-                }*/
-
-                 /*else {
-                    mFragmentTransaction.replace(R.id.fragment_container,mCarFragment);
-                    mFragmentTransaction.show(mCarFragment);
-                }*/
-               /* mCarFragment = new CartFragment();
-                mFragmentTransaction.replace(R.id.fragment_container,mCarFragment);*/
+                mCarFragment = new CartFragment();
+                mFragmentTransaction.add(R.id.fragment_container, mCarFragment);
                 break;
             case USER:
                 if (mUserFragment == null) {
@@ -205,19 +209,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.carRadiobutton:
                 showFragment(CAR);
-               /* CartFragment mCartFragment = new CartFragment();
-                FragmentTransaction mmFragmentTransaction =mFragmentManager.beginTransaction();
-                mmFragmentTransaction.replace(R.id.fragment_container,mCartFragment);
-                mmFragmentTransaction.commit();*/
                 break;
             case R.id.userRadiobutton:
-               int login_state=sp.getInt("STATE",0);
-                Log.e("login",login_state+"");
-                if (login_state==1){
+                int login_state = sp.getInt("STATE", 0);
+                Log.e("login", login_state + "");
+                if (login_state == 1) {
                     showFragment(USER);
-                }
-                else {
-                    Intent intent=new Intent(MainActivity.this,User_loginActivity.class);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, User_loginActivity.class);
                     startActivity(intent);
                 }
                 break;
