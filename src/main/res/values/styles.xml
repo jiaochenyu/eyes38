@@ -273,6 +273,15 @@
         <item name="android:gravity">center|left</item>
         <item name="android:textSize">15sp</item>
     </style>
+<<<<<<< HEAD
+    <!-- 购物车的删除的 Dialog -->
+    <style name="Cart_Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+=======
     <style name="comment_ratingbar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/comment_ratingbar</item>
         <item name="android:minHeight">15dp</item>
@@ -280,4 +289,5 @@
     </style>
 
 
+>>>>>>> e466febae91e406956287aef4ab61485351a998e
 </resources>
