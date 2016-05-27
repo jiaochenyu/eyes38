@@ -39,7 +39,6 @@ public class HomeRecycleView {
     }
     public void startItem() {
         initData();
-
     }
 
     private void initData() {

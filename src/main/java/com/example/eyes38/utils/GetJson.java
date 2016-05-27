@@ -14,7 +14,7 @@ public class GetJson {
     private static OnResponseListener<String> mOnResponseListener;
     private  static RequestQueue mRequestQueue;
     private final static int mWhat = 520;
-    private static String result;
+    private static String result = null;
     public static String getJson(String url){
 
         mRequestQueue = NoHttp.newRequestQueue();

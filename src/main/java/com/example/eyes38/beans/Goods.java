@@ -20,10 +20,12 @@ public class Goods implements Serializable {
     private int goods_comment_count;
     private int goods_stock;
 
-    public Goods(int goods_id, String goods_name, String uri, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
+    public Goods(int goods_id, String goods_name, String path, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
+
+
         this.goods_id = goods_id;
         this.goods_name = goods_name;
-        this.path = uri;
+        this.path = path;
         this.goods_brand = goods_brand;
         this.goods_specification = goods_specification;
         this.goods_unit = goods_unit;
@@ -48,9 +50,11 @@ public class Goods implements Serializable {
         return path;
     }
 
-    public void setPath(String uri) {
-        this.path = uri;
+    public void setPath(String path) {
+        this.path = path;
     }
+
+
 
     public int getGoods_id() {
         return goods_id;
