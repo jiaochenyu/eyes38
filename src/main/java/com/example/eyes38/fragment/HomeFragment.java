@@ -21,15 +21,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.eyes38.EventActivity.EventActivity;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+import com.example.eyes38.activity.home.HomexptjActivity;
 import com.example.eyes38.adapter.Home_ContentAdapter;
 import com.example.eyes38.adapter.Home_ad_adapter;
 import com.example.eyes38.beans.HomeContent;
 import com.example.eyes38.beans.HomeContentContent;
 import com.example.eyes38.beans.HomeFourSort;
-import com.example.eyes38.fragment.home.HomeLunboView;
 import com.example.eyes38.fragment.home.HomeRecycleView;
 import com.example.eyes38.fragment.home.HomeSpinnerView;
 import com.yolanda.nohttp.NoHttp;
@@ -59,8 +58,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     RecyclerView mRecyclerView;
     //封装的recycleView实现类
     HomeRecycleView mHomeRecycleView;
-    //封装的轮播图的实现类
-    HomeLunboView mHomeLunboView;
     //初始化spinner
     Spinner mSpinner;
     //封装的spinner的实现类
@@ -114,7 +111,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         //初始化spinner并实现
         mHomeSpinnerView = new HomeSpinnerView(mMainActivity, mSpinner, height);
         mHomeSpinnerView.startspinner();
-        setonClick();
+   //     setonClick();
         return view;
     }
 
@@ -270,9 +267,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                 }
                             }
                             hc = new HomeContent(zhuantiname, mmList);
-                            if (mmList.size()==0){
-                            Log.e("看看mmlist里有什么",zhuantiname);}else {
-                                Log.e("看看mmlist里有什么",zhuantiname+mmList.get(0).toString());
+                            if (mmList.size() == 0) {
+                                Log.e("看看mmlist里有什么", zhuantiname);
+                            } else {
+                                Log.e("看看mmlist里有什么", zhuantiname + mmList.get(0).toString());
                             }
                             mrecycleList.add(hc);
                         }
@@ -323,10 +321,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     setLinstener();
                 case RECYCLEFINSH:
                     initrecycleAdapter();
+                    initrecycleListener();
 
             }
         }
     };
+
+    private void initrecycleListener() {
+        hcAdapter.setmOnItemClickListener(new Home_ContentAdapter.OnMoreItemClickListener() {
+            @Override
+            public void onItemClick(View view, HomeContent hc) {
+                for (int i=0;i<mrecycleList.size();i++){
+                Log.e("看看mre里有什么",mrecycleList.get(i).getName());}
+                Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     private void initrecycleAdapter() {
         hcAdapter = new Home_ContentAdapter(mMainActivity, mrecycleList);
@@ -359,17 +370,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     mViewPager.setCurrentItem(mCurrentItem);
                     mHandler.sendEmptyMessageDelayed(IMAGE_UPDATE, REFRESHTIME);
                     break;
-
             }
         }
     };
 
 
-    //更多的单击事件
-    private void setonClick() {
-//        home_xptjgengduo.setOnClickListener(this);
-//        home_yzcpgengduo.setOnClickListener(this);
-    }
 
     //初始化视图
     private void initView() {
@@ -387,8 +392,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         home_sort3text = (TextView) view.findViewById(R.id.home_sort3text);
         home_sort4image = (ImageView) view.findViewById(R.id.home_sort4image);
         home_sort4text = (TextView) view.findViewById(R.id.home_sort4text);
-
-
     }
 
     @Override
@@ -408,14 +411,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int buttonid = v.getId();
         switch (buttonid) {
-//            case R.id.home_xptjgengduo:
-//                Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
-//                startActivity(intent);
-//                break;
-            case R.id.home_yzcpgengduo:
-                Intent intent1 = new Intent(mMainActivity, EventActivity.class);
-                startActivity(intent1);
-                break;
 
         }
     }
