@@ -11,33 +11,33 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/user_order_all"
-            style="@style/order_bottom_radio"
+            android:id="@+id/comment_all"
+            style="@style/comment_menu_radio"
             android:checked="true"
             android:text="全部" />
 
 
         <RadioButton
-            android:id="@+id/user_order_pay"
-            style="@style/order_bottom_radio"
+            android:id="@+id/comment_great"
+            style="@style/comment_menu_radio"
             android:text="好评"
 
             />
 
         <RadioButton
-            android:id="@+id/user_order_deliever"
-            style="@style/order_bottom_radio"
+            android:id="@+id/comment_middle"
+            style="@style/comment_menu_radio"
             android:text="中评" />
 
 
         <RadioButton
-            android:id="@+id/user_order_receiver"
-            style="@style/order_bottom_radio"
+            android:id="@+id/comment_bad"
+            style="@style/comment_menu_radio"
             android:text="差评" />
 
         <RadioButton
-            android:id="@+id/user_order_commit"
-            style="@style/order_bottom_radio"
+            android:id="@+id/comment_picture"
+            style="@style/comment_menu_radio"
             android:text="有图" />
 
     </RadioGroup>
