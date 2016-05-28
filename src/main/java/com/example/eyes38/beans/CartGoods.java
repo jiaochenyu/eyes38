@@ -1,5 +1,7 @@
 package com.example.eyes38.beans;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by jqchen on 2016/5/19.
  */
@@ -10,6 +12,7 @@ public class CartGoods {
     private int num; // 商品数量
     private int productID;  // 商品id
     private boolean isSelected; // 是否被选中
+    private int shopping_cart_id ; // 购物车id
     //商品信息
     private Goods mGoods;
 
@@ -25,6 +28,7 @@ public class CartGoods {
     }
 
     public CartGoods(String path, String title, double price, int num, int productID, Goods goods) {
+        DecimalFormat df = new DecimalFormat("0.00");
         this.path = path;
         this.title = title;
         this.price = price;
@@ -81,6 +85,14 @@ public class CartGoods {
         this.productID = productID;
     }
 
+    public int getShopping_cart_id() {
+        return shopping_cart_id;
+    }
+
+    public void setShopping_cart_id(int shopping_cart_id) {
+        this.shopping_cart_id = shopping_cart_id;
+    }
+
     @Override
     public String toString() {
         return "CartGoods{" +
@@ -90,6 +102,7 @@ public class CartGoods {
                 ", num=" + num +
                 ", productID=" + productID +
                 ", isSelected=" + isSelected +
+                ", shopping_cart_id=" + shopping_cart_id +
                 ", mGoods=" + mGoods +
                 '}';
     }
