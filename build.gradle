@@ -22,7 +22,13 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> a752d0ba7cc6e3861a377ea584215dac90f0d7f1
     compile 'com.android.support:cardview-v7:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
@@ -30,5 +36,4 @@ dependencies {
     compile 'com.yolanda.nohttp:nohttp:1.0.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.android.support:cardview-v7:23.3.0'
-    compile 'homhomlin.lib:ptrrv-library:1.3.1'
 }

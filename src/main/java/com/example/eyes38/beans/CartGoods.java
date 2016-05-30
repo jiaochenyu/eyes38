@@ -87,6 +87,10 @@ public class CartGoods {
                 "path='" + path + '\'' +
                 ", title='" + title + '\'' +
                 ", price=" + price +
+                ", num=" + num +
+                ", productID=" + productID +
+                ", isSelected=" + isSelected +
+                ", mGoods=" + mGoods +
                 '}';
     }
 }

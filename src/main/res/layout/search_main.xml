@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:id="@+id/usertitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/topical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"/>
+
+        <ImageView
+            android:id="@+id/search_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/user_set_back"/>
+
+        <Spinner
+            android:id="@+id/search_spinnner"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2.5"
+            android:entries="@array/search_spinner">
+        </Spinner>
+
+        <FrameLayout
+            android:id="@+id/search_frame"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="8">
+
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@drawable/search_back"
+                android:imeOptions="actionSearch"
+                android:inputType="text"/>
+
+            <ImageView
+                android:id="@+id/search_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/search_clear"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/search_go"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:background="@color/topical"
+            android:text="搜索"
+            android:textColor="#FFF"/>
+    </LinearLayout>
+    <!-- 内容 -->
+    <ScrollView
+        android:id="@+id/homecontent"
+        style="@style/pagecontent"
+        android:background="#f4f4f4"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ListView
+                android:id="@+id/mlistview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></ListView>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
