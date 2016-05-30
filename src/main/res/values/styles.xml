@@ -47,6 +47,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/white</item>
     </style>
+
     <style name="home_sort_radio">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -85,12 +86,13 @@
     <!--分类界面导航栏属性-->
     <style name="sort_menu_radio">
         <item name="android:layout_width">0dp</item>
-        <item name="android:background">@drawable/radio_onclick</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@drawable/sort_sortmenu_textcolor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@drawable/bottom_text_selector</item>
+        <item name="android:background">@drawable/user_selector_line</item>
     </style>
 
     <style name="home_sort_imagebutton">
@@ -288,5 +290,16 @@
         <item name="android:maxHeight">15dp</item>
     </style>
 
+    <!--评论界面导航栏属性-->
+    <style name="comment_menu_radio">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@drawable/bottom_text_selector</item>
+        <item name="android:background">@drawable/user_selector_line</item>
+    </style>
 
 </resources>

@@ -203,6 +203,10 @@ public class ContentFragment extends Fragment {
                                     mmList.add(scc);
                                 }
                             }
+                            if (mmList.size() == 0){
+                                SortContentContent scc = new SortContentContent(1,"暂无商品","");
+                                mmList.add(scc);
+                            }
                             SortContent sc = new SortContent(parent_id,name,mmList);
                             mList.add(sc);
                         }

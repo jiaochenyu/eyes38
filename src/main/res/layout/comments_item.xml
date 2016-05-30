@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingRight="10dp"
+    android:layout_marginBottom="10dp">
     <ImageView
         android:id="@+id/comment_portrait"
         android:layout_width="30dp"
@@ -16,6 +17,12 @@
         android:textSize="20sp"
         android:layout_toRightOf="@id/comment_portrait"
         android:text="陈军权" />
+    <ImageView
+        android:id="@+id/comment_reply"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:src="@drawable/comment_reply"/>
     <RatingBar
         android:id="@+id/comment_ratingbar"
         android:layout_width="wrap_content"

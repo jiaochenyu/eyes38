@@ -7,67 +7,32 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.eyes38.R;
-import com.example.eyes38.beans.HomeContentContent;
-
-import java.util.List;
 
 /**
  * Created by jqchen on 2016/5/17.
  */
-public class Home_ContentnoneAdapter extends RecyclerView.Adapter<Home_ContentnoneAdapter.MyViewHolder> implements View.OnClickListener {
-    private List<HomeContentContent> mList;
-    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+public class Home_ContentnoneAdapter extends RecyclerView.Adapter {
     Context mContext;
+    private LayoutInflater mInflater;
 
-
-    //定义监听接口
-    public static interface OnRecyclerViewItemClickListener {
-
-        void onItemClick(View view, HomeContentContent hcc);
-    }
-
-    public void setmOnItemClickListener(OnRecyclerViewItemClickListener listener) {
-        this.mOnItemClickListener = listener;
-    }
-
-    public Home_ContentnoneAdapter(List<HomeContentContent> mList, Context mContext) {
-        this.mList = mList;
+    public Home_ContentnoneAdapter( Context mContext) {
         this.mContext = mContext;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_zhuanti_none, parent, false);
-            MyViewHolder myViewHolder = new MyViewHolder(view);
-            //注册监听事件
-//            view.setOnClickListener(this);
-            return myViewHolder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_zhuanti_none, parent, false);
+        RecyclerView.ViewHolder viewHolder = new Home_item_adapter.ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-    }
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-    @Override
-    public void onClick(View v) {
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(v, (HomeContentContent) v.getTag());
-        }
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-//        TextView mTextView;
-//        ImageView mImageView;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-//            mImageView = (ImageView) itemView.findViewById(R.id.home_content_content_image);
-//            mTextView = (TextView) itemView.findViewById(R.id.home_content_content_textview);
-        }
+        return 1;
     }
 }

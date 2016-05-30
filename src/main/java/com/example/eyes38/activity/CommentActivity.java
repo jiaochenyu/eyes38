@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RadioGroup;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Comment_Adapter;
+import com.example.eyes38.beans.CommentReply;
 import com.example.eyes38.beans.Comments;
 import com.example.eyes38.utils.DividerItemDecoration;
 import com.example.eyes38.utils.LoadMoreFooterView;
@@ -33,7 +35,11 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
 public class CommentActivity extends AppCompatActivity {
-    public static final int WHAT = 1;
+    public static final int ALL = 1;
+    public static final int GREAT = 2;
+    public static final int MIDDLE = 3;
+    public static final int BAD = 4;
+    public static final int PICTURE = 5;
     public static final int FINISHED = 1;
     private RecyclerView mRecyclerView;
     private List<Comments> mList;
@@ -41,6 +47,8 @@ public class CommentActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private RequestQueue mRequestQueue;
     private PtrClassicFrameLayout ptrFrame;
+    //评论导航栏
+    RadioGroup mRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,7 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+        //刷新区域
         LoadMoreFooterView header = new LoadMoreFooterView(this);
         ptrFrame.setHeaderView(header);
         ptrFrame.addPtrUIHandler(header);
@@ -69,10 +78,38 @@ public class CommentActivity extends AppCompatActivity {
                     public void run() {
                         ptrFrame.refreshComplete();
                     }
-                },1800);
+                }, 1800);
 
             }
         });
+        //导航栏
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                resetCommentData(checkedId);
+            }
+        });
+    }
+
+    private void resetCommentData(int checkId) {
+        //重置评论内容
+        switch (checkId) {
+            case R.id.comment_all:
+                getHttpRequest(ALL);
+                break;
+            case R.id.comment_great:
+                getHttpRequest(GREAT);
+                break;
+            case R.id.comment_middle:
+                getHttpRequest(MIDDLE);
+                break;
+            case R.id.comment_bad:
+                getHttpRequest(BAD);
+                break;
+            case R.id.comment_picture:
+                getHttpRequest(PICTURE);
+                break;
+        }
     }
 
     private Handler mHandler = new Handler() {
@@ -89,12 +126,11 @@ public class CommentActivity extends AppCompatActivity {
 
 
     private void initAdapter() {
-        comment_adapter = new Comment_Adapter(mList);
+        comment_adapter = new Comment_Adapter(mList,this);
         mRecyclerView.setAdapter(comment_adapter);
     }
 
     private void initData() {
-        mList = new ArrayList<>();
         /*for (int i = 0; i < 20; i++) {
             Comments c1 = new Comments(i, "aaaaa", i+"");
             mList.add(c1);
@@ -107,16 +143,16 @@ public class CommentActivity extends AppCompatActivity {
         mList.add(c2);
         mList.add(c3);
         mList.add(c4);*/
-        getHttpRequest();
+        getHttpRequest(ALL);
     }
 
-    private void getHttpRequest() {
+    private void getHttpRequest(int what) {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
         Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
         //设置缓存
         mRequest.setRequestFailedReadCache(true);
-        mRequestQueue.add(WHAT, mRequest, mOnResponseListener);
+        mRequestQueue.add(what, mRequest, mOnResponseListener);
     }
 
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
@@ -126,11 +162,12 @@ public class CommentActivity extends AppCompatActivity {
 
         @Override
         public void onSucceed(int what, Response<String> response) {
-            if (what == WHAT) {
+            if (what == ALL) {
                 String result = response.get();
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
                         int id = jsonObject.getInt("comment_id");
@@ -138,7 +175,157 @@ public class CommentActivity extends AppCompatActivity {
                         String time = jsonObject.getString("create_date");
                         String content = jsonObject.getString("comment");
                         int ratingbar = jsonObject.getInt("rating");
-                        Comments comments = new Comments(id, null, name, ratingbar, content, time);
+                        List<CommentReply> list = new ArrayList<>();
+                        JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                        if (jsonArray.length() != 0) {
+                            for (int j = 0; j < jsonArray.length(); j++) {
+                                JSONObject reply = jsonArray.getJSONObject(j);
+                                String reply_name = reply.getString("author_name");
+                                String reply_content = reply.getString("comment");
+                                String reply_time = reply.getString("create_date");
+                                CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                list.add(commentReply);
+                            }
+                        }
+                        Comments comments = new Comments(id, null, name, ratingbar, content, time, list);
+                        mList.add(comments);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+            if (what == GREAT) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int ratingbar = jsonObject.getInt("rating");
+                        if (ratingbar >= 5) {
+                            int id = jsonObject.getInt("comment_id");
+                            String name = jsonObject.getString("author_name");
+                            String time = jsonObject.getString("create_date");
+                            String content = jsonObject.getString("comment");
+                            List<CommentReply> list = new ArrayList<>();
+                            JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                            if (jsonArray.length() != 0) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
+                                    JSONObject reply = jsonArray.getJSONObject(j);
+                                    String reply_name = reply.getString("author_name");
+                                    String reply_content = reply.getString("comment");
+                                    String reply_time = reply.getString("create_date");
+                                    CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                    list.add(commentReply);
+                                }
+                            }
+                            Comments comments = new Comments(id, null, name, ratingbar, content, time,list);
+                            mList.add(comments);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+            if (what == MIDDLE) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int ratingbar = jsonObject.getInt("rating");
+                        if (ratingbar >= 3 && ratingbar < 5) {
+                            int id = jsonObject.getInt("comment_id");
+                            String name = jsonObject.getString("author_name");
+                            String time = jsonObject.getString("create_date");
+                            String content = jsonObject.getString("comment");
+                            List<CommentReply> list = new ArrayList<>();
+                            JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                            if (jsonArray.length() != 0) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
+                                    JSONObject reply = jsonArray.getJSONObject(j);
+                                    String reply_name = reply.getString("author_name");
+                                    String reply_content = reply.getString("comment");
+                                    String reply_time = reply.getString("create_date");
+                                    CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                    list.add(commentReply);
+                                }
+                            }
+                            Comments comments = new Comments(id, null, name, ratingbar, content, time,list);
+                            mList.add(comments);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+            if (what == BAD) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int ratingbar = jsonObject.getInt("rating");
+                        if (ratingbar <= 1) {
+                            int id = jsonObject.getInt("comment_id");
+                            String name = jsonObject.getString("author_name");
+                            String time = jsonObject.getString("create_date");
+                            String content = jsonObject.getString("comment");
+                            List<CommentReply> list = new ArrayList<>();
+                            JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                            if (jsonArray.length() != 0) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
+                                    JSONObject reply = jsonArray.getJSONObject(j);
+                                    String reply_name = reply.getString("author_name");
+                                    String reply_content = reply.getString("comment");
+                                    String reply_time = reply.getString("create_date");
+                                    CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                    list.add(commentReply);
+                                }
+                            }
+                            Comments comments = new Comments(id, null, name, ratingbar, content, time, list);
+                            mList.add(comments);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+            if (what == PICTURE) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int id = jsonObject.getInt("comment_id");
+                        String name = jsonObject.getString("author_name");
+                        String time = jsonObject.getString("create_date");
+                        String content = jsonObject.getString("comment");
+                        int ratingbar = jsonObject.getInt("rating");
+                        List<CommentReply> list = new ArrayList<>();
+                        JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                        if (jsonArray.length() != 0) {
+                            for (int j = 0; j < jsonArray.length(); j++) {
+                                JSONObject reply = jsonArray.getJSONObject(j);
+                                String reply_name = reply.getString("author_name");
+                                String reply_content = reply.getString("comment");
+                                String reply_time = reply.getString("create_date");
+                                CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                list.add(commentReply);
+                            }
+                        }
+                        Comments comments = new Comments(id, null, name, ratingbar, content, time,list);
                         mList.add(comments);
                     }
                 } catch (JSONException e) {
@@ -165,6 +352,7 @@ public class CommentActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.goods_comment_ptr);
+        mRadioGroup = (RadioGroup) findViewById(R.id.goods_comment_rg);
     }
 
     public void back(View view) {

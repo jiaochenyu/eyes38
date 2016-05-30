@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.eyes38.R;
@@ -20,7 +22,7 @@ import java.util.List;
 /**
  * Created by jqchen on 2016/5/17.
  */
-public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
     public static final int ITEM_TYPE_ONE = 1;
     public static final int ITEM_TYPE_TWO = 2;
     //数据源
@@ -28,11 +30,28 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     Context mContext;
     Home_ContentContentAdapter contentAdapter;
     Home_ContentnoneAdapter mContentnoneAdapter;
-
+    private OnMoreItemClickListener mOnItemClickListener = null;
+    LinearLayout mLinearLayout;
 
     public Home_ContentAdapter(Context mContext, List<HomeContent> mList) {
         this.mContext = mContext;
         this.mList = mList;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null){
+            mOnItemClickListener.onItemClick(v, (HomeContent) v.getTag());
+        }
+    }
+
+    //定义监听接口
+    public static interface OnMoreItemClickListener{
+
+        void onItemClick(View view, HomeContent hc);
+    }
+    public void setmOnItemClickListener(OnMoreItemClickListener listener){
+        this.mOnItemClickListener = listener;
     }
 
     //获取布局的类型种类，我用了两种
@@ -48,6 +67,8 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //绑定活动头部的视图
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_detal_head, parent, false);
             ItemOneViewHolder itemOneViewHolder = new ItemOneViewHolder(view);
+            mLinearLayout = (LinearLayout) view.findViewById(R.id.home_more);
+            mLinearLayout.setOnClickListener(this);
             return itemOneViewHolder;
         } else if (viewType == ITEM_TYPE_TWO) {
             //绑定活动的详细信息
@@ -68,6 +89,7 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //获得分类详细的内容，list集合
             List<HomeContentContent> list = mList.get((position - 1) / 2).getList();
             //初始化适配器
+            //判断是否有商品
             if (list.size() > 0) {
                 contentAdapter = new Home_ContentContentAdapter(list, mContext);
                 //新建布局管理器
@@ -87,11 +109,12 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 });
             } else {
-             mContentnoneAdapter = new Home_ContentnoneAdapter(list, mContext);
+                //没有商品的情况下,只需要传递一个
+                mContentnoneAdapter = new Home_ContentnoneAdapter(mContext);
                 //新建布局管理器
-                GridLayoutManager grid = new GridLayoutManager(mContext, 2);
+                LinearLayoutManager linear = new LinearLayoutManager(mContext);
                 //绑定布局器
-                two.mRecyclerView.setLayoutManager(grid);
+                two.mRecyclerView.setLayoutManager(linear);
                 //绑定适配器
                 two.mRecyclerView.setAdapter(mContentnoneAdapter);
             }
@@ -110,10 +133,13 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public class ItemOneViewHolder extends RecyclerView.ViewHolder {
         //头部专题的名字
         TextView mTextView;
+        LinearLayout mLinearLayout ;
 
         public ItemOneViewHolder(View itemView) {
             super(itemView);
             mTextView = (TextView) itemView.findViewById(R.id.zhuantiname);
+            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.home_more);
+
         }
     }
 

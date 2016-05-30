@@ -20,6 +20,9 @@
     <!--商品详情的标题-->
     <string name="goods_details_title">产品详情</string>
     <string name="goods_comment_title">商品评价</string>
+    <string name="goods_comment_reply">评价回复</string>
+    <string name="goods_comment_none">没有回复</string>
+    <string name="goods_comment_id">楼</string>
 
     <!--人民币字样-->
     <string name="rmb">￥</string>

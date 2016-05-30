@@ -9,7 +9,7 @@
               android:background="@drawable/event_content_border"
               android:layout_height="150dp">
     <ImageView
-        android:src="@drawable/android"
+        android:src="@drawable/defult"
         android:scaleType="fitXY"
         android:id="@+id/event_content_image"
         android:layout_width="70dp"

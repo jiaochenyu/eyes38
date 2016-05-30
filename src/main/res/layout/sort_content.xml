@@ -19,6 +19,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sort_content_recycler"
             android:layout_width="match_parent"
+            android:paddingTop="5dp"
             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
