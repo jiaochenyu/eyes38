@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.utils.CartDialog;
 import com.yolanda.nohttp.NoHttp;
@@ -43,6 +44,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     public static final int mWHAT = 385;
     public static final int DELETEFINISH = 386;  // 删除操作
     public static final int ADDFINISH = 387; // 加法操作
+    public static final int NOTIFILIST = 388; //购物车状态改变
+    private static final int CARTGOODSCOUNT = 308; // 通知mainactivity 改变徽章
     public static final int GET = 1; //GET 请求方式
     public static final int POST = 2; //POST 请求方式
     public static final int DELETE = 3;//DELETE 请求方式
@@ -54,9 +57,11 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private RequestQueue mRequestQueue; //请求队列
     private int position; // 删除位置
     private int cartGoodsCount;
-    MainActivity mMainActivity = new MainActivity();
+    Handler mainHandler = (new MainActivity()).mainHandler; // 向MainActivity传值 改变徽章
+    Handler goodDetailHandler = (new GoodDetailActivity()).goodDetailHandler; // 向GoodDetailActivity传值 改变徽章
     Handler mHandler;
-    Handler mainHandler = mMainActivity.mainHandler;
+
+    
     private Handler httpHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -238,6 +243,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //如果商品全部被选中，则全选按钮也被 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+            mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
         }
         //mHandler.sendMessage(mHandler.obtainMessage(2, getTotalPrice()));
         //如果商品全部被选中，则全选按钮也被 默认为选中
@@ -283,7 +289,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
     //CheckBox 选择改变监听器
     private class CheckBoxChangedListener implements CheckBox.OnCheckedChangeListener {
-
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position = (int) buttonView.getTag();
@@ -293,6 +298,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //如果商品全部被选中，则全选按钮也被 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+            mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
         }
     }
 
@@ -365,7 +371,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         } else {
             mList.get(getPosition()).setNum(mList.get(getPosition()).getNum() + 1);
             notifyDataSetChanged();
-            mainHandler.sendMessage(mainHandler.obtainMessage(308,getAllGoodsCount()));
+            mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount())); //改变徽章
+
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
 
         }
@@ -380,7 +387,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         mainHandler.sendMessage(mainHandler.obtainMessage(308,getAllGoodsCount()));
     }
 
-    // 统计购物车中的数量C
+    // 统计购物车中的数量
     private int getAllGoodsCount (){
         int count = 0;
         for (int i = 0; i < mList.size(); i++) {
@@ -388,6 +395,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         }
         return count;
     }
+
+    /*//查看 购物车中谁被选中了 */
 
 
     // 加法操作 请求网络

@@ -3,11 +3,15 @@ package com.example.eyes38.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,13 +20,34 @@ import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.CartBadgeView;
 
 public class GoodDetailActivity extends AppCompatActivity {
+    private static final int CARTGOODSCOUNT = 308;
     //数据源
     Goods goods;
-    ImageView goodsPicImageView,goodsTxtPicImageView;
-    TextView goodsUnitTextView,goodsStockTextView,goodsRemarkTextView,goodsCommentCountTextView;
+    ImageView goodsPicImageView, goodsTxtPicImageView;
+    TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
     LinearLayout linearLayout;
     ImageView backImageView;
+    CartBadgeView mCartBadgeView;  //购物车图标徽章
     Button mButton;
+    RadioGroup mRadioGroup; //
+    RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
+
+    public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case CARTGOODSCOUNT:
+                    if (((Integer) msg.obj) != 0) {
+                        mCartBadgeView.setText(msg.obj + "");
+                        mCartBadgeView.show();
+                    } else {
+                        mCartBadgeView.hide();
+                    }
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,16 +61,15 @@ public class GoodDetailActivity extends AppCompatActivity {
 
     private void setCartBadgeView() {
         //CartBadgeView这是购物车上的徽章
-        CartBadgeView mCartBadgeView = new CartBadgeView(GoodDetailActivity.this,mButton);
+        mCartBadgeView = new CartBadgeView(GoodDetailActivity.this, mButton);
         //mCartBadgeView.setBackgroundResource(R.drawable.badge_ifaux);
-        mCartBadgeView.setText("1");
         mCartBadgeView.setTextColor(Color.WHITE);
         mCartBadgeView.setTextSize(12);
         //mCartBadgeView.setBadgeMargin(30,30);
         mCartBadgeView.setBadgeMargin(5);//各个边的边隔
         mCartBadgeView.setBadgeBackgroundColor(this.getResources().getColor(R.color.topical));
         mCartBadgeView.setBadgePosition(CartBadgeView.POSITION_TOP_RIGHT);
-        mCartBadgeView.show();
+
     }
 
     private void initListener() {
@@ -53,7 +77,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GoodDetailActivity.this,CommentActivity.class);
+                Intent intent = new Intent(GoodDetailActivity.this, CommentActivity.class);
                 startActivity(intent);
             }
         });
@@ -64,15 +88,22 @@ public class GoodDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        MyOnClickLisenter myOnClickLisenter = new MyOnClickLisenter();
+
+        //购物车
+        mCartButton.setOnClickListener(myOnClickLisenter);
+
     }
 
     private void setViewToData() {
         //将数据写入各个控件
         Glide.with(this).load(goods.getPath()).into(goodsPicImageView);
-        goodsUnitTextView.setText(goods.getGoods_platform_price()+goods.getGoods_unit());
-        goodsStockTextView.setText(goods.getGoods_stock()+"");
+        goodsUnitTextView.setText(goods.getGoods_platform_price() + goods.getGoods_unit());
+        goodsStockTextView.setText(goods.getGoods_stock() + "");
         goodsRemarkTextView.setText(goods.getGoods_remark());
-        goodsCommentCountTextView.setText(goods.getGoods_comment_count()+"");
+        goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
         Glide.with(this).load(goods.getGoods_specification()).into(goodsTxtPicImageView);
     }
 
@@ -101,5 +132,35 @@ public class GoodDetailActivity extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.goods_comment_layout);
         backImageView = (ImageView) findViewById(R.id.goods_detail_back);
         mButton = (Button) findViewById(R.id.goods_detail_carbutton);
+        mConsultButton = (RadioButton) findViewById(R.id.goods_detail_radio_consult);
+        mRadioGroup = (RadioGroup) findViewById(R.id.goods_detail_radiogroup); //
+        mCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_cart); //购物车
+        mBuynowButton = (RadioButton) findViewById(R.id.goods_detail_radio_buynow); // 立即购买
+        mAddCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_addcart); // 加入购物车
+
+    }
+
+    class MyOnClickLisenter implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            int i = v.getId();
+            switch (i) {
+                case R.id.goods_detail_radio_consult:
+                    //联系我
+                    break;
+                case R.id.goods_detail_radio_cart:
+                    //跳转到购物车
+                    Intent intent = new Intent(GoodDetailActivity.this, CartActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.goods_detail_radio_buynow:
+                    //立即购买
+                    break;
+                case R.id.goods_detail_radio_addcart:
+                    //加入购物车
+                    break;
+            }
+        }
     }
 }

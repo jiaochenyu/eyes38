@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.eyes38">
+          package="com.example.eyes38">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".Application.Application"
@@ -13,13 +13,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <!-- user -->
+<<<<<<< HEAD
         <activity android:name=".user_activity.User_phone_setActivity" />
         <activity android:name=".user_activity.User_message_setActivity" />
         <activity android:name=".user_activity.User_personal_centerActivity" />
@@ -42,6 +43,33 @@
         <activity android:name=".EventActivity.EventActivity" />
         <activity android:name=".activity.CommentReplyActivity" />
         <activity android:name=".activity.UserRegisterDetailActivity" android:windowSoftInputMode="adjustPan"></activity>
+=======
+
+        <activity android:name=".user_activity.User_phone_setActivity"/>
+        <activity android:name=".user_activity.User_message_setActivity"/>
+        <activity android:name=".user_activity.User_personal_centerActivity"/>
+        <activity android:name=".user_activity.User_orderActivity"/>
+        <activity android:name=".user_activity.User_take_addressActivity"/>
+        <activity android:name=".user_activity.Update_user_passwordActivity"/>
+        <activity android:name=".user_activity.User_BindPhoneActivity"/>
+        <activity android:name=".user_activity.User_loginActivity"/>
+        <activity android:name=".user_activity.User_creditsActivity"/>
+        <activity android:name=".user_activity.User_backgoodActivity"/>
+        <activity android:name=".user_activity.User_findpasswordActivity"/>
+        <activity android:name=".user_activity.User_findpassword2Activity"/>
+        <activity android:name=".user_activity.User_find_password3Activity"/>
+        <activity android:name=".user_activity.User_registerActivity"/>
+        <activity android:name=".activity.SortMenuActivity"/>
+        <activity android:name=".activity.GoodDetailActivity"/>
+        <activity android:name=".activity.CommentActivity"/>
+        <activity android:name=".user_activity.AddressInfo.User_addAddressActivity"/>
+        <activity android:name=".activity.home.HomexptjActivity"/>
+        <activity android:name=".EventActivity.EventActivity"/>
+        <activity android:name=".activity.PayActivity"/>
+        <activity android:name=".activity.CommentReplyActivity"/>
+        <activity android:name=".activity.CartActivity">
+        </activity>
+>>>>>>> 2eaa0a107fe41d3551a7a92c2514d57fc0f12da0
     </application>
 
 </manifest>

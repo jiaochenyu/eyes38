@@ -1,11 +1,12 @@
 package com.example.eyes38.beans;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
 /**
  * Created by jqchen on 2016/5/19.
  */
-public class CartGoods {
+public class CartGoods implements Serializable{
     private String path; //商品图片
     private String title; // 商品标题 名称
     private double price; // 商品价格
