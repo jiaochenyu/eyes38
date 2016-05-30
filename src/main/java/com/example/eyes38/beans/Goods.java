@@ -20,6 +20,7 @@ public class Goods implements Serializable {
     private int goods_comment_count;
     private int goods_stock;
 
+
     public Goods(int goods_id, String goods_name, String path, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
 
 

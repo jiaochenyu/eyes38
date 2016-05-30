@@ -23,6 +23,21 @@
     <string name="goods_comment_reply">评价回复</string>
     <string name="goods_comment_none">没有回复</string>
     <string name="goods_comment_id">楼</string>
+    <string name="user_register_detail_title">设置登录密码</string>
+    <string name="user_register_detail_validatecode">验证短信已发送至</string>
+    <string name="user_register_detail_validatecodeagin">获取验证码</string>
+    <string name="user_register_detail_validatecodeagin_hint">验证码</string>
+    <string name="user_register_detail_inputpassword">请输入密码</string>
+    <string name="user_register_detail_confirmpassword">确认密码</string>
+    <string name="user_register_detail_plot">所属小区</string>
+    <string name="user_register_detail_plot_detail">请输入小区名</string>
+    <string name="user_register_detail_consignee">收货人</string>
+    <string name="user_register_detail_consignee_hint">收货人的姓名</string>
+    <string name="user_register_detail_telnum">手机号码</string>
+    <string name="user_register_detail_telnum_hint">11位手机号码</string>
+    <string name="user_register_detail_address">详细地址</string>
+    <string name="user_register_detail_address_hint">详细地址</string>
+    <string name="user_register_detail_register">立即注册</string>
 
     <!--人民币字样-->
     <string name="rmb">￥</string>

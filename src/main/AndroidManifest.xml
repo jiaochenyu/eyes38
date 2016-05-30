@@ -20,27 +20,28 @@
         </activity>
 
         <!-- user -->
-        <activity android:name=".user_activity.User_phone_setActivity"></activity>
-        <activity android:name=".user_activity.User_message_setActivity"></activity>
-        <activity android:name=".user_activity.User_personal_centerActivity"></activity>
-        <activity android:name=".user_activity.User_orderActivity"></activity>
-        <activity android:name=".user_activity.User_take_addressActivity"></activity>
-        <activity android:name=".user_activity.Update_user_passwordActivity"></activity>
-        <activity android:name=".user_activity.User_BindPhoneActivity"></activity>
-        <activity android:name=".user_activity.User_loginActivity"></activity>
-        <activity android:name=".user_activity.User_creditsActivity"></activity>
-        <activity android:name=".user_activity.User_backgoodActivity"></activity>
-        <activity android:name=".user_activity.User_findpasswordActivity"></activity>
-        <activity android:name=".user_activity.User_findpassword2Activity"></activity>
-        <activity android:name=".user_activity.User_find_password3Activity"></activity>
-        <activity android:name=".user_activity.User_registerActivity"></activity>
+        <activity android:name=".user_activity.User_phone_setActivity" />
+        <activity android:name=".user_activity.User_message_setActivity" />
+        <activity android:name=".user_activity.User_personal_centerActivity" />
+        <activity android:name=".user_activity.User_orderActivity" />
+        <activity android:name=".user_activity.User_take_addressActivity" />
+        <activity android:name=".user_activity.Update_user_passwordActivity" />
+        <activity android:name=".user_activity.User_BindPhoneActivity" />
+        <activity android:name=".user_activity.User_loginActivity" />
+        <activity android:name=".user_activity.User_creditsActivity" />
+        <activity android:name=".user_activity.User_backgoodActivity" />
+        <activity android:name=".user_activity.User_findpasswordActivity" />
+        <activity android:name=".user_activity.User_findpassword2Activity" />
+        <activity android:name=".user_activity.User_find_password3Activity" />
+        <activity android:name=".user_activity.User_registerActivity" />
         <activity android:name=".activity.SortMenuActivity" />
         <activity android:name=".activity.GoodDetailActivity" />
         <activity android:name=".activity.CommentActivity" />
-        <activity android:name=".user_activity.AddressInfo.User_addAddressActivity"></activity>
-        <activity android:name=".activity.home.HomexptjActivity"></activity>
+        <activity android:name=".user_activity.AddressInfo.User_addAddressActivity" />
+        <activity android:name=".activity.home.HomexptjActivity" />
         <activity android:name=".EventActivity.EventActivity" />
-        <activity android:name=".activity.CommentReplyActivity"></activity>
+        <activity android:name=".activity.CommentReplyActivity" />
+        <activity android:name=".activity.UserRegisterDetailActivity" android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

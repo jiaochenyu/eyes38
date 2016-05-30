@@ -10,6 +10,7 @@ import android.view.View;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.CommentReplyAdapter;
 import com.example.eyes38.beans.CommentReply;
+import com.example.eyes38.utils.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class CommentReplyActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
+        //如果没有评论，显示评论为空的界面
         if (mList.size() == 0){
             setContentView(R.layout.comment_reply_none);
         }else {
@@ -42,6 +44,8 @@ public class CommentReplyActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.comment_reply_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+        //添加分割线
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
 
     private void getData() {

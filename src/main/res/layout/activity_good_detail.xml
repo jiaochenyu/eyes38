@@ -163,7 +163,7 @@
 
             <RadioButton
                 style="@style/goods_detail_radio_car"
-                android:drawableTop="@drawable/ion_cart" />
+                android:drawableTop="@drawable/goods_detail_cart" />
 
             <RadioButton style="@style/goods_detail_radio_buynow" />
 

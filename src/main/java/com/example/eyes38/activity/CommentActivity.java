@@ -350,6 +350,7 @@ public class CommentActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.goods_comment_recycler);
         linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        //添加分割线
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.goods_comment_ptr);
         mRadioGroup = (RadioGroup) findViewById(R.id.goods_comment_rg);
