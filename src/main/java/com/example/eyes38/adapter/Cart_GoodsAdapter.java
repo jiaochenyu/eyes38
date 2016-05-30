@@ -43,6 +43,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     public static final int mWHAT = 385;
     public static final int DELETEFINISH = 386;  // 删除操作
     public static final int ADDFINISH = 387; // 加法操作
+    public static final int NOTIFILIST = 388; //购物车状态改变
     public static final int GET = 1; //GET 请求方式
     public static final int POST = 2; //POST 请求方式
     public static final int DELETE = 3;//DELETE 请求方式
@@ -238,6 +239,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //如果商品全部被选中，则全选按钮也被 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+            mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
         }
         //mHandler.sendMessage(mHandler.obtainMessage(2, getTotalPrice()));
         //如果商品全部被选中，则全选按钮也被 默认为选中
@@ -283,7 +285,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
     //CheckBox 选择改变监听器
     private class CheckBoxChangedListener implements CheckBox.OnCheckedChangeListener {
-
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position = (int) buttonView.getTag();
@@ -293,6 +294,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //如果商品全部被选中，则全选按钮也被 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+            mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
         }
     }
 
@@ -380,7 +382,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         mainHandler.sendMessage(mainHandler.obtainMessage(308,getAllGoodsCount()));
     }
 
-    // 统计购物车中的数量C
+    // 统计购物车中的数量
     private int getAllGoodsCount (){
         int count = 0;
         for (int i = 0; i < mList.size(); i++) {
@@ -388,6 +390,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         }
         return count;
     }
+
+    /*//查看 购物车中谁被选中了 */
 
 
     // 加法操作 请求网络

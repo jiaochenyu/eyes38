@@ -1,5 +1,6 @@
 package com.example.eyes38.fragment.cart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+import com.example.eyes38.activity.PayActivity;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
@@ -31,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +46,9 @@ public class CartGoodsList extends Fragment {
     private final static int mFINFISH = 382; // 数据加载完成
     private View mView;
     MainActivity mMainActivity;
+    Toast mToast; // 吐司优化
     private List<CartGoods> mList;
+    private List<CartGoods> payList;  // 选中商品
     private RecyclerView mRecyclerView;
     private TextView mCountTopTextView;  // n件商品有包邮优惠
     private TextView mDeleteOperationTV;// 编辑删除操作
@@ -57,6 +63,7 @@ public class CartGoodsList extends Fragment {
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     CartFragment mCartFragment = new CartFragment();
+
 
     //Handler
     Handler mmHandler = new Handler() {
@@ -81,6 +88,10 @@ public class CartGoodsList extends Fragment {
                     //记录是否被全选
                     allChecked = !(Boolean) msg.obj;
                     mCheckBoxAll.setChecked((Boolean) msg.obj);
+                    break;
+                case Cart_GoodsAdapter.NOTIFILIST:
+                    //通知改变了选中状态
+                    payList = (List<CartGoods>) msg.obj;
                     break;
 
             }
@@ -115,6 +126,7 @@ public class CartGoodsList extends Fragment {
 
     private void initData() {
         mList = new ArrayList<>();
+        payList = new ArrayList<CartGoods>();
     }
 
     private void initListener() {
@@ -128,6 +140,7 @@ public class CartGoodsList extends Fragment {
         ClickListener mClickListener = new ClickListener();
         mCheckBoxAll.setOnClickListener(mClickListener);
         mDeleteOperationTV.setOnClickListener(mClickListener);
+        mJiesuanTV.setOnClickListener(mClickListener);
 
     }
 
@@ -150,6 +163,7 @@ public class CartGoodsList extends Fragment {
         public void onStart(int what) {
 
         }
+
         @Override
         public void onSucceed(int what, Response<String> response) {
             if (what == mWhat) {
@@ -170,6 +184,7 @@ public class CartGoodsList extends Fragment {
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
         }
+
         @Override
         public void onFinish(int what) {
             //请求结束。 通知初始化 适配器
@@ -195,10 +210,13 @@ public class CartGoodsList extends Fragment {
                     break;
                 case R.id.jiesuanButton:
                     //结算购物车
+                    goPay();
+
                     break;
             }
         }
     }
+
 
     private void showDelete() {
         // 将删除按钮显示出来
@@ -216,6 +234,28 @@ public class CartGoodsList extends Fragment {
             mList.get(i).setSelected(allChecked);
         }
         mCart_goodsAdapter.notifyDataSetChanged();
+    }
+
+    //******* 去结算 ************
+    private void goPay() {
+        //先去判断哪些商品被选中了 然后给PayActivity传一个list
+        CartGoods payGoods = new CartGoods();
+        List<CartGoods> mmList = new ArrayList<>();
+        for (int i = 0; i < payList.size(); i++) {
+            if (payList.get(i).isSelected()) {
+                payGoods = payList.get(i);
+                mmList.add(payGoods);
+            }
+        }
+        if (mmList.size() == 0) {
+            showToast("没有选中商品");
+        } else {
+            Intent mIntent = new Intent(mMainActivity, PayActivity.class);
+            /*Bundle bundle = new Bundle();
+            bundle.putSerializable("list", (Serializable) mmlist);*/
+            mIntent.putExtra("list", (Serializable) mmList);
+            startActivity(mIntent);
+        }
     }
 
     //json 解析
@@ -275,4 +315,15 @@ public class CartGoodsList extends Fragment {
             e.printStackTrace();
         }
     }
+
+    //显示吐司
+    private void showToast(String text) {
+        if (mToast == null) {
+            mToast = Toast.makeText(mMainActivity, text, Toast.LENGTH_SHORT);
+        } else {
+            mToast.setText(text);
+        }
+        mToast.show();
+    }
+
 }

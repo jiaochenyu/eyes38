@@ -56,7 +56,7 @@
         <activity android:name=".activity.home.HomexptjActivity">
         </activity>
         <activity android:name=".EventActivity.EventActivity"/>
-
+        <activity android:name=".activity.PayActivity"/>
 
     </application>
 

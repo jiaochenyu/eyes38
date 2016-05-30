@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cart_item_bottom_border"
+                android:paddingBottom="15dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp">
+
+
+    <ImageView
+        android:id="@+id/goodspicture"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@+id/linear_checkbox"
+        android:background="@drawable/cart_addsub_border"
+        android:src="@drawable/p1"/>
+
+    <TextView
+        android:id="@+id/goodstitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/goodspicture"
+        android:textColor="#373737"
+        android:text="哈密瓜哈密瓜哈密瓜哈密瓜哈密"
+        />
+    <TextView
+        android:id="@+id/dingdanleixing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/goodstitle"
+        android:layout_alignBottom="@+id/goodspicture"
+        android:textColor="#999999"
+        android:text="订单类型 : "/>
+    <TextView
+        android:id="@+id/ordertype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dingdanleixing"
+        android:layout_alignBottom="@+id/goodspicture"
+        android:textColor="#999999"
+        android:text="当日订单"/>
+
+
+
+    <TextView
+        android:id="@+id/pay_list_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="00.01"
+        android:textColor="@color/topical"/>
+
+    <TextView
+        android:id="@+id/rmb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pay_list_price"
+        android:text="¥"
+        android:textColor="@color/topical"/>
+
+
+
+    <TextView
+        android:id="@+id/goodsNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/pay_list_price"
+        android:text="2"
+        android:textColor="@color/text"/>
+
+    <TextView
+        android:id="@+id/fuhao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/goodsNum"
+        android:layout_alignBottom="@id/goodsNum"
+        android:text="x"
+        android:textColor="@color/text"/>
+</RelativeLayout>
