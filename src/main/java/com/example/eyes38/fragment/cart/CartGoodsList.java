@@ -44,8 +44,8 @@ import java.util.List;
 public class CartGoodsList extends Fragment {
     private final static int mWhat = 381; //请求成功
     private final static int mFINFISH = 382; // 数据加载完成
+    private static final int CARTGOODSCOUNT = 308; // 通知mainactivity 改变徽章
     private View mView;
-    MainActivity mMainActivity;
     Toast mToast; // 吐司优化
     private List<CartGoods> mList;
     private List<CartGoods> payList;  // 选中商品
@@ -62,6 +62,7 @@ public class CartGoodsList extends Fragment {
     //采用 NoHttp
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
+    Handler mainHandler = (new MainActivity()).mainHandler;
     CartFragment mCartFragment = new CartFragment();
 
 
@@ -73,9 +74,10 @@ public class CartGoodsList extends Fragment {
             switch (msg.what) {
                 case mFINFISH:
                     //加载数据完成
-                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mmHandler);
+                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, getActivity(), mmHandler);
                     mRecyclerView.setAdapter(mCart_goodsAdapter);
                     mCart_goodsAdapter.notifyDataSetChanged();
+                    mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,mList.size()));  //通知改变徽章
                     initListener();
                     break;
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
@@ -103,7 +105,6 @@ public class CartGoodsList extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mMainActivity = (MainActivity) getActivity();
         mView = inflater.inflate(R.layout.cart_goods, null);
         initViews();
         initData();
@@ -250,7 +251,7 @@ public class CartGoodsList extends Fragment {
         if (mmList.size() == 0) {
             showToast("没有选中商品");
         } else {
-            Intent mIntent = new Intent(mMainActivity, PayActivity.class);
+            Intent mIntent = new Intent(getActivity(), PayActivity.class);
             /*Bundle bundle = new Bundle();
             bundle.putSerializable("list", (Serializable) mmlist);*/
             mIntent.putExtra("list", (Serializable) mmList);
@@ -319,7 +320,7 @@ public class CartGoodsList extends Fragment {
     //显示吐司
     private void showToast(String text) {
         if (mToast == null) {
-            mToast = Toast.makeText(mMainActivity, text, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
         } else {
             mToast.setText(text);
         }

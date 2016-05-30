@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 
 /**
@@ -15,11 +14,11 @@ import com.example.eyes38.R;
  */
 public class CartEmptyView extends Fragment {
     private View mView;
-    MainActivity mMainActivity;
+    //MainActivity mMainActivity;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mMainActivity = (MainActivity) getActivity();
+       // mMainActivity = (MainActivity) getActivity();
         mView = inflater.inflate(R.layout.cart_empty,null);
         initViews();
         initListener();
@@ -29,7 +28,6 @@ public class CartEmptyView extends Fragment {
 
     private void initViews() {
     }
-
     private void initListener() {
     }
 }

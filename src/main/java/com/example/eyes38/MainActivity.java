@@ -23,6 +23,7 @@ import com.example.eyes38.utils.CartBadgeView;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final int CARTGOODSCOUNT = 308;
     private SharedPreferences sp;
     private static final int HOME = 1;
     private static final int SORT = 2;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case 308:
+                case CARTGOODSCOUNT:
                     if (((Integer) msg.obj) != 0) {
                         Log.e("购物车传值", msg.obj + "");
                         mCartBadgeView.setText(msg.obj + "");
