@@ -63,7 +63,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             super.handleMessage(msg);
             switch (msg.what) {
                 case DELETEFINISH:
-                    if (msg.obj == true) {
+                    if ((Boolean) msg.obj == true) {
                         // 进行删除操作
                         deleteMethod();
                     } else {
@@ -72,7 +72,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     break;
                 case ADDFINISH:
                     //加法操作
-                    if (msg.obj == true) {
+                    if ((Boolean)msg.obj == true) {
                         // 进行加法操作
                         addMethod();
                     } else {
