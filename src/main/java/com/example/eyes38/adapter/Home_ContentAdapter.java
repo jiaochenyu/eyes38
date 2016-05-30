@@ -2,7 +2,6 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.example.eyes38.EventActivity.EventActivity;
 import com.example.eyes38.R;
-import com.example.eyes38.activity.SortMenuActivity;
+import com.example.eyes38.activity.home.HomezhuantiActivity;
 import com.example.eyes38.beans.HomeContent;
 import com.example.eyes38.beans.HomeContentContent;
 
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * Created by jqchen on 2016/5/17.
  */
-public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
+public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     public static final int ITEM_TYPE_ONE = 1;
     public static final int ITEM_TYPE_TWO = 2;
     //数据源
@@ -30,8 +29,10 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     Context mContext;
     Home_ContentContentAdapter contentAdapter;
     Home_ContentnoneAdapter mContentnoneAdapter;
+    Home_Head_item_Adapter mHome_headAdapter;
     private OnMoreItemClickListener mOnItemClickListener = null;
     LinearLayout mLinearLayout;
+    String name;
 
     public Home_ContentAdapter(Context mContext, List<HomeContent> mList) {
         this.mContext = mContext;
@@ -40,17 +41,18 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onClick(View v) {
-        if (mOnItemClickListener != null){
+        if (mOnItemClickListener != null) {
             mOnItemClickListener.onItemClick(v, (HomeContent) v.getTag());
         }
     }
 
     //定义监听接口
-    public static interface OnMoreItemClickListener{
+    public static interface OnMoreItemClickListener {
 
         void onItemClick(View view, HomeContent hc);
     }
-    public void setmOnItemClickListener(OnMoreItemClickListener listener){
+
+    public void setmOnItemClickListener(OnMoreItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
 
@@ -67,8 +69,6 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //绑定活动头部的视图
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_detal_head, parent, false);
             ItemOneViewHolder itemOneViewHolder = new ItemOneViewHolder(view);
-            mLinearLayout = (LinearLayout) view.findViewById(R.id.home_more);
-            mLinearLayout.setOnClickListener(this);
             return itemOneViewHolder;
         } else if (viewType == ITEM_TYPE_TWO) {
             //绑定活动的详细信息
@@ -83,7 +83,26 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemOneViewHolder) {
             ItemOneViewHolder one = (ItemOneViewHolder) holder;
-            one.mTextView.setText(mList.get(position / 2).getName());
+            //获取专题的名字,数据源
+            name = mList.get(position / 2).getName();
+            mHome_headAdapter = new Home_Head_item_Adapter(name, mContext);
+            one.mheadRecyclView.setLayoutManager(new LinearLayoutManager(mContext));
+            one.mheadRecyclView.setAdapter(mHome_headAdapter);
+            mHome_headAdapter.setOnMoreClickListener(new Home_Head_item_Adapter.OnMoreClickListener() {
+                @Override
+                public void onItemClick(View view, String homeContent) {
+                    if (homeContent.equals("一周菜谱")) {
+                        Intent intent = new Intent(mContext, EventActivity.class);
+                        mContext.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mContext, HomezhuantiActivity.class);
+                        intent.putExtra("value", name);
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
+
+
         } else if (holder instanceof ItemTwoViewHolder) {
             ItemTwoViewHolder two = (ItemTwoViewHolder) holder;
             //获得分类详细的内容，list集合
@@ -101,10 +120,10 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 contentAdapter.setmOnItemClickListener(new Home_ContentContentAdapter.OnRecyclerViewItemClickListener() {
                     @Override
                     public void onItemClick(View view, HomeContentContent hcc) {
-                        Intent intent = new Intent(mContext, SortMenuActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("values", hcc);
-                        intent.putExtra("values", bundle);
+                        Intent intent = new Intent(mContext, HomezhuantiActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("values", hcc);
+//                        intent.putExtra("values", bundle);
                         mContext.startActivity(intent);
                     }
                 });
@@ -117,9 +136,11 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 two.mRecyclerView.setLayoutManager(linear);
                 //绑定适配器
                 two.mRecyclerView.setAdapter(mContentnoneAdapter);
+
             }
 
             //对适配器进行监听单击事件
+
 
         }
     }
@@ -131,14 +152,12 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     public class ItemOneViewHolder extends RecyclerView.ViewHolder {
-        //头部专题的名字
-        TextView mTextView;
-        LinearLayout mLinearLayout ;
+        //头部专题的布局
+        RecyclerView mheadRecyclView;
 
         public ItemOneViewHolder(View itemView) {
             super(itemView);
-            mTextView = (TextView) itemView.findViewById(R.id.zhuantiname);
-            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.home_more);
+            mheadRecyclView = (RecyclerView) itemView.findViewById(R.id.home_zhuanti_head);
 
         }
     }
