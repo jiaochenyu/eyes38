@@ -22,7 +22,6 @@ import com.example.eyes38.activity.PayActivity;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
-import com.example.eyes38.fragment.CartFragment;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -62,9 +61,8 @@ public class CartGoodsList extends Fragment {
     //采用 NoHttp
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
-    Handler mainHandler = (new MainActivity()).mainHandler;
-    CartFragment mCartFragment = new CartFragment();
-
+    Handler mainHandler = (new MainActivity()).mainHandler; //改变主页面的图标
+    //Handler goodDetailHandler = (new GoodDetailActivity()).goodDetailHandler;// 改变购物商品详情的购物车徽章
 
     //Handler
     Handler mmHandler = new Handler() {

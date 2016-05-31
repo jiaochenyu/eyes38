@@ -79,7 +79,6 @@ public class CommentActivity extends AppCompatActivity {
                         ptrFrame.refreshComplete();
                     }
                 }, 1800);
-
             }
         });
         //导航栏
