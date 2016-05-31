@@ -1,21 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:orientation="vertical"
-    android:gravity="center">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/home_content_content_image"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        android:src="@drawable/defult" />
+        android:id="@+id/home_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:id="@+id/home_content_content_textview"
+        android:id="@+id/home_sort_item_nametextview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"/>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/home_imageview"
+        android:text="苹果" />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@id/home_sort_item_nametextview"
+    >
 
+    <TextView
+        android:id="@+id/home_sort_item_remark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/goods_detail_addcar"
+        android:textSize="18sp"
+        android:layout_below="@id/home_sort_item_nametextview"
+        android:text="￥" />
+
+    <TextView
+        android:id="@+id/home_sort_item_pricetextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/goods_detail_addcar"
+        android:layout_toRightOf="@id/home_sort_item_remark"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/home_sort_item_nametextview"
+        android:textSize="18sp"
+        android:text="3.4" />
 </LinearLayout>
+
+
+</RelativeLayout>

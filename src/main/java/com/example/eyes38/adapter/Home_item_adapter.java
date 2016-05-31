@@ -26,7 +26,7 @@ public Home_item_adapter(List<HomeGrid> datas, Context context) {
 //创建新View，被LayoutManager所调用
 @Override
 public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_item,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_detal_head_item,viewGroup,false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
         }

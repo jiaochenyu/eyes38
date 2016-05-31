@@ -72,7 +72,7 @@ public class HomeSpinnerView implements AdapterView.OnItemSelectedListener {
         // 3:adapter设置一个下拉列表样式
         apapter.setDropDownViewResource(R.layout.home_spinner_item);
         mSpinner.setDropDownHorizontalOffset(200);
-        mSpinner.setDropDownVerticalOffset(height / 21);
+        mSpinner.setDropDownVerticalOffset(height);
         //  4:spinner加载适配器
         mSpinner.setAdapter(apapter);
     }

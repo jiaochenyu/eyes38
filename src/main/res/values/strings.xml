@@ -44,4 +44,11 @@
     <!--库存-->
     <string name="goods_stock">库存:</string>
 
+    <string-array name="search_spinner">
+        <item>水果</item>
+        <item>鲜肉</item>
+        <item>水产</item>
+        <item>蔬菜</item>
+    </string-array>
+
 </resources>

@@ -1,6 +1,5 @@
 package com.example.eyes38.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,13 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -24,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.home.HomexptjActivity;
+import com.example.eyes38.activity.home.HomezhuantiActivity;
 import com.example.eyes38.adapter.Home_ContentAdapter;
 import com.example.eyes38.adapter.Home_ad_adapter;
 import com.example.eyes38.beans.HomeContent;
@@ -31,6 +30,7 @@ import com.example.eyes38.beans.HomeContentContent;
 import com.example.eyes38.beans.HomeFourSort;
 import com.example.eyes38.fragment.home.HomeRecycleView;
 import com.example.eyes38.fragment.home.HomeSpinnerView;
+import com.example.eyes38.fragment.search.SearchActivity;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -44,6 +44,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -62,7 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     Spinner mSpinner;
     //封装的spinner的实现类
     HomeSpinnerView mHomeSpinnerView;
-
+    ImageView home_fangdajing;
     ImageView home_xptjgengduo;
     ImageView home_yzcpgengduo;
     private int mWhat = 123;
@@ -80,6 +82,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     ImageView mImageView;
     int height;
+    RelativeLayout mRelativeLayout;
     private RequestQueue mRequestQueue;
 
 
@@ -92,6 +95,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView home_sort2text;
     private TextView home_sort3text;
     private TextView home_sort4text;
+    private Timer timer;
 
 
     @Nullable
@@ -106,12 +110,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/home-category/list", mhomecategoryOnResponseListener);
         //获取recycleView的数据并实现
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mOnRecycleResponseListener);
-        //计算屏幕的尺寸
+        //计算屏幕的尺寸并初始化spinner
         caculate();
-        //初始化spinner并实现
-        mHomeSpinnerView = new HomeSpinnerView(mMainActivity, mSpinner, height);
-        mHomeSpinnerView.startspinner();
-   //     setonClick();
         return view;
     }
 
@@ -331,10 +331,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hcAdapter.setmOnItemClickListener(new Home_ContentAdapter.OnMoreItemClickListener() {
             @Override
             public void onItemClick(View view, HomeContent hc) {
-                for (int i=0;i<mrecycleList.size();i++){
-                Log.e("看看mre里有什么",mrecycleList.get(i).getName());}
-                Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
-                startActivity(intent);
+                if (hc.getName().equals("一周菜谱")){
+                    Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
+                    startActivity(intent);
+                Log.e("看看hc里有什么",hc.getName());
+                }
+                else{
+                    Intent intent = new Intent(mMainActivity, HomezhuantiActivity.class);
+                    intent.putExtra("zhuantiname",hc.getName());
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -375,14 +381,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     };
 
 
-
     //初始化视图
     private void initView() {
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         mSpinner = (Spinner) view.findViewById(R.id.home_spinner);
         mImageView = (ImageView) view.findViewById(R.id.home_jisuan);
-        // home_xptjgengduo = (ImageView) view.findViewById(R.id.home_xptjgengduo);
+        home_fangdajing= (ImageView) view.findViewById(R.id.home_fangdajing);
+        home_fangdajing.setOnClickListener(this);
+        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.cartitle);
         home_yzcpgengduo = (ImageView) view.findViewById(R.id.home_yzcpgengduo);
         home_sort1image = (ImageView) view.findViewById(R.id.home_sort1image);
         home_sort1text = (TextView) view.findViewById(R.id.home_sort1text);
@@ -400,18 +407,46 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void caculate() {
-        WindowManager manager = (WindowManager) mMainActivity.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(dm);
-        int width2 = dm.widthPixels;
-        height = dm.heightPixels;
+        final Handler myHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 1) {
+                    if (mRelativeLayout.getWidth() != 0) {
+                        Log.i("LinearLayoutW", mRelativeLayout.getWidth() + "");
+                        Log.i("LinearLayoutH", mRelativeLayout.getHeight() + "");
+                        //取消定时器
+                        timer.cancel();
+                        height = mRelativeLayout.getHeight();
+                        if (height!=0){
+                            mHomeSpinnerView = new HomeSpinnerView(mMainActivity, mSpinner, height);
+                            mHomeSpinnerView.startspinner();
+                        }
+                    }
+                }
+            }
+        };
+
+        timer = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                Message message = new Message();
+                message.what = 1;
+                myHandler.sendMessage(message);
+            }
+        };
+        //延迟每次延迟10 毫秒 隔1秒执行一次
+        timer.schedule(task, 10, 1000);
+
     }
 
     @Override
     public void onClick(View v) {
         int buttonid = v.getId();
         switch (buttonid) {
-
+            case R.id.home_fangdajing:
+                Intent intent=new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

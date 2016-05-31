@@ -166,8 +166,8 @@
             <RadioButton
                 android:id="@+id/goods_detail_radio_cart"
                 style="@style/goods_detail_radio_car"
-
                 android:drawableTop="@drawable/goods_detail_cart" />
+
 
 
 

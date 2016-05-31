@@ -1,11 +1,12 @@
 package com.example.eyes38.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by huangjiechun on 16/5/26.
  */
-public class HomeContent {
+public class HomeContent implements Serializable{
 
     private String name;
     private List<HomeContentContent> mList;

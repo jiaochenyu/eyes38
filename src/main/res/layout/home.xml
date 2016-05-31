@@ -13,7 +13,7 @@
         <Spinner
             android:id="@+id/home_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:dropDownHorizontalOffset="500dp"
             android:dropDownVerticalOffset="50dp"
             android:layout_marginLeft="5dp"
