@@ -45,6 +45,7 @@ public class ContentFragment extends Fragment {
     View mView;
     List<SortContent> mList;
     Sort_ContentAdapter scAdapter;
+    LinearLayoutManager linear;
     //下拉刷新控件
 
     //测试获取json数据
@@ -67,10 +68,11 @@ public class ContentFragment extends Fragment {
     }
 
     private void initListener() {
+        //自定义下拉刷新动画
         LoadMoreFooterView header = new LoadMoreFooterView(mView.getContext());
         ptrFrame.setHeaderView(header);
         ptrFrame.addPtrUIHandler(header);
-        //刷新
+        //上拉刷新
         ptrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -88,7 +90,9 @@ public class ContentFragment extends Fragment {
 
             }
         });
+
     }
+
 
     Handler handler = new Handler(){
         @Override
@@ -232,7 +236,7 @@ public class ContentFragment extends Fragment {
 
     private void initView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.sort_content_recycler);
-        LinearLayoutManager linear = new LinearLayoutManager(getContext());
+        linear = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linear);
         ptrFrame = (PtrClassicFrameLayout) mView.findViewById(R.id.sort_content_ptr);
     }

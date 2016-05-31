@@ -21,11 +21,11 @@
                 android:layout_weight="0.5"/>
 
             <ImageView
-                android:onClick="update_password_back3"
-                android:id="@+id/password_set_back"
+                android:id="@+id/add_address_set_back"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="update_password_back3"
                 android:src="@drawable/user_set_back"/>
 
             <TextView
@@ -34,6 +34,7 @@
                 android:gravity="center"
                 android:text="新建收货地址"
                 />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -50,168 +51,220 @@
         <!--收货人-->
         <LinearLayout
             style="@style/addaddress_linear">
+
             <TextView
                 style="@style/addaddress_text1"/>
+
             <TextView
-                android:text="收货人"
-                style="@style/addaddress_text2"/>
+                style="@style/addaddress_text2"
+                android:text="收货人"/>
+
             <EditText
-                android:hint="收货人的姓名"
-                style="@style/addaddress_edit"/>
+                android:id="@+id/address_name"
+                style="@style/addaddress_edit"
+                android:hint="收货人的姓名"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:background="#F2F2F2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"
+            android:background="#F2F2F2"
             android:text=""
             android:textSize="0.1sp"/>
         <!--收货人-->
         <LinearLayout
             style="@style/addaddress_linear">
+
             <TextView
                 style="@style/addaddress_text1"/>
+
             <TextView
-                android:text="手机号码"
-                style="@style/addaddress_text2"/>
+                style="@style/addaddress_text2"
+                android:text="手机号码"/>
+
             <EditText
-                android:hint="11位手机号码"
-                style="@style/addaddress_edit"/>
+                android:id="@+id/address_tel"
+                style="@style/addaddress_edit"
+                android:hint="11位手机号码"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:background="#F2F2F2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"
+            android:background="#F2F2F2"
             android:text=""
             android:textSize="0.1sp"/>
-        <!--收货人-->
+
         <LinearLayout
             style="@style/addaddress_linear">
+
             <TextView
                 style="@style/addaddress_text1"/>
+
             <TextView
-                android:text="所在地区"
-                style="@style/addaddress_text2"/>
+                style="@style/addaddress_text2"
+                android:text="所在地区"/>
 
             <Spinner
-                android:spinnerMode="dialog"
                 android:id="@+id/province"
-                android:layout_weight="15"
-                android:textAlignment="gravity"
-                android:gravity="center|right"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"></Spinner>
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:dropDownWidth="10dp"
+                android:gravity="center|right"
+                android:spinnerMode="dialog"
+                android:textAlignment="gravity"></Spinner>
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:background="#F2F2F2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"
+            android:background="#F2F2F2"
             android:text=""
             android:textSize="0.1sp"/>
         <!--收货人-->
         <LinearLayout
 
             style="@style/addaddress_linear">
+
             <TextView
-                android:layout_weight="9"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="9"/>
+
             <Spinner
-                android:spinnerMode="dialog"
                 android:id="@+id/city"
-                android:layout_weight="15"
-                android:textAlignment="gravity"
-                android:gravity="center|right"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"></Spinner>
-        </LinearLayout>
-        <!--分割线-->
-        <TextView
-            android:background="#F2F2F2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:text=""
-            android:textSize="0.1sp"/>
-
-        <!--收货人-->
-        <LinearLayout
-            style="@style/addaddress_linear">
-           <TextView
-               android:layout_weight="9"
-               android:layout_width="0dp"
-               android:layout_height="match_parent"/>
-            <Spinner
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:gravity="center|right"
                 android:spinnerMode="dialog"
-                android:id="@+id/area"
-                android:layout_weight="15"
-                android:textAlignment="gravity"
-                android:gravity="center|right"
+                android:textAlignment="gravity"></Spinner>
+        </LinearLayout>
+        <!--分割线-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:background="#F2F2F2"
+            android:text=""
+            android:textSize="0.1sp"/>
+
+        <!--收货人-->
+        <LinearLayout
+            style="@style/addaddress_linear">
+
+            <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"></Spinner>
+                android:layout_height="match_parent"
+                android:layout_weight="9"/>
+
+            <Spinner
+                android:id="@+id/area"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:dropDownWidth="100dp"
+                android:gravity="center|right"
+                android:spinnerMode="dialog"
+                android:textAlignment="gravity"></Spinner>
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:background="#F2F2F2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"
+            android:background="#F2F2F2"
             android:text=""
             android:textSize="0.1sp"/>
         <!--收货人-->
         <LinearLayout
             style="@style/addaddress_linear">
+
             <TextView
                 style="@style/addaddress_text1"/>
+
             <TextView
-                android:text="所属小区"
-                style="@style/addaddress_text2"/>
+                style="@style/addaddress_text2"
+                android:text="所属小区"/>
+
             <EditText
-                android:hint="请输入小区名"
-                style="@style/addaddress_edit"/>
+                android:id="@+id/address_plot"
+                style="@style/addaddress_edit"
+                android:hint="请输入小区名"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:background="#F2F2F2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"
+            android:background="#F2F2F2"
             android:text=""
             android:textSize="0.1sp"/>
         <!--收货人-->
         <LinearLayout
             style="@style/addaddress_linear">
+
             <TextView
                 style="@style/addaddress_text1"/>
+
             <TextView
-                android:text="详细地址"
-                style="@style/addaddress_text2"/>
+                style="@style/addaddress_text2"
+                android:text="详细地址"/>
+
             <EditText
-                android:hint="详细地址"
-                style="@style/addaddress_edit"/>
+                android:id="@+id/address_detail"
+                style="@style/addaddress_edit"
+                android:hint="详细地址"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:background="#F2F2F2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"
+            android:background="#F2F2F2"
             android:text=""
             android:textSize="0.1sp"/>
 
-
-
-
         <LinearLayout
-            android:background="#FFF"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="20"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"></LinearLayout>
+            android:background="#FFF"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="18"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.45">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.45"
+                    android:text="保存"
+                    android:textColor="#FFF"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
 
     </LinearLayout>

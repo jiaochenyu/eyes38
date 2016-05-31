@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,6 @@ public class EventDay1 extends Fragment{
     EventActivity mEventActivity;
     View view;
     RecyclerView mRecyclerView;
-   SwipeRefreshLayout event_day1_swipeRefreshLayout;
     //适配器
     EventRecycleViewAdapter mEventRecycleViewAdapter=null;
     List<EventContentGood> mList;
@@ -79,11 +79,9 @@ public class EventDay1 extends Fragment{
 
     private void initViews() {
         mRecyclerView= (RecyclerView) view.findViewById(R.id.event_day1_recycle);
-        event_day1_swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.event_day1_swipeRefreshLayout);
         //设置cecycleview的布局管理
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),3);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),1));
 
     }
     //初始化数据
@@ -93,8 +91,9 @@ public class EventDay1 extends Fragment{
     //请求http获取图片
     public void getHttpMethod() {
        mRequestQueue=NoHttp.newRequestQueue();//默认是3个请求
-        String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata?size=7";
+        String url = "http://38eye.test.ilexnet.com/api/mobile/product-api/products";
         Request<String> request=NoHttp.createStringRequest(url,RequestMethod.GET);
+        request.setRequestFailedReadCache(true);
         mRequestQueue.add(mWhat,request,mOnResponseListener);
     }
     /**
@@ -114,12 +113,12 @@ public class EventDay1 extends Fragment{
                 Log.e("CC","开始解析");
                 try {
                     JSONObject jsonObject=new JSONObject(result);
-                    JSONArray data=jsonObject.getJSONArray("goods");
+                    JSONArray data=jsonObject.getJSONArray("data");
                     for (int i=0;i<data.length();i++){
                         JSONObject object=data.getJSONObject(i);
                         EventContentGood good=new EventContentGood();
-                        String image=object.getString("pic");
-                        String title=object.getString("title");
+                        String image=object.getString("image");
+                        String title=object.getString("name");
                         good.setPic(image);
                         good.setTitle(title);
                         mList.add(good);

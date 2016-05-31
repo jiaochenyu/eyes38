@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -47,6 +48,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+
 public class SearchActivity extends AppCompatActivity {
 
     public static final int HISTORY_NUM = 10;//显示的历史数据条数
@@ -56,7 +59,7 @@ public class SearchActivity extends AppCompatActivity {
     SQLiteDatabase mDatabase;
     //声明一个游标对象
     Cursor mCursor;
-    Button history_clear;
+    Button history_clear;//清空历史记录按钮
     String text;
     Toast mToast;
     public static final int mWhat = 911;
@@ -81,7 +84,6 @@ public class SearchActivity extends AppCompatActivity {
     private EditText mEditText;
     private boolean flag;
     private boolean notify;
-    private boolean listview_clear = false;
     RecyclerView resultRecyclerView;
     ListView listView;
     LinearLayout result_Layout, now_Layout;
@@ -111,10 +113,9 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-
     //请求http获取
     private void getHttpMetod() {
-        mRequestQueue = NoHttp.newRequestQueue();
+        mRequestQueue = NoHttp.newRequestQueue(1);
         String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         request.setRequestFailedReadCache(true);
@@ -136,6 +137,8 @@ public class SearchActivity extends AppCompatActivity {
             if (what == mWhat) {
                 //请求成功
                 String result = response.get();
+                mList.clear();
+                resultList.clear();
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray data = object.getJSONArray("goods");
@@ -155,19 +158,19 @@ public class SearchActivity extends AppCompatActivity {
                     }
                     for (int i = 0; i < mList.size(); i++) {
                         //匹配条件
-                        if (mList.get(i).getName().contains(text.trim()) || mList.get(i).getSize().contains(text.trim())) {
+                        if (mList.get(i).getName().contains(text.trim())) {
                             Log.e("AA", text);
                             resultList.add(mList.get(i));
-                        } else {
-                            //未匹配结果,切换到之前界面
-                            result_Layout.setVisibility(View.GONE);
-                            resultList.clear();
-                            Log.e("CCC", resultList.size() + "");
-                            now_Layout.setVisibility(View.VISIBLE);
-                            listView.setVisibility(View.VISIBLE);
-                            show("抱歉，没有找到你想要的商品");
-                            break;
                         }
+                    }
+                    //此时判断resultList的大小
+                    if (resultList.size() == 0) {
+                        //未匹配结果,切换到之前界面
+                        result_Layout.setVisibility(View.GONE);
+                        resultList.clear();
+                        now_Layout.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.VISIBLE);
+                        show("抱歉，没有找到你想要的商品");
                     }
                     if (mSearchRecycleViewAdapter == null) {
                         mSearchRecycleViewAdapter = new SearchRecycleViewAdapter(resultList, SearchActivity.this);
@@ -199,7 +202,10 @@ public class SearchActivity extends AppCompatActivity {
 
                             } else {
                                 resultList.clear();
-                                mSearchRecycleViewAdapter.notifyDataSetChanged();
+                                mList.clear();
+                                //隐藏软键盘
+                                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                                 searchResult();
                             }
                         }
@@ -290,7 +296,6 @@ public class SearchActivity extends AppCompatActivity {
                     }
                     getHttpMetod();
                 } else if (!flag) {
-
                     search_clear.setVisibility(View.GONE);
                     show("请输入关键字");
                 }
@@ -315,7 +320,7 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             //用于判断list中的数量和内容
             for (int i = 0; i < banList.size(); i++) {
-                if (banList.get(i).getContent().contains(text.trim()) || banList.size() > HISTORY_NUM) {
+                if (banList.get(i).getContent().equals(text) || banList.size() > HISTORY_NUM) {
                     notify = false;
                 } else {
                     notify = true;
@@ -389,6 +394,14 @@ public class SearchActivity extends AppCompatActivity {
         resultList = new ArrayList<>();
         banList = new ArrayList<>();
         setAdapter();
+        Log.e("TAGGG",banList.size()+"");
+        //将历史数据上的放在文本框上
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mEditText.setText(banList.get(position).getContent());
+            }
+        });
         //隐藏软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromInputMethod(mEditText.getWindowToken(), 0);//强制隐藏软键盘
@@ -401,8 +414,8 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mEditText.setFocusableInTouchMode(true);
                 //将软键盘弹出
-                imm= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(mEditText,InputMethodManager.SHOW_FORCED);
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mEditText, InputMethodManager.SHOW_FORCED);
             }
         });
         //在判断是否内容被编辑

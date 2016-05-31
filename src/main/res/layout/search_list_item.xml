@@ -7,7 +7,7 @@
     <TextView
         android:textColor="#FFF"
         android:gravity="center"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:text="11"
         android:id="@+id/list_text"
         android:layout_width="match_parent"
