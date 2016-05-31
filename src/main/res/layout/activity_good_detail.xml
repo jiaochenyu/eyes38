@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.eyes38.activity.GoodDetailActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.example.eyes38.activity.GoodDetailActivity">
     <!--顶部标题-->
     <RelativeLayout
         android:id="@+id/sorttitle"
@@ -14,12 +14,12 @@
             android:id="@+id/goods_detail_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/arrow_left" />
+            android:src="@drawable/arrow_left"/>
 
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
-            android:text="@string/goods_details_title" />
+            android:text="@string/goods_details_title"/>
     </RelativeLayout>
     <!-- 内容 -->
     <LinearLayout style="@style/pagecontent">
@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/goods_details" />
+                    android:src="@drawable/goods_details"/>
                 <!--显示规格-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,12 +49,12 @@
 
                     <TextView
                         style="@style/goods_detail_unit_text"
-                        android:text="￥" />
+                        android:text="￥"/>
 
                     <TextView
                         android:id="@+id/goods_detail_unit"
                         style="@style/goods_detail_unit_text"
-                        android:text="0.01/个" />
+                        android:text="0.01/个"/>
                 </LinearLayout>
                 <!--显示库存-->
                 <LinearLayout
@@ -65,29 +65,29 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/goods_stock" />
+                        android:text="@string/goods_stock"/>
 
                     <TextView
                         android:id="@+id/goods_detail_stock"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="88" />
+                        android:text="88"/>
                 </LinearLayout>
                 <!--分割线-->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/background" />
+                    android:background="@color/background"/>
                 <!--商品备注-->
                 <TextView
                     android:id="@+id/goods_detai_remark"
                     style="@style/goods_detail_remark"
-                    android:text="美国猪带骨肉眼大排 500g 盒装" />
+                    android:text="美国猪带骨肉眼大排 500g 盒装"/>
                 <!--分割线-->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="@color/background" />
+                    android:background="@color/background"/>
                 <!--评论区域-->
                 <LinearLayout
                     android:id="@+id/goods_comment_layout"
@@ -105,30 +105,30 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="评论(" />
+                            android:text="评论("/>
                         <!--评论数量-->
                         <TextView
                             android:id="@+id/goods_detail_commentcount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0" />
+                            android:text="0"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=")" />
+                            android:text=")"/>
                     </LinearLayout>
                     <!--右边箭头-->
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_right" />
+                        android:src="@drawable/arrow_right"/>
                 </LinearLayout>
                 <!--分割线-->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="@color/background" />
+                    android:background="@color/background"/>
                 <!--图文详解按钮-->
                 <Button
                     android:layout_width="match_parent"
@@ -137,14 +137,14 @@
                     android:layout_marginTop="15dp"
                     android:background="@color/goods_detail_addcar"
                     android:text="图文详情"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"/>
 
                 <ImageView
                     android:id="@+id/goods_detail_txt_pic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/goods_details" />
+                    android:src="@drawable/goods_details"/>
             </LinearLayout>
         </ScrollView>
 
@@ -153,21 +153,32 @@
     <RelativeLayout style="@style/goods_detail_bottom">
 
         <RadioGroup
+            android:id="@+id/goods_detail_radiogroup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/goods_detail_radio_consult"
                 style="@style/goods_detail_raio_consult"
-                android:drawableTop="@drawable/consult" />
+                android:drawableTop="@drawable/consult"/>
 
             <RadioButton
+                android:id="@+id/goods_detail_radio_cart"
                 style="@style/goods_detail_radio_car"
-                android:drawableTop="@drawable/ion_cart" />
+<<<<<<< HEAD
+                android:drawableTop="@drawable/goods_detail_cart" />
+=======
+                android:drawableTop="@drawable/ion_cart"/>
+>>>>>>> 2eaa0a107fe41d3551a7a92c2514d57fc0f12da0
 
-            <RadioButton style="@style/goods_detail_radio_buynow" />
+            <RadioButton
+                android:id="@+id/goods_detail_radio_buynow"
+                style="@style/goods_detail_radio_buynow"/>
 
-            <RadioButton style="@style/goods_detail_radio_addcar" />
+            <RadioButton
+                android:id="@+id/goods_detail_radio_addcart"
+                style="@style/goods_detail_radio_addcar"/>
         </RadioGroup>
 
         <LinearLayout
@@ -177,21 +188,22 @@
 
             <Button
                 style="@style/goods_detail_raio_consult"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
             <!--透明，用来显示数字-->
             <Button
                 android:id="@+id/goods_detail_carbutton"
                 style="@style/goods_detail_radio_car"
-                android:background="#00000000"
                 android:layout_marginRight="22dp"
-                android:visibility="invisible" />
+                android:background="#00000000"
+                android:visibility="invisible"/>
+
             <Button
                 style="@style/goods_detail_radio_buynow"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <Button
                 style="@style/goods_detail_radio_addcar"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
         </LinearLayout>
     </RelativeLayout>
 

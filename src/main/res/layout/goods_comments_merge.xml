@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RadioGroup
+        android:id="@+id/goods_comment_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_radiogroup_topborder"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/comment_all"
+            style="@style/comment_menu_radio"
+            android:checked="true"
+            android:text="全部" />
+
+
+        <RadioButton
+            android:id="@+id/comment_great"
+            style="@style/comment_menu_radio"
+            android:text="好评"
+
+            />
+
+        <RadioButton
+            android:id="@+id/comment_middle"
+            style="@style/comment_menu_radio"
+            android:text="中评" />
+
+
+        <RadioButton
+            android:id="@+id/comment_bad"
+            style="@style/comment_menu_radio"
+            android:text="差评" />
+
+        <RadioButton
+            android:id="@+id/comment_picture"
+            style="@style/comment_menu_radio"
+            android:text="有图" />
+
+    </RadioGroup>
+
+
+</merge>

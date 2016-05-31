@@ -2,27 +2,64 @@ package com.example.eyes38.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.v4.widget.SwipeRefreshLayout;
+=======
+import android.os.Handler;
+import android.os.Message;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Sort_SortAdapter;
 import com.example.eyes38.beans.Goods;
+<<<<<<< HEAD
+=======
+import com.example.eyes38.beans.SortContentContent;
+import com.example.eyes38.utils.LoadMoreFooterView;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.OnResponseListener;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+
 public class SortMenuActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
-    SwipeRefreshLayout mSwipeRefreshLayout;
     Sort_SortAdapter sort_sortAdapter;
     List<Goods> mList;
     //分类导航栏
     private RadioGroup mRadioGroup;
+<<<<<<< HEAD
+=======
+    private TextView titleTextView;
+    private String titlecontent;
+    //刷新界面
+    private PtrClassicFrameLayout ptrFrame;
+
+    //测试获取json数据
+    //创建 请求队列成员变量
+    private RequestQueue mRequestQueue;
+    private final static int mWhat = 520;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +67,62 @@ public class SortMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sort_menu);
         initView();
         initData();
+<<<<<<< HEAD
         initAdapter();
         setRadioGroupListener();
     }
 
+=======
+        getDatas();
+        setUI();
+        initListener();
+
+    }
+
+    private void initListener() {
+        LoadMoreFooterView header = new LoadMoreFooterView(this);
+        ptrFrame.setHeaderView(header);
+        ptrFrame.addPtrUIHandler(header);
+        //刷新
+        ptrFrame.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("load","加载了");
+                        getHttpMedthod();
+                        ptrFrame.refreshComplete();
+                    }
+                },1800);
+
+            }
+        });
+    }
+
+    private void setUI() {
+        //设置标题栏的内容
+        titleTextView.setText(titlecontent);
+    }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case FINISHED:
+                    initAdapter();
+                    setRadioGroupListener();
+                    break;
+            }
+        }
+    };
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     private void setRadioGroupListener() {
         //对分类导航栏监听
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -70,12 +159,16 @@ public class SortMenuActivity extends AppCompatActivity {
 
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.sort_sort_recyclerview);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.sort_sort_swiprefresh);
         //显示两列
         GridLayoutManager grid = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(grid);
         //分类界面的导航栏
         mRadioGroup = (RadioGroup) findViewById(R.id.sort_menu);
+<<<<<<< HEAD
+=======
+        titleTextView = (TextView) findViewById(R.id.sort_sort_title);
+        ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.sort_sort_ptr);
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     }
 
     private void initData() {
@@ -87,7 +180,74 @@ public class SortMenuActivity extends AppCompatActivity {
         mList.add(g1);
         mList.add(g2);
         mList.add(g3);
+<<<<<<< HEAD
         mList.add(g4);
+=======
+        mList.add(g4);*/
+
+
+    }
+    private void getHttpMedthod() {
+        mRequestQueue = NoHttp.newRequestQueue();
+        String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setRequestFailedReadCache(true);
+        mRequestQueue.add(mWhat, request, mOnResponseListener);
+    }
+
+
+    /**
+     * 请求http结果  回调对象，接受请求结果
+     */
+    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == mWhat) {
+                //请求成功
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int id = jsonObject.getInt("product_id");
+                        String name = jsonObject.getString("name");
+                        String path = jsonObject.getString("image");
+                        String unit = jsonObject.getString("extension4");
+                        String txt_pic = jsonObject.getString("description");
+                        float price = (float) jsonObject.getDouble("price");
+                        float market_price = (float) jsonObject.getDouble("market_price");
+                        JSONObject search = jsonObject.getJSONObject("product_search");
+                        int comment_count = search.getInt("comment_num");
+                        int stock = search.getInt("stock_num");
+                        Goods goods = new Goods(id, "默认", path, "水果", txt_pic, unit, null, name, market_price, price, 0, comment_count, stock);
+
+                        mList.add(goods);
+                    }
+                    handler.sendEmptyMessage(FINISHED);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     }
 

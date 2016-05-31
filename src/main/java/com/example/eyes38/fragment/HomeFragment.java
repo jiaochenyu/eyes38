@@ -1,12 +1,12 @@
 package com.example.eyes38.fragment;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Spinner;
+<<<<<<< HEAD
 import android.widget.Toast;
 
 import com.example.eyes38.EventActivity.EventActivity;
@@ -23,6 +24,19 @@ import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.home.HomexptjActivity;
 import com.example.eyes38.fragment.home.HomeLunboView;
+=======
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.example.eyes38.MainActivity;
+import com.example.eyes38.R;
+import com.example.eyes38.activity.home.HomexptjActivity;
+import com.example.eyes38.adapter.Home_ContentAdapter;
+import com.example.eyes38.adapter.Home_ad_adapter;
+import com.example.eyes38.beans.HomeContent;
+import com.example.eyes38.beans.HomeContentContent;
+import com.example.eyes38.beans.HomeFourSort;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 import com.example.eyes38.fragment.home.HomeRecycleView;
 import com.example.eyes38.fragment.home.HomeSpinnerView;
 import com.example.eyes38.fragment.search.SearchActivity;
@@ -41,19 +55,48 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     RecyclerView mRecyclerView;
     //封装的recycleView实现类
     HomeRecycleView mHomeRecycleView;
-    //封装的轮播图的实现类
-    HomeLunboView mHomeLunboView;
     //初始化spinner
     Spinner mSpinner;
     //封装的spinner的实现类
     HomeSpinnerView mHomeSpinnerView;
 
+<<<<<<< HEAD
     ImageView home_xptjgengduo,home_yzcpgengduo,home_search;
+=======
+    ImageView home_xptjgengduo;
+    ImageView home_yzcpgengduo;
+    private int mWhat = 123;
+    ArrayList<View> mViewList;
+    List<String> mList;
+    List<HomeContent> mrecycleList;
+    List<HomeFourSort> mHomeFourSortsList;
+    Home_ContentAdapter hcAdapter;
+    public static final int LUNBOFINSH = 3;
+    public static final int RECYCLEFINSH = 4;
+    int mCurrentItem = Integer.MAX_VALUE / 2;
+    public static final int IMAGE_UPDATE = 1;
+    public static final int REFRESHTIME = 5 * 1000;
+    public static final int IMAGE_CHANGED = 2;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     ImageView mImageView;
     int height;
 
+<<<<<<< HEAD
     private RequestQueue mRequestQueue;
+=======
+
+    //4个home_sort的图标和文字初始化
+    private ImageView home_sort1image;
+    private ImageView home_sort2image;
+    private ImageView home_sort3image;
+    private ImageView home_sort4image;
+    private TextView home_sort1text;
+    private TextView home_sort2text;
+    private TextView home_sort3text;
+    private TextView home_sort4text;
+
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     @Nullable
     @Override
@@ -61,26 +104,298 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.home, null);
         mMainActivity = (MainActivity) getActivity();
         initView();
+<<<<<<< HEAD
         //初始化轮播图并实现
 //        mHomeLunboView = new HomeLunboView(mMainActivity,mViewPager);
 //        mHomeLunboView.startLubo();
         //初始化recycleview并实现
         mHomeRecycleView = new HomeRecycleView(mMainActivity,mRecyclerView);
         mHomeRecycleView.startItem();
+=======
+        //获取轮播图的数据并实现,最新接口没数据,用的测试接口的数据
+        getHttpMethod("http://api.dev.ilexnet.com/simulate/38eye/article-api/banner-images", mlunboOnResponseListener);
+        //获取四大类的数据并实现
+        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/home-category/list", mhomecategoryOnResponseListener);
+        //获取recycleView的数据并实现
+        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mOnRecycleResponseListener);
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         //计算屏幕的尺寸
         caculate();
         //初始化spinner并实现
         mHomeSpinnerView = new HomeSpinnerView(mMainActivity,mSpinner,height);
         mHomeSpinnerView.startspinner();
-        setonClick();
+   //     setonClick();
         return view;
     }
 
+<<<<<<< HEAD
     private void setonClick() {
         home_xptjgengduo.setOnClickListener(this);
         home_yzcpgengduo.setOnClickListener(this);
         home_search.setOnClickListener(this);
     }
+=======
+    private void getHttpMethod(String url, OnResponseListener mOnResponseListener) {
+        mrecycleList = new ArrayList<>();
+        mRequestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setRequestFailedReadCache(true);
+        mRequestQueue.add(mWhat, request, mOnResponseListener);
+    }
+
+    //轮播图的OnResponseListener
+    private OnResponseListener<String> mlunboOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == mWhat) {
+                //请求成功
+                String result = response.get();
+                try {
+                    //解析第一层
+                    JSONObject object = new JSONObject(result);
+                    JSONArray homelunbo = object.getJSONArray("data");
+                    mList = new ArrayList<String>();
+                    for (int i = 0; i < homelunbo.length(); i++) {
+                        JSONObject jsonObject = homelunbo.getJSONObject(i);
+                        String address = jsonObject.getString("image");
+                        mList.add(address);
+                        Log.e("获取的数据jjjj", address);
+                    }
+                    mViewList = new ArrayList<View>();
+                    for (int i = 0; i < mList.size(); i++) {
+                        View view = View.inflate(mMainActivity, R.layout.home_ad_item, null);
+                        ImageView mItemIvContent = (ImageView) view.findViewById(R.id.item_iv_content);
+                        Glide.with(mMainActivity).load(mList.get(i)).into(mItemIvContent);
+                        mViewList.add(view);
+                    }
+                    Home_ad_adapter myAdapter = new Home_ad_adapter(mViewList);
+                    mViewPager.setAdapter(myAdapter);
+                    //  mViewPager.setCurrentItem(mCurrentItem);
+                    Message message = new Message();
+                    message.what = LUNBOFINSH;
+                    handler.sendMessage(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+        }
+
+        @Override
+        public void onFinish(int what) {
+        }
+    };
+    //四大类的OnResponseListener
+    private OnResponseListener<String> mhomecategoryOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == mWhat) {
+                //请求成功
+                String result = response.get();
+                try {
+                    //解析第一层
+                    JSONObject object = new JSONObject(result);
+                    JSONArray homecategory = object.getJSONArray("data");
+                    mHomeFourSortsList = new ArrayList<>();
+                    for (int i = 0; i < homecategory.length(); i++) {
+                        JSONObject jsonObject = homecategory.getJSONObject(i);
+                        HomeFourSort homeFourSort = new HomeFourSort();
+                        homeFourSort.setCategory_name(jsonObject.getString("category_name"));
+                        homeFourSort.setCategory_image(jsonObject.getString("category_image"));
+                        mHomeFourSortsList.add(homeFourSort);
+                        Log.e("javabean", homeFourSort.getCategory_name() + homeFourSort.getCategory_image());
+                    }
+
+                    Glide.with(mMainActivity).load(mHomeFourSortsList.get(0).getCategory_image()).into(home_sort1image);
+                    home_sort1text.setText(mHomeFourSortsList.get(0).getCategory_name());
+                    Glide.with(mMainActivity).load(mHomeFourSortsList.get(1).getCategory_image()).into(home_sort2image);
+                    home_sort2text.setText(mHomeFourSortsList.get(1).getCategory_name());
+                    Glide.with(mMainActivity).load(mHomeFourSortsList.get(2).getCategory_image()).into(home_sort3image);
+                    home_sort3text.setText(mHomeFourSortsList.get(2).getCategory_name());
+                    Glide.with(mMainActivity).load(mHomeFourSortsList.get(3).getCategory_image()).into(home_sort4image);
+                    home_sort4text.setText(mHomeFourSortsList.get(3).getCategory_name());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+        }
+
+        @Override
+        public void onFinish(int what) {
+        }
+    };
+    private HomeContent hc;
+
+    //专题的OnResponseListener
+    private OnResponseListener<String> mOnRecycleResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == mWhat) {
+                //请求成功
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        String zhuantiname = jsonObject.getString("name");
+                        int is_app_show = jsonObject.getInt("is_app_show");
+                        if (is_app_show == 0) {
+                            //break;
+                        } else {
+                            //初始化mmlist
+                            List<HomeContentContent> mmList = new ArrayList<>();
+                            JSONArray array2 = jsonObject.getJSONArray("products");
+
+                            Log.e("arrr22222", array2.length() + "");
+                            for (int j = 0; j < array2.length(); j++) {
+                                if (mmList.size() < 4) {
+                                    JSONObject jsonObject1 = array2.getJSONObject(j);
+                                    Log.e("循环外面", "dasdaafasf");
+                                    if (!jsonObject1.getString("product").equals("false")) {
+                                        Log.e("循环里面", jsonObject1.toString());
+                                        JSONObject jsonObject2 = jsonObject1.getJSONObject("product");
+                                        Log.e("内层循环", jsonObject2.toString());
+                                        String image = jsonObject2.getString("image");
+                                        String name = jsonObject2.getString("name");
+                                        Double price = jsonObject2.getDouble("price");
+                                        String extension4 = jsonObject2.getString("extension4");
+                                        Log.e("专题", image + ":" + name);
+                                        HomeContentContent hcc = new HomeContentContent(image, name, price, extension4);
+                                        mmList.add(hcc);
+                                    }
+                                }
+                            }
+                            hc = new HomeContent(zhuantiname, mmList);
+                            if (mmList.size() == 0) {
+                                Log.e("看看mmlist里有什么", zhuantiname);
+                            } else {
+                                Log.e("看看mmlist里有什么", zhuantiname + mmList.get(0).toString());
+                            }
+                            mrecycleList.add(hc);
+                        }
+                    }
+                    handler.sendEmptyMessage(RECYCLEFINSH);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+        }
+
+        @Override
+        public void onFinish(int what) {
+        }
+    };
+
+    //轮播图的listener
+    private void setLinstener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //手动滑到这个广告的时候,发送改位置的值
+                mHandler.sendMessage(Message.obtain(mHandler, IMAGE_CHANGED, position, 0));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+    }
+
+    //获取数据的handler
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case LUNBOFINSH:
+                    //这是监听
+                    setLinstener();
+                case RECYCLEFINSH:
+                    initrecycleAdapter();
+                    initrecycleListener();
+
+            }
+        }
+    };
+
+    private void initrecycleListener() {
+        hcAdapter.setmOnItemClickListener(new Home_ContentAdapter.OnMoreItemClickListener() {
+            @Override
+            public void onItemClick(View view, HomeContent hc) {
+                for (int i=0;i<mrecycleList.size();i++){
+                Log.e("看看mre里有什么",mrecycleList.get(i).getName());}
+                Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initrecycleAdapter() {
+        hcAdapter = new Home_ContentAdapter(mMainActivity, mrecycleList);
+        mRecyclerView.setAdapter(hcAdapter);
+        LinearLayoutManager linear = new LinearLayoutManager(mMainActivity);
+        mRecyclerView.setLayoutManager(linear);
+    }
+
+    //轮播图的handler
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int action = msg.what;
+            if (mHandler.hasMessages(IMAGE_UPDATE)) {
+                mHandler.removeMessages(IMAGE_UPDATE);
+            }
+            switch (action) {
+
+
+                case IMAGE_UPDATE:
+                    //轮播图经行更新
+                    mCurrentItem += 1;
+                    mViewPager.setCurrentItem(mCurrentItem);
+                    mHandler.sendEmptyMessageDelayed(IMAGE_UPDATE, REFRESHTIME);
+                    break;
+                case IMAGE_CHANGED:
+                    //手动滑了广告
+                    mCurrentItem = msg.arg1;
+                    mViewPager.setCurrentItem(mCurrentItem);
+                    mHandler.sendEmptyMessageDelayed(IMAGE_UPDATE, REFRESHTIME);
+                    break;
+            }
+        }
+    };
+
+
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     private void initView() {
         home_search= (ImageView) view.findViewById(R.id.home_search);
@@ -88,8 +403,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         mSpinner = (Spinner) view.findViewById(R.id.home_spinner);
         mImageView = (ImageView) view.findViewById(R.id.home_jisuan);
+<<<<<<< HEAD
         home_xptjgengduo = (ImageView) view.findViewById(R.id.home_xptjgengduo);
         home_yzcpgengduo= (ImageView) view.findViewById(R.id.home_yzcpgengduo);
+=======
+        // home_xptjgengduo = (ImageView) view.findViewById(R.id.home_xptjgengduo);
+        home_yzcpgengduo = (ImageView) view.findViewById(R.id.home_yzcpgengduo);
+        home_sort1image = (ImageView) view.findViewById(R.id.home_sort1image);
+        home_sort1text = (TextView) view.findViewById(R.id.home_sort1text);
+        home_sort2image = (ImageView) view.findViewById(R.id.home_sort2image);
+        home_sort2text = (TextView) view.findViewById(R.id.home_sort2text);
+        home_sort3image = (ImageView) view.findViewById(R.id.home_sort3image);
+        home_sort3text = (TextView) view.findViewById(R.id.home_sort3text);
+        home_sort4image = (ImageView) view.findViewById(R.id.home_sort4image);
+        home_sort4text = (TextView) view.findViewById(R.id.home_sort4text);
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     }
 
     @Override
@@ -101,14 +429,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         WindowManager manager = (WindowManager)mMainActivity.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm=new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(dm);
+<<<<<<< HEAD
         int width2=dm.widthPixels;
         height=dm.heightPixels;
         Toast.makeText(mMainActivity, "height:" + height, Toast.LENGTH_SHORT).show();
+=======
+        int width2 = dm.widthPixels;
+        height = dm.heightPixels;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     }
 
     @Override
     public void onClick(View v) {
         int buttonid = v.getId();
+<<<<<<< HEAD
         switch (buttonid){
             case R.id.home_xptjgengduo:
                 Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
@@ -122,6 +456,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent intent2 = new Intent(mMainActivity, SearchActivity.class);
                 startActivity(intent2);
                 break;
+=======
+        switch (buttonid) {
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
         }
     }

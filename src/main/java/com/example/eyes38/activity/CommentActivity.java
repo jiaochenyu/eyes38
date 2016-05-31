@@ -3,45 +3,52 @@ package com.example.eyes38.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RadioGroup;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Comment_Adapter;
+import com.example.eyes38.beans.CommentReply;
 import com.example.eyes38.beans.Comments;
 import com.example.eyes38.utils.DividerItemDecoration;
+import com.example.eyes38.utils.LoadMoreFooterView;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.OnResponseListener;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+
 public class CommentActivity extends AppCompatActivity {
-    public static final int REFRESH = 0;
-    public static final int LOADING = 1;
+    public static final int ALL = 1;
+    public static final int GREAT = 2;
+    public static final int MIDDLE = 3;
+    public static final int BAD = 4;
+    public static final int PICTURE = 5;
+    public static final int FINISHED = 1;
     private RecyclerView mRecyclerView;
     private List<Comments> mList;
     private Comment_Adapter comment_adapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager linearLayoutManager;
-    private boolean isLoading = false;
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case REFRESH:
-                    //下拉刷新
-                    Refresh();
-                    break;
-                case LOADING:
-                    //上拉加载
-                    Loading();
-                    break;
-            }
-        }
-    };
+    private RequestQueue mRequestQueue;
+    private PtrClassicFrameLayout ptrFrame;
+    //评论导航栏
+    RadioGroup mRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,117 +56,309 @@ public class CommentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comment);
         initView();
         initData();
-        initAdapter();
         initListener();
     }
 
     private void initListener() {
-        //下拉刷新
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        //刷新区域
+        LoadMoreFooterView header = new LoadMoreFooterView(this);
+        ptrFrame.setHeaderView(header);
+        ptrFrame.addPtrUIHandler(header);
+        //刷新
+        ptrFrame.setPtrHandler(new PtrHandler() {
             @Override
-            public void onRefresh() {
-                handler.sendEmptyMessageDelayed(REFRESH,1000);
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ptrFrame.refreshComplete();
+                    }
+                }, 1800);
+
             }
         });
-        //上拉加载
-        /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
+        //导航栏
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                if (newState == mRecyclerView.SCROLL_STATE_IDLE && lastVisibleItem+1 == comment_adapter.getItemCount());{
-                    swipeRefreshLayout.setRefreshing(true);
-                    handler.sendEmptyMessageDelayed(LOADING,1000);
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });*/
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
-                if (lastVisibleItemPosition+1 == comment_adapter.getItemCount() && dy > 0){
-                    boolean isRefreshing=swipeRefreshLayout.isRefreshing();
-                    if (isRefreshing){
-                        comment_adapter.notifyItemRemoved(comment_adapter.getItemCount());
-                        return;
-                    }
-                    if (!isLoading){
-                        isLoading = true;
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                handler.sendEmptyMessageDelayed(LOADING,1000);
-                                isLoading = false;
-                            }
-                        },3000);
-                    }
-                }
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                resetCommentData(checkedId);
             }
         });
     }
 
-    private void Loading() {
-        //加更多数据，现在是写死的
-        swipeRefreshLayout.setRefreshing(false);
-        List<Comments> list = new ArrayList<Comments>();
-        Comments c1 = new Comments(LOADING, "loading", "new");
-        list.add(c1);
-        list.add(c1);
-        list.add(c1);
-        comment_adapter.addMoreItem(list);
+    private void resetCommentData(int checkId) {
+        //重置评论内容
+        switch (checkId) {
+            case R.id.comment_all:
+                getHttpRequest(ALL);
+                break;
+            case R.id.comment_great:
+                getHttpRequest(GREAT);
+                break;
+            case R.id.comment_middle:
+                getHttpRequest(MIDDLE);
+                break;
+            case R.id.comment_bad:
+                getHttpRequest(BAD);
+                break;
+            case R.id.comment_picture:
+                getHttpRequest(PICTURE);
+                break;
+        }
     }
 
-    private void Refresh() {
-        swipeRefreshLayout.setRefreshing(false);
-        List<Comments> list = new ArrayList<Comments>();
-        Comments c1 = new Comments(REFRESH, "refresh", "new");
-        list.add(c1);
-        comment_adapter.addItem(list);
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case FINISHED:
+                    initAdapter();
+                    break;
+            }
+        }
+    };
 
-    }
 
     private void initAdapter() {
-        comment_adapter = new Comment_Adapter(mList);
+        comment_adapter = new Comment_Adapter(mList,this);
         mRecyclerView.setAdapter(comment_adapter);
     }
 
     private void initData() {
-        mList = new ArrayList<>();
         /*for (int i = 0; i < 20; i++) {
             Comments c1 = new Comments(i, "aaaaa", i+"");
             mList.add(c1);
         }*/
-        Comments c1 = new Comments(1, "aaaaa", "111");
+        /*Comments c1 = new Comments(1, "aaaaa", "111");
         Comments c2 = new Comments(2, "bbbbb", "222");
         Comments c3 = new Comments(3, "ccccc", "333");
         Comments c4 = new Comments(4, "ddddd", "444");
         mList.add(c1);
         mList.add(c2);
         mList.add(c3);
-        mList.add(c4);
+        mList.add(c4);*/
+        getHttpRequest(ALL);
     }
+
+    private void getHttpRequest(int what) {
+        mRequestQueue = NoHttp.newRequestQueue();
+        String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
+        Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        //设置缓存
+        mRequest.setRequestFailedReadCache(true);
+        mRequestQueue.add(what, mRequest, mOnResponseListener);
+    }
+
+    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == ALL) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int id = jsonObject.getInt("comment_id");
+                        String name = jsonObject.getString("author_name");
+                        String time = jsonObject.getString("create_date");
+                        String content = jsonObject.getString("comment");
+                        int ratingbar = jsonObject.getInt("rating");
+                        List<CommentReply> list = new ArrayList<>();
+                        JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                        if (jsonArray.length() != 0) {
+                            for (int j = 0; j < jsonArray.length(); j++) {
+                                JSONObject reply = jsonArray.getJSONObject(j);
+                                String reply_name = reply.getString("author_name");
+                                String reply_content = reply.getString("comment");
+                                String reply_time = reply.getString("create_date");
+                                CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                list.add(commentReply);
+                            }
+                        }
+                        Comments comments = new Comments(id, null, name, ratingbar, content, time, list);
+                        mList.add(comments);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+            if (what == GREAT) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int ratingbar = jsonObject.getInt("rating");
+                        if (ratingbar >= 5) {
+                            int id = jsonObject.getInt("comment_id");
+                            String name = jsonObject.getString("author_name");
+                            String time = jsonObject.getString("create_date");
+                            String content = jsonObject.getString("comment");
+                            List<CommentReply> list = new ArrayList<>();
+                            JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                            if (jsonArray.length() != 0) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
+                                    JSONObject reply = jsonArray.getJSONObject(j);
+                                    String reply_name = reply.getString("author_name");
+                                    String reply_content = reply.getString("comment");
+                                    String reply_time = reply.getString("create_date");
+                                    CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                    list.add(commentReply);
+                                }
+                            }
+                            Comments comments = new Comments(id, null, name, ratingbar, content, time,list);
+                            mList.add(comments);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+            if (what == MIDDLE) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int ratingbar = jsonObject.getInt("rating");
+                        if (ratingbar >= 3 && ratingbar < 5) {
+                            int id = jsonObject.getInt("comment_id");
+                            String name = jsonObject.getString("author_name");
+                            String time = jsonObject.getString("create_date");
+                            String content = jsonObject.getString("comment");
+                            List<CommentReply> list = new ArrayList<>();
+                            JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                            if (jsonArray.length() != 0) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
+                                    JSONObject reply = jsonArray.getJSONObject(j);
+                                    String reply_name = reply.getString("author_name");
+                                    String reply_content = reply.getString("comment");
+                                    String reply_time = reply.getString("create_date");
+                                    CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                    list.add(commentReply);
+                                }
+                            }
+                            Comments comments = new Comments(id, null, name, ratingbar, content, time,list);
+                            mList.add(comments);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+            if (what == BAD) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int ratingbar = jsonObject.getInt("rating");
+                        if (ratingbar <= 1) {
+                            int id = jsonObject.getInt("comment_id");
+                            String name = jsonObject.getString("author_name");
+                            String time = jsonObject.getString("create_date");
+                            String content = jsonObject.getString("comment");
+                            List<CommentReply> list = new ArrayList<>();
+                            JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                            if (jsonArray.length() != 0) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
+                                    JSONObject reply = jsonArray.getJSONObject(j);
+                                    String reply_name = reply.getString("author_name");
+                                    String reply_content = reply.getString("comment");
+                                    String reply_time = reply.getString("create_date");
+                                    CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                    list.add(commentReply);
+                                }
+                            }
+                            Comments comments = new Comments(id, null, name, ratingbar, content, time, list);
+                            mList.add(comments);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+            if (what == PICTURE) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        int id = jsonObject.getInt("comment_id");
+                        String name = jsonObject.getString("author_name");
+                        String time = jsonObject.getString("create_date");
+                        String content = jsonObject.getString("comment");
+                        int ratingbar = jsonObject.getInt("rating");
+                        List<CommentReply> list = new ArrayList<>();
+                        JSONArray jsonArray = jsonObject.getJSONArray("replies");
+                        if (jsonArray.length() != 0) {
+                            for (int j = 0; j < jsonArray.length(); j++) {
+                                JSONObject reply = jsonArray.getJSONObject(j);
+                                String reply_name = reply.getString("author_name");
+                                String reply_content = reply.getString("comment");
+                                String reply_time = reply.getString("create_date");
+                                CommentReply commentReply = new CommentReply(j+1, reply_name, null, reply_content, reply_time);
+                                list.add(commentReply);
+                            }
+                        }
+                        Comments comments = new Comments(id, null, name, ratingbar, content, time,list);
+                        mList.add(comments);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(FINISHED);
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
 
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.goods_comment_recycler);
         linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        //添加分割线
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.comment_swiperefresh);
+        ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.goods_comment_ptr);
+        mRadioGroup = (RadioGroup) findViewById(R.id.goods_comment_rg);
     }
 
     public void back(View view) {
         finish();
     }
+
+
 }

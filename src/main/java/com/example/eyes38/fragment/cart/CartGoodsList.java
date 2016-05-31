@@ -1,5 +1,6 @@
 package com.example.eyes38.fragment.cart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,11 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+import com.example.eyes38.activity.PayActivity;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
+<<<<<<< HEAD
+=======
+import com.example.eyes38.beans.Goods;
+import com.example.eyes38.fragment.CartFragment;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -29,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +47,11 @@ import java.util.List;
 public class CartGoodsList extends Fragment {
     private final static int mWhat = 381; //请求成功
     private final static int mFINFISH = 382; // 数据加载完成
+    private static final int CARTGOODSCOUNT = 308; // 通知mainactivity 改变徽章
     private View mView;
-    MainActivity mMainActivity;
+    Toast mToast; // 吐司优化
     private List<CartGoods> mList;
+    private List<CartGoods> payList;  // 选中商品
     private RecyclerView mRecyclerView;
     private TextView mCountTopTextView;  // n件商品有包邮优惠
     private TextView mDeleteOperationTV;// 编辑删除操作
@@ -49,19 +60,35 @@ public class CartGoodsList extends Fragment {
     private TextView mJiesuanTV; // 选中商品结算按钮
     private TextView mTotalPriceTV; // 选中的总金额
     private boolean allChecked = false; // 默认全选
+    private boolean deleteChecked = false; // 点击按钮的状态
     Cart_GoodsAdapter mCart_goodsAdapter = null;
     //采用 NoHttp
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
+    Handler mainHandler = (new MainActivity()).mainHandler;
+    CartFragment mCartFragment = new CartFragment();
+
+
     //Handler
+<<<<<<< HEAD
     private Handler mHandler = new Handler() {
+=======
+    Handler mmHandler = new Handler() {
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         @Override
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
                 case mFINFISH:
                     //加载数据完成
+<<<<<<< HEAD
                     //mCart_goodsAdapter.notifyDataSetChanged();
+=======
+                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, getActivity(), mmHandler);
+                    mRecyclerView.setAdapter(mCart_goodsAdapter);
+                    mCart_goodsAdapter.notifyDataSetChanged();
+                    mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,mList.size()));  //通知改变徽章
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
                     initListener();
                     break;
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
@@ -73,18 +100,26 @@ public class CartGoodsList extends Fragment {
                     //如果都被选中那么全选按钮也要被选中
                     //记录是否被全选
                     allChecked = !(Boolean) msg.obj;
+<<<<<<< HEAD
                     Log.e("获取通知","获取通知的allchecked"+allChecked);
+=======
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
                     mCheckBoxAll.setChecked((Boolean) msg.obj);
                     break;
+                case Cart_GoodsAdapter.NOTIFILIST:
+                    //通知改变了选中状态
+                    payList = (List<CartGoods>) msg.obj;
+                    break;
+
             }
             super.handleMessage(msg);
         }
     };
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mMainActivity = (MainActivity) getActivity();
         mView = inflater.inflate(R.layout.cart_goods, null);
         initViews();
         initData();
@@ -98,16 +133,16 @@ public class CartGoodsList extends Fragment {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.car_goods_list_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mCountTopTextView = (TextView) mView.findViewById(R.id.checkedCountTop);
-        mDeleteOperationTV = (TextView) mView.findViewById(R.id.DeleteOperationTV);
+        mDeleteOperationTV = (TextView) mView.findViewById(R.id.DeleteOperationTV);  //编辑按钮
         mCheckBoxAll = (CheckBox) mView.findViewById(R.id.checkboxAllGoods);
         mDiscountCheckBox = (CheckBox) mView.findViewById(R.id.DiscountCheckbox);
         mJiesuanTV = (TextView) mView.findViewById(R.id.jiesuanButton);
         mTotalPriceTV = (TextView) mView.findViewById(R.id.allGoodsCountPrice);
-
     }
 
     private void initData() {
         mList = new ArrayList<>();
+        payList = new ArrayList<CartGoods>();
     }
 
     private void initListener() {
@@ -120,16 +155,23 @@ public class CartGoodsList extends Fragment {
         });*/
         ClickListener mClickListener = new ClickListener();
         mCheckBoxAll.setOnClickListener(mClickListener);
+        mDeleteOperationTV.setOnClickListener(mClickListener);
+        mJiesuanTV.setOnClickListener(mClickListener);
 
     }
 
 
-    //请求http 获取图片
+    //请求http 获取购物车信息
     private void getHttpMethod() {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
         String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+<<<<<<< HEAD
         request.add("size", "7");
+=======
+        request.setRequestFailedReadCache(true);
+        //request.add("shoppingCartIds", "219");
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         mRequestQueue.add(mWhat, request, mOnResponseListener);
 
     }
@@ -148,6 +190,7 @@ public class CartGoodsList extends Fragment {
             if (what == mWhat) {
                 //请求成功
                 String result = response.get();
+<<<<<<< HEAD
 
                 try {
                     JSONObject object = new JSONObject(result);
@@ -187,6 +230,15 @@ public class CartGoodsList extends Fragment {
                     e.printStackTrace();
                 }*/
 
+=======
+                //JSON解析
+                jsonMethod(result);
+                Message message = new Message();
+                message.what = mFINFISH;
+                //Log.e("请求完成", "66666666666666");
+                mmHandler.sendMessage(message);
+                mCountTopTextView.setText(mList.size() + "");
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
             }
         }
 
@@ -213,7 +265,8 @@ public class CartGoodsList extends Fragment {
 
                     break;
                 case R.id.DeleteOperationTV:
-                    //便捷按钮删除操作
+                    //编辑按钮删除操作  将删除按钮显示出来
+                    showDelete();
                     break;
                 case R.id.checkboxAllGoods:
                     //选中全部商品
@@ -222,17 +275,125 @@ public class CartGoodsList extends Fragment {
                     break;
                 case R.id.jiesuanButton:
                     //结算购物车
+                    goPay();
+
                     break;
             }
         }
+    }
+
+
+    private void showDelete() {
+        // 将删除按钮显示出来
+        mCart_goodsAdapter.setShowDelete(!deleteChecked);
+        deleteChecked = !deleteChecked;
+        mCart_goodsAdapter.notifyDataSetChanged();
     }
 
     // 全部选中
     private void selectedAll() {
         Log.e("selectedAll","allchecked"+allChecked);
         for (int i = 0; i < mList.size(); i++) {
+<<<<<<< HEAD
             Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
+=======
+            //Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
+            //设置beans
+            mList.get(i).setSelected(allChecked);
+        }
+        mCart_goodsAdapter.notifyDataSetChanged();
+    }
+
+    //******* 去结算 ************
+    private void goPay() {
+        //先去判断哪些商品被选中了 然后给PayActivity传一个list
+        CartGoods payGoods = new CartGoods();
+        List<CartGoods> mmList = new ArrayList<>();
+        for (int i = 0; i < payList.size(); i++) {
+            if (payList.get(i).isSelected()) {
+                payGoods = payList.get(i);
+                mmList.add(payGoods);
+            }
+        }
+        if (mmList.size() == 0) {
+            showToast("没有选中商品");
+        } else {
+            Intent mIntent = new Intent(getActivity(), PayActivity.class);
+            /*Bundle bundle = new Bundle();
+            bundle.putSerializable("list", (Serializable) mmlist);*/
+            mIntent.putExtra("list", (Serializable) mmList);
+            startActivity(mIntent);
+        }
+    }
+
+    //json 解析
+    private void jsonMethod(String result) {
+        try {
+            JSONObject object = new JSONObject(result);
+            JSONObject object2 = object.getJSONObject("data");
+            JSONArray mJsonArray = object2.getJSONArray("data");
+            for (int i = 0; i < mJsonArray.length(); i++) {
+                JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                JSONArray mJsonArray2 = jsonObject.getJSONArray("data");
+                for (int j = 0; i < mJsonArray2.length(); j++) {
+                    JSONObject jsonObject2 = mJsonArray2.getJSONObject(j);
+                    String product_name = jsonObject2.getString("product_name"); //商品名
+                    int shopping_cart_id = jsonObject2.getInt("shopping_cart_id"); // 购物车id shopping_cart_id
+                    int quantity = jsonObject2.getInt("quantity"); //数量
+                    Log.e("quantity", quantity + "");
+                    JSONObject jsonObject3 = jsonObject2.getJSONObject("product");
+                    String path = jsonObject3.getString("image"); //获取图片路径
+                    double price = jsonObject3.getDouble("price"); // 商品价格
+                    //需要传到 商品详情(Goods) Bean
+                    int goods_id = jsonObject3.getInt("product_id"); //ID
+                    String goods_name = jsonObject3.getString("name");
+                    String uri = jsonObject3.getString("image"); //图片
+                    String goods_brand = null; //品牌
+                    String goods_specification = null;
+                    String goods_unit = jsonObject3.getString("extension4"); //单位
+                    String goods_shengben = null;  //成本
+                    String goods_remark = null; //备注 图文详情 是 description字段
+                    float goods_market_price = (float) jsonObject3.getDouble("market_price"); //超市价格
+                    float goods_platform_price = (float) jsonObject3.getDouble("price"); //平台价格
+                    float goods_discount = 0;  //打折
+                    JSONObject jsonObject4 = jsonObject3.getJSONObject("product_search");
+                    int goods_comment_count = jsonObject4.getInt("comment_num");//评论数量
+                    int goods_sales = jsonObject4.getInt("sales");   //销量
+                    int goods_stock = jsonObject4.getInt("stock_num");
+
+                    Goods mGoods = new Goods(goods_id, goods_name, uri, goods_brand, goods_specification, goods_unit, goods_shengben, goods_remark, goods_market_price, goods_platform_price, goods_discount, goods_comment_count, goods_stock);
+
+
+                    //mCartGoods.setPath("http://hz-ifs.ilexnet.com/eyes38/599334_1_pic500_120.jpg");
+                    //CartGoods cartGoods = new CartGoods(path, product_name, price, quantity, goods_id, mGoods);
+
+                    CartGoods cartGoods = new CartGoods();
+                    cartGoods.setPath(path);
+                    cartGoods.setTitle(product_name);
+                    cartGoods.setNum(quantity);
+                    cartGoods.setPrice(price);
+                    cartGoods.setGoods(mGoods);
+                    cartGoods.setShopping_cart_id(shopping_cart_id);
+                    mList.add(cartGoods);
+                    //Log.e("mlist", mList.size()+""+mList.toString());
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         }
        mCart_goodsAdapter.notifyDataSetChanged();
     }
+
+    //显示吐司
+    private void showToast(String text) {
+        if (mToast == null) {
+            mToast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
+        } else {
+            mToast.setText(text);
+        }
+        mToast.show();
+    }
+
 }

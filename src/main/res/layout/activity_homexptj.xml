@@ -22,19 +22,16 @@
             style="@style/pagetitletext"
             android:text="新品推荐"/>
 
-
-
-
     </RelativeLayout>
 
-
     <!-- 内容 -->
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/homecontent"
         style="@style/pagecontent"
         android:background="#f4f4f4"
         android:scrollbars="none">
         <!--新品推荐的RecyclerView-->
+<<<<<<< HEAD
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -46,7 +43,9 @@
                 android:layout_height="wrap_content"
                 />
         </LinearLayout>
+=======
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
-    </ScrollView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
