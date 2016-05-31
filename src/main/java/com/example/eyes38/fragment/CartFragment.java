@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
-import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.fragment.cart.CartEmptyView;
 import com.example.eyes38.fragment.cart.CartGoodsList;
 import com.yolanda.nohttp.NoHttp;
@@ -42,7 +41,6 @@ public class CartFragment extends Fragment {
     private View view;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
-    Cart_GoodsAdapter mCart_goodsAdapter;
     SharedPreferences sp;  //偏好设置 看用户登录是否登录
     RequestQueue mRequestQueue;
 
@@ -117,8 +115,6 @@ public class CartFragment extends Fragment {
     private void initOnclickListener() {
 
     }
-
-
 
 
 

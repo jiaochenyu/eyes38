@@ -14,6 +14,7 @@ public class CartGoods implements Serializable{
     private int productID;  // 商品id
     private boolean isSelected; // 是否被选中
     private int shopping_cart_id ; // 购物车id
+    private boolean discount;   // 是否优惠
     //商品信息
     private Goods mGoods;
 
@@ -92,6 +93,14 @@ public class CartGoods implements Serializable{
 
     public void setShopping_cart_id(int shopping_cart_id) {
         this.shopping_cart_id = shopping_cart_id;
+    }
+
+    public boolean isDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(boolean discount) {
+        this.discount = discount;
     }
 
     @Override

@@ -18,7 +18,7 @@
         android:paddingTop="5dp">
 
         <CheckBox
-            android:id="@+id/DiscountCheckbox"
+            android:id="@+id/allGoodsCheckboxTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/DiscountCheckbox"
+            android:layout_toRightOf="@+id/allGoodsCheckboxTop"
             android:text="0"
             />
 
@@ -54,7 +54,7 @@
     </RelativeLayout>
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/car_goods_refresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,7 +69,7 @@
             android:layout_weight="14">
         </android.support.v7.widget.RecyclerView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
 
     <RelativeLayout
