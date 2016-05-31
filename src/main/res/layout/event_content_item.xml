@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="150dp"
-              android:gravity="center"
-              android:layout_marginTop="6dp"
+              android:layout_width="120dp"
+              android:layout_height="120dp"
+              android:layout_marginLeft="10dp"
               android:layout_marginRight="6dp"
-              android:layout_marginLeft="35dp"
-              android:background="@drawable/event_content_border"
-              android:layout_height="150dp">
-    <ImageView
-        android:src="@drawable/defult"
-        android:scaleType="fitXY"
-        android:id="@+id/event_content_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"/>
-    <TextView
-        android:text="Event Test"
-        android:layout_marginTop="5dp"
-        android:textSize="12sp"
-        android:id="@+id/event_content_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+              android:layout_marginTop="6dp"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_weight="8"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <ImageView
+            android:id="@+id/event_content_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/defult"/>
+    </LinearLayout>W
+    <LinearLayout
+        android:layout_weight="2"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TextView
+            android:id="@+id/event_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Event Test"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
