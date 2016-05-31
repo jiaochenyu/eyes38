@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.home.HomexptjActivity;
+import com.example.eyes38.activity.home.HomezhuantiActivity;
 import com.example.eyes38.adapter.Home_ContentAdapter;
 import com.example.eyes38.adapter.Home_ad_adapter;
 import com.example.eyes38.beans.HomeContent;
@@ -111,7 +112,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         //初始化spinner并实现
         mHomeSpinnerView = new HomeSpinnerView(mMainActivity, mSpinner, height);
         mHomeSpinnerView.startspinner();
-   //     setonClick();
+        //     setonClick();
         return view;
     }
 
@@ -331,10 +332,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hcAdapter.setmOnItemClickListener(new Home_ContentAdapter.OnMoreItemClickListener() {
             @Override
             public void onItemClick(View view, HomeContent hc) {
-                for (int i=0;i<mrecycleList.size();i++){
-                Log.e("看看mre里有什么",mrecycleList.get(i).getName());}
-                Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
-                startActivity(intent);
+                if (hc.getName().equals("一周菜谱")){
+                    Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
+                    startActivity(intent);
+                Log.e("看看hc里有什么",hc.getName());
+                }
+                else{
+                    Intent intent = new Intent(mMainActivity, HomezhuantiActivity.class);
+                    intent.putExtra("zhuantiname",hc.getName());
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -373,7 +380,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         }
     };
-
 
 
     //初始化视图

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
+import com.example.eyes38.beans.HomeContent;
 import com.example.eyes38.beans.HomeContentContent;
 
 import java.util.List;
@@ -27,6 +28,11 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
     public static interface OnRecyclerViewItemClickListener {
 
         void onItemClick(View view, HomeContentContent hcc);
+    }
+
+    public static interface OnHeadViewItemClickListener {
+
+        void onItemClick(View view, HomeContent hc);
     }
 
     public void setmOnItemClickListener(OnRecyclerViewItemClickListener listener) {
@@ -74,8 +80,8 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.home_content_content_image);
-            mTextView = (TextView) itemView.findViewById(R.id.home_content_content_textview);
+            mImageView = (ImageView) itemView.findViewById(R.id.home_imageview);
+            mTextView = (TextView) itemView.findViewById(R.id.home_sort_item_nametextview);
         }
     }
 }

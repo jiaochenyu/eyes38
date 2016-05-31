@@ -166,11 +166,8 @@
             <RadioButton
                 android:id="@+id/goods_detail_radio_cart"
                 style="@style/goods_detail_radio_car"
-<<<<<<< HEAD
                 android:drawableTop="@drawable/goods_detail_cart" />
-=======
-                android:drawableTop="@drawable/ion_cart"/>
->>>>>>> 2eaa0a107fe41d3551a7a92c2514d57fc0f12da0
+
 
             <RadioButton
                 android:id="@+id/goods_detail_radio_buynow"

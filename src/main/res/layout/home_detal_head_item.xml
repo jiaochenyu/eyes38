@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <!--一周菜谱头部-->
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/home_shutiao"
+            android:layout_width="10dp"
+            android:layout_height="15dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/home_shutiao"/>
+
+        <TextView
+            android:id="@+id/zhuantiname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/home_shutiao"
+            android:text="一周菜谱"
+            android:textColor="@color/black"/>
+
+<LinearLayout
+    android:id="@+id/home_more"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"/>
+    <ImageView
+        android:id="@+id/home_yzcpgengduo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/home_gengduo"/>
+
+</LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>
