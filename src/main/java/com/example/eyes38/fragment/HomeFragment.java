@@ -31,6 +31,7 @@ import com.example.eyes38.beans.HomeFourSort;
 import com.example.eyes38.fragment.home.HomeRecycleView;
 import com.example.eyes38.fragment.home.HomeSpinnerView;
 import com.example.eyes38.fragment.search.SearchActivity;
+import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -46,6 +47,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 
 
 /**
@@ -85,7 +91,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     RelativeLayout mRelativeLayout;
     private RequestQueue mRequestQueue;
 
-
     //4个home_sort的图标和文字初始化
     private ImageView home_sort1image;
     private ImageView home_sort2image;
@@ -96,6 +101,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView home_sort3text;
     private TextView home_sort4text;
     private Timer timer;
+    private PtrFrameLayout ptrFrame;
+    private RecyclerView homerecycle;
 
 
     @Nullable
@@ -112,7 +119,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mOnRecycleResponseListener);
         //计算屏幕的尺寸并初始化spinner
         caculate();
+      //  listener();
         return view;
+    }
+
+    private void listener() {
+        LoadMoreFooterView header = new LoadMoreFooterView(view.getContext());
+        ptrFrame.setHeaderView(header);
+        ptrFrame.addPtrUIHandler(header);
+        //刷新
+        ptrFrame.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ptrFrame.refreshComplete();
+                        //获取轮播图的数据并实现,最新接口没数据,用的测试接口的数据
+                        getHttpMethod("http://api.dev.ilexnet.com/simulate/38eye/article-api/banner-images", mlunboOnResponseListener);
+                        //获取四大类的数据并实现
+                        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/home-category/list", mhomecategoryOnResponseListener);
+                        //获取recycleView的数据并实现
+                        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mOnRecycleResponseListener);
+                        //计算屏幕的尺寸并初始化spinner
+                        caculate();
+                    }
+                },1800);
+
+            }
+        });
     }
 
     private void getHttpMethod(String url, OnResponseListener mOnResponseListener) {
@@ -363,7 +403,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
             switch (action) {
 
-
                 case IMAGE_UPDATE:
                     //轮播图经行更新
                     mCurrentItem += 1;
@@ -383,6 +422,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     //初始化视图
     private void initView() {
+        ptrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.sort_content_ptr);
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         mSpinner = (Spinner) view.findViewById(R.id.home_spinner);
@@ -412,12 +452,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void handleMessage(Message msg) {
                 if (msg.what == 1) {
                     if (mRelativeLayout.getWidth() != 0) {
-                        Log.i("LinearLayoutW", mRelativeLayout.getWidth() + "");
-                        Log.i("LinearLayoutH", mRelativeLayout.getHeight() + "");
                         //取消定时器
                         timer.cancel();
                         height = mRelativeLayout.getHeight();
                         if (height!=0){
+                            //初始化spinner
                             mHomeSpinnerView = new HomeSpinnerView(mMainActivity, mSpinner, height);
                             mHomeSpinnerView.startspinner();
                         }
