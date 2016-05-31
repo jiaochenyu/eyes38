@@ -29,11 +29,16 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
+<<<<<<< HEAD
+import java.util.HashMap;
+=======
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jqchen on 2016/5/20.
@@ -53,12 +58,19 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private List<CartGoods> mList;
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener = null;//监听事件
+<<<<<<< HEAD
+
+    private static Map<Integer, Boolean> isSelected; // 是否选中
+    private int resourceId;                //适配器视图资源ID
+
+=======
     private boolean isShowDelete; // 是否显示删除按钮
     private RequestQueue mRequestQueue; //请求队列
     private int position; // 删除位置
     private int cartGoodsCount;
     Handler mainHandler = (new MainActivity()).mainHandler; // 向MainActivity传值 改变徽章
     Handler goodDetailHandler = (new GoodDetailActivity()).goodDetailHandler; // 向GoodDetailActivity传值 改变徽章
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     Handler mHandler;
 
     
@@ -102,6 +114,16 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         initDate();
     }
 
+<<<<<<< HEAD
+    //get 方法
+    public static Map<Integer, Boolean> getIsSelected() {
+        return isSelected;
+    }
+
+    //set 方法
+    public static void setIsSelected(Map<Integer, Boolean> isSelected) {
+        Cart_GoodsAdapter.isSelected = isSelected;
+=======
     public boolean isShowDelete() {
         return isShowDelete;
     }
@@ -128,6 +150,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
     public void setPosition(int position) {
         this.position = position;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     }
 
 
@@ -176,8 +199,12 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             holder.mDayOrder.setVisibility(View.VISIBLE);
         }
         holder.mCheckBox.setTag(position);
+<<<<<<< HEAD
+        holder.mCheckBox.setChecked(getIsSelected().get(position)); //isSelected<position,?>
+=======
 
         holder.mCheckBox.setChecked(mList.get(position).isSelected());
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         holder.mCheckBox.setOnCheckedChangeListener(new CheckBoxChangedListener());
         holder.addButton.setOnClickListener(new ButtonOnClickListener(position));
         holder.subButton.setOnClickListener(new ButtonOnClickListener(position));
@@ -210,6 +237,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
         public CartGoodsViewHolder(View itemView) {
             super(itemView);
+
             initViews(itemView);
         }
 
@@ -235,8 +263,13 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
     //初始化每一个item 设置为true 选中
     private void initDate() {
-        //isSelected = new HashMap<>();
+        isSelected = new HashMap<>();
         for (int i = 0; i < mList.size(); i++) {
+<<<<<<< HEAD
+            getIsSelected().put(i, true);
+        }
+        //mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
+=======
             mList.get(i).setSelected(true);
         }
         if (isAllSelected()) {
@@ -246,8 +279,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
         }
         //mHandler.sendMessage(mHandler.obtainMessage(2, getTotalPrice()));
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         //如果商品全部被选中，则全选按钮也被 默认为选中
-        //mHandler.sendMessage(mHandler.obtainMessage(1, true));
+        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
     }
 
     //为加减按钮 设置监听器
@@ -292,10 +326,15 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position = (int) buttonView.getTag();
+<<<<<<< HEAD
+            getIsSelected().put(position, isChecked);
+=======
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
             CartGoods mCartGoods = mList.get(position);
             mCartGoods.setSelected(isChecked);
             //通知改变总价格 将总价格传给Handler
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
+
             //如果商品全部被选中，则全选按钮也被 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
@@ -311,13 +350,13 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         CartGoods mCartGoods = null;
         float totalPrice = 0;
         for (int i = 0; i < mList.size(); i++) {
-            //Log.e(i+"当前状态",mList.get(i).isSelected()+"");
+            Log.e(i+"当前状态",mList.get(i).isSelected()+"");
             mCartGoods = mList.get(i);
             if (mCartGoods.isSelected()) {
                 totalPrice += mCartGoods.getNum() * mCartGoods.getPrice();
             }
         }
-        //Log.e("mlist.size()",totalPrice+""+mList.size());
+        Log.e("mlist.size()",totalPrice+""+mList.size());
         return totalPrice;
     }
 
@@ -329,8 +368,14 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private boolean isAllSelected() {
         boolean flag = true;
         for (int i = 0; i < mList.size(); i++) {
+<<<<<<< HEAD
+            if (!getIsSelected().get(i)) {
+                flag = false;
+                break;
+=======
             if (!mList.get(i).isSelected()) {
                 flag = false;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
             }
         }
         return flag;

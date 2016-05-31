@@ -3,21 +3,28 @@ package com.example.eyes38.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Spinner;
+<<<<<<< HEAD
+import android.widget.Toast;
+
+import com.example.eyes38.EventActivity.EventActivity;
+import com.example.eyes38.MainActivity;
+import com.example.eyes38.R;
+import com.example.eyes38.activity.home.HomexptjActivity;
+import com.example.eyes38.fragment.home.HomeLunboView;
+=======
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -30,21 +37,11 @@ import com.example.eyes38.adapter.Home_ad_adapter;
 import com.example.eyes38.beans.HomeContent;
 import com.example.eyes38.beans.HomeContentContent;
 import com.example.eyes38.beans.HomeFourSort;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 import com.example.eyes38.fragment.home.HomeRecycleView;
 import com.example.eyes38.fragment.home.HomeSpinnerView;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
-import com.yolanda.nohttp.RequestMethod;
+import com.example.eyes38.fragment.search.SearchActivity;
 import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -64,6 +61,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //封装的spinner的实现类
     HomeSpinnerView mHomeSpinnerView;
 
+<<<<<<< HEAD
+    ImageView home_xptjgengduo,home_yzcpgengduo,home_search;
+=======
     ImageView home_xptjgengduo;
     ImageView home_yzcpgengduo;
     private int mWhat = 123;
@@ -78,11 +78,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public static final int IMAGE_UPDATE = 1;
     public static final int REFRESHTIME = 5 * 1000;
     public static final int IMAGE_CHANGED = 2;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     ImageView mImageView;
     int height;
-    private RequestQueue mRequestQueue;
 
+<<<<<<< HEAD
+    private RequestQueue mRequestQueue;
+=======
 
     //4个home_sort的图标和文字初始化
     private ImageView home_sort1image;
@@ -94,6 +97,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView home_sort3text;
     private TextView home_sort4text;
 
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     @Nullable
     @Override
@@ -101,21 +105,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.home, null);
         mMainActivity = (MainActivity) getActivity();
         initView();
+<<<<<<< HEAD
+        //初始化轮播图并实现
+//        mHomeLunboView = new HomeLunboView(mMainActivity,mViewPager);
+//        mHomeLunboView.startLubo();
+        //初始化recycleview并实现
+        mHomeRecycleView = new HomeRecycleView(mMainActivity,mRecyclerView);
+        mHomeRecycleView.startItem();
+=======
         //获取轮播图的数据并实现,最新接口没数据,用的测试接口的数据
         getHttpMethod("http://api.dev.ilexnet.com/simulate/38eye/article-api/banner-images", mlunboOnResponseListener);
         //获取四大类的数据并实现
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/home-category/list", mhomecategoryOnResponseListener);
         //获取recycleView的数据并实现
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mOnRecycleResponseListener);
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         //计算屏幕的尺寸
         caculate();
         //初始化spinner并实现
-        mHomeSpinnerView = new HomeSpinnerView(mMainActivity, mSpinner, height);
+        mHomeSpinnerView = new HomeSpinnerView(mMainActivity,mSpinner,height);
         mHomeSpinnerView.startspinner();
         //     setonClick();
         return view;
     }
 
+<<<<<<< HEAD
+    private void setonClick() {
+        home_xptjgengduo.setOnClickListener(this);
+        home_yzcpgengduo.setOnClickListener(this);
+        home_search.setOnClickListener(this);
+    }
+=======
     private void getHttpMethod(String url, OnResponseListener mOnResponseListener) {
         mrecycleList = new ArrayList<>();
         mRequestQueue = NoHttp.newRequestQueue();
@@ -382,12 +402,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     };
 
 
+<<<<<<< HEAD
     //初始化视图
+=======
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
+
+>>>>>>> e523de49e752ae86a42c88cbc4d61a3373d58918
     private void initView() {
+        home_search= (ImageView) view.findViewById(R.id.home_search);
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         mSpinner = (Spinner) view.findViewById(R.id.home_spinner);
         mImageView = (ImageView) view.findViewById(R.id.home_jisuan);
+<<<<<<< HEAD
+        home_xptjgengduo = (ImageView) view.findViewById(R.id.home_xptjgengduo);
+        home_yzcpgengduo= (ImageView) view.findViewById(R.id.home_yzcpgengduo);
+=======
         // home_xptjgengduo = (ImageView) view.findViewById(R.id.home_xptjgengduo);
         home_yzcpgengduo = (ImageView) view.findViewById(R.id.home_yzcpgengduo);
         home_sort1image = (ImageView) view.findViewById(R.id.home_sort1image);
@@ -398,6 +428,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         home_sort3text = (TextView) view.findViewById(R.id.home_sort3text);
         home_sort4image = (ImageView) view.findViewById(R.id.home_sort4image);
         home_sort4text = (TextView) view.findViewById(R.id.home_sort4text);
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     }
 
     @Override
@@ -406,17 +437,39 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void caculate() {
-        WindowManager manager = (WindowManager) mMainActivity.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager manager = (WindowManager)mMainActivity.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm=new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(dm);
+<<<<<<< HEAD
+        int width2=dm.widthPixels;
+        height=dm.heightPixels;
+        Toast.makeText(mMainActivity, "height:" + height, Toast.LENGTH_SHORT).show();
+=======
         int width2 = dm.widthPixels;
         height = dm.heightPixels;
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     }
 
     @Override
     public void onClick(View v) {
         int buttonid = v.getId();
+<<<<<<< HEAD
+        switch (buttonid){
+            case R.id.home_xptjgengduo:
+                Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.home_yzcpgengduo:
+                Intent intent1 = new Intent(mMainActivity, EventActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.home_search:
+                Intent intent2 = new Intent(mMainActivity, SearchActivity.class);
+                startActivity(intent2);
+                break;
+=======
         switch (buttonid) {
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
         }
     }

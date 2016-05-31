@@ -40,7 +40,7 @@ public class EventDay2 extends Fragment{
     private void initViews() {
         mRecyclerView= (RecyclerView) view.findViewById(R.id.event_day2_recycle);
         //设置recycleview布局
-
+        
 
     }
 }

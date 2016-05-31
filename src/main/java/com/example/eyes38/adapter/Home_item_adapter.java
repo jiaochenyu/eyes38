@@ -1,13 +1,11 @@
 package com.example.eyes38.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.HomeGrid;
 
@@ -18,10 +16,8 @@ import java.util.List;
  */
 public class Home_item_adapter extends RecyclerView.Adapter<Home_item_adapter.ViewHolder> {
 public List<HomeGrid> datas = null;
-    Context mContext;
-public Home_item_adapter(List<HomeGrid> datas, Context context) {
+public Home_item_adapter(List<HomeGrid> datas) {
         this.datas = datas;
-    this.mContext = context;
         }
 //创建新View，被LayoutManager所调用
 @Override
@@ -33,8 +29,7 @@ public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 //将数据与界面进行绑定的操作
 @Override
 public void onBindViewHolder(ViewHolder viewHolder, int position) {
-
-    Glide.with(mContext).load(datas.get(position).getPic()).into(viewHolder.mImageView);
+        viewHolder.mImageView.setImageResource(datas.get(position).getPic());
         }
 //获取数据的数量
 @Override

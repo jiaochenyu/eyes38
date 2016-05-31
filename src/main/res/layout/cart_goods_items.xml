@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@drawable/cart_item_bottom_border"
                 android:paddingBottom="5dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"
+                android:background="@drawable/cart_item_bottom_border"
     >
 
     <LinearLayout
@@ -91,10 +91,19 @@
         android:text="¥"
         android:textColor="@color/topical"/>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/dayOrder"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
         android:layout_alignBottom="@+id/goodspicture"
+<<<<<<< HEAD
+        android:layout_alignRight="@+id/cart_list_price"
+        android:background="@color/topical"
+        android:text="当日订单"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        />
+=======
         android:layout_alignParentRight="true"
         android:layout_alignRight="@+id/cart_list_price">
 
@@ -121,6 +130,7 @@
             />
 
     </RelativeLayout>
+>>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
 
 </RelativeLayout>

@@ -9,32 +9,17 @@ import java.io.Serializable;
 public class SortTitle implements Serializable {
     /**
      * id
-     * category_id 分类的id
      * content 标题内容
      * isseltected 是否选中
-     * path 图片地址
       */
     private int id;
-    private int category_id;
     private String content;
     private boolean isSeltcted;
-    private String path;
 
-    public int getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
-    }
-
-    public SortTitle(int id, int category_id, String content, boolean isSeltcted, String path) {
+    public SortTitle(int id, String content, boolean isSeltcted) {
         this.id = id;
-        this.category_id = category_id;
         this.content = content;
         this.isSeltcted = isSeltcted;
-
-        this.path = path;
     }
 
     public boolean isSeltcted() {
@@ -59,13 +44,5 @@ public class SortTitle implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 }

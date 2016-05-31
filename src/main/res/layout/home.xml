@@ -13,7 +13,7 @@
         <Spinner
             android:id="@+id/home_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:dropDownHorizontalOffset="500dp"
             android:dropDownVerticalOffset="50dp"
             android:layout_marginLeft="5dp"
@@ -30,7 +30,7 @@
     android:layout_height="fill_parent"/>
 
         <ImageView
-            android:id="@+id/home_fangdajing"
+            android:id="@+id/home_search"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -72,17 +72,15 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/home_sort1image"
                         style="@style/home_sort_imagebutton"
-                        />
+                        android:src="@drawable/ion_fruit"/>
 
                     <TextView
-                        android:id="@+id/home_sort1text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="10dp"
-                        />
+                        android:text="水果"/>
                 </LinearLayout>
 
 
@@ -93,16 +91,15 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/home_sort2image"
                         style="@style/home_sort_imagebutton"
+                        android:src="@drawable/ion_meat"
                         />
 
                     <TextView
-                        android:id="@+id/home_sort2text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                       />
+                        android:text="鲜肉"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -112,16 +109,15 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/home_sort3image"
                         style="@style/home_sort_imagebutton"
+                        android:src="@drawable/ion_aquatic"
                         />
 
                     <TextView
-                        android:id="@+id/home_sort3text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        />
+                        android:text="水产"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -131,16 +127,15 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/home_sort4image"
                         style="@style/home_sort_imagebutton"
+                        android:src="@drawable/ion_vegetable"
                         />
 
                     <TextView
-                        android:id="@+id/home_sort4text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                       />
+                        android:text="蔬菜"/>
                 </LinearLayout>
             </LinearLayout>
 

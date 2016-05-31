@@ -6,20 +6,17 @@ import java.io.Serializable;
  * Created by huangjiechun on 16/5/23.
  */
 public class HomeGrid implements Serializable {
-    private String pic;
+    private int pic;
 
-    public HomeGrid() {
-    }
-
-    public HomeGrid(String pic) {
+    public HomeGrid(int pic) {
         this.pic = pic;
     }
 
-    public String getPic() {
+    public int getPic() {
         return pic;
     }
 
-    public void setPic(String pic) {
+    public void setPic(int pic) {
         this.pic = pic;
     }
 }
