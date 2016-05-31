@@ -3,6 +3,7 @@ package com.example.eyes38.fragment.sort;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,8 +16,6 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.Sort_ContentAdapter;
 import com.example.eyes38.beans.SortContent;
 import com.example.eyes38.beans.SortContentContent;
-<<<<<<< HEAD
-=======
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
@@ -28,7 +27,6 @@ import com.yolanda.nohttp.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,22 +40,19 @@ import in.srain.cube.views.ptr.PtrHandler;
  * Created by jqchen on 2016/4/28.
  */
 public class ContentFragment extends Fragment {
+    public static final int FINSHED = 1;
     RecyclerView mRecyclerView;
     View mView;
     List<SortContent> mList;
-    List<SortContentContent> mmList;
     Sort_ContentAdapter scAdapter;
     //下拉刷新控件
 
-<<<<<<< HEAD
-=======
     //测试获取json数据
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     private final static int mWhat = 520;
     private PtrClassicFrameLayout ptrFrame;
 
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,14 +61,6 @@ public class ContentFragment extends Fragment {
         initView();
         //初始化数据
         initData();
-<<<<<<< HEAD
-        //初始化适配器
-        initAdapter();
-        //设置下拉刷新
-        initRefresh();
-        return mView;
-    }
-=======
         initListener();
 
         return mView;
@@ -116,7 +103,6 @@ public class ContentFragment extends Fragment {
             }
         }
     };
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     private void initAdapter() {
         scAdapter = new Sort_ContentAdapter(getContext(), mList);
@@ -124,8 +110,10 @@ public class ContentFragment extends Fragment {
     }
 
     private void initData() {
+        mList = new ArrayList<>();
+        getHttpMedthod();
 
-        mmList = new ArrayList<>();
+        /*mmList = new ArrayList<>();
         mList = new ArrayList<>();
         SortContentContent scc1 = new SortContentContent(1, null, "test1");
         SortContentContent scc2 = new SortContentContent(2, null, "test2");
@@ -167,10 +155,6 @@ public class ContentFragment extends Fragment {
             case 5:
                 mList.add(sc6);
                 break;
-<<<<<<< HEAD
-        }
-    }
-=======
         }*/
     }
 
@@ -245,7 +229,6 @@ public class ContentFragment extends Fragment {
 
         }
     };
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     private void initView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.sort_content_recycler);
@@ -257,10 +240,11 @@ public class ContentFragment extends Fragment {
     //获取Recyclerview传来的的值：id
     public int getID() {
         Bundle bundle = getArguments();
+        int id = 1;
         if (bundle != null) {
-            int id = bundle.getInt("id");
+            id = bundle.getInt("id");
             return id;
         }
-        return 0;
+        return id;
     }
 }

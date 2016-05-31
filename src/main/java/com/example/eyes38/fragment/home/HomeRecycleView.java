@@ -1,16 +1,26 @@
 package com.example.eyes38.fragment.home;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
-import com.example.eyes38.R;
 import com.example.eyes38.adapter.Home_item_adapter;
 import com.example.eyes38.beans.HomeGrid;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.OnResponseListener;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**此类写的是recycleView的实现
  * Created by huangjiechun on 16/5/23.
@@ -18,19 +28,17 @@ import java.util.List;
 public class HomeRecycleView {
 
     private RecyclerView mRecyclerView;
-    private List<HomeGrid> mData;
     private Home_item_adapter mAdapter;
     private Context mContext;
-
+    private RequestQueue mRequestQueue;
+    private int mWhat =123;
+    public static final int FINSH = 1;
     public HomeRecycleView(Context context,RecyclerView recycler) {
         this.mContext=context;
         this.mRecyclerView=recycler;
     }
     public void startItem() {
         initData();
-<<<<<<< HEAD
-        mAdapter = new Home_item_adapter(mData);
-=======
     }
 
     private void initData() {
@@ -111,7 +119,6 @@ public class HomeRecycleView {
 
     private void initAdapter() {
         mAdapter = new Home_item_adapter(mList,mContext);
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         mRecyclerView.setAdapter(mAdapter);
         //设置recycleview的布局管理
         //listview风格
@@ -119,17 +126,5 @@ public class HomeRecycleView {
         //grid
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-    }
-
-    private void initData() {
-       mData = new ArrayList<HomeGrid>();
-        HomeGrid hg1 = new HomeGrid(R.drawable.home_c1);
-        HomeGrid hg2 = new HomeGrid(R.drawable.home_c2);
-        HomeGrid hg3 = new HomeGrid(R.drawable.home_c3);
-        HomeGrid hg4 = new HomeGrid(R.drawable.home_c4);
-        mData.add(hg1);
-        mData.add(hg2);
-        mData.add(hg3);
-        mData.add(hg4);
     }
 }

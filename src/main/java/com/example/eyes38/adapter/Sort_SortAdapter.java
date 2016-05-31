@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
 
@@ -46,12 +47,8 @@ public class Sort_SortAdapter extends RecyclerView.Adapter<Sort_SortAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //绑定数据
-<<<<<<< HEAD
-        holder.mImageView.setImageURI(mList.get(position).getUri());
-=======
 
         Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         holder.nameTextView.setText(mList.get(position).getGoods_name());
         holder.priceTextView.setText(mList.get(position).getGoods_platform_price()+"");
         holder.unitTextView.setText(mList.get(position).getGoods_unit());

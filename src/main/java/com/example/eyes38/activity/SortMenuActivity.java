@@ -2,24 +2,19 @@ package com.example.eyes38.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.support.v4.widget.SwipeRefreshLayout;
-=======
 import android.os.Handler;
 import android.os.Message;
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Sort_SortAdapter;
 import com.example.eyes38.beans.Goods;
-<<<<<<< HEAD
-=======
 import com.example.eyes38.beans.SortContentContent;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
@@ -32,7 +27,6 @@ import com.yolanda.nohttp.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +37,12 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
 public class SortMenuActivity extends AppCompatActivity {
+    public static final int FINISHED = 1;
     RecyclerView mRecyclerView;
     Sort_SortAdapter sort_sortAdapter;
     List<Goods> mList;
     //分类导航栏
     private RadioGroup mRadioGroup;
-<<<<<<< HEAD
-=======
     private TextView titleTextView;
     private String titlecontent;
     //刷新界面
@@ -59,7 +52,6 @@ public class SortMenuActivity extends AppCompatActivity {
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     private final static int mWhat = 520;
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +59,6 @@ public class SortMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sort_menu);
         initView();
         initData();
-<<<<<<< HEAD
-        initAdapter();
-        setRadioGroupListener();
-    }
-
-=======
         getDatas();
         setUI();
         initListener();
@@ -122,16 +108,16 @@ public class SortMenuActivity extends AppCompatActivity {
             }
         }
     };
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     private void setRadioGroupListener() {
         //对分类导航栏监听
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                resetDatas(checkedId);
+//                resetDatas(checkedId);
             }
         });
     }
+
 
     private void resetDatas(int checkedId) {
         //更改mlist中的数据，并通知适配器来更新UI
@@ -164,25 +150,19 @@ public class SortMenuActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(grid);
         //分类界面的导航栏
         mRadioGroup = (RadioGroup) findViewById(R.id.sort_menu);
-<<<<<<< HEAD
-=======
         titleTextView = (TextView) findViewById(R.id.sort_sort_title);
         ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.sort_sort_ptr);
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     }
 
     private void initData() {
-        mList = new ArrayList<>();
-        Goods g1 = new Goods(1, "苹果", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
+        getHttpMedthod();
+        /*Goods g1 = new Goods(1, "苹果", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
         Goods g2 = new Goods(2, "苹果", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
         Goods g3 = new Goods(3, "苹果", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
         Goods g4 = new Goods(4, "苹果", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
         mList.add(g1);
         mList.add(g2);
         mList.add(g3);
-<<<<<<< HEAD
-        mList.add(g4);
-=======
         mList.add(g4);*/
 
 
@@ -247,8 +227,13 @@ public class SortMenuActivity extends AppCompatActivity {
 
         }
     };
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
+    //获取传来的商品的id
+    private void getDatas(){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("values");
+        SortContentContent scc = (SortContentContent) bundle.get("values");
+        titlecontent = scc.getConten();
     }
 
     private void initAdapter() {
@@ -257,7 +242,10 @@ public class SortMenuActivity extends AppCompatActivity {
         sort_sortAdapter.setmOnItemClickListener(new Sort_SortAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Goods goods) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("values",goods);
                 Intent intent = new Intent(SortMenuActivity.this, GoodDetailActivity.class);
+                intent.putExtra("values",bundle);
                 startActivity(intent);
             }
         });

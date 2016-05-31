@@ -21,11 +21,8 @@ import com.example.eyes38.R;
 import com.example.eyes38.activity.PayActivity;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
-<<<<<<< HEAD
-=======
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.fragment.CartFragment;
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -70,25 +67,17 @@ public class CartGoodsList extends Fragment {
 
 
     //Handler
-<<<<<<< HEAD
-    private Handler mHandler = new Handler() {
-=======
     Handler mmHandler = new Handler() {
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         @Override
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
                 case mFINFISH:
                     //加载数据完成
-<<<<<<< HEAD
-                    //mCart_goodsAdapter.notifyDataSetChanged();
-=======
                     mCart_goodsAdapter = new Cart_GoodsAdapter(mList, getActivity(), mmHandler);
                     mRecyclerView.setAdapter(mCart_goodsAdapter);
                     mCart_goodsAdapter.notifyDataSetChanged();
                     mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,mList.size()));  //通知改变徽章
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
                     initListener();
                     break;
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
@@ -100,10 +89,6 @@ public class CartGoodsList extends Fragment {
                     //如果都被选中那么全选按钮也要被选中
                     //记录是否被全选
                     allChecked = !(Boolean) msg.obj;
-<<<<<<< HEAD
-                    Log.e("获取通知","获取通知的allchecked"+allChecked);
-=======
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
                     mCheckBoxAll.setChecked((Boolean) msg.obj);
                     break;
                 case Cart_GoodsAdapter.NOTIFILIST:
@@ -164,16 +149,11 @@ public class CartGoodsList extends Fragment {
     //请求http 获取购物车信息
     private void getHttpMethod() {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
-        String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata";
+        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-<<<<<<< HEAD
-        request.add("size", "7");
-=======
         request.setRequestFailedReadCache(true);
         //request.add("shoppingCartIds", "219");
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         mRequestQueue.add(mWhat, request, mOnResponseListener);
-
     }
 
     /**
@@ -188,49 +168,10 @@ public class CartGoodsList extends Fragment {
         @Override
         public void onSucceed(int what, Response<String> response) {
             if (what == mWhat) {
+                Log.e("请求成功", "success");
+                mList = new ArrayList<>();
                 //请求成功
                 String result = response.get();
-<<<<<<< HEAD
-
-                try {
-                    JSONObject object = new JSONObject(result);
-                    JSONArray cartgoods = object.getJSONArray("goods");
-                    for (int i = 0; i < cartgoods.length(); i++) {
-                        JSONObject jsonObject = cartgoods.getJSONObject(i);
-                        CartGoods mCartGoods = new CartGoods();
-                        mCartGoods.setPath(jsonObject.getString("pic"));
-                        mCartGoods.setTitle(jsonObject.getString("title"));
-                        mCartGoods.setPrice(i);
-                        mCartGoods.setNum(i);
-                        Log.e("获取的数据jjjj", jsonObject.getString("pic") + jsonObject.getString("title"));
-                        mList.add(mCartGoods);
-                    }
-
-                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mHandler);
-                    mRecyclerView.setAdapter(mCart_goodsAdapter);
-                    Message message = new Message();
-                    message.what = mFINFISH;
-                    Log.e("请求完成", "66666666666666");
-                    mHandler.sendMessage(message);
-                    mCountTopTextView.setText(mList.size() + "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-               /* Gson gson = new Gson();
-                try {
-                //  用 Gson 必须 与实体 一一对应
-                    JSONObject object = new JSONObject(result);
-                    JSONArray cartgoods = object.getJSONArray("goods");
-                    for (int i = 0; i < cartgoods.length(); i++) {
-                        CartGoods mCartGoods = gson.fromJson(cartgoods.getJSONObject(i).toString(),CartGoods.class);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
-
-=======
                 //JSON解析
                 jsonMethod(result);
                 Message message = new Message();
@@ -238,19 +179,16 @@ public class CartGoodsList extends Fragment {
                 //Log.e("请求完成", "66666666666666");
                 mmHandler.sendMessage(message);
                 mCountTopTextView.setText(mList.size() + "");
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
             }
         }
 
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-
         }
 
         @Override
         public void onFinish(int what) {
             //请求结束。 通知初始化 适配器
-
         }
     };
 
@@ -262,7 +200,6 @@ public class CartGoodsList extends Fragment {
             switch (v.getId()) {
                 case R.id.DiscountCheckbox:
                     // 选中含有优惠信息的商品
-
                     break;
                 case R.id.DeleteOperationTV:
                     //编辑按钮删除操作  将删除按钮显示出来
@@ -270,7 +207,6 @@ public class CartGoodsList extends Fragment {
                     break;
                 case R.id.checkboxAllGoods:
                     //选中全部商品
-
                     selectedAll();
                     break;
                 case R.id.jiesuanButton:
@@ -292,11 +228,8 @@ public class CartGoodsList extends Fragment {
 
     // 全部选中
     private void selectedAll() {
-        Log.e("selectedAll","allchecked"+allChecked);
+        //Log.e("selectedAll","allchecked"+allChecked);
         for (int i = 0; i < mList.size(); i++) {
-<<<<<<< HEAD
-            Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
-=======
             //Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
             //设置beans
             mList.get(i).setSelected(allChecked);
@@ -381,9 +314,7 @@ public class CartGoodsList extends Fragment {
 
         } catch (JSONException e) {
             e.printStackTrace();
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         }
-       mCart_goodsAdapter.notifyDataSetChanged();
     }
 
     //显示吐司

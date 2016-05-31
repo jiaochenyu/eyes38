@@ -2,6 +2,7 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,7 +65,7 @@ public class Sort_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //获得分类详细的内容，list集合
             List<SortContentContent> list = mList.get((position-1)/2).getmList();
             //初始化适配器
-            Sort_ContentContentAdapter contentAdapter  = new Sort_ContentContentAdapter(list);
+            Sort_ContentContentAdapter contentAdapter  = new Sort_ContentContentAdapter(list,mContext);
             //新建布局管理器
             GridLayoutManager grid  = new GridLayoutManager(mContext,3);
             //绑定布局器
@@ -76,7 +77,9 @@ public class Sort_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onItemClick(View view, SortContentContent scc) {
                     Intent intent = new Intent(mContext, SortMenuActivity.class);
-                    intent.putExtra("values",scc);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("values",scc);
+                    intent.putExtra("values",bundle);
                     mContext.startActivity(intent);
                 }
             });

@@ -1,7 +1,5 @@
 package com.example.eyes38.beans;
 
-import android.net.Uri;
-
 import java.io.Serializable;
 
 /**
@@ -10,7 +8,7 @@ import java.io.Serializable;
 public class Goods implements Serializable {
     private int goods_id;
     private String goods_name;
-    private Uri uri;
+    private String path;
     private String goods_brand;
     private String goods_specification;
     private String goods_unit;
@@ -22,12 +20,6 @@ public class Goods implements Serializable {
     private int goods_comment_count;
     private int goods_stock;
 
-<<<<<<< HEAD
-    public Goods(int goods_id, String goods_name, Uri uri, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
-        this.goods_id = goods_id;
-        this.goods_name = goods_name;
-        this.uri = uri;
-=======
 
     public Goods(int goods_id, String goods_name, String path, String goods_brand, String goods_specification, String goods_unit, String goods_shengben, String goods_remark, float goods_market_price, float goods_platform_price, float goods_discount, int goods_comment_count, int goods_stock) {
 
@@ -35,7 +27,6 @@ public class Goods implements Serializable {
         this.goods_id = goods_id;
         this.goods_name = goods_name;
         this.path = path;
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         this.goods_brand = goods_brand;
         this.goods_specification = goods_specification;
         this.goods_unit = goods_unit;
@@ -45,7 +36,7 @@ public class Goods implements Serializable {
         this.goods_platform_price = goods_platform_price;
         this.goods_discount = goods_discount;
         this.goods_comment_count = goods_comment_count;
-        this.goods_stock = goods_stock;
+        this.goods_stock = goods_stock; // 库存
     }
 
     public int getGoods_stock() {
@@ -56,15 +47,6 @@ public class Goods implements Serializable {
         this.goods_stock = goods_stock;
     }
 
-<<<<<<< HEAD
-    public Uri getUri() {
-        return uri;
-    }
-
-    public void setUri(Uri uri) {
-        this.uri = uri;
-    }
-=======
     public String getPath() {
         return path;
     }
@@ -74,7 +56,6 @@ public class Goods implements Serializable {
     }
 
 
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     public int getGoods_id() {
         return goods_id;

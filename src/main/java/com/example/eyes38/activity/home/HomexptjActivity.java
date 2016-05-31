@@ -47,12 +47,6 @@ public class HomexptjActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homexptj);
-<<<<<<< HEAD
-        mRecyclerView = (RecyclerView) findViewById(R.id.home_xptj_view);
-        //初始化recycleview并实现
-        mHomeRecycleView = new HomeRecycleView(this,mRecyclerView);
-        mHomeRecycleView.startItem();
-=======
         initView();
         intiData();
     }
@@ -78,7 +72,6 @@ public class HomexptjActivity extends AppCompatActivity {
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     }
 
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {

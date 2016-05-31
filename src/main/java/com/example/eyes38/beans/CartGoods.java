@@ -8,12 +8,11 @@ import java.text.DecimalFormat;
  */
 public class CartGoods implements Serializable{
     private String path; //商品图片
-    private String title; // 商品标题
-    private float price; // 商品价格
+    private String title; // 商品标题 名称
+    private double price; // 商品价格
     private int num; // 商品数量
+    private int productID;  // 商品id
     private boolean isSelected; // 是否被选中
-<<<<<<< HEAD
-=======
     private int shopping_cart_id ; // 购物车id
     //商品信息
     private Goods mGoods;
@@ -25,21 +24,18 @@ public class CartGoods implements Serializable{
     public void setGoods(Goods goods) {
         mGoods = goods;
     }
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
 
     public CartGoods() {
     }
 
-<<<<<<< HEAD
-    public CartGoods(String path, String title, float price,int num) {
-=======
     public CartGoods(String path, String title, double price, int num, int productID, Goods goods) {
         DecimalFormat df = new DecimalFormat("0.00");
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
         this.path = path;
         this.title = title;
         this.price = price;
         this.num = num;
+        this.productID = productID;
+        mGoods = goods;
     }
 
     public String getPath() {
@@ -58,11 +54,11 @@ public class CartGoods implements Serializable{
         this.title = title;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -82,8 +78,6 @@ public class CartGoods implements Serializable{
         isSelected = selected;
     }
 
-<<<<<<< HEAD
-=======
     public int getProductID() {
         return productID;
     }
@@ -100,21 +94,17 @@ public class CartGoods implements Serializable{
         this.shopping_cart_id = shopping_cart_id;
     }
 
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
     @Override
     public String toString() {
         return "CartGoods{" +
                 "path='" + path + '\'' +
                 ", title='" + title + '\'' +
                 ", price=" + price +
-<<<<<<< HEAD
-=======
                 ", num=" + num +
                 ", productID=" + productID +
                 ", isSelected=" + isSelected +
                 ", shopping_cart_id=" + shopping_cart_id +
                 ", mGoods=" + mGoods +
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
                 '}';
     }
 }

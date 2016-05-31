@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -20,51 +20,6 @@
         </activity>
 
         <!-- user -->
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        <activity android:name=".user_activity.User_phone_setActivity">
-        </activity>
-        <activity android:name=".user_activity.User_message_setActivity">
-        </activity>
-        <activity android:name=".user_activity.User_personal_centerActivity">
-        </activity>
-        <activity android:name=".user_activity.User_orderActivity">
-        </activity>
-        <activity android:name=".user_activity.User_take_addressActivity">
-        </activity>
-        <activity android:name=".user_activity.Update_user_passwordActivity">
-        </activity>
-        <activity android:name=".user_activity.User_BindPhoneActivity">
-        </activity>
-        <activity android:name=".user_activity.User_loginActivity">
-        </activity>
-        <activity android:name=".user_activity.User_creditsActivity">
-        </activity>
-        <activity android:name=".user_activity.User_backgoodActivity">
-        </activity>
-        <activity android:name=".user_activity.User_findpasswordActivity">
-        </activity>
-        <activity android:name=".user_activity.User_findpassword2Activity">
-        </activity>
-        <activity android:name=".user_activity.User_find_password3Activity">
-        </activity>
-        <activity android:name=".user_activity.User_registerActivity">
-        </activity>
-        <activity android:name=".activity.SortMenuActivity"/>
-        <activity android:name=".activity.GoodDetailActivity"/>
-        <activity android:name=".activity.CommentActivity"/>
-        <activity android:name=".user_activity.AddressInfo.User_addAddressActivity">
-        </activity>
-        <activity android:name=".EventActivity.EventActivity">
-        </activity>
-        <activity android:name=".activity.home.HomexptjActivity">
-        </activity>
-        <activity android:name=".fragment.search.SearchActivity" android:windowSoftInputMode="adjustPan">
-        </activity>
-=======
-<<<<<<< HEAD
->>>>>>> e523de49e752ae86a42c88cbc4d61a3373d58918
         <activity android:name=".user_activity.User_phone_setActivity" />
         <activity android:name=".user_activity.User_message_setActivity" />
         <activity android:name=".user_activity.User_personal_centerActivity" />
@@ -91,12 +46,8 @@
         <activity android:name=".activity.PayActivity"/>
         <activity android:name=".activity.CartActivity">
         </activity>
-<<<<<<< HEAD
+        <activity android:name=".fragment.search.SearchActivity" android:windowSoftInputMode="adjustPan"/>
 
-=======
->>>>>>> 2eaa0a107fe41d3551a7a92c2514d57fc0f12da0
->>>>>>> c7cfbc72c6095a8db55b39ef93468236f5e10028
->>>>>>> e523de49e752ae86a42c88cbc4d61a3373d58918
     </application>
 
 </manifest>

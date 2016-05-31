@@ -8,12 +8,6 @@
         <item>男</item>
         <item>女</item>
     </string-array>
-    <string-array name="search_spinner">
-        <item>水果</item>
-        <item>鲜肉</item>
-        <item>水产</item>
-        <item>蔬菜</item>
-    </string-array>
 
     <string name="sort_menu_default">默认</string>
     <string name="sort_menu_new">最新</string>
@@ -49,5 +43,12 @@
     <string name="rmb">￥</string>
     <!--库存-->
     <string name="goods_stock">库存:</string>
+
+    <string-array name="search_spinner">
+        <item>水果</item>
+        <item>鲜肉</item>
+        <item>水产</item>
+        <item>蔬菜</item>
+    </string-array>
 
 </resources>
