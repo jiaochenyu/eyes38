@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/emo_im_cool" android:duration="500"/>
-    <item android:drawable="@drawable/emo_im_crying" android:duration="500"/>
-    <item android:drawable="@drawable/emo_im_embarrassed" android:duration="500"/>
-    <item android:drawable="@drawable/emo_im_foot_in_mouth" android:duration="500"/>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/load_one" android:duration="100"/>
+    <item android:drawable="@drawable/load_two" android:duration="100"/>
+    <item android:drawable="@drawable/load_three" android:duration="100"/>
+    <item android:drawable="@drawable/load_four" android:duration="100"/>
 </animation-list>
