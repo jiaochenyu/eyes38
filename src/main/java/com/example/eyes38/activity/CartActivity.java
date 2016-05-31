@@ -106,7 +106,6 @@ public class CartActivity extends AppCompatActivity {
         } else {
             //登录了 进行网络请求 判断用户购物车是否为空
             getHttpMethod();
-
         }
     }
 

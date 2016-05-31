@@ -36,6 +36,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            //从购物车中接收数据
             switch (msg.what) {
                 case CARTGOODSCOUNT:
                     if (((Integer) msg.obj) != 0) {
@@ -159,6 +160,12 @@ public class GoodDetailActivity extends AppCompatActivity {
                     break;
                 case R.id.goods_detail_radio_addcart:
                     //加入购物车
+                    /**
+                     * 先判断用户是否登陆
+                     * 没登录将商品添加到本地购物车（数据库）。
+                     * 登陆了将本地购物车添加到用户购物车。
+                     */
+
                     break;
             }
         }
