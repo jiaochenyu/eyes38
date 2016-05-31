@@ -1,6 +1,5 @@
 package com.example.eyes38.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.SortContentContent;
 
@@ -20,7 +18,6 @@ import java.util.List;
 public class Sort_ContentContentAdapter extends RecyclerView.Adapter<Sort_ContentContentAdapter.MyViewHolder> implements View.OnClickListener{
     private List<SortContentContent> mList;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
-    Context mContext;
 
     //定义监听接口
     public static interface OnRecyclerViewItemClickListener{
@@ -30,10 +27,8 @@ public class Sort_ContentContentAdapter extends RecyclerView.Adapter<Sort_Conten
     public void setmOnItemClickListener(OnRecyclerViewItemClickListener listener){
         this.mOnItemClickListener = listener;
     }
-
-    public Sort_ContentContentAdapter(List<SortContentContent> mList, Context mContext) {
+    public Sort_ContentContentAdapter(List<SortContentContent> mList) {
         this.mList = mList;
-        this.mContext = mContext;
     }
 
     @Override
@@ -48,9 +43,7 @@ public class Sort_ContentContentAdapter extends RecyclerView.Adapter<Sort_Conten
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.mTextView.setText(mList.get(position).getConten());
-        if (!mList.get(position).getPath().equals("")){
-            Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
-        }
+        holder.mImageView.setImageURI(mList.get(position).getUri());
         holder.itemView.setTag(mList.get(position));
     }
 

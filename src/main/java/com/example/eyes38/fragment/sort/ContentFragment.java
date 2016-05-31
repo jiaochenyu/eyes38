@@ -3,7 +3,6 @@ package com.example.eyes38.fragment.sort;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,16 +17,6 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.Sort_ContentAdapter;
 import com.example.eyes38.beans.SortContent;
 import com.example.eyes38.beans.SortContentContent;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
-import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,18 +25,13 @@ import java.util.List;
  * Created by jqchen on 2016/4/28.
  */
 public class ContentFragment extends Fragment {
-    public static final int FINSHED = 1;
     RecyclerView mRecyclerView;
     View mView;
     List<SortContent> mList;
+    List<SortContentContent> mmList;
     Sort_ContentAdapter scAdapter;
     //下拉刷新控件
     SwipeRefreshLayout mSwipeRefreshLayout;
-
-    //测试获取json数据
-    //创建 请求队列成员变量
-    private RequestQueue mRequestQueue;
-    private final static int mWhat = 520;
 
     @Nullable
     @Override
@@ -57,24 +41,12 @@ public class ContentFragment extends Fragment {
         initView();
         //初始化数据
         initData();
+        //初始化适配器
+        initAdapter();
         //设置下拉刷新
         initRefresh();
-
         return mView;
     }
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case FINSHED:
-                    //初始化适配器
-                    initAdapter();
-                    break;
-
-            }
-        }
-    };
 
     private void initRefresh() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -98,10 +70,8 @@ public class ContentFragment extends Fragment {
     }
 
     private void initData() {
-        mList = new ArrayList<>();
-        getHttpMedthod();
 
-        /*mmList = new ArrayList<>();
+        mmList = new ArrayList<>();
         mList = new ArrayList<>();
         SortContentContent scc1 = new SortContentContent(1, null, "test1");
         SortContentContent scc2 = new SortContentContent(2, null, "test2");
@@ -143,75 +113,8 @@ public class ContentFragment extends Fragment {
             case 5:
                 mList.add(sc6);
                 break;
-        }*/
+        }
     }
-
-    private void getHttpMedthod() {
-        mRequestQueue = NoHttp.newRequestQueue();
-        String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
-        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.add("active",1);
-        mRequestQueue.add(mWhat, request, mOnResponseListener);
-    }
-
-    /**
-     * 请求http结果  回调对象，接受请求结果
-     */
-    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
-        @Override
-        public void onStart(int what) {
-
-        }
-
-        @Override
-        public void onSucceed(int what, Response<String> response) {
-            if (what == mWhat) {
-                //请求成功
-                String result = response.get();
-                try {
-                    JSONObject object = new JSONObject(result);
-                    JSONArray array = object.getJSONArray("data");
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject jsonObject = array.getJSONObject(i);
-                        int parent_id = jsonObject.getInt("parent_id");
-                        if (parent_id == getID()){
-                            int category_id = jsonObject.getInt("category_id");
-                            String name = jsonObject.getString("name");
-                            //初始化mmlist
-                            List<SortContentContent> mmList = new ArrayList<>();
-                            for (int j = 0; j < array.length(); j++){
-                                JSONObject jsonObject1 = array.getJSONObject(j);
-                                int parent_id1 = jsonObject1.getInt("parent_id");
-                                if (parent_id1 == category_id){
-                                    int category_id1 = jsonObject1.getInt("category_id");
-                                    String name1 = jsonObject1.getString("name");
-                                    String path = jsonObject1.getString("image");
-                                    SortContentContent scc = new SortContentContent(category_id1,name1,path);
-                                    mmList.add(scc);
-                                }
-                            }
-                            SortContent sc = new SortContent(parent_id,name,mmList);
-                            mList.add(sc);
-                        }
-                    }
-                    handler.sendEmptyMessage(FINSHED);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-
-        }
-
-        @Override
-        public void onFinish(int what) {
-
-        }
-    };
 
     private void initView() {
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.sort_swiprefresh);
@@ -224,11 +127,10 @@ public class ContentFragment extends Fragment {
     //获取Recyclerview传来的的值：id
     public int getID() {
         Bundle bundle = getArguments();
-        int id = 1;
         if (bundle != null) {
-            id = bundle.getInt("id");
+            int id = bundle.getInt("id");
             return id;
         }
-        return id;
+        return 0;
     }
 }

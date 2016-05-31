@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="#F2F2F2"
               android:orientation="vertical"
     >
     <!-- 顶部标题栏 -->
@@ -42,6 +43,7 @@
             android:layout_weight="8">
 
             <EditText
+                android:focusableInTouchMode="false"
                 android:id="@+id/search_edit"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -52,7 +54,8 @@
             <ImageView
                 android:id="@+id/search_clear"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="28dp"
+                android:layout_marginRight="2dp"
                 android:layout_gravity="right|center_vertical"
                 android:src="@drawable/search_clear"
                 android:visibility="gone"/>
@@ -64,27 +67,103 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
+            android:focusable="false"
             android:layout_weight="2"
             android:background="@color/topical"
             android:text="搜索"
             android:textColor="#FFF"/>
     </LinearLayout>
     <!-- 内容 -->
-    <ScrollView
-        android:id="@+id/homecontent"
-        style="@style/pagecontent"
-        android:background="#f4f4f4"
-        android:scrollbars="none">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ListView
-                android:id="@+id/mlistview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></ListView>
-        </LinearLayout>
-    </ScrollView>
+   <FrameLayout
+       android:layout_weight="28"
+       android:layout_width="match_parent"
+       android:layout_height="0dp">
+      <LinearLayout
+          android:id="@+id/now_linear"
+          android:visibility="visible"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+          <TextView
+              android:background="#F2F2F2"
+              android:gravity="center_vertical"
+              android:layout_weight="2"
+              android:padding="5sp"
+              android:id="@+id/hottext"
+              android:text="热门搜索"
+              android:textSize="12sp"
+              android:layout_gravity="center_vertical"
+              android:textColor="@color/topical"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"/>
+          <!--暂时放个简单的分割线吧-->
+          <TextView
+              android:background="#FFF"
+              android:layout_width="match_parent"
+              android:layout_height="1dp"/>
+          <GridView
+              android:padding="10dp"
+              android:layout_margin="15dp"
+              android:layout_weight="11"
+              android:numColumns="3"
+              android:columnWidth="50dp"
+              android:minHeight="90dp"
+              android:horizontalSpacing="10sp"
+              android:verticalSpacing="10sp"
+              android:id="@+id/hotGridView"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"></GridView>
+          <!--暂时放个简单的分割线吧-->
+          <TextView
+              android:background="#FFF"
+              android:layout_width="match_parent"
+              android:layout_height="1dp"/>
+          <TextView
+              android:background="#f2f2f2"
+              android:gravity="center_vertical"
+              android:layout_weight="2"
+              android:padding="5sp"
+              android:id="@+id/agotext"
+              android:text="历史搜索"
+              android:textSize="12sp"
+              android:layout_gravity="center_vertical"
+              android:textColor="@color/topical"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"/>
+          <ListView
+              android:background="#FFF"
+              android:id="@+id/bad_list"
+              android:layout_weight="10"
+              android:layout_width="match_parent"
+              android:layout_height="0dp">
+          </ListView>
+          <Button
+              android:id="@+id/history_clear"
+              android:gravity="center"
+              android:text="清除历史搜索"
+              android:textColor="@color/topical"
+              android:background="#FFF"
+              android:layout_weight="2"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"/>
+
+      </LinearLayout>
+       <LinearLayout
+           android:id="@+id/result_linear"
+           android:visibility="gone"
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <android.support.v7.widget.RecyclerView
+               android:id="@+id/result_recycle"
+               android:layout_weight="12"
+               android:layout_width="match_parent"
+               android:layout_height="0dp">
+           </android.support.v7.widget.RecyclerView>
+       </LinearLayout>
 
 
-</LinearLayout>
+
+   </FrameLayout>
+
+    </LinearLayout>

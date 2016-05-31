@@ -9,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.example.eyes38.EventActivity.EventDay3;
-
 /**
  * Created by jqchen on 2016/5/3.
  * 此类用来绘制RecyclerView分割线
@@ -23,7 +21,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
     private Drawable mDivider;
     private int mOrientation;
-    public DividerItemDecoration(EventDay3 context, int orientation) {
+    public DividerItemDecoration(Context context, int orientation) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();

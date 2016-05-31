@@ -18,7 +18,6 @@ import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
-import com.example.eyes38.beans.Goods;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -55,7 +54,7 @@ public class CartGoodsList extends Fragment {
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     //Handler
-    private Handler mmHandler = new Handler() {
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
@@ -63,15 +62,8 @@ public class CartGoodsList extends Fragment {
                 case mFINFISH:
                     //加载数据完成
                     //mCart_goodsAdapter.notifyDataSetChanged();
-                    //selectedAll();
-
                     initListener();
                     break;
-               /* case 1:
-                    //默认全选
-                    break;
-                case 2:
-                    break;*/
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
                     //更改购物车中商品总价格
                     float price = (float) msg.obj;
@@ -81,7 +73,7 @@ public class CartGoodsList extends Fragment {
                     //如果都被选中那么全选按钮也要被选中
                     //记录是否被全选
                     allChecked = !(Boolean) msg.obj;
-                    // Log.e("获取通知","获取通知的allchecked"+allChecked);
+                    Log.e("获取通知","获取通知的allchecked"+allChecked);
                     mCheckBoxAll.setChecked((Boolean) msg.obj);
                     break;
             }
@@ -108,7 +100,6 @@ public class CartGoodsList extends Fragment {
         mCountTopTextView = (TextView) mView.findViewById(R.id.checkedCountTop);
         mDeleteOperationTV = (TextView) mView.findViewById(R.id.DeleteOperationTV);
         mCheckBoxAll = (CheckBox) mView.findViewById(R.id.checkboxAllGoods);
-        //mCheckBoxAll.setChecked(true);
         mDiscountCheckBox = (CheckBox) mView.findViewById(R.id.DiscountCheckbox);
         mJiesuanTV = (TextView) mView.findViewById(R.id.jiesuanButton);
         mTotalPriceTV = (TextView) mView.findViewById(R.id.allGoodsCountPrice);
@@ -136,10 +127,11 @@ public class CartGoodsList extends Fragment {
     //请求http 获取图片
     private void getHttpMethod() {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
-        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart";
+        String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        //request.add("shoppingCartIds", "219");
+        request.add("size", "7");
         mRequestQueue.add(mWhat, request, mOnResponseListener);
+
     }
 
     /**
@@ -154,28 +146,59 @@ public class CartGoodsList extends Fragment {
         @Override
         public void onSucceed(int what, Response<String> response) {
             if (what == mWhat) {
-                Log.e("请求成功", "success");
-                mList = new ArrayList<>();
                 //请求成功
                 String result = response.get();
-                //JSON解析
-                jsonMethod(result);
-                mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mmHandler);
-                mRecyclerView.setAdapter(mCart_goodsAdapter);
-                mCart_goodsAdapter.notifyDataSetChanged();
-                Message message = new Message();
-                message.what = mFINFISH;
-                //Log.e("请求完成", "66666666666666");
-                mmHandler.sendMessage(message);
-                mCountTopTextView.setText(mList.size() + "");
+
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray cartgoods = object.getJSONArray("goods");
+                    for (int i = 0; i < cartgoods.length(); i++) {
+                        JSONObject jsonObject = cartgoods.getJSONObject(i);
+                        CartGoods mCartGoods = new CartGoods();
+                        mCartGoods.setPath(jsonObject.getString("pic"));
+                        mCartGoods.setTitle(jsonObject.getString("title"));
+                        mCartGoods.setPrice(i);
+                        mCartGoods.setNum(i);
+                        Log.e("获取的数据jjjj", jsonObject.getString("pic") + jsonObject.getString("title"));
+                        mList.add(mCartGoods);
+                    }
+
+                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, mMainActivity, mHandler);
+                    mRecyclerView.setAdapter(mCart_goodsAdapter);
+                    Message message = new Message();
+                    message.what = mFINFISH;
+                    Log.e("请求完成", "66666666666666");
+                    mHandler.sendMessage(message);
+                    mCountTopTextView.setText(mList.size() + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+               /* Gson gson = new Gson();
+                try {
+                //  用 Gson 必须 与实体 一一对应
+                    JSONObject object = new JSONObject(result);
+                    JSONArray cartgoods = object.getJSONArray("goods");
+                    for (int i = 0; i < cartgoods.length(); i++) {
+                        CartGoods mCartGoods = gson.fromJson(cartgoods.getJSONObject(i).toString(),CartGoods.class);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
+
             }
         }
+
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+
         }
+
         @Override
         public void onFinish(int what) {
             //请求结束。 通知初始化 适配器
+
         }
     };
 
@@ -187,12 +210,14 @@ public class CartGoodsList extends Fragment {
             switch (v.getId()) {
                 case R.id.DiscountCheckbox:
                     // 选中含有优惠信息的商品
+
                     break;
                 case R.id.DeleteOperationTV:
                     //便捷按钮删除操作
                     break;
                 case R.id.checkboxAllGoods:
                     //选中全部商品
+
                     selectedAll();
                     break;
                 case R.id.jiesuanButton:
@@ -204,66 +229,10 @@ public class CartGoodsList extends Fragment {
 
     // 全部选中
     private void selectedAll() {
-        //Log.e("selectedAll","allchecked"+allChecked);
+        Log.e("selectedAll","allchecked"+allChecked);
         for (int i = 0; i < mList.size(); i++) {
-            //Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
-            //设置beans
-            mList.get(i).setSelected(allChecked);
+            Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
         }
-        mCart_goodsAdapter.notifyDataSetChanged();
-    }
-
-    //json 解析
-    private void jsonMethod(String result) {
-        try {
-            JSONObject object = new JSONObject(result);
-            JSONObject object2 = object.getJSONObject("data");
-            JSONArray mJsonArray = object2.getJSONArray("data");
-            for (int i = 0; i < mJsonArray.length(); i++) {
-                JSONObject jsonObject = mJsonArray.getJSONObject(i);
-                JSONArray mJsonArray2 = jsonObject.getJSONArray("data");
-                for (int j = 0; i < mJsonArray2.length(); j++) {
-                    JSONObject jsonObject2 = mJsonArray2.getJSONObject(j);
-                    String product_name = jsonObject2.getString("product_name"); //商品名
-                    int quantity = jsonObject2.getInt("quantity"); //数量
-                    Log.e("quantity",quantity+"");
-                    JSONObject jsonObject3 = jsonObject2.getJSONObject("product");
-                    String path = jsonObject3.getString("image"); //获取图片路径
-                    double price = jsonObject3.getDouble("price"); // 商品价格
-                    //需要传到 商品详情(Goods) Bean
-                    int goods_id = jsonObject3.getInt("product_id"); //ID
-                    String goods_name = jsonObject3.getString("name");
-                    String uri = jsonObject3.getString("image"); //图片
-                    String goods_brand = null; //品牌
-                    String goods_specification = null;
-                    String goods_unit = jsonObject3.getString("extension4"); //单位
-                    String goods_shengben = null;  //成本
-                    String goods_remark = null; //备注 图文详情 是 description字段
-                    float goods_market_price = (float) jsonObject3.getDouble("market_price"); //超市价格
-                    float goods_platform_price = (float) jsonObject3.getDouble("price"); //平台价格
-                    float goods_discount = 0;  //打折
-                    JSONObject jsonObject4 = jsonObject3.getJSONObject("product_search");
-                    int goods_comment_count = jsonObject4.getInt("comment_num");//评论数量
-                    int goods_sales = jsonObject4.getInt("sales");   //销量
-                    int goods_stock = jsonObject4.getInt("stock_num");
-                    Goods mGoods = new Goods(goods_id, goods_name, uri, goods_brand, goods_specification, goods_unit, goods_shengben, goods_remark, goods_market_price, goods_platform_price, goods_discount, goods_comment_count, goods_stock);
-                    //mCartGoods.setPath("http://hz-ifs.ilexnet.com/eyes38/599334_1_pic500_120.jpg");
-                    //CartGoods cartGoods = new CartGoods(path, product_name, price, quantity, goods_id, mGoods);
-
-                    CartGoods cartGoods = new CartGoods();
-
-                    cartGoods.setPath(path);
-                    cartGoods.setTitle(product_name);
-                    cartGoods.setNum(quantity);
-                    cartGoods.setPrice(price);
-                    cartGoods.setGoods(mGoods);
-                    mList.add(cartGoods);
-                    Log.e("mlist", mList.size()+""+mList.toString());
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+       mCart_goodsAdapter.notifyDataSetChanged();
     }
 }

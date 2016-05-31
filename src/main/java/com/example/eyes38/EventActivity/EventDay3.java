@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.eyes38.R;
-import com.example.eyes38.utils.DividerItemDecoration;
-import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
 
 /**
  * Created by weixiao on 2016/5/24.
@@ -21,7 +19,7 @@ public class EventDay3 extends Fragment{
     EventActivity mEventActivity;
     ImageView mImageView;
     View view;
-    PullToRefreshRecyclerView mPtrrv;
+    RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;//下拉刷新
     //适配器
 
@@ -31,6 +29,4 @@ public class EventDay3 extends Fragment{
         view=inflater.inflate(R.layout.event_day3,null);
         return view;
     }
-
-
 }

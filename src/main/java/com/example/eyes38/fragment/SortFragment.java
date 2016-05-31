@@ -67,7 +67,6 @@ public class SortFragment extends Fragment {
         //初始化布局
         initView();
 
-
         //初始化碎片
         initFragment();
         return view;
@@ -87,7 +86,7 @@ public class SortFragment extends Fragment {
     };
 
     private void initAdapter() {
-        titleAdapter = new Sort_TitleAdapter(mList,getContext());
+        titleAdapter = new Sort_TitleAdapter(mList);
         mRecyclerView.setAdapter(titleAdapter);
     }
 
@@ -122,8 +121,6 @@ public class SortFragment extends Fragment {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.add("active",1);
-        request.add("parent_id",0);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 
@@ -147,14 +144,11 @@ public class SortFragment extends Fragment {
                     mList = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
-                        int id = jsonObject.getInt("category_id");
-                        String name = jsonObject.getString("name");
-                        String path = jsonObject.getString("image");
-                        SortTitle s = new SortTitle(i,id,name, false,path);
+                        String string = jsonObject.getString("name");
+                        SortTitle s = new SortTitle(i, string, false);
                         mList.add(s);
                     }
                     handler.sendEmptyMessage(FINSH);
-//                    titleAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -188,10 +182,11 @@ public class SortFragment extends Fragment {
                 mTransaction = mFragmentManager.beginTransaction();
                 mContentFragment = new ContentFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("id", sortTitle.getCategory_id());
+                bundle.putInt("id", sortTitle.getId());
                 mContentFragment.setArguments(bundle);
                 mTransaction.replace(R.id.right, mContentFragment);
                 mTransaction.commit();
+
             }
 
         });

@@ -43,11 +43,23 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView=mLayoutInflater.inflate(R.layout.search_list_item,null);
-        TextView text= (TextView) convertView.findViewById(R.id.list_text);
+        ViewHoleder holeder=null;
+        if (convertView==null){
+            holeder=new ViewHoleder();
+            convertView=mLayoutInflater.inflate(R.layout.search_list_item,null);
+            holeder.text=(TextView) convertView.findViewById(R.id.list_text);
+            convertView.setTag(holeder);
+        }else {
+            holeder= (ViewHoleder) convertView.getTag();
+        }
+
         bansearchBean bansearchBean=mList.get(position);
         String content=bansearchBean.getContent();
-        text.setText(content);
+        holeder.text.setText(content);
         return convertView;
+    }
+    //viewHoleder用于缓存文件
+    class ViewHoleder{
+        TextView text;
     }
 }

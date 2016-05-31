@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.CartBadgeView;
@@ -68,24 +67,15 @@ public class GoodDetailActivity extends AppCompatActivity {
 
     private void setViewToData() {
         //将数据写入各个控件
-        Glide.with(this).load(goods.getPath()).into(goodsPicImageView);
-        goodsUnitTextView.setText(goods.getGoods_platform_price()+goods.getGoods_unit());
+        goodsUnitTextView.setText(goods.getGoods_unit());
         goodsStockTextView.setText(goods.getGoods_stock()+"");
         goodsRemarkTextView.setText(goods.getGoods_remark());
         goodsCommentCountTextView.setText(goods.getGoods_comment_count()+"");
-        Glide.with(this).load(goods.getGoods_specification()).into(goodsTxtPicImageView);
     }
 
     private void initData() {
         //初始化数据，现在数据是写死的
-        getData();
-//        goods = new Goods(1,"苹果",null,"水果","100g","10/100g",null,"苹果",11f,10f,0,4,100);
-    }
-
-    private void getData() {
-        Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("values");
-        goods = (Goods) bundle.get("values");
+        goods = new Goods(1,"苹果",null,"水果","100g","10/100g",null,"苹果",11f,10f,0,4,100);
     }
 
     private void initView() {

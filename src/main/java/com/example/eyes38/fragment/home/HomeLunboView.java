@@ -41,7 +41,7 @@ public class HomeLunboView {
     int mCurrentItem = Integer.MAX_VALUE / 2;
     private RequestQueue mRequestQueue;
     private int mWhat =123;
-    public static final int FINSH = 3;
+    public static final int FINSH = 1;
 
     public HomeLunboView(MainActivity activity, ViewPager viewPager) {
         this.mMainActivity=activity;
@@ -63,7 +63,7 @@ public class HomeLunboView {
             @Override
             public void onPageSelected(int position) {
                 //手动滑到这个广告的时候,发送改位置的值
-           //     mHandler.sendMessage(Message.obtain(mHandler,IMAGE_CHANGED,position,0));
+                mHandler.sendMessage(Message.obtain(mHandler,IMAGE_CHANGED,position,0));
             }
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -73,7 +73,7 @@ public class HomeLunboView {
 
     private void initData() {
         mRequestQueue = NoHttp.newRequestQueue();
-        String url = "http://api.dev.ilexnet.com/simulate/38eye/article-api/banner-images";
+        String url = "http://38eye.test.ilexnet.com/api/mobile/article-api/banner-images";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
 
@@ -108,17 +108,7 @@ public class HomeLunboView {
                         mList.add(address);
                         Log.e("获取的数据jjjj",address);
                     }
-                    mViewList = new ArrayList<View>();
-                    for (int i = 0; i < mList.size(); i++) {
-                        View view = View.inflate(mMainActivity,R.layout.home_ad_item, null);
-                        ImageView mItemIvContent = (ImageView) view.findViewById(R.id.item_iv_content);
-                        Glide.with(mMainActivity).load(mList.get(i)).into(mItemIvContent);
-                        mViewList.add(view);
-                    }
-                    initAdapter();
-                    Message message = new Message();
-                    message.what=FINSH;
-                    handler.sendMessage(message);
+                    handler.sendEmptyMessage(FINSH);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -134,17 +124,6 @@ public class HomeLunboView {
         }
     };
 
-
-
-    private void initAdapter() {
-
-        Home_ad_adapter myAdapter = new Home_ad_adapter(mViewList);
-        mViewPager.setAdapter(myAdapter);
-        mViewPager.setCurrentItem(mCurrentItem);
-    //    mHandler.sendEmptyMessageDelayed(IMAGE_UPDATE,REFRESHTIME);
-    }
-
-    //获取数据的handler
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -153,16 +132,29 @@ public class HomeLunboView {
                 case FINSH:
                     Log.e("handler", "hhhhhhh");
                     //初始化适配器
-                    //   initAdapter();
+                    initAdapter();
                     //这是监听
                     setLinstener();
-                    Message message = new Message();
-                    message.what=520;
             }
         }
     };
 
-    //轮播图的handler
+    private void initAdapter() {
+        mViewList = new ArrayList<View>();
+        for (int i = 0; i < mList.size(); i++) {
+            View view = View.inflate(mMainActivity,R.layout.home_ad_item, null);
+            ImageView mItemIvContent = (ImageView) view.findViewById(R.id.item_iv_content);
+            Glide.with(mMainActivity).load(mList.get(i)).into(mItemIvContent);
+            //Log.e("获取的",);
+            mViewList.add(view);
+        }
+        Home_ad_adapter myAdapter = new Home_ad_adapter(mViewList);
+        mViewPager.setAdapter(myAdapter);
+        mViewPager.setCurrentItem(mCurrentItem);
+        mHandler.sendEmptyMessageDelayed(IMAGE_UPDATE,REFRESHTIME);
+
+    }
+
     Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -172,8 +164,6 @@ public class HomeLunboView {
                 mHandler.removeMessages(IMAGE_UPDATE);
             }
             switch (action){
-
-
                 case IMAGE_UPDATE:
                     //轮播图经行更新
                     mCurrentItem +=1;
