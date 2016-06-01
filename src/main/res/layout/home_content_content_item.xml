@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
-                android:layout_height="180dp"
-                android:layout_margin="5dp"
+                android:layout_height="210dp"
                 android:background="@color/white"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
     <ImageView
         android:id="@+id/home_imageview"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -49,6 +50,25 @@
         android:layout_below="@id/home_sort_item_nametextview"
         android:textSize="18sp"
         android:text="3.4" />
+    <TextView
+        android:id="@+id/home_sort_item_xiegangtview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/goods_detail_addcar"
+        android:layout_toRightOf="@id/home_sort_item_pricetextview"
+        android:layout_below="@id/home_sort_item_nametextview"
+        android:textSize="18sp"
+        android:text="/" />
+    <TextView
+        android:id="@+id/home_sort_item_danweitview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/goods_detail_addcar"
+        android:layout_toRightOf="@id/home_sort_item_xiegangtview"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/home_sort_item_nametextview"
+        android:textSize="18sp"
+        android:text="个" />
 </LinearLayout>
 
 

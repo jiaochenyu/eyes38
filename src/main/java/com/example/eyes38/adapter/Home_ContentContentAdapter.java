@@ -60,6 +60,8 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
             Glide.with(mContext).load(mList.get(position).getImage()).into(holder.mImageView);
         }
         holder.itemView.setTag(mList.get(position));
+        holder.priceTextvew.setText(mList.get(position).getPrice()+"");
+        holder.danweiTexiview.setText(mList.get(position).getExtension4()+"");
     }
 
     @Override
@@ -75,13 +77,17 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
-        ImageView mImageView;
+        TextView mTextView;//商品名
+        ImageView mImageView;//图片
+        TextView priceTextvew;//价格
+        TextView danweiTexiview;//单位
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.home_imageview);
             mTextView = (TextView) itemView.findViewById(R.id.home_sort_item_nametextview);
+            priceTextvew = (TextView) itemView.findViewById(R.id.home_sort_item_pricetextview);
+            danweiTexiview = (TextView) itemView.findViewById(R.id.home_sort_item_danweitview);
         }
     }
 }

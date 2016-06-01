@@ -173,4 +173,8 @@ public class EventActivity extends AppCompatActivity {
         mImageViewScrollLeft= (ImageView) findViewById(R.id.event_day_scroll_left);
         mImageViewScrollRight= (ImageView) findViewById(R.id.event_day_scroll_right);
     }
+
+    public void Event_back(View view) {
+        finish();
+    }
 }

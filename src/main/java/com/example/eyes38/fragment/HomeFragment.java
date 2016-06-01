@@ -119,7 +119,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mOnRecycleResponseListener);
         //计算屏幕的尺寸并初始化spinner
         caculate();
-      //  listener();
+        listener();
         return view;
     }
 
@@ -289,7 +289,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                             Log.e("arrr22222", array2.length() + "");
                             for (int j = 0; j < array2.length(); j++) {
-                                if (mmList.size() < 4) {
+                                if (mmList.size() < 2) {
+                                    //只显示两个
                                     JSONObject jsonObject1 = array2.getJSONObject(j);
                                     Log.e("循环外面", "dasdaafasf");
                                     if (!jsonObject1.getString("product").equals("false")) {
