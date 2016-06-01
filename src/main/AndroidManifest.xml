@@ -37,7 +37,7 @@
         <activity android:name=".activity.SortMenuActivity" />
         <activity android:name=".activity.GoodDetailActivity" />
         <activity android:name=".activity.CommentActivity" />
-        <activity android:name=".user_activity.AddressInfo.User_addAddressActivity" />
+        <activity android:name=".user_activity.AddressInfo.User_addAddressActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.home.HomexptjActivity" />
         <activity android:name=".activity.home.HomezhuantiActivity"/>
         <activity android:name=".EventActivity.EventActivity" />
