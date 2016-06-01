@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
+
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:orientation="vertical">
-=======
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-              android:background="@color/colorAccent"
-              android:orientation="vertical"
-    >
->>>>>>> f8943bb56d8aa3737e6c7ac8912e04c18292b676
     <!-- 顶部标题栏 -->
     <!--顶部标题-->
     <RelativeLayout
@@ -52,10 +44,6 @@
 
     <!-- 内容 -->
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f8943bb56d8aa3737e6c7ac8912e04c18292b676
     <ScrollView
         android:id="@+id/homecontent"
         style="@style/pagecontent"

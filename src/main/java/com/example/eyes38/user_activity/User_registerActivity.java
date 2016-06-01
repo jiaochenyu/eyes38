@@ -47,9 +47,10 @@ public class User_registerActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what){
                 case SUCCESS:
-                    goRegisterDetail();
+
                     break;
                 case FAIL:
+                    goRegisterDetail();
                     break;
             }
         }

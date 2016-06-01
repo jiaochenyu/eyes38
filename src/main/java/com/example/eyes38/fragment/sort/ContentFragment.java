@@ -2,8 +2,6 @@ package com.example.eyes38.fragment.sort;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,12 +38,11 @@ import in.srain.cube.views.ptr.PtrHandler;
  * Created by jqchen on 2016/4/28.
  */
 public class ContentFragment extends Fragment {
-    public static final int FINSHED = 1;
-    RecyclerView mRecyclerView;
-    View mView;
-    List<SortContent> mList;
-    Sort_ContentAdapter scAdapter;
-    LinearLayoutManager linear;
+    private RecyclerView mRecyclerView;
+    private View mView;
+    private List<SortContent> mList;
+    private Sort_ContentAdapter scAdapter;
+    private LinearLayoutManager linear;
     //下拉刷新控件
 
     //测试获取json数据
@@ -93,20 +90,6 @@ public class ContentFragment extends Fragment {
 
     }
 
-
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case FINSHED:
-                    //初始化适配器
-                    initAdapter();
-                    break;
-
-            }
-        }
-    };
 
     private void initAdapter() {
         scAdapter = new Sort_ContentAdapter(getContext(), mList);
@@ -215,7 +198,8 @@ public class ContentFragment extends Fragment {
                             mList.add(sc);
                         }
                     }
-                    handler.sendEmptyMessage(FINSHED);
+                    //初始化适配器
+                    initAdapter();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

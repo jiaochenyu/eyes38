@@ -28,16 +28,16 @@ import com.yolanda.nohttp.RequestQueue;
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
     //数据源
-    Goods goods;
-    ImageView goodsPicImageView, goodsTxtPicImageView;
-    TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
-    LinearLayout linearLayout;
-    ImageView backImageView;
-    CartBadgeView mCartBadgeView;  //购物车图标徽章
-    Button mButton;
-    RadioGroup mRadioGroup; //
-    RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-    RequestQueue mRequestQueue;  //请求队列
+    private Goods goods;
+    private ImageView goodsPicImageView, goodsTxtPicImageView;
+    private TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
+    private LinearLayout linearLayout;
+    private ImageView backImageView;
+    private CartBadgeView mCartBadgeView;  //购物车图标徽章
+    private Button mButton;
+    private RadioGroup mRadioGroup; //
+    private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
+    private RequestQueue mRequestQueue;  //请求队列
     public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
         @Override
         public void handleMessage(Message msg) {
