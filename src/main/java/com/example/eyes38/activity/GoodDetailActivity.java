@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,23 +36,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     RadioGroup mRadioGroup; //
     RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
     RequestQueue mRequestQueue;  //请求队列
-    public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //从购物车中接收数据
-            switch (msg.what) {
-                case CARTGOODSCOUNT:
-                    if (((Integer) msg.obj) != 0) {
-                        Log.e("goodDetail徽章",msg.obj+"");
-                        mCartBadgeView.setText(msg.obj + "");
-                        mCartBadgeView.show();
-                    } else {
-                        mCartBadgeView.hide();
-                    }
-            }
-        }
-    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +106,8 @@ public class GoodDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         goods = (Goods) bundle.get("values");
+        /*Intent intent = getIntent();
+        goods = (Goods) intent.getSerializableExtra("values");*/
     }
 
     private void initView() {
@@ -161,6 +144,7 @@ public class GoodDetailActivity extends AppCompatActivity {
                     //跳转到购物车
                     Intent intent = new Intent(GoodDetailActivity.this, CartActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.goods_detail_radio_buynow:
                     //立即购买

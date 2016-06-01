@@ -282,10 +282,11 @@ public class SortMenuActivity extends AppCompatActivity {
         sort_sortAdapter.setmOnItemClickListener(new Sort_SortAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Goods goods) {
+                Intent intent = new Intent(SortMenuActivity.this, GoodDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("values", goods);
-                Intent intent = new Intent(SortMenuActivity.this, GoodDetailActivity.class);
                 intent.putExtra("values", bundle);
+                //intent.putExtra("values",goods);
                 startActivity(intent);
             }
         });

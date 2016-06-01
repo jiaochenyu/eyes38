@@ -2,6 +2,8 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.utils.CartDialog;
 import com.yolanda.nohttp.NoHttp;
@@ -91,8 +94,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     }
 
     //生成构造
-    public Cart_GoodsAdapter(List<CartGoods> mCartGoodses, Context context, Handler handler) {
-        mList = mCartGoodses;
+    public Cart_GoodsAdapter(List<CartGoods> mCartGoods, Context context, Handler handler) {
+        mList = mCartGoods;
         mContext = context;
         mHandler = handler;
         //初始化数据
@@ -154,7 +157,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     }
 
     @Override
-    public void onBindViewHolder(final CartGoodsViewHolder holder, final int position) {
+    public void onBindViewHolder(CartGoodsViewHolder holder, int position) {
         //设置item Tag
         holder.itemView.setTag(mList.get(position));
         Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
@@ -164,6 +167,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         holder.mPriceTextView.setText(st);
         holder.mTitleTextView.setText(mList.get(position).getTitle());
         holder.mCountTextView.setText(mList.get(position).getNum() + "");
+        // 做个判断 是否显示删除按钮
         if (isShowDelete) {
             //如果显示 删除
             holder.mDeleteTextView.setVisibility(View.VISIBLE);
@@ -179,18 +183,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         holder.addButton.setOnClickListener(new ButtonOnClickListener(position));
         holder.subButton.setOnClickListener(new ButtonOnClickListener(position));
         holder.mDeleteTextView.setOnClickListener(new ButtonOnClickListener(position));
+        holder.mImageView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品图片跳转
+        holder.mTitleTextView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品标题进行跳转
 
-
-       /* holder.addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //先增加1
-                mList.get(position).setNum(mList.get(position).getNum() + 1);
-                int currcount = mList.get(position).getNum();//获取当前 购物车中的数量
-                Log.e("Addbutton", "点击了" + position + "addbutton" + "当前有" + currcount + "商品");
-                notifyDataSetChanged();
-            }
-        });*/
     }
 
     @Override
@@ -286,10 +281,14 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     }
                     break;
                 case R.id.goodspicture:
-                    //
+                    //跳转到商品详情
+                    Log.e("跳转到商品详情","点击了商品图片");
+                    goGoodDetailActivity(position);
                     break;
                 case R.id.goodstitle:
-                    //
+                    // 跳转到商品详情
+                    goGoodDetailActivity(position);
+                    Log.e("跳转到商品详情","点击了商品标题");
                     break;
                 case R.id.delete:
                     showDialog();
@@ -415,6 +414,16 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
         }
         return count;
+    }
+    //***********跳转到商品详情
+    private void goGoodDetailActivity(int position){
+        Intent intent = new Intent(mContext, GoodDetailActivity.class);
+        Bundle bundle = new Bundle();
+        Log.e("接收到的Goodsssssssssssssss",mList.get(position).getGoods().toString());
+        bundle.putSerializable("values",mList.get(position).getGoods());
+        intent.putExtra("values",bundle);
+        //intent.putExtra("values",mList.get(position).getGoods());
+        mContext.startActivity(intent);
     }
 
 
