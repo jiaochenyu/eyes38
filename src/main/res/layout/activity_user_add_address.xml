@@ -62,7 +62,17 @@
             <EditText
                 android:id="@+id/address_name"
                 style="@style/addaddress_edit"
-                android:hint="收货人的姓名"/>
+                android:hint="收货人的姓名"
+                android:maxLength="16"/>
+
+            <ImageView
+                android:id="@+id/address_adjust1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:src="@drawable/invalid"
+                android:visibility="invisible"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -86,7 +96,17 @@
             <EditText
                 android:id="@+id/address_tel"
                 style="@style/addaddress_edit"
-                android:hint="11位手机号码"/>
+                android:hint="11位手机号码"
+                android:maxLength="11"/>
+
+            <ImageView
+                android:id="@+id/address_adjust2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:src="@drawable/invalid"
+                android:visibility="invisible"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -105,6 +125,7 @@
 
             <TextView
                 style="@style/addaddress_text2"
+                android:layout_weight="5"
                 android:text="所在地区"/>
 
             <Spinner
@@ -127,13 +148,14 @@
             android:textSize="0.1sp"/>
         <!--收货人-->
         <LinearLayout
-
-            style="@style/addaddress_linear">
+            android:id="@+id/city_linear"
+            style="@style/addaddress_linear"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="9"/>
+                android:layout_weight="6"/>
 
             <Spinner
                 android:id="@+id/city"
@@ -155,12 +177,14 @@
 
         <!--收货人-->
         <LinearLayout
-            style="@style/addaddress_linear">
+            android:id="@+id/area_linear"
+            style="@style/addaddress_linear"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="9"/>
+                android:layout_weight="6"/>
 
             <Spinner
                 android:id="@+id/area"
@@ -172,6 +196,7 @@
                 android:spinnerMode="dialog"
                 android:textAlignment="gravity"></Spinner>
         </LinearLayout>
+
         <!--分割线-->
         <TextView
             android:layout_width="match_parent"
@@ -195,6 +220,15 @@
                 android:id="@+id/address_plot"
                 style="@style/addaddress_edit"
                 android:hint="请输入小区名"/>
+
+            <ImageView
+                android:id="@+id/address_adjust3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:src="@drawable/invalid"
+                android:visibility="invisible"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -219,6 +253,15 @@
                 android:id="@+id/address_detail"
                 style="@style/addaddress_edit"
                 android:hint="详细地址"/>
+
+            <ImageView
+                android:id="@+id/address_adjust4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:src="@drawable/invalid"
+                android:visibility="invisible"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -252,6 +295,11 @@
                     android:layout_weight="0.1"/>
 
                 <Button
+                    android:background="#F2F2F2"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:enabled="false"
+                    android:id="@+id/address_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2.45"

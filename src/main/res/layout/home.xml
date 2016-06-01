@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 990f660bf17f748f92ba678e2e91767c07ca7c62
+>>>>>>> acdbd2cd458dc41ad7933a1470b22d37ca2727e0
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:orientation="vertical">
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+=======
+
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+              android:background="@color/colorAccent"
+              android:orientation="vertical"
+    >
+
+>>>>>>> 990f660bf17f748f92ba678e2e91767c07ca7c62
+>>>>>>> acdbd2cd458dc41ad7933a1470b22d37ca2727e0
     <!-- 顶部标题栏 -->
     <!--顶部标题-->
     <RelativeLayout

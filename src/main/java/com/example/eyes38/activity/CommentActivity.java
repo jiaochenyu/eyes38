@@ -1,8 +1,6 @@
 package com.example.eyes38.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,10 +38,8 @@ public class CommentActivity extends AppCompatActivity {
     public static final int MIDDLE = 3;
     public static final int BAD = 4;
     public static final int PICTURE = 5;
-    public static final int FINISHED = 1;
     private RecyclerView mRecyclerView;
     private List<Comments> mList;
-    private Comment_Adapter comment_adapter;
     private LinearLayoutManager linearLayoutManager;
     private RequestQueue mRequestQueue;
     private PtrClassicFrameLayout ptrFrame;
@@ -111,21 +107,9 @@ public class CommentActivity extends AppCompatActivity {
         }
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case FINISHED:
-                    initAdapter();
-                    break;
-            }
-        }
-    };
-
 
     private void initAdapter() {
-        comment_adapter = new Comment_Adapter(mList,this);
+        Comment_Adapter comment_adapter = new Comment_Adapter(mList, this);
         mRecyclerView.setAdapter(comment_adapter);
     }
 
@@ -192,7 +176,7 @@ public class CommentActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(FINISHED);
+                initAdapter();
             }
             if (what == GREAT) {
                 String result = response.get();
@@ -227,7 +211,7 @@ public class CommentActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(FINISHED);
+                initAdapter();
             }
             if (what == MIDDLE) {
                 String result = response.get();
@@ -262,7 +246,7 @@ public class CommentActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(FINISHED);
+                initAdapter();
             }
             if (what == BAD) {
                 String result = response.get();
@@ -297,7 +281,7 @@ public class CommentActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(FINISHED);
+                initAdapter();
             }
             if (what == PICTURE) {
                 String result = response.get();
@@ -330,7 +314,7 @@ public class CommentActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(FINISHED);
+                initAdapter();
             }
         }
 
@@ -359,5 +343,12 @@ public class CommentActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //activity 销毁，释放资源
+        mRequestQueue.stop();
+        linearLayoutManager.removeAllViews();
 
+    }
 }
