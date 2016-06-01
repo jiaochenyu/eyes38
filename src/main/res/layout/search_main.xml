@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
               android:background="#F2F2F2"
               android:orientation="vertical"
     >
@@ -25,14 +26,16 @@
             android:layout_weight="1"
             android:src="@drawable/user_set_back"/>
 
-        <Spinner
+        <ImageView
+            android:padding="2dp"
+            android:src="@mipmap/logos"
             android:id="@+id/search_spinnner"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="2.5"
-            android:entries="@array/search_spinner">
-        </Spinner>
+            >
+        </ImageView>
 
         <FrameLayout
             android:id="@+id/search_frame"

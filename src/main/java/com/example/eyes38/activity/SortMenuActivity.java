@@ -52,6 +52,7 @@ public class SortMenuActivity extends AppCompatActivity {
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     private final static int mWhat = 520;
+    private GridLayoutManager grid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +82,51 @@ public class SortMenuActivity extends AppCompatActivity {
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("load","加载了");
                         getHttpMedthod();
                         ptrFrame.refreshComplete();
                     }
-                },1800);
+                }, 1800);
 
             }
         });
+        //上拉加载
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean isScrolling = false;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && isScrolling) {
+                    int lastVisibleItem = grid.findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = grid.getItemCount();
+                    if (lastVisibleItem == totalItemCount-1) {
+                        loadMoreData();
+                        Log.e("load","加载");
+                        isScrolling = false;
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    isScrolling = true;
+                } else {
+                    isScrolling = false;
+                }
+            }
+        });
+    }
+
+    private void loadMoreData() {
+        //加载数据
+        for (int i = 0; i < 5; i++) {
+            Goods goods = new Goods(1, "默认", null, "水果", null, "new", null, "new", 0, 0, 0, 0, 0);
+            mList.add(goods);
+        }
+        sort_sortAdapter.notifyDataSetChanged();
+
     }
 
     private void setUI() {
@@ -96,11 +134,11 @@ public class SortMenuActivity extends AppCompatActivity {
         titleTextView.setText(titlecontent);
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case FINISHED:
                     initAdapter();
                     setRadioGroupListener();
@@ -108,6 +146,7 @@ public class SortMenuActivity extends AppCompatActivity {
             }
         }
     };
+
     private void setRadioGroupListener() {
         //对分类导航栏监听
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -146,7 +185,7 @@ public class SortMenuActivity extends AppCompatActivity {
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.sort_sort_recyclerview);
         //显示两列
-        GridLayoutManager grid = new GridLayoutManager(this, 2);
+        grid = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(grid);
         //分类界面的导航栏
         mRadioGroup = (RadioGroup) findViewById(R.id.sort_menu);
@@ -167,6 +206,7 @@ public class SortMenuActivity extends AppCompatActivity {
 
 
     }
+
     private void getHttpMedthod() {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
@@ -229,7 +269,7 @@ public class SortMenuActivity extends AppCompatActivity {
     };
 
     //获取传来的商品的id
-    private void getDatas(){
+    private void getDatas() {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         SortContentContent scc = (SortContentContent) bundle.get("values");
@@ -243,9 +283,9 @@ public class SortMenuActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, Goods goods) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("values",goods);
+                bundle.putSerializable("values", goods);
                 Intent intent = new Intent(SortMenuActivity.this, GoodDetailActivity.class);
-                intent.putExtra("values",bundle);
+                intent.putExtra("values", bundle);
                 startActivity(intent);
             }
         });

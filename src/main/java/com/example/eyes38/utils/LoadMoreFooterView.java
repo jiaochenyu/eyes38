@@ -19,6 +19,7 @@ import in.srain.cube.views.ptr.indicator.PtrIndicator;
  * Created by jqchen on 2016/5/26.
  */
 public class LoadMoreFooterView extends FrameLayout implements PtrUIHandler {
+    //自定义刷新动画
     private LayoutInflater inflater;
 
     // 下拉刷新视图（头部视图）

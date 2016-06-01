@@ -1,6 +1,7 @@
 package com.example.eyes38.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,11 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.CartBadgeView;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
 
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
@@ -31,7 +37,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     Button mButton;
     RadioGroup mRadioGroup; //
     RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-
+    RequestQueue mRequestQueue;  //请求队列
     public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
         @Override
         public void handleMessage(Message msg) {
@@ -162,12 +168,40 @@ public class GoodDetailActivity extends AppCompatActivity {
                     //加入购物车
                     /**
                      * 先判断用户是否登陆
-                     * 没登录将商品添加到本地购物车（数据库）。
-                     * 登陆了将本地购物车添加到用户购物车。
+                     * （没登录将商品添加到本地购物车（数据库）。
+                     * 登陆了将本地购物车添加到用户购物车。)
                      */
-
+                    customerStates(); //判断用户登陆状态
                     break;
             }
         }
     }
+
+    //判断用户登陆状态
+    private void customerStates() {
+        //如果用户没有登录 那么显示空
+        SharedPreferences sp;  //偏好设置 看用户登录是否登录
+        sp = getApplication().getSharedPreferences("userInfo", getApplication().MODE_PRIVATE);  // 偏好设置初始化
+        int flag = sp.getInt("STATE", 0);  // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
+        if (flag == 0) {
+            //如果用户没登录  购物车显示空
+            Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
+        } else {
+            //登录了 添加到购物车
+            //postNoHttp();
+            Toast.makeText(GoodDetailActivity.this, "点击了添加到购物车", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //添加到购物车
+    private void postNoHttp() {
+        mRequestQueue = NoHttp.newRequestQueue();//默认是三个请求
+        //增加商品接口
+        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart" ;
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.setRequestFailedReadCache(true);
+        request.add("extension1","false");
+    }
+
+
 }

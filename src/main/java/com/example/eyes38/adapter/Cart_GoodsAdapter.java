@@ -45,7 +45,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     public static final int DELETEFINISH = 386;  // 删除操作
     public static final int ADDFINISH = 387; // 加法操作
     public static final int NOTIFILIST = 388; //购物车状态改变
-    private static final int CARTGOODSCOUNT = 308; // 通知mainactivity 改变徽章
+    public static final int CARTGOODSCOUNT = 308; // 通知mainactivity 改变徽章
     public static final int GET = 1; //GET 请求方式
     public static final int POST = 2; //POST 请求方式
     public static final int DELETE = 3;//DELETE 请求方式
@@ -240,9 +240,13 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mList.get(i).setSelected(true);
         }
         if (isAllSelected()) {
+            //通知改变总价格
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
-            //如果商品全部被选中，则全选按钮也被 默认为选中
+            //通知改变总数量
+            mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount()));
+            //如果商品全部被选中，则全选按钮也被 和 顶部全选按钮 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
+            //通知改变了选中状态 目的是向结算界面中传递选中的list集合
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
         }
         //mHandler.sendMessage(mHandler.obtainMessage(2, getTotalPrice()));
@@ -270,12 +274,14 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     getNoHttpMethod(url, args, shoppingCartId, mAddOnResponseListener, PUT);
                     break;
                 case R.id.minusbutton:
+                    //减法操作
                     if (mList.get(position).getNum() <= 1) {
                         Toast.makeText(mContext, "商品数量最少为1", Toast.LENGTH_SHORT).show();
                     } else {
                         mList.get(position).setNum(mList.get(position).getNum() - 1);
                         notifyDataSetChanged();
-                        mainHandler.sendMessage(mainHandler.obtainMessage(308,getAllGoodsCount()));
+                        mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
+                        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount()));
                         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
                     }
                     break;
@@ -294,6 +300,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             int position = (int) buttonView.getTag();
             CartGoods mCartGoods = mList.get(position);
             mCartGoods.setSelected(isChecked);
+
+            mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
             //通知改变总价格 将总价格传给Handler
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //如果商品全部被选中，则全选按钮也被 默认为选中
@@ -372,7 +380,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mList.get(getPosition()).setNum(mList.get(getPosition()).getNum() + 1);
             notifyDataSetChanged();
             mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount())); //改变徽章
-            mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
+            mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
+            mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
 
         }
 
@@ -382,15 +391,22 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         //删除操作
         mList.remove(getPosition());
         notifyDataSetChanged();
-        //setCartGoodsCount(getAllGoodsCount());
-        mainHandler.sendMessage(mainHandler.obtainMessage(308,getAllGoodsCount()));
+        //判断购物车是否为空如果为空显示空页面
+
+        
+        mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
+        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
+        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount()));
     }
 
-    // 统计购物车中的数量
+    // 统计购物车中 选中的 的数量
     private int getAllGoodsCount (){
         int count = 0;
         for (int i = 0; i < mList.size(); i++) {
-            count += mList.get(i).getNum();
+            if (mList.get(i).isSelected()){
+                count += mList.get(i).getNum();
+            }
+
         }
         return count;
     }

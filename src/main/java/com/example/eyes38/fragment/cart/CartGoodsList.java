@@ -22,6 +22,7 @@ import com.example.eyes38.activity.PayActivity;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -37,6 +38,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+
 /**
  * Created by jqchen on 2016/5/20.
  */
@@ -48,10 +54,12 @@ public class CartGoodsList extends Fragment {
     Toast mToast; // 吐司优化
     private List<CartGoods> mList;
     private List<CartGoods> payList;  // 选中商品
+    private PtrClassicFrameLayout ptrFrame;;  //刷新
+    LinearLayoutManager linear;  //布局管理器
     private RecyclerView mRecyclerView;
     private TextView mCountTopTextView;  // n件商品有包邮优惠
     private TextView mDeleteOperationTV;// 编辑删除操作
-    private CheckBox mDiscountCheckBox; // 全选含有优惠信息商品 的checkbox
+    private CheckBox mTopAllGoodsCheckBox; // 全选含有优惠信息商品 的checkbox
     private CheckBox mCheckBoxAll; //全选商品的 checkbox
     private TextView mJiesuanTV; // 选中商品结算按钮
     private TextView mTotalPriceTV; // 选中的总金额
@@ -75,7 +83,7 @@ public class CartGoodsList extends Fragment {
                     mCart_goodsAdapter = new Cart_GoodsAdapter(mList, getActivity(), mmHandler);
                     mRecyclerView.setAdapter(mCart_goodsAdapter);
                     mCart_goodsAdapter.notifyDataSetChanged();
-                    mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,mList.size()));  //通知改变徽章
+                    mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, mList.size()));  //通知改变徽章
                     initListener();
                     break;
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
@@ -83,14 +91,19 @@ public class CartGoodsList extends Fragment {
                     float price = (float) msg.obj;
                     mTotalPriceTV.setText(price + "");
                     break;
+                case Cart_GoodsAdapter.CARTGOODSCOUNT:
+                    //更改 顶部 选中数量
+                    mCountTopTextView.setText(msg.obj+"");
+                    break;
                 case Cart_GoodsAdapter.NOTIFICHANGEALLSELECTED:
                     //如果都被选中那么全选按钮也要被选中
                     //记录是否被全选
                     allChecked = !(Boolean) msg.obj;
                     mCheckBoxAll.setChecked((Boolean) msg.obj);
+                    mTopAllGoodsCheckBox.setChecked((Boolean)msg.obj);
                     break;
                 case Cart_GoodsAdapter.NOTIFILIST:
-                    //通知改变了选中状态
+                    //通知改变了选中状态 目的是向结算界面中传递选中的list集合
                     payList = (List<CartGoods>) msg.obj;
                     break;
 
@@ -107,18 +120,19 @@ public class CartGoodsList extends Fragment {
         initViews();
         initData();
         getHttpMethod();
-        // initListener();
         return mView;
     }
 
     // 初始化界面
     private void initViews() {
+        ptrFrame = (PtrClassicFrameLayout) mView.findViewById(R.id.car_goods_refresh);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.car_goods_list_rv);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mCountTopTextView = (TextView) mView.findViewById(R.id.checkedCountTop);
+        linear = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(linear);
+        mCountTopTextView = (TextView) mView.findViewById(R.id.checkedCountTop); // 顶部显示选中数量文本框
         mDeleteOperationTV = (TextView) mView.findViewById(R.id.DeleteOperationTV);  //编辑按钮
-        mCheckBoxAll = (CheckBox) mView.findViewById(R.id.checkboxAllGoods);
-        mDiscountCheckBox = (CheckBox) mView.findViewById(R.id.DiscountCheckbox);
+        mCheckBoxAll = (CheckBox) mView.findViewById(R.id.checkboxAllGoods);  //底部全选框
+        mTopAllGoodsCheckBox = (CheckBox) mView.findViewById(R.id.allGoodsCheckboxTop); // 顶部全选框
         mJiesuanTV = (TextView) mView.findViewById(R.id.jiesuanButton);
         mTotalPriceTV = (TextView) mView.findViewById(R.id.allGoodsCountPrice);
     }
@@ -138,8 +152,31 @@ public class CartGoodsList extends Fragment {
         });*/
         ClickListener mClickListener = new ClickListener();
         mCheckBoxAll.setOnClickListener(mClickListener);
+        mTopAllGoodsCheckBox.setOnClickListener(mClickListener);
         mDeleteOperationTV.setOnClickListener(mClickListener);
         mJiesuanTV.setOnClickListener(mClickListener);
+        //利用 pulltorefesh 刷新
+        LoadMoreFooterView header = new LoadMoreFooterView(mView.getContext()); //刷新动画效果 自定义
+        ptrFrame.setHeaderView(header); //刷新动画效果
+        ptrFrame.addPtrUIHandler(header); //刷新动画效果
+          //刷新方法
+        ptrFrame.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getHttpMethod();
+                        ptrFrame.refreshComplete();
+                    }
+                },1800);
+            }
+        });
 
     }
 
@@ -176,7 +213,7 @@ public class CartGoodsList extends Fragment {
                 message.what = mFINFISH;
                 //Log.e("请求完成", "66666666666666");
                 mmHandler.sendMessage(message);
-                mCountTopTextView.setText(mList.size() + "");
+                //mCountTopTextView.setText(mList.size() + "");
             }
         }
 
@@ -190,14 +227,17 @@ public class CartGoodsList extends Fragment {
         }
     };
 
+
+
     //事件监听器  监听优惠信息复选框 编辑按钮 监听全选复选框 结算按钮
     private class ClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.DiscountCheckbox:
-                    // 选中含有优惠信息的商品
+                case R.id.allGoodsCheckboxTop:
+                    selectedAll();
+                    // 选中全部商品的商品
                     break;
                 case R.id.DeleteOperationTV:
                     //编辑按钮删除操作  将删除按钮显示出来
@@ -270,7 +310,8 @@ public class CartGoodsList extends Fragment {
                     JSONObject jsonObject2 = mJsonArray2.getJSONObject(j);
                     String product_name = jsonObject2.getString("product_name"); //商品名
                     int shopping_cart_id = jsonObject2.getInt("shopping_cart_id"); // 购物车id shopping_cart_id
-                    int quantity = jsonObject2.getInt("quantity"); //数量
+                    int quantity = jsonObject2.getInt("quantity");//数量
+                    boolean discount = jsonObject2.getBoolean("extension1") ; // 是否有优惠
                     Log.e("quantity", quantity + "");
                     JSONObject jsonObject3 = jsonObject2.getJSONObject("product");
                     String path = jsonObject3.getString("image"); //获取图片路径
@@ -305,6 +346,7 @@ public class CartGoodsList extends Fragment {
                     cartGoods.setPrice(price);
                     cartGoods.setGoods(mGoods);
                     cartGoods.setShopping_cart_id(shopping_cart_id);
+                    cartGoods.setDiscount(discount);
                     mList.add(cartGoods);
                     //Log.e("mlist", mList.size()+""+mList.toString());
                 }
