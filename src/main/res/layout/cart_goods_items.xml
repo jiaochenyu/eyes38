@@ -30,6 +30,7 @@
         android:layout_height="100dp"
         android:layout_toRightOf="@+id/linear_checkbox"
         android:background="@drawable/cart_addsub_border"
+        android:padding="2dp"
         android:src="@drawable/p1"/>
 
     <TextView
@@ -109,14 +110,15 @@
             android:visibility="visible"
 
             />
+
         <TextView
             android:id="@+id/delete"
             android:layout_width="65dp"
             android:layout_height="25dp"
-           android:gravity="bottom|right"
+            android:gravity="bottom|right"
+            android:text="×"
             android:textColor="@color/black"
             android:textSize="25sp"
-            android:text="×"
             android:visibility="gone"
             />
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,6 +47,7 @@ public class GoodDetailActivity extends AppCompatActivity {
             switch (msg.what) {
                 case CARTGOODSCOUNT:
                     if (((Integer) msg.obj) != 0) {
+                        Log.e("goodDetail徽章",msg.obj+"");
                         mCartBadgeView.setText(msg.obj + "");
                         mCartBadgeView.show();
                     } else {
@@ -54,7 +56,6 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
