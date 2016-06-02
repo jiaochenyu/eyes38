@@ -9,7 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.eyes38.adapter.Home_item_adapter;
-import com.example.eyes38.beans.HomeGrid;
+import com.example.eyes38.beans.HomeContent;
+import com.example.eyes38.beans.HomeContentContent;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -17,10 +18,12 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**此类写的是recycleView的实现
  * Created by huangjiechun on 16/5/23.
@@ -33,9 +36,11 @@ public class HomeRecycleView {
     private RequestQueue mRequestQueue;
     private int mWhat =123;
     public static final int FINSH = 1;
-    public HomeRecycleView(Context context,RecyclerView recycler) {
+    String sortname;
+    public HomeRecycleView(Context context,RecyclerView recycler,String zhuantiname) {
         this.mContext=context;
         this.mRecyclerView=recycler;
+        this.sortname = zhuantiname;
     }
     public void startItem() {
         initData();
@@ -53,12 +58,13 @@ public class HomeRecycleView {
 //        mData.add(hg4);
 
         mRequestQueue = NoHttp.newRequestQueue();
-        String url = "http://api.dev.ilexnet.com/simulate/38eye/product-api/products/:product_id=4";
+        String url = "http://api.dev.ilexnet.com/simulate/38eye/product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 
-    private ArrayList<HomeGrid> mList;
+    private ArrayList<HomeContent> mList;
+    private HomeContent hc;
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
@@ -69,24 +75,41 @@ public class HomeRecycleView {
             if (what == mWhat) {
                 //请求成功
                 String result = response.get();
-                Log.e("resultwcoaosss",result);
                 try {
-                    //解析第一层
                     JSONObject object = new JSONObject(result);
-                    //JSONArray homelunbo = object.getJSONArray("data");
-                    mList = new ArrayList<HomeGrid>();
-//                    for (int i = 0; i < homelunbo.length(); i++) {
-//                        JSONObject jsonObject = homelunbo.getJSONObject(i);
-//                        HomeGrid address = new HomeGrid();
-//                        address.setPic(jsonObject.getString("image"));
-//                        mList.add(address);
-//                        Log.e("获取的数据recycle",jsonObject.getString("image"));
-//                    }
-                    JSONObject object1 = object.getJSONObject("data");
-                    HomeGrid address = new HomeGrid();
-                    address.setPic(object1.getString("image"));
-                    Log.e("获取的数据recycle",object1.getString("image"));
-                    mList.add(address);
+                    JSONArray array = object.getJSONArray("data");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        String zhuantiname = jsonObject.getString("name");
+                        int is_app_show = jsonObject.getInt("is_app_show");
+                        if (is_app_show == 0) {
+                        } else {
+                            //初始化mmlist
+                            List<HomeContentContent> mmList = new ArrayList<>();
+                            JSONArray array2 = jsonObject.getJSONArray("products");
+                            for (int j = 0; j < array2.length(); j++) {
+                                if (mmList.get(j).getName().equals(sortname)) {
+                                    JSONObject jsonObject1 = array2.getJSONObject(j);
+                                    if (!jsonObject1.getString("product").equals("false")) {
+                                        JSONObject jsonObject2 = jsonObject1.getJSONObject("product");
+                                        String image = jsonObject2.getString("image");
+                                        String name = jsonObject2.getString("name");
+                                        Double price = jsonObject2.getDouble("price");
+                                        String extension4 = jsonObject2.getString("extension4");
+                                        HomeContentContent hcc = new HomeContentContent(image, name, price, extension4);
+                                        mmList.add(hcc);
+                                    }
+                                }
+                            }
+                            hc = new HomeContent(zhuantiname, mmList);
+                            if (mmList.size() == 0) {
+                                Log.e("看看mmlist里有什么", zhuantiname);
+                            } else {
+                                Log.e("看看mmlist里有什么", zhuantiname + mmList.get(0).toString());
+                            }
+                            mList.add(hc);
+                        }
+                    }
                     handler.sendEmptyMessage(FINSH);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -108,7 +131,6 @@ public class HomeRecycleView {
             super.handleMessage(msg);
             switch (msg.what) {
                 case FINSH:
-                    Log.e("handler", "hhhhhhh");
                     //初始化适配器
                        initAdapter();
                     //这是监听
