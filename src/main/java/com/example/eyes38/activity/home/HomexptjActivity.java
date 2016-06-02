@@ -16,10 +16,10 @@ public class HomexptjActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homexptj);
-        mTextView = (TextView) findViewById(R.id.nogoods_title);
+       mTextView = (TextView) findViewById(R.id.nogoods_title);
         Intent intent = getIntent();
         name=intent.getStringExtra("values");
-        mTextView.setText(name);
+       mTextView.setText(name);
     }
 
     private void initView() {

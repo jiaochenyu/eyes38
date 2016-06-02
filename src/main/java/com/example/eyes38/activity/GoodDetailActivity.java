@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -26,18 +28,7 @@ import com.yolanda.nohttp.RequestQueue;
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
     //数据源
-<<<<<<< HEAD
-    Goods goods;
-    ImageView goodsPicImageView, goodsTxtPicImageView;
-    TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
-    LinearLayout linearLayout;
-    ImageView backImageView;
-    CartBadgeView mCartBadgeView;  //购物车图标徽章
-    Button mButton;
-    RadioGroup mRadioGroup; //
-    RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-    RequestQueue mRequestQueue;  //请求队列
-=======
+
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
     private TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
@@ -64,7 +55,6 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
->>>>>>> acdbd2cd458dc41ad7933a1470b22d37ca2727e0
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
