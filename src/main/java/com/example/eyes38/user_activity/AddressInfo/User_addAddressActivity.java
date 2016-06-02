@@ -43,8 +43,8 @@ public class User_addAddressActivity extends AppCompatActivity {
     private static final int mFinish3 = 565;
     private boolean true1, true2, true3, true4, onlyTrue;
     private boolean showFirst;//只用于提示手机号码一次
-    ImageView address_adjust1, address_adjust2, address_adjust3, address_adjust4;//四个用于判断的图片
-    Toast mToast;
+    private ImageView address_adjust1, address_adjust2, address_adjust3, address_adjust4;//四个用于判断的图片
+    private Toast mToast;
     private boolean flag, flag1, flag2;
     private Button address_button;
     private EditText address_name, address_tel, address_plot, address_detail;//控件

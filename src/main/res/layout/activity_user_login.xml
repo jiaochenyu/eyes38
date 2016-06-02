@@ -67,7 +67,11 @@
             android:layout_weight="0.3"
             android:layout_width="match_parent"
             android:layout_height="0dp"></LinearLayout>
-
+        <TextView
+            android:textSize="0.1sp"
+            android:layout_weight="0.1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
         <!--登录账号-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,8 +85,8 @@
               android:layout_width="0dp"
               android:layout_height="wrap_content"/>
             <EditText
+                android:background="@drawable/edittext"
                 android:id="@+id/username"
-                android:background="#faffbd"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="0dp"
@@ -90,10 +94,15 @@
                 android:gravity="center|left"
                 android:text="15538299972"
                 android:textSize="15sp"/>
-            <TextView
-                android:layout_weight="0.5"
+            <ImageView
+                android:padding="5dp"
+                android:id="@+id/login_adjust1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/invalid"
+                android:visibility="invisible"/>
 
         </LinearLayout>
         <TextView
@@ -118,9 +127,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <EditText
+                android:background="@drawable/edittext"
                 android:id="@+id/password"
                 android:inputType="textPassword"
-                android:background="#faffbd"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="0dp"
@@ -128,10 +137,15 @@
                 android:gravity="center|left"
                 android:text="155555522"
                 android:textSize="15sp"/>
-            <TextView
-                android:layout_weight="0.5"
+            <ImageView
+                android:padding="5dp"
+                android:id="@+id/login_adjust2"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/invalid"
+                android:visibility="invisible"/>
 
         </LinearLayout>
         <TextView
@@ -160,7 +174,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
-                android:background="#E6831E"
+                android:background="@color/topical"
                 android:text="登录"
                 android:textColor="#fff"
                 android:textSize="15sp"/>
