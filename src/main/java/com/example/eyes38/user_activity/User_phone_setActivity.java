@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
 
 public class User_phone_setActivity extends AppCompatActivity {
@@ -48,7 +49,8 @@ public class User_phone_setActivity extends AppCompatActivity {
     //退出登录
     public void user_back_login(View view) {
         editor=sp.edit();
-        editor.putInt("STATE",0);
+        editor.putBoolean("STATE",false);
+        Application.isLogin = false;
         editor.commit();
         Intent intent=new Intent(User_phone_setActivity.this,User_loginActivity.class);
         startActivity(intent);

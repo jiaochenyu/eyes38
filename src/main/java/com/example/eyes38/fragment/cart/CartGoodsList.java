@@ -333,7 +333,7 @@ public class CartGoodsList extends Fragment {
                     int goods_sales = jsonObject4.getInt("sales");   //销量
                     int goods_stock = jsonObject4.getInt("stock_num");
 
-                    Goods mGoods = new Goods(goods_id, goods_name, uri, goods_brand, goods_specification, goods_unit, goods_shengben, goods_remark, goods_market_price, goods_platform_price, goods_discount, goods_comment_count, goods_stock);
+                    Goods mGoods = new Goods(goods_id, goods_name, uri,goods_unit, goods_market_price, goods_platform_price, goods_comment_count, goods_stock,goods_remark);
 
 
                     //mCartGoods.setPath("http://hz-ifs.ilexnet.com/eyes38/599334_1_pic500_120.jpg");
