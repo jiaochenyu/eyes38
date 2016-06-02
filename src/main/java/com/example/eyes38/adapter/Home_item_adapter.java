@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
-import com.example.eyes38.beans.HomeGrid;
+import com.example.eyes38.beans.HomeContent;
 
 import java.util.List;
 
@@ -17,10 +16,10 @@ import java.util.List;
  * Created by huangjiechun on 16/5/23.
  */
 public class Home_item_adapter extends RecyclerView.Adapter<Home_item_adapter.ViewHolder> {
-    public List<HomeGrid> datas = null;
+    public List<HomeContent> datas = null;
     Context mContext;
 
-    public Home_item_adapter(List<HomeGrid> datas, Context context) {
+    public Home_item_adapter(List<HomeContent> datas, Context context) {
         this.datas = datas;
         this.mContext = context;
     }
@@ -28,7 +27,7 @@ public class Home_item_adapter extends RecyclerView.Adapter<Home_item_adapter.Vi
     //创建新View，被LayoutManager所调用
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_detal_head_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_content_content_item, viewGroup, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
@@ -37,13 +36,13 @@ public class Home_item_adapter extends RecyclerView.Adapter<Home_item_adapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        Glide.with(mContext).load(datas.get(position).getPic()).into(viewHolder.mImageView);
+    //    Glide.with(mContext).load(datas.get(position).getList().get(0).getImage()).into(viewHolder.mImageView);
     }
 
     //获取数据的数量
     @Override
     public int getItemCount() {
-        return datas.size();
+        return 1;
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素

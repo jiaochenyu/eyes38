@@ -2,6 +2,7 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,10 @@ import android.widget.LinearLayout;
 
 import com.example.eyes38.EventActivity.EventActivity;
 import com.example.eyes38.R;
+import com.example.eyes38.activity.GoodDetailActivity;
+import com.example.eyes38.activity.home.HomexptjActivity;
 import com.example.eyes38.activity.home.HomezhuantiActivity;
+import com.example.eyes38.beans.Goods;
 import com.example.eyes38.beans.HomeContent;
 import com.example.eyes38.beans.HomeContentContent;
 
@@ -57,7 +61,6 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     //获取布局的类型种类，我用了两种
-
     @Override
     public int getItemViewType(int position) {
         return position % 2 == 0 ? ITEM_TYPE_ONE : ITEM_TYPE_TWO;
@@ -88,15 +91,25 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mHome_headAdapter = new Home_Head_item_Adapter(name, mContext);
             one.mheadRecyclView.setLayoutManager(new LinearLayoutManager(mContext));
             one.mheadRecyclView.setAdapter(mHome_headAdapter);
+          List<HomeContentContent> list = mList.get(position / 2).getList();
+            final int size = list.size();
+            //记录这个专题有没有内容
             mHome_headAdapter.setOnMoreClickListener(new Home_Head_item_Adapter.OnMoreClickListener() {
                 @Override
                 public void onItemClick(View view, String homeContent) {
-                    if (homeContent.equals("一周菜谱")) {
-                        Intent intent = new Intent(mContext, EventActivity.class);
-                        mContext.startActivity(intent);
+                    if (size > 0) {
+                        //有内容,判断是不是一周菜谱(一周菜谱的布局不一样)
+                        if (homeContent.equals("一周菜谱")) {
+                            Intent intent = new Intent(mContext, EventActivity.class);
+                            mContext.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(mContext, HomezhuantiActivity.class);
+                            intent.putExtra("values", homeContent);
+                            mContext.startActivity(intent);
+                        }
                     } else {
-                        Intent intent = new Intent(mContext, HomezhuantiActivity.class);
-                        intent.putExtra("value", name);
+                        Intent intent = new Intent(mContext, HomexptjActivity.class);
+                        intent.putExtra("values", homeContent);
                         mContext.startActivity(intent);
                     }
                 }
@@ -120,10 +133,12 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 contentAdapter.setmOnItemClickListener(new Home_ContentContentAdapter.OnRecyclerViewItemClickListener() {
                     @Override
                     public void onItemClick(View view, HomeContentContent hcc) {
-                        Intent intent = new Intent(mContext, HomezhuantiActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("values", hcc);
-//                        intent.putExtra("values", bundle);
+                        //跳转到商品详情页面,传一个goods对象,键值是values,
+                        Goods goods = new Goods(0, hcc.getName(), hcc.getImage(), null, null, null, null, null, 0, 0, 0, 0, 0);
+                        Intent intent = new Intent(mContext, GoodDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("values", goods);
+                        intent.putExtra("values", bundle);
                         mContext.startActivity(intent);
                     }
                 });
