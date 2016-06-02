@@ -256,7 +256,8 @@ public class SearchActivity extends AppCompatActivity {
         search_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
+                //若有错误，需要隐藏键盘
             }
         });
         //清除输入内容
