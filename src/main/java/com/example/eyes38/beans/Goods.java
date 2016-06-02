@@ -144,4 +144,23 @@ public class Goods implements Serializable {
     public void setGoods_comment_count(int goods_comment_count) {
         this.goods_comment_count = goods_comment_count;
     }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "goods_id=" + goods_id +
+                ", goods_name='" + goods_name + '\'' +
+                ", path='" + path + '\'' +
+                ", goods_brand='" + goods_brand + '\'' +
+                ", goods_specification='" + goods_specification + '\'' +
+                ", goods_unit='" + goods_unit + '\'' +
+                ", goods_shengben='" + goods_shengben + '\'' +
+                ", goods_remark='" + goods_remark + '\'' +
+                ", goods_market_price=" + goods_market_price +
+                ", goods_platform_price=" + goods_platform_price +
+                ", goods_discount=" + goods_discount +
+                ", goods_comment_count=" + goods_comment_count +
+                ", goods_stock=" + goods_stock +
+                '}';
+    }
 }

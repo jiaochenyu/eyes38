@@ -340,11 +340,11 @@ public class CartGoodsList extends Fragment {
                     //CartGoods cartGoods = new CartGoods(path, product_name, price, quantity, goods_id, mGoods);
 
                     CartGoods cartGoods = new CartGoods();
+                    cartGoods.setGoods(mGoods);  //商品信息 （bean）
                     cartGoods.setPath(path);
                     cartGoods.setTitle(product_name);
                     cartGoods.setNum(quantity);
                     cartGoods.setPrice(price);
-                    cartGoods.setGoods(mGoods);
                     cartGoods.setShopping_cart_id(shopping_cart_id);
                     cartGoods.setDiscount(discount);
                     mList.add(cartGoods);

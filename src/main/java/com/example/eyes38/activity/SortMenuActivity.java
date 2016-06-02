@@ -2,8 +2,6 @@ package com.example.eyes38.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,10 +35,9 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
 public class SortMenuActivity extends AppCompatActivity {
-    public static final int FINISHED = 1;
-    RecyclerView mRecyclerView;
-    Sort_SortAdapter sort_sortAdapter;
-    List<Goods> mList;
+    private RecyclerView mRecyclerView;
+    private Sort_SortAdapter sort_sortAdapter;
+    private List<Goods> mList;
     //分类导航栏
     private RadioGroup mRadioGroup;
     private TextView titleTextView;
@@ -134,18 +131,6 @@ public class SortMenuActivity extends AppCompatActivity {
         titleTextView.setText(titlecontent);
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case FINISHED:
-                    initAdapter();
-                    setRadioGroupListener();
-                    break;
-            }
-        }
-    };
 
     private void setRadioGroupListener() {
         //对分类导航栏监听
@@ -250,7 +235,8 @@ public class SortMenuActivity extends AppCompatActivity {
 
                         mList.add(goods);
                     }
-                    handler.sendEmptyMessage(FINISHED);
+                    initAdapter();
+                    setRadioGroupListener();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -282,10 +268,11 @@ public class SortMenuActivity extends AppCompatActivity {
         sort_sortAdapter.setmOnItemClickListener(new Sort_SortAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Goods goods) {
+                Intent intent = new Intent(SortMenuActivity.this, GoodDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("values", goods);
-                Intent intent = new Intent(SortMenuActivity.this, GoodDetailActivity.class);
                 intent.putExtra("values", bundle);
+                //intent.putExtra("values",goods);
                 startActivity(intent);
             }
         });

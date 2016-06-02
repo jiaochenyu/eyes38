@@ -2,6 +2,8 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
@@ -58,10 +60,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private int position; // 删除位置
     private int cartGoodsCount;
     Handler mainHandler = (new MainActivity()).mainHandler; // 向MainActivity传值 改变徽章
-    Handler goodDetailHandler = (new GoodDetailActivity()).goodDetailHandler; // 向GoodDetailActivity传值 改变徽章
     Handler mHandler;
 
-    
     private Handler httpHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -94,8 +94,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     }
 
     //生成构造
-    public Cart_GoodsAdapter(List<CartGoods> mCartGoodses, Context context, Handler handler) {
-        mList = mCartGoodses;
+    public Cart_GoodsAdapter(List<CartGoods> mCartGoods, Context context, Handler handler) {
+        mList = mCartGoods;
         mContext = context;
         mHandler = handler;
         //初始化数据
@@ -157,7 +157,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     }
 
     @Override
-    public void onBindViewHolder(final CartGoodsViewHolder holder, final int position) {
+    public void onBindViewHolder(CartGoodsViewHolder holder, int position) {
         //设置item Tag
         holder.itemView.setTag(mList.get(position));
         Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
@@ -167,6 +167,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         holder.mPriceTextView.setText(st);
         holder.mTitleTextView.setText(mList.get(position).getTitle());
         holder.mCountTextView.setText(mList.get(position).getNum() + "");
+        // 做个判断 是否显示删除按钮
         if (isShowDelete) {
             //如果显示 删除
             holder.mDeleteTextView.setVisibility(View.VISIBLE);
@@ -182,18 +183,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         holder.addButton.setOnClickListener(new ButtonOnClickListener(position));
         holder.subButton.setOnClickListener(new ButtonOnClickListener(position));
         holder.mDeleteTextView.setOnClickListener(new ButtonOnClickListener(position));
+        holder.mImageView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品图片跳转
+        holder.mTitleTextView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品标题进行跳转
 
-
-       /* holder.addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //先增加1
-                mList.get(position).setNum(mList.get(position).getNum() + 1);
-                int currcount = mList.get(position).getNum();//获取当前 购物车中的数量
-                Log.e("Addbutton", "点击了" + position + "addbutton" + "当前有" + currcount + "商品");
-                notifyDataSetChanged();
-            }
-        });*/
     }
 
     @Override
@@ -240,6 +232,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mList.get(i).setSelected(true);
         }
         if (isAllSelected()) {
+
             //通知改变总价格
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //通知改变总数量
@@ -254,7 +247,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         //mHandler.sendMessage(mHandler.obtainMessage(1, true));
     }
 
-    //为加减按钮 设置监听器
+    //为加减按钮 删除 跳转到商品详情  设置监听器
     private class ButtonOnClickListener implements View.OnClickListener {
 
         int position;
@@ -271,7 +264,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart/:";
                     String args = "shoppingCartId";
                     String shoppingCartId = mList.get(position).getShopping_cart_id() + "";
-                    getNoHttpMethod(url, args, shoppingCartId, mAddOnResponseListener, PUT);
+                    getNoHttpMethod(url, args, shoppingCartId, PUT,ADDFINISH);
                     break;
                 case R.id.minusbutton:
                     //减法操作
@@ -281,9 +274,21 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                         mList.get(position).setNum(mList.get(position).getNum() - 1);
                         notifyDataSetChanged();
                         mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
-                        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount()));
                         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
+                        //改变购物车上的徽章
+                        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount()));
+
                     }
+                    break;
+                case R.id.goodspicture:
+                    //跳转到商品详情
+                    Log.e("跳转到商品详情","点击了商品图片");
+                    goGoodDetailActivity(position);
+                    break;
+                case R.id.goodstitle:
+                    // 跳转到商品详情
+                    goGoodDetailActivity(position);
+                    Log.e("跳转到商品详情","点击了商品标题");
                     break;
                 case R.id.delete:
                     showDialog();
@@ -364,7 +369,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                 String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart/:";
                 String args = "shoppingCartIds";
                 String shoppingCartIds = mList.get(getPosition()).getShopping_cart_id() + "";
-                getNoHttpMethod(url, args, shoppingCartIds, mDeleteOnResponseListener, DELETE);
+                getNoHttpMethod(url, args, shoppingCartIds, DELETE,DELETEFINISH);
             }
         });
         builder.create().show();
@@ -393,10 +398,10 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         notifyDataSetChanged();
         //判断购物车是否为空如果为空显示空页面
 
-        
+
         mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
-        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount()));
+        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount())); //改变徽章
     }
 
     // 统计购物车中 选中的 的数量
@@ -410,19 +415,27 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         }
         return count;
     }
+    //***********跳转到商品详情
+    private void goGoodDetailActivity(int position){
+        Intent intent = new Intent(mContext, GoodDetailActivity.class);
+        Bundle bundle = new Bundle();
+        Log.e("接收到的Goodsssssssssssssss",mList.get(position).getGoods().toString());
+        bundle.putSerializable("values",mList.get(position).getGoods());
+        intent.putExtra("values",bundle);
+        //intent.putExtra("values",mList.get(position).getGoods());
+        mContext.startActivity(intent);
+    }
 
-    /*//查看 购物车中谁被选中了 */
 
-
-    // 加法操作 请求网络
-    private OnResponseListener<String> mAddOnResponseListener = new OnResponseListener<String>() {
+    // *************加法操作  删除操作  请求网络
+    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
         }
 
         @Override
         public void onSucceed(int what, Response<String> response) {
-            if (what == mWHAT) {
+            if (what == ADDFINISH) {
                 String result = response.get();
                 try {
                     JSONObject jsonObject = new JSONObject(result);
@@ -434,27 +447,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     e.printStackTrace();
                 }
             }
-        }
-
-        @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-        }
-
-        @Override
-        public void onFinish(int what) {
-        }
-    };
-
-
-    //删除操作请求网络
-    private OnResponseListener<String> mDeleteOnResponseListener = new OnResponseListener<String>() {
-        @Override
-        public void onStart(int what) {
-        }
-
-        @Override
-        public void onSucceed(int what, Response<String> response) {
-            if (what == mWHAT) {
+            if(what == DELETEFINISH){
                 String result = response.get();
                 try {
                     JSONObject jsonObject = new JSONObject(result);
@@ -465,6 +458,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         }
 
@@ -484,10 +478,10 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
      * @param url                地址
      * @param arg1               请求参数
      * @param arg2               请求参数值
-     * @param onResponseListener 发送的 message
+     * @param
      * @ x 请求方式 1.get 2.post，3.delete方式 4是 put方式
      */
-    private void getNoHttpMethod(String url, String arg1, String arg2, OnResponseListener<String> onResponseListener, int x) {
+    private void getNoHttpMethod(String url, String arg1, String arg2, int x,int what) {
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = null;
         switch (x) {
@@ -506,6 +500,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         }
         request.setRequestFailedReadCache(true);
         request.add(arg1, arg2);
-        mRequestQueue.add(mWHAT, request, onResponseListener);
+        mRequestQueue.add(what, request, mOnResponseListener);
     }
 }

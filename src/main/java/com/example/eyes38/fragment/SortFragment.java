@@ -2,8 +2,6 @@ package com.example.eyes38.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,17 +38,16 @@ import java.util.List;
  */
 public class SortFragment extends Fragment {
 
-    public static final int FINSH = 1;
-    View view;
-    RecyclerView mRecyclerView;
+    private View view;
+    private RecyclerView mRecyclerView;
     //适配器
-    Sort_TitleAdapter titleAdapter;
+    private Sort_TitleAdapter titleAdapter;
     //处理事务
-    List<SortTitle> mList;
-    LinearLayoutManager liner;
-    FragmentManager mFragmentManager;
-    FragmentTransaction mTransaction;
-    ContentFragment mContentFragment;
+    private List<SortTitle> mList;
+    private LinearLayoutManager liner;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mTransaction;
+    private ContentFragment mContentFragment;
 
     //测试获取json数据
     //创建 请求队列成员变量
@@ -72,19 +69,6 @@ public class SortFragment extends Fragment {
         initFragment();
         return view;
     }
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case FINSH:
-                    //初始化适配器
-                    initAdapter();
-                    //这是监听
-                    initListener();
-            }
-        }
-    };
 
     private void initAdapter() {
         titleAdapter = new Sort_TitleAdapter(mList,getContext());
@@ -156,8 +140,10 @@ public class SortFragment extends Fragment {
                         SortTitle s = new SortTitle(i,id,name, ischecked,path);
                         mList.add(s);
                     }
-                    handler.sendEmptyMessage(FINSH);
-//                    titleAdapter.notifyDataSetChanged();
+                    //初始化适配器
+                    initAdapter();
+                    //这是监听
+                    initListener();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
