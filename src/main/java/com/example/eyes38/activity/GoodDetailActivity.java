@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.CartBadgeView;
+import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
@@ -110,9 +111,11 @@ public class GoodDetailActivity extends AppCompatActivity {
         Glide.with(this).load(goods.getPath()).into(goodsPicImageView);
         goodsUnitTextView.setText(goods.getGoods_platform_price() + goods.getGoods_unit());
         goodsStockTextView.setText(goods.getGoods_stock() + "");
-        goodsRemarkTextView.setText(goods.getGoods_remark());
+        goodsRemarkTextView.setText(goods.getGoods_name());
         goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
-        Glide.with(this).load(goods.getGoods_specification()).into(goodsTxtPicImageView);
+        //截取字符串中的url
+        String description = goods.getGoods_description();
+        Glide.with(this).load(Substring.getString(description)+"").into(goodsTxtPicImageView);
     }
 
     private void initData() {

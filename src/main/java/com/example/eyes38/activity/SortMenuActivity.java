@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -41,7 +40,10 @@ public class SortMenuActivity extends AppCompatActivity {
     //分类导航栏
     private RadioGroup mRadioGroup;
     private TextView titleTextView;
+    //分类标题
     private String titlecontent;
+    //分类的id
+    private int category_id;
     //刷新界面
     private PtrClassicFrameLayout ptrFrame;
 
@@ -56,8 +58,8 @@ public class SortMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sort_menu);
         initView();
-        initData();
         getDatas();
+        initData();
         setUI();
         initListener();
 
@@ -98,7 +100,7 @@ public class SortMenuActivity extends AppCompatActivity {
                     int totalItemCount = grid.getItemCount();
                     if (lastVisibleItem == totalItemCount-1) {
                         loadMoreData();
-                        Log.e("load","加载");
+//                        Log.e("load","加载");
                         isScrolling = false;
                     }
                 }
@@ -119,7 +121,7 @@ public class SortMenuActivity extends AppCompatActivity {
     private void loadMoreData() {
         //加载数据
         for (int i = 0; i < 5; i++) {
-            Goods goods = new Goods(1, "默认", null, "水果", null, "new", null, "new", 0, 0, 0, 0, 0);
+            Goods goods = new Goods(1, "默认","","new", 0, 0, 0, 0, "");
             mList.add(goods);
         }
         sort_sortAdapter.notifyDataSetChanged();
@@ -143,29 +145,6 @@ public class SortMenuActivity extends AppCompatActivity {
     }
 
 
-    private void resetDatas(int checkedId) {
-        //更改mlist中的数据，并通知适配器来更新UI
-        mList.clear();
-        switch (checkedId) {
-            case R.id.sort_menu_default:
-                Goods g1 = new Goods(1, "默认", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
-                mList.add(g1);
-                break;
-            case R.id.sort_menu_new:
-                Goods g2 = new Goods(1, "最新", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
-                mList.add(g2);
-                break;
-            case R.id.sort_menu_sale:
-                Goods g3 = new Goods(1, "销量", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
-                mList.add(g3);
-                break;
-            case R.id.sort_menu_price:
-                Goods g4 = new Goods(1, "价格", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
-                mList.add(g4);
-                break;
-        }
-        sort_sortAdapter.notifyDataSetChanged();
-    }
 
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.sort_sort_recyclerview);
@@ -196,6 +175,8 @@ public class SortMenuActivity extends AppCompatActivity {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.add("limit","28");
+//        request.add("category_id",category_id);
         request.setRequestFailedReadCache(true);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
@@ -231,8 +212,7 @@ public class SortMenuActivity extends AppCompatActivity {
                         JSONObject search = jsonObject.getJSONObject("product_search");
                         int comment_count = search.getInt("comment_num");
                         int stock = search.getInt("stock_num");
-                        Goods goods = new Goods(id, "默认", path, "水果", txt_pic, unit, null, name, market_price, price, 0, comment_count, stock);
-
+                        Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock,txt_pic);
                         mList.add(goods);
                     }
                     initAdapter();
@@ -260,6 +240,7 @@ public class SortMenuActivity extends AppCompatActivity {
         Bundle bundle = intent.getBundleExtra("values");
         SortContentContent scc = (SortContentContent) bundle.get("values");
         titlecontent = scc.getConten();
+        category_id = scc.getId();
     }
 
     private void initAdapter() {

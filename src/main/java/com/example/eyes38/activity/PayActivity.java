@@ -121,7 +121,7 @@ public class PayActivity extends AppCompatActivity {
     private double allGoodsPrice() {
         double goodsPrice = 0;
         for (int i = 0; i < mList.size(); i++) {
-            goodsPrice += mList.get(i).getPrice() * mList.get(i).getNum();
+            goodsPrice += mList.get(i).getPrice() * mList.get(i).getQuantity();
         }
         return goodsPrice;
     }
