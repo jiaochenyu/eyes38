@@ -35,11 +35,11 @@ import com.example.eyes38.fragment.search.utils.HistoryTable;
 import com.example.eyes38.fragment.search.utils.MyHelper;
 import com.example.eyes38.utils.DividerItemDecoration;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,8 +47,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -118,7 +116,7 @@ public class SearchActivity extends AppCompatActivity {
         mRequestQueue = NoHttp.newRequestQueue(1);
         String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.setRequestFailedReadCache(true);
+       // request.setRequestFailedReadCache(true);
         request.add("size", "7");
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }

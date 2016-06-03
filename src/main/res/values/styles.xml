@@ -301,6 +301,14 @@
         <item name="android:textColor">@drawable/bottom_text_selector</item>
         <item name="android:background">@drawable/user_selector_line</item>
     </style>
+    <style name="cart_dialog_select_day_text">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/topical</item>
+        <item name="android:background">@drawable/cart_dialog_week_border</item>
+    </style>
 
 
 </resources>

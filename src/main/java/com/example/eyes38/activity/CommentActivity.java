@@ -14,11 +14,12 @@ import com.example.eyes38.beans.Comments;
 import com.example.eyes38.utils.DividerItemDecoration;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.CacheMode;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -134,7 +135,7 @@ public class CommentActivity extends AppCompatActivity {
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
         Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
         //设置缓存
-        mRequest.setRequestFailedReadCache(true);
+        mRequest.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
         mRequestQueue.add(what, mRequest, mOnResponseListener);
     }
 
