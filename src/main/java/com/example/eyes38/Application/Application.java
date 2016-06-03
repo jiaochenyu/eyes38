@@ -6,6 +6,7 @@ import com.yolanda.nohttp.NoHttp;
  * Created by jqchen on 2016/5/21.
  */
 public class Application extends android.app.Application {
+    public static boolean isLogin = false;
     @Override
     public void onCreate() {
         super.onCreate();

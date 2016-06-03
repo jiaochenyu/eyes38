@@ -2,13 +2,11 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
@@ -34,20 +32,19 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayHolder>  {
     public PayHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.pay_order_goods_items,parent,false);
         PayHolder payHolder = new PayHolder(view);
-        Log.e("我是PayAdapter", mList.get(0).getPath());
         //view.setOnClickListener(this);
         return payHolder;
     }
 
     @Override
     public void onBindViewHolder(PayHolder holder, int position) {
-        Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
-        holder.goodsName.setText(mList.get(position).getTitle());
+        Glide.with(mContext).load(mList.get(position).getGoods().getPath()).into(holder.mImageView);
+        holder.goodsName.setText(mList.get(position).getProduct_name());
         holder.orderType.setText("");
-        holder.goodsNum.setText(mList.get(position).getNum()+"");
+        holder.goodsNum.setText(mList.get(position).getQuantity()+"");
         //double类型保留两位小数
         DecimalFormat df = new DecimalFormat("0.00");
-        String st = df.format(mList.get(position).getPrice() * mList.get(position).getNum());
+        String st = df.format(mList.get(position).getPrice() * mList.get(position).getQuantity());
         holder.listPrice.setText(st);
     }
     @Override

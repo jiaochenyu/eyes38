@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +69,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             super.handleMessage(msg);
             switch (msg.what) {
                 case DELETEFINISH:
-                    if ((Boolean) msg.obj == true) {
+                    if ((Boolean) msg.obj) {
                         // 进行删除操作
                         deleteMethod();
                     } else {
@@ -160,13 +161,13 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     public void onBindViewHolder(CartGoodsViewHolder holder, int position) {
         //设置item Tag
         holder.itemView.setTag(mList.get(position));
-        Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
+        Glide.with(mContext).load(mList.get(position).getGoods().getPath()).into(holder.mImageView);
         //double类型保留两位小数
         DecimalFormat df = new DecimalFormat("0.00");
-        String st = df.format(mList.get(position).getPrice() * mList.get(position).getNum()); //double 保留两位小数
+        String st = df.format(mList.get(position).getPrice() * mList.get(position).getQuantity()); //double 保留两位小数
         holder.mPriceTextView.setText(st);
-        holder.mTitleTextView.setText(mList.get(position).getTitle());
-        holder.mCountTextView.setText(mList.get(position).getNum() + "");
+        holder.mTitleTextView.setText(mList.get(position).getProduct_name());
+        holder.mCountTextView.setText(mList.get(position).getQuantity() + "");
         // 做个判断 是否显示删除按钮
         if (isShowDelete) {
             //如果显示 删除
@@ -263,15 +264,15 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     setPosition(position);
                     String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart/:";
                     String args = "shoppingCartId";
-                    String shoppingCartId = mList.get(position).getShopping_cart_id() + "";
+                    int shoppingCartId = mList.get(position).getShopping_cart_id();
                     getNoHttpMethod(url, args, shoppingCartId, PUT,ADDFINISH);
                     break;
                 case R.id.minusbutton:
                     //减法操作
-                    if (mList.get(position).getNum() <= 1) {
+                    if (mList.get(position).getQuantity() <= 1) {
                         Toast.makeText(mContext, "商品数量最少为1", Toast.LENGTH_SHORT).show();
                     } else {
-                        mList.get(position).setNum(mList.get(position).getNum() - 1);
+                        mList.get(position).setQuantity(mList.get(position).getQuantity() - 1);
                         notifyDataSetChanged();
                         mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
                         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
@@ -327,7 +328,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             //Log.e(i+"当前状态",mList.get(i).isSelected()+"");
             mCartGoods = mList.get(i);
             if (mCartGoods.isSelected()) {
-                totalPrice += mCartGoods.getNum() * mCartGoods.getPrice();
+                totalPrice += mCartGoods.getQuantity() * mCartGoods.getPrice();
             }
         }
         //Log.e("mlist.size()",totalPrice+""+mList.size());
@@ -366,9 +367,10 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 //进行删除网络请求
-                String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart/:";
+                String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/";
                 String args = "shoppingCartIds";
-                String shoppingCartIds = mList.get(getPosition()).getShopping_cart_id() + "";
+                int shoppingCartIds =mList.get(getPosition()).getShopping_cart_id();
+                Log.e("我要看看shoppingcartid", mList.get(getPosition()).getShopping_cart_id()+"");
                 getNoHttpMethod(url, args, shoppingCartIds, DELETE,DELETEFINISH);
             }
         });
@@ -378,11 +380,11 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
     private void addMethod() {
         //加法操作
-        if (mList.get(getPosition()).getNum() >=  mList.get(getPosition()).getGoods().getGoods_stock()) {
+        if (mList.get(getPosition()).getQuantity() >=  mList.get(getPosition()).getGoods().getGoods_stock()) {
             //如果大于库存
             Toast.makeText(mContext, "库存不足", Toast.LENGTH_SHORT).show();
         } else {
-            mList.get(getPosition()).setNum(mList.get(getPosition()).getNum() + 1);
+            mList.get(getPosition()).setQuantity(mList.get(getPosition()).getQuantity() + 1);
             notifyDataSetChanged();
             mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount())); //改变徽章
             mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
@@ -409,9 +411,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         int count = 0;
         for (int i = 0; i < mList.size(); i++) {
             if (mList.get(i).isSelected()){
-                count += mList.get(i).getNum();
+                count += mList.get(i).getQuantity();
             }
-
         }
         return count;
     }
@@ -481,7 +482,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
      * @param
      * @ x 请求方式 1.get 2.post，3.delete方式 4是 put方式
      */
-    private void getNoHttpMethod(String url, String arg1, String arg2, int x,int what) {
+    private void getNoHttpMethod(String url, String arg1, int arg2, int x,int what) {
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = null;
         switch (x) {
@@ -499,7 +500,15 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                 break;
         }
         request.setRequestFailedReadCache(true);
+        String username = "13091617887";  // 应该从偏好设置中获取账号密码
+        String password = "jiao3992380";
+        //Basic 账号+':'+密码  BASE64加密
+        String addHeader = username + ":" + password;
+        String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
+        Log.e("authorization的值", authorization);
         request.add(arg1, arg2);
+        request.addHeader("Authorization", authorization); // 添加请求头
+       // request.setHeader("Authorization",authorization);
         mRequestQueue.add(what, request, mOnResponseListener);
     }
 }

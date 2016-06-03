@@ -5,8 +5,11 @@
               xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
     >
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 0a4300524f4d9add7892f5acb6c805b377aa7b2d
     <!-- 顶部标题栏 -->
     <!--顶部标题-->
     <RelativeLayout

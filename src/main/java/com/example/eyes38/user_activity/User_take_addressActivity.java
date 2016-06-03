@@ -18,11 +18,11 @@ public class User_take_addressActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initViews();
         //判断当前该显示哪个页面
-        adjustViews();
+        //adjustViews();
         setContentView(R.layout.activity_user_take_address);
     }
 
-    private void adjustViews() {
+ /*   private void adjustViews() {
         int count=add_address_list.getCount();//count表示listview当前数据的个数
         if (count==0){
             //表示当前没有地址，则显示空页面
@@ -31,7 +31,7 @@ public class User_take_addressActivity extends AppCompatActivity {
             //表示当前显示的有地址，则显示listview
             add_address_footer.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 
     private void initViews() {
         add_address_list= (ListView) findViewById(R.id.add_address_list);
