@@ -1,38 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-    >
-<<<<<<< HEAD
-=======
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
->>>>>>> 0a4300524f4d9add7892f5acb6c805b377aa7b2d
     <!-- 顶部标题栏 -->
     <!--顶部标题-->
     <RelativeLayout
         android:id="@+id/cartitle"
         style="@style/pagetitle">
+
         <Spinner
             android:id="@+id/home_spinner"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:dropDownHorizontalOffset="500dp"
-            android:dropDownVerticalOffset="50dp"
-            android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"
-            />
+            android:layout_marginLeft="5dp"
+            android:dropDownHorizontalOffset="500dp"
+            android:dropDownVerticalOffset="50dp" />
 
         <TextView
             style="@style/pagetitletext"
             android:text="首页" />
 
-<ImageView
-    android:id="@+id/home_jisuan"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"/>
+        <ImageView
+            android:id="@+id/home_jisuan"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" />
 
         <ImageView
             android:id="@+id/home_fangdajing"
@@ -41,8 +36,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="-5dp"
             android:padding="5dp"
-            android:src="@drawable/home_fangdajing"
-            />
+            android:src="@drawable/home_fangdajing" />
     </RelativeLayout>
 
 
@@ -51,7 +45,6 @@
     <!--<ScrollView-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent">-->
-
 
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
@@ -71,105 +64,96 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-<!--顶部广告轮播图-->
-            <android.support.v4.view.ViewPager
-                android:id="@+id/main_ad_show"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                />
-<!--四个大类图标-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:background="@color/white">
-
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!--顶部广告轮播图-->
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/main_ad_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp" />
+                <!--四个大类图标-->
                 <LinearLayout
-                    android:onClick=""
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:background="@color/white">
 
-                    <ImageButton
-                        android:id="@+id/home_sort1image"
-                        style="@style/home_sort_imagebutton"
-                        />
-
-                    <TextView
-                        android:id="@+id/home_sort1text"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        />
+                        android:layout_weight="1"
+                        android:onClick=""
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/home_sort1image"
+                            style="@style/home_sort_imagebutton" />
+
+                        <TextView
+                            android:id="@+id/home_sort1text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="10dp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/home_sort2image"
+                            style="@style/home_sort_imagebutton" />
+
+                        <TextView
+                            android:id="@+id/home_sort2text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/home_sort3image"
+                            style="@style/home_sort_imagebutton" />
+
+                        <TextView
+                            android:id="@+id/home_sort3text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/home_sort4image"
+                            style="@style/home_sort_imagebutton" />
+
+                        <TextView
+                            android:id="@+id/home_sort4text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/home_sort2image"
-                        style="@style/home_sort_imagebutton"
-                        />
-
-                    <TextView
-                        android:id="@+id/home_sort2text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                       />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/home_sort3image"
-                        style="@style/home_sort_imagebutton"
-                        />
-
-                    <TextView
-                        android:id="@+id/home_sort3text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/home_sort4image"
-                        style="@style/home_sort_imagebutton"
-                        />
-
-                    <TextView
-                        android:id="@+id/home_sort4text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                       />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--一周菜谱头部-->
-            <!--<RelativeLayout-->
+                <!--一周菜谱头部-->
+                <!--<RelativeLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:background="@color/white"-->
@@ -177,43 +161,43 @@
                 <!--&gt;-->
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/home_shutiao"-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="15dp"-->
-                    <!--android:scaleType="fitXY"-->
-                    <!--android:src="@drawable/home_shutiao"/>-->
+                <!--android:id="@+id/home_shutiao"-->
+                <!--android:layout_width="10dp"-->
+                <!--android:layout_height="15dp"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@drawable/home_shutiao"/>-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toRightOf="@id/home_shutiao"-->
-                    <!--android:text="一周菜谱"-->
-                    <!--android:textColor="@color/black"/>-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@id/home_shutiao"-->
+                <!--android:text="一周菜谱"-->
+                <!--android:textColor="@color/black"/>-->
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/home_yzcpgengduo"-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="10dp"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:scaleType="fitXY"-->
-                    <!--android:src="@drawable/home_gengduo"/>-->
+                <!--android:id="@+id/home_yzcpgengduo"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@drawable/home_gengduo"/>-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toLeftOf="@id/home_yzcpgengduo"-->
-                    <!--android:text="更多"-->
-                    <!--android:textColor="@color/black"/>-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toLeftOf="@id/home_yzcpgengduo"-->
+                <!--android:text="更多"-->
+                <!--android:textColor="@color/black"/>-->
 
 
-            <!--</RelativeLayout>-->
+                <!--</RelativeLayout>-->
 
-            <!--<LinearLayout-->
+                <!--<LinearLayout-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="1dp"></LinearLayout>-->
-            <!--&lt;!&ndash;一周菜谱内容&ndash;&gt;-->
-            <!--<RelativeLayout-->
+                <!--&lt;!&ndash;一周菜谱内容&ndash;&gt;-->
+                <!--<RelativeLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="40dp"-->
                 <!--android:background="@color/white"-->
@@ -221,20 +205,20 @@
                 <!--&gt;-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="暂无商品"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center"-->
+                <!--android:text="暂无商品"-->
+                <!--android:textColor="@color/black"-->
+                <!--/>-->
 
-            <!--</RelativeLayout>-->
+                <!--</RelativeLayout>-->
 
-            <!--<LinearLayout-->
+                <!--<LinearLayout-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="10dp"></LinearLayout>-->
-            <!--&lt;!&ndash;新品推荐头部&ndash;&gt;-->
-            <!--<RelativeLayout-->
+                <!--&lt;!&ndash;新品推荐头部&ndash;&gt;-->
+                <!--<RelativeLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:background="@color/white"-->
@@ -242,60 +226,59 @@
                 <!--&gt;-->
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/home_xptjshutiao"-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="15dp"-->
-                    <!--android:scaleType="fitXY"-->
-                    <!--android:src="@drawable/home_shutiao"/>-->
+                <!--android:id="@+id/home_xptjshutiao"-->
+                <!--android:layout_width="10dp"-->
+                <!--android:layout_height="15dp"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@drawable/home_shutiao"/>-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toRightOf="@id/home_xptjshutiao"-->
-                    <!--android:text="新品推荐"-->
-                    <!--android:textColor="@color/black"/>-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@id/home_xptjshutiao"-->
+                <!--android:text="新品推荐"-->
+                <!--android:textColor="@color/black"/>-->
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/home_xptjgengduo"-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="10dp"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:scaleType="fitXY"-->
-                    <!--android:src="@drawable/home_gengduo"-->
-                    <!--/>-->
+                <!--android:id="@+id/home_xptjgengduo"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@drawable/home_gengduo"-->
+                <!--/>-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toLeftOf="@id/home_xptjgengduo"-->
-                    <!--android:text="更多"-->
-                    <!--android:textColor="@color/black"/>-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toLeftOf="@id/home_xptjgengduo"-->
+                <!--android:text="更多"-->
+                <!--android:textColor="@color/black"/>-->
 
-            <!--</RelativeLayout>-->
+                <!--</RelativeLayout>-->
 
-            <!--<LinearLayout-->
+                <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="1dp"></LinearLayout>-->
-<!--新品推荐内容-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/sort_title_background">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/home_recycler_view"
+                <!--新品推荐内容-->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:background="@color/sort_title_background">
 
-            </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/home_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-            <!--<LinearLayout-->
+                </LinearLayout>
+
+                <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="10dp"></LinearLayout>-->
-            <!--&lt;!&ndash;每日特价头部&ndash;&gt;-->
-            <!--<RelativeLayout-->
+                <!--&lt;!&ndash;每日特价头部&ndash;&gt;-->
+                <!--<RelativeLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:background="@color/white"-->
@@ -303,43 +286,43 @@
                 <!--&gt;-->
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/home_mrtjshutiao"-->
-                    <!--android:layout_width="10dp"-->
-                    <!--android:layout_height="15dp"-->
-                    <!--android:scaleType="fitXY"-->
-                    <!--android:src="@drawable/home_shutiao"/>-->
+                <!--android:id="@+id/home_mrtjshutiao"-->
+                <!--android:layout_width="10dp"-->
+                <!--android:layout_height="15dp"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@drawable/home_shutiao"/>-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toRightOf="@id/home_mrtjshutiao"-->
-                    <!--android:text="每日特价"-->
-                    <!--android:textColor="@color/black"/>-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@id/home_mrtjshutiao"-->
+                <!--android:text="每日特价"-->
+                <!--android:textColor="@color/black"/>-->
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/home_mrtegengduo"-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="10dp"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:scaleType="fitXY"-->
-                    <!--android:src="@drawable/home_gengduo"/>-->
+                <!--android:id="@+id/home_mrtegengduo"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@drawable/home_gengduo"/>-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toLeftOf="@id/home_mrtegengduo"-->
-                    <!--android:text="更多"-->
-                    <!--android:textColor="@color/black"/>-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toLeftOf="@id/home_mrtegengduo"-->
+                <!--android:text="更多"-->
+                <!--android:textColor="@color/black"/>-->
 
 
-            <!--</RelativeLayout>-->
+                <!--</RelativeLayout>-->
 
-            <!--<LinearLayout-->
+                <!--<LinearLayout-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="1dp"></LinearLayout>-->
-            <!--&lt;!&ndash;每日特价内容&ndash;&gt;-->
-            <!--<RelativeLayout-->
+                <!--&lt;!&ndash;每日特价内容&ndash;&gt;-->
+                <!--<RelativeLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="40dp"-->
                 <!--android:background="@color/white"-->
@@ -347,17 +330,17 @@
                 <!--&gt;-->
 
                 <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="暂无商品"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center"-->
+                <!--android:text="暂无商品"-->
+                <!--android:textColor="@color/black"-->
+                <!--/>-->
 
-            <!--</RelativeLayout>-->
+                <!--</RelativeLayout>-->
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
 
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
     <!--</ScrollView>-->

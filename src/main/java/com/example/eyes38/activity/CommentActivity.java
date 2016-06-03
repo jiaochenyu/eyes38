@@ -1,5 +1,6 @@
 package com.example.eyes38.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,7 +45,9 @@ public class CommentActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;
     private PtrClassicFrameLayout ptrFrame;
     //评论导航栏
-    RadioGroup mRadioGroup;
+    private RadioGroup mRadioGroup;
+    //记录传来的商品id
+    private int product_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,13 +129,21 @@ public class CommentActivity extends AppCompatActivity {
         mList.add(c2);
         mList.add(c3);
         mList.add(c4);*/
+        getProductId();
         getHttpRequest(ALL);
+    }
+
+    private void getProductId() {
+        //获取传来的商品id
+        Intent intent = getIntent();
+        product_id = intent.getIntExtra("product_id",1);
     }
 
     private void getHttpRequest(int what) {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
         Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        mRequest.add("item_id",product_id);
         //设置缓存
         mRequest.setRequestFailedReadCache(true);
         mRequestQueue.add(what, mRequest, mOnResponseListener);

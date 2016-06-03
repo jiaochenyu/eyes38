@@ -64,7 +64,8 @@
                 android:layout_weight="10"
                 android:gravity="center|left"
                 android:hint="手机号"
-                android:textColor="#d9d9d9"
+                android:maxLength="11"
+                android:inputType="phone"
                 android:textSize="15sp"/>
 
         </LinearLayout>
@@ -98,9 +99,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
-                android:background="@color/topical"
+                android:background="@color/background"
                 android:text="下一步"
-                android:textColor="#fff"
+                android:textColor="@color/black"
+                android:clickable="false"
                 android:textSize="15sp"/>
 
             <TextView

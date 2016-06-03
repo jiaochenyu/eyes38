@@ -1,11 +1,16 @@
 package com.example.eyes38.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -46,12 +51,23 @@ public class SortMenuActivity extends AppCompatActivity {
     private int category_id;
     //刷新界面
     private PtrClassicFrameLayout ptrFrame;
+    private ImageView loading;
 
     //测试获取json数据
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     private final static int mWhat = 520;
     private GridLayoutManager grid;
+    //上拉加载的footview
+    private LinearLayout footview;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            footview.setVisibility(View.GONE);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +115,18 @@ public class SortMenuActivity extends AppCompatActivity {
                     int lastVisibleItem = grid.findLastCompletelyVisibleItemPosition();
                     int totalItemCount = grid.getItemCount();
                     if (lastVisibleItem == totalItemCount-1) {
+                        //显示footview
+                        footview.setVisibility(View.VISIBLE);
+                        loading.setBackgroundResource(R.drawable.anim);
+                        final AnimationDrawable animDrawable = (AnimationDrawable) loading
+                                .getBackground();
+                        loading.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                animDrawable.start();
+                            }
+                        });
+                        handler.sendMessageDelayed(new Message(),2000);
                         loadMoreData();
 //                        Log.e("load","加载");
                         isScrolling = false;
@@ -155,6 +183,8 @@ public class SortMenuActivity extends AppCompatActivity {
         mRadioGroup = (RadioGroup) findViewById(R.id.sort_menu);
         titleTextView = (TextView) findViewById(R.id.sort_sort_title);
         ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.sort_sort_ptr);
+        footview = (LinearLayout) findViewById(R.id.footview);
+        loading = (ImageView) findViewById(R.id.footview_image);
     }
 
     private void initData() {
