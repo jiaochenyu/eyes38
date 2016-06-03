@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
     //设置徽章 样式
     private void initCartBadge() {
-       int login_state = sp.getInt("STATE", 0);
-        if (login_state == 0 ) {
+      Boolean login_state = sp.getBoolean("STATE", false);
+        if (login_state ) {
             mCartBadgeView.hide();
         } else {
                 if (getCartGoodsCount() == 0){
@@ -212,9 +212,9 @@ public class MainActivity extends AppCompatActivity {
                 showFragment(CAR);
                 break;
             case R.id.userRadiobutton:
-                int login_state = sp.getInt("STATE", 0);
+               boolean login_state = sp.getBoolean("STATE", false);
                 Log.e("login", login_state + "");
-                if (login_state == 1) {
+                if (login_state) {
                     showFragment(USER);
                 } else {
                     Intent intent = new Intent(MainActivity.this, User_loginActivity.class);

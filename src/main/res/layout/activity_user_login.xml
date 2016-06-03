@@ -85,6 +85,7 @@
               android:layout_width="0dp"
               android:layout_height="wrap_content"/>
             <EditText
+                android:focusableInTouchMode="false"
                 android:background="@drawable/edittext"
                 android:id="@+id/username"
                 android:layout_width="0dp"
@@ -127,6 +128,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <EditText
+                android:focusableInTouchMode="false"
                 android:background="@drawable/edittext"
                 android:id="@+id/password"
                 android:inputType="textPassword"
