@@ -33,11 +33,11 @@ import com.example.eyes38.fragment.home.HomeSpinnerView;
 import com.example.eyes38.fragment.search.SearchActivity;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -159,7 +159,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mrecycleList = new ArrayList<>();
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.setRequestFailedReadCache(true);
+        //request.setRequestFailedReadCache(true);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 

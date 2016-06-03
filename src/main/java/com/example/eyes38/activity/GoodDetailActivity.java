@@ -22,17 +22,14 @@ import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.CartBadgeView;
 import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
 
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
     //数据源
-<<<<<<< HEAD
-=======
 
->>>>>>> 0a4300524f4d9add7892f5acb6c805b377aa7b2d
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
     private TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
@@ -59,10 +56,7 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
-<<<<<<< HEAD
-=======
 
->>>>>>> 0a4300524f4d9add7892f5acb6c805b377aa7b2d
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,7 +206,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         //增加商品接口
         String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart" ;
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
-        request.setRequestFailedReadCache(true);
+        //request.setRequestFailedReadCache(true);
         request.add("extension1","false");
     }
 

@@ -24,18 +24,20 @@ import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.CartGoods;
-import com.example.eyes38.utils.CartDialog;
+import com.example.eyes38.utils.CartDialogDelete;
+import com.example.eyes38.utils.CartDialogSelectDate;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -168,14 +170,39 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         holder.mPriceTextView.setText(st);
         holder.mTitleTextView.setText(mList.get(position).getProduct_name());
         holder.mCountTextView.setText(mList.get(position).getQuantity() + "");
+        //判断一周菜谱按钮是否显示： 三种状态 extension==null显示两个按钮,==false只显示当日订单,==true或者日期 显示两个按钮
+        //默认状态是 当周订单显示灰色 当日订单显示主题色
+        String extension = mList.get(position).getExtension1();
+        if (extension==null){
+            //默认状态
+            holder.mDayOrder.setVisibility(View.VISIBLE);
+            holder.mWeekOrder.setVisibility(View.VISIBLE);
+        }else if(extension.equals("false")){
+            holder.mDayOrder.setVisibility(View.VISIBLE);
+            holder.mWeekOrder.setVisibility(View.GONE);
+        }else if(extension.equals("true")) {
+            //true
+            holder.mDayOrder.setVisibility(View.VISIBLE);
+            holder.mDayOrder.setBackgroundResource(R.color.text); // 将当日订单背景颜色显示为灰色
+            holder.mWeekOrder.setVisibility(View.VISIBLE);
+            holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
+        }else{
+            holder.mDayOrder.setVisibility(View.VISIBLE);
+            holder.mDayOrder.setBackgroundResource(R.color.text); // 将当日订单背景颜色显示为灰色
+            holder.mWeekOrder.setVisibility(View.VISIBLE);
+            holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
+
+        }
         // 做个判断 是否显示删除按钮
         if (isShowDelete) {
             //如果显示 删除
             holder.mDeleteTextView.setVisibility(View.VISIBLE);
             holder.mDayOrder.setVisibility(View.GONE);
+            holder.mWeekOrder.setVisibility(View.GONE);
         } else {
             holder.mDeleteTextView.setVisibility(View.GONE);
             holder.mDayOrder.setVisibility(View.VISIBLE);
+            holder.mWeekOrder.setVisibility(View.VISIBLE);
         }
         holder.mCheckBox.setTag(position);
 
@@ -199,7 +226,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         CheckBox mCheckBox;
         ImageView mImageView;
         TextView mTitleTextView, mPriceTextView, mCountTextView, mDeleteTextView;// 商品名称, 商品价格， 增减数量  ,删除按钮
-        Button addButton, subButton, mDayOrder;
+        Button addButton, subButton, mDayOrder,mWeekOrder;
 
         public CartGoodsViewHolder(View itemView) {
             super(itemView);
@@ -216,6 +243,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             addButton = (Button) mView.findViewById(R.id.addbutton); // 增加商品
             subButton = (Button) mView.findViewById(R.id.minusbutton); // 减少商品
             mDayOrder = (Button) mView.findViewById(R.id.dayOrder); // 当日订单按钮
+            mWeekOrder = (Button) mView.findViewById(R.id.weekOrder); // 当周订单按钮
             mDeleteTextView = (TextView) mView.findViewById(R.id.delete); //删除按钮
         }
     }
@@ -262,10 +290,11 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             switch (v.getId()) {
                 case R.id.addbutton:
                     setPosition(position);
-                    String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart/:";
-                    String args = "shoppingCartId";
                     int shoppingCartId = mList.get(position).getShopping_cart_id();
-                    getNoHttpMethod(url, args, shoppingCartId, PUT,ADDFINISH);
+                    String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/"+shoppingCartId;
+                    int quantity = mList.get(position).getQuantity();
+                    String args = "quantity";
+                    getNoHttpMethod(url, args, quantity, PUT,ADDFINISH);
                     break;
                 case R.id.minusbutton:
                     //减法操作
@@ -278,7 +307,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
                         //改变购物车上的徽章
                         mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount()));
-
                     }
                     break;
                 case R.id.goodspicture:
@@ -291,8 +319,12 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     goGoodDetailActivity(position);
                     Log.e("跳转到商品详情","点击了商品标题");
                     break;
+                case R.id.weekOrder:
+                    //当周订单 弹出dialog选择日期
+
+                    break;
                 case R.id.delete:
-                    showDialog();
+                    showDeleteDialog();
                     setPosition(position);
                     break;
             }
@@ -352,8 +384,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
 
     //删除的时候二次确认提示框
-    private void showDialog() {
-        CartDialog.Builder builder = new CartDialog.Builder(mContext);
+    private void showDeleteDialog() {
+        CartDialogDelete.Builder builder = new CartDialogDelete.Builder(mContext);
         builder.setMessage("确认要删除吗");
         builder.setNoButtonClick("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -366,17 +398,16 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                //进行删除网络请求
-                String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/";
-                String args = "shoppingCartIds";
                 int shoppingCartIds =mList.get(getPosition()).getShopping_cart_id();
+                //进行删除网络请求
+                String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/?shoppingCartIds="+shoppingCartIds;
+                String args = "shoppingCartIds ";
                 Log.e("我要看看shoppingcartid", mList.get(getPosition()).getShopping_cart_id()+"");
-                getNoHttpMethod(url, args, shoppingCartIds, DELETE,DELETEFINISH);
+                getNoHttpMethod(url, null, 0, DELETE,DELETEFINISH);
             }
         });
         builder.create().show();
     }
-
 
     private void addMethod() {
         //加法操作
@@ -399,8 +430,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         mList.remove(getPosition());
         notifyDataSetChanged();
         //判断购物车是否为空如果为空显示空页面
-
-
         mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
         mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount())); //改变徽章
@@ -453,8 +482,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     boolean resultDelete = jsonObject.getBoolean("success");
+                    String  resultString = jsonObject.getString("msg");
                     //请求完成返回结果 通知handler 处理结果
-                    Log.e("返回结果", resultDelete + "");
+                    Log.e("购物车测试返回结果", resultDelete + "    "+resultString);
                     httpHandler.sendMessage(httpHandler.obtainMessage(DELETEFINISH, resultDelete));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -471,6 +501,49 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         public void onFinish(int what) {
         }
     };
+
+    // 显示当周订单 选择日期dialog
+    private void  showSelectDateDialog(){
+        CartDialogSelectDate.Builder builder = new CartDialogSelectDate.Builder(mContext);
+        builder.setMessage("当周订单");
+        //设置接下来的一周日期：
+        String[] date = setDate();
+        builder.setDay1ButtonClick(date[0], new DialogInterface.OnClickListener() {
+            //点击了第一天
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+
+       /* builder.setDay2ButtonClick(date[1],new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                int shoppingCartIds =mList.get(getPosition()).getShopping_cart_id();
+                //进行删除网络请求
+                String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/"+shoppingCartIds;
+                String args = "shoppingCartIds ";
+                Log.e("我要看看shoppingcartid", mList.get(getPosition()).getShopping_cart_id()+"");
+                getNoHttpMethod(url, "", 8, DELETE,DELETEFINISH);
+            }
+        });*/
+
+
+        //显示dialog
+        builder.create().show();
+    }
+    //设置当周订单 日期选择框中的日期 （一周）
+    private String[] setDate(){
+        String[] date = null;
+        Calendar c = Calendar.getInstance();
+        for (int i = 0; i <7 ; i++) {
+            date[i] =c.get(Calendar.YEAR)+"-"+c.get(Calendar.MONTH)+1+"-"+c.get(Calendar.DATE);
+            c.add(Calendar.DATE,1);
+        }
+        return date;
+    }
 
 
     //提取Nohttp 代码
@@ -499,15 +572,16 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                 request = NoHttp.createStringRequest(url, RequestMethod.PUT);
                 break;
         }
-        request.setRequestFailedReadCache(true);
         String username = "13091617887";  // 应该从偏好设置中获取账号密码
-        String password = "jiao3992380";
+        String password = "123456";
         //Basic 账号+':'+密码  BASE64加密
         String addHeader = username + ":" + password;
         String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
         Log.e("authorization的值", authorization);
-        request.add(arg1, arg2);
         request.addHeader("Authorization", authorization); // 添加请求头
+        request.addHeader("Content-Type","application/json");
+        request.setDefineRequestBodyForJson("{"+arg1+":"+arg2+"}");
+        //request.add(arg1, arg2);
        // request.setHeader("Authorization",authorization);
         mRequestQueue.add(what, request, mOnResponseListener);
     }

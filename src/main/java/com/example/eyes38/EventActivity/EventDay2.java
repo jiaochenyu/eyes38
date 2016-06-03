@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,19 +15,17 @@ import android.view.ViewGroup;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.EventRecycleViewAdapter;
 import com.example.eyes38.beans.EventContentGood;
-import com.example.eyes38.utils.DividerItemDecoration;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +90,7 @@ public class EventDay2 extends Fragment{
         mRequestQueue=NoHttp.newRequestQueue();//默认是3个请求
         String url = "http://38eye.test.ilexnet.com/api/mobile/product-api/products";
         Request<String> request=NoHttp.createStringRequest(url,RequestMethod.GET);
-        request.setRequestFailedReadCache(true);
+        //request.setRequestFailedReadCache(true);
         mRequestQueue.add(mWhat,request,mOnResponseListener);
     }
     /**

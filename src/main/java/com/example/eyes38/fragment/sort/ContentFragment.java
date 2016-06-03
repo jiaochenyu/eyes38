@@ -16,11 +16,11 @@ import com.example.eyes38.beans.SortContent;
 import com.example.eyes38.beans.SortContentContent;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -149,7 +149,7 @@ public class ContentFragment extends Fragment {
         mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.setRequestFailedReadCache(true);
+        //request.setRequestFailedReadCache(true);
         request.add("active",1);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }

@@ -20,11 +20,11 @@ import com.example.eyes38.R;
 import com.example.eyes38.fragment.cart.CartEmptyView;
 import com.example.eyes38.fragment.cart.CartGoodsList;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -122,7 +122,7 @@ public class CartFragment extends Fragment {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
         String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.setRequestFailedReadCache(true);
+//        request.setRequestFailedReadCache(true);
         //request.add("shoppingCartIds", "219");
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }

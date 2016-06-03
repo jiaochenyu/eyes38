@@ -25,11 +25,11 @@ import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +43,8 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+
+;
 
 
 /**
@@ -188,9 +190,9 @@ public class CartGoodsList extends Fragment {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.setRequestFailedReadCache(true); //缓存
+        //request.setRequestFailedReadCache(true); //缓存
         String username = "13091617887";  // 应该从偏好设置中获取账号密码
-        String password = "jiao3992380";
+        String password = "123456";
         //Basic 账号+':'+密码  BASE64加密
         String addHeader = username + ":" + password;
         String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));

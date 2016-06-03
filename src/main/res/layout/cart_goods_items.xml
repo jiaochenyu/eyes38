@@ -102,15 +102,27 @@
         android:layout_alignRight="@+id/cart_list_price">
 
         <Button
+            android:id="@+id/weekOrder"
+            android:layout_width="65dp"
+            android:layout_height="25dp"
+            android:background="#DDDDDD"
+            android:text="当周订单"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="visible"
+            />
+
+        <Button
+            android:layout_marginTop="5dp"
             android:id="@+id/dayOrder"
             android:layout_width="65dp"
             android:layout_height="25dp"
+            android:layout_below="@+id/weekOrder"
             android:background="@color/topical"
             android:text="当日订单"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:visibility="visible"
-
             />
 
         <TextView

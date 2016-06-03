@@ -15,12 +15,12 @@ import com.example.eyes38.R;
 /**
  * Created by jqchen on 2016/5/26.
  */
-public class CartDialog extends Dialog {
-    public CartDialog(Context context) {
+public class CartDialogDelete extends Dialog {
+    public CartDialogDelete(Context context) {
         super(context);
     }
 
-    public CartDialog(Context context, int themeResId) {
+    public CartDialogDelete(Context context, int themeResId) {
         super(context, themeResId);
     }
 
@@ -76,9 +76,9 @@ public class CartDialog extends Dialog {
             return this;
         }
 
-        public CartDialog create() {
+        public CartDialogDelete create() {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final CartDialog dialog = new CartDialog(mContext, R.style.Cart_Dialog);
+            final CartDialogDelete dialog = new CartDialogDelete(mContext, R.style.Cart_Dialog);
             View layout = inflater.inflate(R.layout.cart_dialog_delete, null);
             dialog.addContentView(layout, new ActionBar.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
@@ -100,25 +100,26 @@ public class CartDialog extends Dialog {
                     layout.findViewById(R.id.dialog_yes).setVisibility(
                             View.GONE);
                 }
-                // set the no button
-                if (noButtonText != null) {
+            }
+            // set the no button
+            if (noButtonText != null) {
+                ((TextView) layout.findViewById(R.id.dialog_no))
+                        .setText(noButtonText);
+                if (NoButtonClickListener != null) {
                     ((TextView) layout.findViewById(R.id.dialog_no))
-                            .setText(noButtonText);
-                    if (NoButtonClickListener != null) {
-                        ((TextView) layout.findViewById(R.id.dialog_no))
-                                .setOnClickListener(new View.OnClickListener() {
-                                    public void onClick(View v) {
-                                        NoButtonClickListener.onClick(dialog,
-                                                DialogInterface.BUTTON_NEGATIVE);
-                                    }
-                                });
-                    }
+                            .setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View v) {
+                                    NoButtonClickListener.onClick(dialog,
+                                            DialogInterface.BUTTON_NEGATIVE);
+                                }
+                            });
                 } else {
                     // if no confirm button just set the visibility to GONE
                     layout.findViewById(R.id.dialog_no).setVisibility(
                             View.GONE);
                 }
             }
+
 
             if (message != null) {
                 ((TextView) layout.findViewById(R.id.dialog_text)).setText(message);
@@ -128,7 +129,7 @@ public class CartDialog extends Dialog {
                 ((RelativeLayout) layout.findViewById(R.id.dialog_content))
                         .removeAllViews();
                 ((RelativeLayout) layout.findViewById(R.id.dialog_content))
-                        .addView(mView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+                        .addView(mView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             }
             dialog.setContentView(layout);
             return dialog;
