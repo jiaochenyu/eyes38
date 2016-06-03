@@ -20,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.CartBadgeView;
-import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
@@ -29,7 +28,10 @@ import com.yolanda.nohttp.rest.RequestQueue;
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
     //数据源
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6b9f425f42d76e84984d0b20438f90a1b4f28ace
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
     private TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
@@ -56,7 +58,10 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6b9f425f42d76e84984d0b20438f90a1b4f28ace
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +120,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
         //截取字符串中的url
         String description = goods.getGoods_description();
-        Glide.with(this).load(Substring.getString(description)+"").into(goodsTxtPicImageView);
+//        Glide.with(this).load(Substring.getString(description)+"").into(goodsTxtPicImageView);
     }
 
     private void initData() {

@@ -3,11 +3,11 @@ package com.example.eyes38.EventActivity;
 import android.annotation.TargetApi;
 import android.app.FragmentTransaction;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +23,6 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.EventFragmentAdapter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class EventActivity extends AppCompatActivity {
@@ -47,7 +46,7 @@ public class EventActivity extends AppCompatActivity {
     private ImageView mImageViewScrollLeft;
     private ImageView mImageViewScrollRight;
     private int indicatorWidth;//下划线的宽度
-    public static String[] tabTitle ;
+    public static String[] tabTitle = {"A1", "B2", "C3", "D4", "E5", "F6", "G7"};
     private LayoutInflater mInflater;
     private int currentIndicatorLeft=0;//当前下划线和左边的距离
 
@@ -126,10 +125,6 @@ public class EventActivity extends AppCompatActivity {
         mFragmentList.add(mEventDay5);
         mFragmentList.add(mEventDay6);
         mFragmentList.add(mEventDay7);
-
-        //设置标题
-        setTabTitle();
-
         //获得屏幕分辨率
         DisplayMetrics dm=new DisplayMetrics();//获取屏幕分辨率
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -149,6 +144,12 @@ public class EventActivity extends AppCompatActivity {
         mEventFragmentAdapter=new EventFragmentAdapter(mFragmentManager,mFragmentList);
         mViewPager.setAdapter(mEventFragmentAdapter);
         mViewPager.setOffscreenPageLimit(6);
+
+
+
+
+
+
 
     }
     //标签在horizonScrollView中应该移动的位置
@@ -173,12 +174,7 @@ public class EventActivity extends AppCompatActivity {
         mImageViewScrollRight= (ImageView) findViewById(R.id.event_day_scroll_right);
     }
 
-    //设置一周菜谱日期
-    private void setTabTitle(){
-        Calendar c = Calendar.getInstance();
-        for (int i = 0; i <7 ; i++) {
-            tabTitle[i] = c.get(Calendar.MONTH)+1+"月"+c.get(Calendar.DATE)+"日";
-            c.add(Calendar.DATE,1);
-        }
+    public void Event_back(View view) {
+        finish();
     }
 }

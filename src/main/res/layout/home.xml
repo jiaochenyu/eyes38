@@ -84,6 +84,7 @@
                 android:background="@color/white">
 
                 <LinearLayout
+                    android:id="@+id/home_sort1layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -105,6 +106,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/home_sort2layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -124,6 +126,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/home_sort3layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -143,6 +146,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/home_sort4layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
