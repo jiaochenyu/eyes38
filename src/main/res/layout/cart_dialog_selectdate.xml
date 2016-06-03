@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/sort_title_background"
+    >
+
+    <RelativeLayout
+        android:id="@+id/dialog_content"
+        android:layout_width="360dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        >
+
+        <TextView
+            android:id="@+id/dialog_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="当周订单"/>
+
+        <RelativeLayout
+            android:id="@+id/cart_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/dialog_text"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            >
+
+            <TextView
+                android:id="@+id/dialog_day1"
+                style="@style/cart_dialog_select_day_text"
+                android:layout_alignParentLeft="true"
+                android:text="day1"/>
+
+            <TextView
+                android:id="@+id/dialog_day2"
+                style="@style/cart_dialog_select_day_text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:text="day2"
+                />
+
+            <TextView
+                android:id="@+id/dialog_day3"
+                style="@style/cart_dialog_select_day_text"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="5dp"
+                android:text="day3"
+
+                />
+
+            <TextView
+                android:id="@+id/dialog_day4"
+                style="@style/cart_dialog_select_day_text"
+                android:layout_alignLeft="@+id/dialog_day1"
+                android:layout_below="@+id/dialog_day1"
+                android:layout_marginTop="8dp"
+                android:text="day4"
+                />
+
+            <TextView
+                android:id="@+id/dialog_day5"
+                style="@style/cart_dialog_select_day_text"
+                android:layout_alignLeft="@+id/dialog_day2"
+                android:layout_below="@+id/dialog_day2"
+                android:layout_marginTop="8dp"
+                android:text="day5"
+                />
+
+            <TextView
+                android:id="@+id/dialog_day6"
+                style="@style/cart_dialog_select_day_text"
+                android:layout_alignLeft="@+id/dialog_day3"
+                android:layout_below="@+id/dialog_day3"
+                android:layout_marginTop="8dp"
+                android:text="day6"
+                />
+
+            <TextView
+                android:id="@+id/dialog_day7"
+                style="@style/cart_dialog_select_day_text"
+                android:layout_alignLeft="@+id/dialog_day4"
+                android:layout_below="@+id/dialog_day4"
+                android:layout_marginTop="8dp"
+                android:text="day7"
+                />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -98,8 +98,9 @@
                 android:text="用户名"/>
             <!--手机-->
             <TextView
+                android:id="@+id/person_center_tel"
                 style="@style/user_person_center_text2"
-                android:text="15538299972"/>
+                android:text=""/>
 
             <TextView
                 style="@style/user_person_center_text3"/>
@@ -146,8 +147,10 @@
                 style="@style/user_person_center_text1"/>
             <!--手机-->
             <EditText
+                android:id="@+id/person_center_name"
+                android:focusableInTouchMode="false"
                 android:background="@drawable/edittext"
-                android:text="妈妈叫我去买菜"
+                android:text=""
                 style="@style/user_person_center_text2"/>
             <TextView
                 style="@style/user_person_center_text3"/>
@@ -173,6 +176,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
             <Spinner
+                android:visibility="gone"
                 android:spinnerMode="dialog"
                 android:id="@+id/spinner_sex"
                 android:entries="@array/sex"
@@ -198,8 +202,10 @@
                 style="@style/user_person_center_text1"/>
             <!--手机-->
             <EditText
+                android:id="@+id/person_center_email"
+                android:focusableInTouchMode="false"
                 android:background="@drawable/edittext"
-                android:text="734474820@qq.com"
+                android:text=""
                 style="@style/user_person_center_text2"/>
             <TextView
                 style="@style/user_person_center_text3"/>
@@ -223,8 +229,7 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:onClick="user_person_center_save"
-                android:id="@+id/back_login"
+                android:id="@+id/person_center_save"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"

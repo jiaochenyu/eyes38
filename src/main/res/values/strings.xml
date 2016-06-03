@@ -5,8 +5,8 @@
     <string name="cartitle">购物车</string>
     <string name="usertitle">我的</string>
     <string-array name="sex">
-        <item>男</item>
         <item>女</item>
+        <item>男</item>
     </string-array>
 
     <string name="sort_menu_default">默认</string>
