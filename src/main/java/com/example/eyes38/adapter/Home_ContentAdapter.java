@@ -100,14 +100,17 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (size > 0) {
                         //有内容,判断是不是一周菜谱(一周菜谱的布局不一样)
                         if (homeContent.equals("一周菜谱")) {
+                            //这是一周菜谱的页面
                             Intent intent = new Intent(mContext, EventActivity.class);
                             mContext.startActivity(intent);
                         } else {
+                            //这是除了一周菜谱之外的页面,显示了商品的列表
                             Intent intent = new Intent(mContext, HomezhuantiActivity.class);
                             intent.putExtra("values", homeContent);
                             mContext.startActivity(intent);
                         }
                     } else {
+                        //没有商品的时候跳转到一个空白的页面
                         Intent intent = new Intent(mContext, HomexptjActivity.class);
                         intent.putExtra("values", homeContent);
                         mContext.startActivity(intent);

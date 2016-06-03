@@ -22,7 +22,7 @@
                 android:layout_weight="0.5"/>
 
             <ImageView
-                android:onClick="user_myorder_back"
+                android:onClick="Event_back"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
