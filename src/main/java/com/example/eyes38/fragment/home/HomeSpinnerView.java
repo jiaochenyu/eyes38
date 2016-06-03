@@ -10,6 +10,7 @@ import android.widget.Spinner;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
+import com.example.eyes38.beans.Home_district;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -30,6 +31,7 @@ import java.util.List;
 public class HomeSpinnerView implements AdapterView.OnItemSelectedListener {
     Spinner mSpinner;
     List<String> mList;
+    List<Home_district> mCity;
     ArrayAdapter<String> apapter;
     MainActivity mMainActivity;
     int height;
@@ -46,7 +48,6 @@ public class HomeSpinnerView implements AdapterView.OnItemSelectedListener {
     public void startspinner() {
         initData();
     }
-
 
     Handler handler = new Handler() {
         @Override
@@ -85,6 +86,7 @@ public class HomeSpinnerView implements AdapterView.OnItemSelectedListener {
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 
+
     /**
      * 请求http结果  回调对象，接受请求结果
      */
@@ -103,13 +105,17 @@ public class HomeSpinnerView implements AdapterView.OnItemSelectedListener {
                     JSONObject object = new JSONObject(result);
                     JSONArray homefirst = object.getJSONArray("data");
                     mList = new ArrayList<String>();
+                    mCity = new ArrayList<Home_district>();
                     for (int i = 0; i < homefirst.length(); i++) {
                         JSONObject jsonObject = homefirst.getJSONObject(i);
                         //mCartGoods.setPath(jsonObject.getString("create_date"));
                         JSONObject mtest = jsonObject.getJSONObject("district");
                         String name = mtest.getString("name");
+                       int district_id = mtest.getInt("district_id");
+                        Home_district home_district = new Home_district(name,district_id);
+                        mCity.add(home_district);
                         mList.add(name);
-                        Log.e("获取的数据jjjj", jsonObject.getString("create_date") + " " + name);
+                        Log.e("获取的数据哈达和", jsonObject.getString("create_date") + " " + name+district_id);
                     }
                     handler.sendEmptyMessage(FINSH);
                 } catch (JSONException e) {

@@ -1,14 +1,19 @@
 package com.example.eyes38.fragment.home;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
+import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.adapter.Home_item_adapter;
+import com.example.eyes38.beans.Goods;
 import com.example.eyes38.beans.HomeContent;
 import com.example.eyes38.beans.HomeContentContent;
 import com.yolanda.nohttp.NoHttp;
@@ -25,7 +30,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**此类写的是recycleView的实现
+/**
+ * 此类写的是recycleView的实现
  * Created by huangjiechun on 16/5/23.
  */
 public class HomeRecycleView {
@@ -34,20 +40,24 @@ public class HomeRecycleView {
     private Home_item_adapter mAdapter;
     private Context mContext;
     private RequestQueue mRequestQueue;
-    private int mWhat =123;
+    private int mWhat = 123;
     public static final int FINSH = 1;
     String sortname;
-    public HomeRecycleView(Context context,RecyclerView recycler,String zhuantiname) {
-        this.mContext=context;
-        this.mRecyclerView=recycler;
+    private ArrayList<HomeContent> mList;
+    private HomeContent hc;
+
+    public HomeRecycleView(Context context, RecyclerView recycler, String zhuantiname) {
+        this.mContext = context;
+        this.mRecyclerView = recycler;
         this.sortname = zhuantiname;
     }
+
     public void startItem() {
         initData();
     }
 
     private void initData() {
-     //  mData = new ArrayList<HomeGrid>();
+        //  mData = new ArrayList<HomeGrid>();
 //        HomeGrid hg1 = new HomeGrid(R.drawable.home_c1);
 //        HomeGrid hg2 = new HomeGrid(R.drawable.home_c2);
 //        HomeGrid hg3 = new HomeGrid(R.drawable.home_c3);
@@ -58,13 +68,12 @@ public class HomeRecycleView {
 //        mData.add(hg4);
 
         mRequestQueue = NoHttp.newRequestQueue();
-        String url = "http://api.dev.ilexnet.com/simulate/38eye/product-api/products";
+        String url = "http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 
-    private ArrayList<HomeContent> mList;
-    private HomeContent hc;
+
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
@@ -75,39 +84,37 @@ public class HomeRecycleView {
             if (what == mWhat) {
                 //请求成功
                 String result = response.get();
+                mList = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray array = object.getJSONArray("data");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
                         String zhuantiname = jsonObject.getString("name");
-                        int is_app_show = jsonObject.getInt("is_app_show");
-                        if (is_app_show == 0) {
-                        } else {
+                        if (sortname.equals(zhuantiname)) {
                             //初始化mmlist
                             List<HomeContentContent> mmList = new ArrayList<>();
                             JSONArray array2 = jsonObject.getJSONArray("products");
                             for (int j = 0; j < array2.length(); j++) {
-                                if (mmList.get(j).getName().equals(sortname)) {
-                                    JSONObject jsonObject1 = array2.getJSONObject(j);
-                                    if (!jsonObject1.getString("product").equals("false")) {
-                                        JSONObject jsonObject2 = jsonObject1.getJSONObject("product");
-                                        String image = jsonObject2.getString("image");
-                                        String name = jsonObject2.getString("name");
-                                        Double price = jsonObject2.getDouble("price");
-                                        String extension4 = jsonObject2.getString("extension4");
-                                        HomeContentContent hcc = new HomeContentContent(image, name, price, extension4);
-                                        mmList.add(hcc);
-                                    }
+                                JSONObject jsonObject1 = array2.getJSONObject(j);
+                                if (!jsonObject1.getString("product").equals("false")) {
+                                    JSONObject jsonObject2 = jsonObject1.getJSONObject("product");
+                                    String image = jsonObject2.getString("image");
+                                    String name = jsonObject2.getString("name");
+                                    Double price = jsonObject2.getDouble("price");
+                                    String extension4 = jsonObject2.getString("extension4");
+                                    HomeContentContent hcc = new HomeContentContent(image, name, price, extension4);
+                                    mmList.add(hcc);
                                 }
+
+                                hc = new HomeContent(zhuantiname, mmList);
+                                if (mmList.size() == 0) {
+                                    Log.e("看看mmlist里有什么", zhuantiname);
+                                } else {
+                                    Log.e("看看mmlist里有什么", zhuantiname + mmList.get(0).toString());
+                                }
+                                mList.add(hc);
                             }
-                            hc = new HomeContent(zhuantiname, mmList);
-                            if (mmList.size() == 0) {
-                                Log.e("看看mmlist里有什么", zhuantiname);
-                            } else {
-                                Log.e("看看mmlist里有什么", zhuantiname + mmList.get(0).toString());
-                            }
-                            mList.add(hc);
                         }
                     }
                     handler.sendEmptyMessage(FINSH);
@@ -132,7 +139,7 @@ public class HomeRecycleView {
             switch (msg.what) {
                 case FINSH:
                     //初始化适配器
-                       initAdapter();
+                    initAdapter();
                     //这是监听
                     //setLinstener();
             }
@@ -140,13 +147,26 @@ public class HomeRecycleView {
     };
 
     private void initAdapter() {
-        mAdapter = new Home_item_adapter(mList,mContext);
-        mRecyclerView.setAdapter(mAdapter);
+
         //设置recycleview的布局管理
         //listview风格
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         //grid
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
+        mAdapter = new Home_item_adapter(mList, mContext, sortname);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setmOnItemClickListener(new Home_item_adapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, HomeContentContent hcc) {
+                //跳转到商品详情页面,传一个goods对象,键值是values,
+                Goods goods = new Goods(0, hcc.getName(), hcc.getImage(), null, null, null, null, null, 0, 0, 0, 0, 0);
+                Intent intent = new Intent(mContext, GoodDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("values", goods);
+                intent.putExtra("values", bundle);
+                mContext.startActivity(intent);
+            }
+        });
     }
 }
