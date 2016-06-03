@@ -1,4 +1,4 @@
-package com.example.eyes38.user_fragment;
+package com.example.eyes38.fragment.user;
 
 
 import android.os.Bundle;
@@ -13,19 +13,16 @@ import com.example.eyes38.user_activity.User_orderActivity;
 
 
 /**
- * Created by cfj on 2016/5/21.
+ * Created by cfj on 2016/5/8.
  */
-public class AllFragment extends Fragment {
+public class PayFragment extends Fragment {
     User_orderActivity mMainActivity;
     View view;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mMainActivity = ( User_orderActivity) getActivity();
-        view = inflater.inflate(R.layout.activity_user_all,null);
+        view = inflater.inflate(R.layout.activity_user_pay,null);
         return view;
     }
-
-
-
 }
