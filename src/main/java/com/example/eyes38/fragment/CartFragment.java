@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.eyes38.Application.Application;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.fragment.cart.CartEmptyView;
@@ -98,9 +99,8 @@ public class CartFragment extends Fragment {
 
     private void initStates() {
         //如果用户没有登录 那么显示空
-        sp = mMainActivity.getSharedPreferences("userInfo", mMainActivity.MODE_PRIVATE);  // 偏好设置初始化
-        int flag = sp.getInt("STATE", 0);  // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
-        if (flag == 0) {
+
+        if (!Application.isLogin) {
             //如果用户没登录  购物车显示空
             CartEmptyView mCartEmptyView = new CartEmptyView();
             mFragmentTransaction.replace(R.id.cartcontent, mCartEmptyView);
