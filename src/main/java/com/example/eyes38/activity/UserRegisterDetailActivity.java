@@ -24,6 +24,7 @@ import com.example.eyes38.adapter.AreaAdapter;
 import com.example.eyes38.adapter.SpinnerAdapter;
 import com.example.eyes38.beans.Area;
 import com.example.eyes38.beans.Community;
+import com.example.eyes38.utils.Substring;
 import com.example.eyes38.utils.ValidateCode;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -90,8 +91,8 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
             super(millisInFuture, countDownInterval);
             //设置按钮不可点击
             obtainButton.setClickable(false);
-            obtainButton.setBackgroundColor(getColor(R.color.background));
-            obtainButton.setTextColor(getColor(R.color.black));
+            obtainButton.setBackgroundColor(getResources().getColor(R.color.background));
+            obtainButton.setTextColor(getResources().getColor(R.color.black));
         }
 
         @Override
@@ -103,8 +104,8 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         @Override
         public void onFinish() {
             obtainButton.setText("获取验证码");
-            obtainButton.setBackgroundColor(getColor(R.color.them_color));
-            obtainButton.setTextColor(getColor(R.color.white));
+            obtainButton.setBackgroundColor(getResources().getColor(R.color.them_color));
+            obtainButton.setTextColor(getResources().getColor(R.color.white));
             obtainButton.setClickable(true);
         }
     }
@@ -128,7 +129,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
 
     private void setData() {
         //将传来的是电话号码显示、
-        telnumTextView.setText(telNum);
+        telnumTextView.setText(Substring.getPhoneString(telNum));
         //解析地区列表
         getProHttp();
         mlist = new ArrayList<>();
@@ -271,7 +272,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         request.add("community", communityid);
         request.add("mobile", telNum);
         request.add("communityName", communityName);
-        request.add("confirmPassword",password);
+        request.add("confirmPassword", password);
         request.add("password", password);
         request.add("validateCode", validateCode);
         mRequestQueue.add(REGISTER, request, mOnResponseListener);
@@ -297,12 +298,12 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
                         boolean success = object.getBoolean("success");
                         String msg = object.getString("msg");
                         Log.e("注册", success + msg);
-                        if (success){
+                        if (success) {
                             //保存注册信息并跳转到mainactivity
                             saveLoginInformation();
                             goToUser();
 
-                        }else {
+                        } else {
                             //注册不成功，提示用户
                             showRegisterFail();
                         }
@@ -407,10 +408,10 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if (communitiesList.size() != 0){
-                        mlist.set(3,true);
-                    }else {
-                        mlist.set(3,false);
+                    if (communitiesList.size() != 0) {
+                        mlist.set(3, true);
+                    } else {
+                        mlist.set(3, false);
 
                     }
                     registerAdjust();
@@ -439,7 +440,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
 
     private void saveLoginInformation() {
         //保存注册信息
-        sp=UserRegisterDetailActivity.this.getSharedPreferences("userInfo", MODE_PRIVATE);
+        sp = UserRegisterDetailActivity.this.getSharedPreferences("userInfo", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("USER_NAME", telNum);
         editor.putString("PASSWORD", passwordEditText.getText().toString());
@@ -491,6 +492,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
             if (temp.length() == 6) {
+                inputValidatecodeEditText.clearFocus();
                 validateCodeAdjust.setImageResource(R.drawable.right);
                 mlist.set(0, true);
             } else {
@@ -501,6 +503,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         }
     }
 
+
     private class PasswordEditViewListener implements TextWatcher {
         //对密码的输入框的实时监听
         private CharSequence temp;
@@ -508,6 +511,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             temp = s;
+            confirmpasswordEditText.setText("");
         }
 
         @Override
@@ -549,6 +553,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
             if (temp.toString().equals(password)) {
                 confirmPasswordAdjust.setImageResource(R.drawable.right);
                 mlist.set(2, true);
+                confirmpasswordEditText.clearFocus();
             } else {
                 confirmPasswordAdjust.setImageResource(R.drawable.exclamation);
                 mlist.set(2, false);
@@ -566,21 +571,22 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         }
         if (count == 4) {
             registerButton.setClickable(true);
-            registerButton.setBackground(getDrawable(R.color.them_color));
-            registerButton.setTextColor(getColor(R.color.white));
+            registerButton.setBackground(getResources().getDrawable(R.color.them_color));
+            registerButton.setTextColor(getResources().getColor(R.color.white));
         } else {
             registerButton.setClickable(false);
-            registerButton.setBackground(getDrawable(R.color.bottom_line));
-            registerButton.setTextColor(getColor(R.color.black));
+            registerButton.setBackground(getResources().getDrawable(R.color.bottom_line));
+            registerButton.setTextColor(getResources().getColor(R.color.black));
         }
     }
+
     private void showRegisterFail() {
         //提示用户已经注册
 //        Toast.makeText(this,"已注册",Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(this)
                 .setTitle("提示")
                 .setMessage("注册失败")
-                .setPositiveButton("确定",null)
+                .setPositiveButton("确定", null)
                 .show();
     }
 

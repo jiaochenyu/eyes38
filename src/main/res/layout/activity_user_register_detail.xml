@@ -50,23 +50,28 @@
                         android:text="@string/user_register_detail_validatecode" />
 
                     <TextView
+                        android:textColor="@color/them_color"
                         android:id="@+id/user_register_detail_num"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
                 </LinearLayout>
                 <!--填写验证码-->
                 <LinearLayout
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="10dp"><requestFocus/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
+                        android:layout_gravity="center"
                         android:src="@drawable/input" />
 
                     <EditText
@@ -86,6 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
+                        android:layout_gravity="center"
                         android:src="@drawable/exclamation" />
 
                     <Button
@@ -161,6 +167,7 @@
                 </LinearLayout>
                 <!--所属小区-->
                 <LinearLayout
+                    android:focusable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border"
@@ -184,25 +191,25 @@
                         <Spinner
                             android:id="@+id/user_register_detail_plot_spinner_pro"
                             android:layout_width="150dp"
-                            android:layout_height="30dp"
+                            android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:spinnerMode="dialog"></Spinner>
+                            android:spinnerMode="dialog"/>
 
                         <Spinner
                             android:id="@+id/user_register_detail_plot_spinner_city"
                             android:layout_width="150dp"
-                            android:layout_height="30dp"
+                            android:layout_height="wrap_content"
                             android:spinnerMode="dialog"
                             android:background="@color/white"
-                            android:visibility="gone"></Spinner>
+                            android:visibility="gone"/>
 
                         <Spinner
                             android:id="@+id/user_register_detail_plot_spinner_area"
                             android:layout_width="150dp"
-                            android:layout_height="30dp"
+                            android:layout_height="wrap_content"
                             android:spinnerMode="dialog"
                             android:background="@color/white"
-                            android:visibility="gone"></Spinner>
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>

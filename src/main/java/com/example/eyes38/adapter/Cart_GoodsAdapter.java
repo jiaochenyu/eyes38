@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -26,6 +25,7 @@ import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.utils.CartDialogDelete;
 import com.example.eyes38.utils.CartDialogSelectDate;
+import com.yolanda.nohttp.Logger;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -46,15 +46,11 @@ import java.util.List;
 public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.CartGoodsViewHolder> implements View.OnClickListener {
     public static final int NOTIFICHANGEPRICE = 383;  //通知购物车页面  改变总价格
     public static final int NOTIFICHANGEALLSELECTED = 384; //通知购物车页面 设置为全选
-    public static final int mWHAT = 385;
     public static final int DELETEFINISH = 386;  // 删除操作
     public static final int ADDFINISH = 387; // 加法操作
+    public static final int MINUSFINISH = 389; // 减法操作
     public static final int NOTIFILIST = 388; //购物车状态改变
     public static final int CARTGOODSCOUNT = 308; // 通知mainactivity 改变徽章
-    public static final int GET = 1; //GET 请求方式
-    public static final int POST = 2; //POST 请求方式
-    public static final int DELETE = 3;//DELETE 请求方式
-    public static final int PUT = 4; //PUT 请求方式
     private List<CartGoods> mList;
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener = null;//监听事件
@@ -64,33 +60,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private int cartGoodsCount;
     Handler mainHandler = (new MainActivity()).mainHandler; // 向MainActivity传值 改变徽章
     Handler mHandler;
-
-    private Handler httpHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case DELETEFINISH:
-                    if ((Boolean) msg.obj) {
-                        // 进行删除操作
-                        deleteMethod();
-                    } else {
-                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case ADDFINISH:
-                    //加法操作
-                    if ((Boolean)msg.obj == true) {
-                        // 进行加法操作
-                        addMethod();
-                    } else {
-                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
-                    }
-
-            }
-
-        }
-    };
 
     //无参构造方法
     public Cart_GoodsAdapter() {
@@ -113,7 +82,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         //是否显示 删除按钮
         isShowDelete = showDelete;
     }
-
 
 
     //购物车总商品数量
@@ -149,11 +117,12 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
     @Override
     public CartGoodsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_goods_items, parent, false);
-            CartGoodsViewHolder cartGoodsViewHolder = new CartGoodsViewHolder(view);
-            view.setOnClickListener(this);
-            return cartGoodsViewHolder;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_goods_items, parent, false);
+        CartGoodsViewHolder cartGoodsViewHolder = new CartGoodsViewHolder(view);
+        view.setOnClickListener(this);
+        return cartGoodsViewHolder;
     }
+
     //初始化 mOnRecyclerViewItemClickListener
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnRecyclerViewItemClickListener = listener;
@@ -173,25 +142,16 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         //判断一周菜谱按钮是否显示： 三种状态 extension==null显示两个按钮,==false只显示当日订单,==true或者日期 显示两个按钮
         //默认状态是 当周订单显示灰色 当日订单显示主题色
         String extension = mList.get(position).getExtension1();
-        if (extension==null){
-            //默认状态
-            holder.mDayOrder.setVisibility(View.VISIBLE);
-            holder.mWeekOrder.setVisibility(View.VISIBLE);
-        }else if(extension.equals("false")){
+        Log.e("extension1的值", extension);
+        if (extension.equals("false")) {
+            //false
             holder.mDayOrder.setVisibility(View.VISIBLE);
             holder.mWeekOrder.setVisibility(View.GONE);
-        }else if(extension.equals("true")) {
-            //true
+        } else {
             holder.mDayOrder.setVisibility(View.VISIBLE);
-            holder.mDayOrder.setBackgroundResource(R.color.text); // 将当日订单背景颜色显示为灰色
+            holder.mDayOrder.setBackgroundResource(R.color.border_color); //将当日订单背景颜色显示为灰色
             holder.mWeekOrder.setVisibility(View.VISIBLE);
             holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
-        }else{
-            holder.mDayOrder.setVisibility(View.VISIBLE);
-            holder.mDayOrder.setBackgroundResource(R.color.text); // 将当日订单背景颜色显示为灰色
-            holder.mWeekOrder.setVisibility(View.VISIBLE);
-            holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
-
         }
         // 做个判断 是否显示删除按钮
         if (isShowDelete) {
@@ -202,7 +162,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         } else {
             holder.mDeleteTextView.setVisibility(View.GONE);
             holder.mDayOrder.setVisibility(View.VISIBLE);
-            holder.mWeekOrder.setVisibility(View.VISIBLE);
         }
         holder.mCheckBox.setTag(position);
 
@@ -226,7 +185,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         CheckBox mCheckBox;
         ImageView mImageView;
         TextView mTitleTextView, mPriceTextView, mCountTextView, mDeleteTextView;// 商品名称, 商品价格， 增减数量  ,删除按钮
-        Button addButton, subButton, mDayOrder,mWeekOrder;
+        Button addButton, subButton, mDayOrder, mWeekOrder;
 
         public CartGoodsViewHolder(View itemView) {
             super(itemView);
@@ -261,7 +220,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mList.get(i).setSelected(true);
         }
         if (isAllSelected()) {
-
             //通知改变总价格
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //通知改变总数量
@@ -271,14 +229,11 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             //通知改变了选中状态 目的是向结算界面中传递选中的list集合
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
         }
-        //mHandler.sendMessage(mHandler.obtainMessage(2, getTotalPrice()));
-        //如果商品全部被选中，则全选按钮也被 默认为选中
-        //mHandler.sendMessage(mHandler.obtainMessage(1, true));
+
     }
 
     //为加减按钮 删除 跳转到商品详情  设置监听器
     private class ButtonOnClickListener implements View.OnClickListener {
-
         int position;
 
         public ButtonOnClickListener(int position) {
@@ -287,37 +242,37 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
         @Override
         public void onClick(View v) {
+            int shoppingCartId;
             switch (v.getId()) {
                 case R.id.addbutton:
                     setPosition(position);
-                    int shoppingCartId = mList.get(position).getShopping_cart_id();
-                    String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/"+shoppingCartId;
-                    int quantity = mList.get(position).getQuantity();
-                    String args = "quantity";
-                    getNoHttpMethod(url, args, quantity, PUT,ADDFINISH);
+                    if (mList.get(getPosition()).getQuantity() >= mList.get(getPosition()).getGoods().getGoods_stock()) {
+                        //如果大于库存
+                        Toast.makeText(mContext, "库存不足", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mList.get(getPosition()).setQuantity(mList.get(getPosition()).getQuantity() + 1);
+                        shoppingCartId = mList.get(position).getShopping_cart_id();
+                        getAddNoHttpMethod(shoppingCartId);
+                    }
                     break;
                 case R.id.minusbutton:
+                    setPosition(position);
                     //减法操作
                     if (mList.get(position).getQuantity() <= 1) {
                         Toast.makeText(mContext, "商品数量最少为1", Toast.LENGTH_SHORT).show();
                     } else {
-                        mList.get(position).setQuantity(mList.get(position).getQuantity() - 1);
-                        notifyDataSetChanged();
-                        mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
-                        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
-                        //改变购物车上的徽章
-                        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount()));
+                        mList.get(getPosition()).setQuantity(mList.get(getPosition()).getQuantity() - 1);
+                        shoppingCartId = mList.get(position).getShopping_cart_id();
+                        getMinusNoHttpMethod(shoppingCartId);
                     }
                     break;
                 case R.id.goodspicture:
                     //跳转到商品详情
-                    Log.e("跳转到商品详情","点击了商品图片");
                     goGoodDetailActivity(position);
                     break;
                 case R.id.goodstitle:
                     // 跳转到商品详情
                     goGoodDetailActivity(position);
-                    Log.e("跳转到商品详情","点击了商品标题");
                     break;
                 case R.id.weekOrder:
                     //当周订单 弹出dialog选择日期
@@ -354,6 +309,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
      * @return
      */
     private float getTotalPrice() {
+        /*DecimalFormat df = new DecimalFormat("0.00");
+        String st = df.format(); //double 保留两位小数*/
         CartGoods mCartGoods = null;
         float totalPrice = 0;
         for (int i = 0; i < mList.size(); i++) {
@@ -363,7 +320,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                 totalPrice += mCartGoods.getQuantity() * mCartGoods.getPrice();
             }
         }
-        //Log.e("mlist.size()",totalPrice+""+mList.size());
         return totalPrice;
     }
 
@@ -383,7 +339,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     }
 
 
-    //删除的时候二次确认提示框
+    //**************删除的时候二次确认提示框
     private void showDeleteDialog() {
         CartDialogDelete.Builder builder = new CartDialogDelete.Builder(mContext);
         builder.setMessage("确认要删除吗");
@@ -398,112 +354,39 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                int shoppingCartIds =mList.get(getPosition()).getShopping_cart_id();
+                int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
                 //进行删除网络请求
-                String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/?shoppingCartIds="+shoppingCartIds;
-                String args = "shoppingCartIds ";
-                Log.e("我要看看shoppingcartid", mList.get(getPosition()).getShopping_cart_id()+"");
-                getNoHttpMethod(url, null, 0, DELETE,DELETEFINISH);
+                getDeleteNoHttpMethod(shoppingCartIds);
             }
         });
         builder.create().show();
     }
 
-    private void addMethod() {
-        //加法操作
-        if (mList.get(getPosition()).getQuantity() >=  mList.get(getPosition()).getGoods().getGoods_stock()) {
-            //如果大于库存
-            Toast.makeText(mContext, "库存不足", Toast.LENGTH_SHORT).show();
-        } else {
-            mList.get(getPosition()).setQuantity(mList.get(getPosition()).getQuantity() + 1);
-            notifyDataSetChanged();
-            mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount())); //改变徽章
-            mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
-            mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
 
-        }
-
-    }
-
-    private void deleteMethod() {
-        //删除操作
-        mList.remove(getPosition());
-        notifyDataSetChanged();
-        //判断购物车是否为空如果为空显示空页面
-        mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
-        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
-        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT,getAllGoodsCount())); //改变徽章
-    }
-
-    // 统计购物车中 选中的 的数量
-    private int getAllGoodsCount (){
+    // **************统计购物车中 选中的 的数量
+    private int getAllGoodsCount() {
         int count = 0;
         for (int i = 0; i < mList.size(); i++) {
-            if (mList.get(i).isSelected()){
+            if (mList.get(i).isSelected()) {
                 count += mList.get(i).getQuantity();
             }
         }
         return count;
     }
-    //***********跳转到商品详情
-    private void goGoodDetailActivity(int position){
+
+    //*********** 跳转到商品详情
+    private void goGoodDetailActivity(int position) {
         Intent intent = new Intent(mContext, GoodDetailActivity.class);
         Bundle bundle = new Bundle();
-        Log.e("接收到的Goodsssssssssssssss",mList.get(position).getGoods().toString());
-        bundle.putSerializable("values",mList.get(position).getGoods());
-        intent.putExtra("values",bundle);
+        bundle.putSerializable("values", mList.get(position).getGoods());
+        intent.putExtra("values", bundle);
         //intent.putExtra("values",mList.get(position).getGoods());
         mContext.startActivity(intent);
     }
 
 
-    // *************加法操作  删除操作  请求网络
-    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
-        @Override
-        public void onStart(int what) {
-        }
-
-        @Override
-        public void onSucceed(int what, Response<String> response) {
-            if (what == ADDFINISH) {
-                String result = response.get();
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    boolean resultADD = jsonObject.getBoolean("success");
-                    //请求完成返回结果 通知handler 处理结果
-                    Log.e("加法返回结果", resultADD + "");
-                    httpHandler.sendMessage(httpHandler.obtainMessage(ADDFINISH, resultADD));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(what == DELETEFINISH){
-                String result = response.get();
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    boolean resultDelete = jsonObject.getBoolean("success");
-                    String  resultString = jsonObject.getString("msg");
-                    //请求完成返回结果 通知handler 处理结果
-                    Log.e("购物车测试返回结果", resultDelete + "    "+resultString);
-                    httpHandler.sendMessage(httpHandler.obtainMessage(DELETEFINISH, resultDelete));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-
-        @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-        }
-
-        @Override
-        public void onFinish(int what) {
-        }
-    };
-
-    // 显示当周订单 选择日期dialog
-    private void  showSelectDateDialog(){
+    //********** 显示当周订单 选择日期dialog
+    private void showSelectDateDialog() {
         CartDialogSelectDate.Builder builder = new CartDialogSelectDate.Builder(mContext);
         builder.setMessage("当周订单");
         //设置接下来的一周日期：
@@ -516,73 +399,166 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
             }
         });
-
-       /* builder.setDay2ButtonClick(date[1],new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                int shoppingCartIds =mList.get(getPosition()).getShopping_cart_id();
-                //进行删除网络请求
-                String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/"+shoppingCartIds;
-                String args = "shoppingCartIds ";
-                Log.e("我要看看shoppingcartid", mList.get(getPosition()).getShopping_cart_id()+"");
-                getNoHttpMethod(url, "", 8, DELETE,DELETEFINISH);
-            }
-        });*/
-
-
         //显示dialog
         builder.create().show();
     }
+
     //设置当周订单 日期选择框中的日期 （一周）
-    private String[] setDate(){
+    private String[] setDate() {
         String[] date = null;
         Calendar c = Calendar.getInstance();
-        for (int i = 0; i <7 ; i++) {
-            date[i] =c.get(Calendar.YEAR)+"-"+c.get(Calendar.MONTH)+1+"-"+c.get(Calendar.DATE);
-            c.add(Calendar.DATE,1);
+        for (int i = 0; i < 7; i++) {
+            date[i] = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + 1 + "-" + c.get(Calendar.DATE);
+            c.add(Calendar.DATE, 1);
         }
         return date;
     }
 
-
-    //提取Nohttp 代码
-
-    /**
-     * @param url                地址
-     * @param arg1               请求参数
-     * @param arg2               请求参数值
-     * @param
-     * @ x 请求方式 1.get 2.post，3.delete方式 4是 put方式
-     */
-    private void getNoHttpMethod(String url, String arg1, int arg2, int x,int what) {
-        mRequestQueue = NoHttp.newRequestQueue();
-        Request<String> request = null;
-        switch (x) {
-            case GET:
-                request = NoHttp.createStringRequest(url, RequestMethod.GET);
-                break;
-            case POST:
-                request = NoHttp.createStringRequest(url, RequestMethod.POST);
-                break;
-            case DELETE:
-                request = NoHttp.createStringRequest(url, RequestMethod.DELETE);
-                break;
-            case PUT:
-                request = NoHttp.createStringRequest(url, RequestMethod.PUT);
-                break;
-        }
+    //**********账号密码进行base64加密
+    private String authorization() {
         String username = "13091617887";  // 应该从偏好设置中获取账号密码
         String password = "123456";
         //Basic 账号+':'+密码  BASE64加密
         String addHeader = username + ":" + password;
         String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
-        Log.e("authorization的值", authorization);
-        request.addHeader("Authorization", authorization); // 添加请求头
-        request.addHeader("Content-Type","application/json");
-        request.setDefineRequestBodyForJson("{"+arg1+":"+arg2+"}");
-        //request.add(arg1, arg2);
-       // request.setHeader("Authorization",authorization);
-        mRequestQueue.add(what, request, mOnResponseListener);
+        return authorization;
+    }
+
+    ///************加操作***********
+    private void getAddNoHttpMethod(int shoppingCartId) {
+        try {
+            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/310";
+            mRequestQueue = NoHttp.newRequestQueue();
+            Request<String> request = NoHttp.createStringRequest(url, RequestMethod.PUT);
+            request.addHeader("Authorization", authorization()); // 添加请求头
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("quantity", mList.get(position).getQuantity());
+            jsonObject.put("extension1", mList.get(position).getExtension1());
+            request.setDefineRequestBodyForJson(jsonObject);
+            mRequestQueue.add(ADDFINISH, request, mOnResponseListener);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    /// ************减操作 ***************
+    private void getMinusNoHttpMethod(int shoppingCartId) {
+        try {
+            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + shoppingCartId;
+            mRequestQueue = NoHttp.newRequestQueue();
+            Request<String> request = NoHttp.createStringRequest(url, RequestMethod.PUT);
+            request.addHeader("Authorization", authorization()); // 添加请求头
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("quantity", mList.get(position).getQuantity());
+            jsonObject.put("extension1", mList.get(position).getExtension1());
+            request.setDefineRequestBodyForJson(jsonObject);
+            mRequestQueue.add(MINUSFINISH, request, mOnResponseListener);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    //******** 删除操作 ***********
+    private void getDeleteNoHttpMethod(int shoppingCartIds) {
+        String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + shoppingCartIds;
+        mRequestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.DELETE);
+        request.addHeader("Authorization", authorization()); // 添加请求头
+        mRequestQueue.add(DELETEFINISH, request, mOnResponseListener);
+    }
+
+    // *************加法操作 减法操作  删除操作  请求网络
+    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            //加法
+            if (what == ADDFINISH) {
+                Logger.e(response.get());
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    boolean resultADD = jsonObject.getBoolean("success");
+                    //如果返回true 进行加法操作
+                    if (resultADD) {
+                        addMethod();
+                    } else {
+                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (what == MINUSFINISH) {
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    boolean resultMINUS = jsonObject.getBoolean("success");
+                    //如果返回true 进行减法操作
+                    if (resultMINUS) {
+                        minusMethod();
+                    } else {
+                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (what == DELETEFINISH) {
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    boolean resultDelete = jsonObject.getBoolean("success");
+                    if (resultDelete) {
+                        deleteMethod();
+                    } else {
+                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+        }
+
+        @Override
+        public void onFinish(int what) {
+        }
+    };
+
+    private void addMethod() {
+        //请求结果为true 那么进行刷新界面
+        notifyDataSetChanged();
+        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); //改变徽章
+        mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
+        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
+    }
+
+    //****************减法操作
+    private void minusMethod() {
+        //请求结果为true 那么进行刷新界面
+        notifyDataSetChanged();
+        mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
+        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
+        //改变购物车上的徽章
+        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount()));
+    }
+
+    //删除操作
+    private void deleteMethod() {
+        //删除操作
+        mList.remove(getPosition());
+        notifyDataSetChanged();
+        //判断购物车是否为空如果为空显示空页面
+        mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
+        mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
+        mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); //改变徽章
     }
 }

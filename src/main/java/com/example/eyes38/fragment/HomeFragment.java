@@ -166,10 +166,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mrecycleList = new ArrayList<>();
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-
         request.add("district_id", district_id);
         request.setCacheMode(CacheMode.DEFAULT);
         mRequestQueue.add(what, request, mOnResponseListener);
+        //request.setRequestFailedReadCache(true);
+        mRequestQueue.add(what, request, mOnResponseListener);
+
     }
 
     //ResponseListener

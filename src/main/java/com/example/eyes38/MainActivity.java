@@ -1,5 +1,6 @@
 package com.example.eyes38;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,10 +14,12 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.eyes38.Application.Application;
 import com.example.eyes38.fragment.CartFragment;
 import com.example.eyes38.fragment.HomeFragment;
 import com.example.eyes38.fragment.SortFragment;
 import com.example.eyes38.fragment.UserFragment;
+import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.utils.CartBadgeView;
 
 
@@ -36,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
     private int cartGoodsCount = 0;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
-    public static  CartBadgeView mCartBadgeView;
+    public static CartBadgeView mCartBadgeView;
 
 
     RadioButton mCarradioButton;
     RadioButton mhomeRadioButton;
-    public  Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
+    public Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
     public Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -78,6 +81,34 @@ public class MainActivity extends AppCompatActivity {
         initListeners();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showFragment(HOME);
+        RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
+        radioButton.setChecked(true);
+        ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
+    }
+
+   /* @Override
+    protected void onRestart() {
+        super.onRestart();
+        //Log.e("我是start方法", "解决登陆activity界面跳转的问题");
+        //如果从登陆界面退出那么显示在首页
+        *//**
+         * 解决方案 MainActivity只要调用了onRestart方法就应该现实在home页
+         *//*
+        showFragment(HOME);
+        RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
+        radioButton.setChecked(true);
+        ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
+    }*/
+
+
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
         //初始化 cartradiobutton
@@ -99,15 +130,15 @@ public class MainActivity extends AppCompatActivity {
 
     //设置徽章 样式
     private void initCartBadge() {
-      Boolean login_state = sp.getBoolean("STATE", false);
-        if (login_state ) {
+        Boolean login_state = sp.getBoolean("STATE", false);
+        if (login_state) {
             mCartBadgeView.hide();
         } else {
-                if (getCartGoodsCount() == 0){
-                    mCartBadgeView.hide();
-                }else {
-                    mCartBadgeView.show();
-                }
+            if (getCartGoodsCount() == 0) {
+                mCartBadgeView.hide();
+            } else {
+                mCartBadgeView.show();
+            }
         }
 
     }
@@ -197,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     //选定界面
     private void resetPager(int checkedId) {
         switch (checkedId) {
@@ -211,15 +241,14 @@ public class MainActivity extends AppCompatActivity {
                 showFragment(CAR);
                 break;
             case R.id.userRadiobutton:
-                showFragment(USER);
-               /*boolean login_state = sp.getBoolean("STATE", false);
-                Log.e("login", login_state + "");
+                boolean login_state = sp.getBoolean("STATE", false);
+                Application.isLogin = login_state;
                 if (login_state) {
                     showFragment(USER);
                 } else {
                     Intent intent = new Intent(MainActivity.this, User_loginActivity.class);
                     startActivity(intent);
-                }*/
+                }
                 break;
             default:
                 break;

@@ -66,6 +66,7 @@ public class SortMenuActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             footview.setVisibility(View.GONE);
+            getHttpMedthod();
         }
     };
     //记录请求次数
@@ -135,7 +136,6 @@ public class SortMenuActivity extends AppCompatActivity {
 //                        loadMoreData();
 //                        Log.e("load","加载");
 //                        加载数据
-                        getHttpMedthod();
                         isScrolling = false;
                     }
                 }

@@ -65,8 +65,8 @@
                 android:gravity="center|left"
                 android:hint="手机号"
                 android:maxLength="11"
-                android:inputType="phone"
-                android:textSize="15sp"/>
+                android:inputType="number"
+                android:textSize="17sp"/>
 
         </LinearLayout>
         <!--分割线-->
