@@ -54,6 +54,7 @@ public class User_phone_setActivity extends AppCompatActivity {
         editor.commit();
         Intent intent=new Intent(User_phone_setActivity.this,User_loginActivity.class);
         startActivity(intent);
+        finish();
     }
 }
 

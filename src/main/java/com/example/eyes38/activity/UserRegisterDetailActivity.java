@@ -1,8 +1,10 @@
 package com.example.eyes38.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.eyes38.Application.Application;
+import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.AreaAdapter;
 import com.example.eyes38.adapter.SpinnerAdapter;
@@ -36,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRegisterDetailActivity extends AppCompatActivity {
-    public static final int WHAT = 1;
+    public static final int REGISTER = 1;
     public static final int PRO = 2;
     public static final int CITY = 3;
     public static final int AREA = 4;
@@ -69,6 +73,8 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
     //三级联动数据源
     private List<Area> proAreas, cityAreas, areaArea;
     private int count = 59;
+    //偏好设置
+    SharedPreferences sp;
 
 
     //自定义倒计时类,实现60秒后重新获取验证码
@@ -268,7 +274,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         request.add("confirmPassword",password);
         request.add("password", password);
         request.add("validateCode", validateCode);
-        mRequestQueue.add(WHAT, request, mOnResponseListener);
+        mRequestQueue.add(REGISTER, request, mOnResponseListener);
 
     }
 
@@ -284,13 +290,22 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
 
             @Override
             public void onSucceed(int what, Response<String> response) {
-                if (what == WHAT) {
+                if (what == REGISTER) {
                     String result = response.get();
                     try {
                         JSONObject object = new JSONObject(result);
                         boolean success = object.getBoolean("success");
                         String msg = object.getString("msg");
                         Log.e("注册", success + msg);
+                        if (success){
+                            //保存注册信息并跳转到mainactivity
+                            saveLoginInformation();
+                            goToUser();
+
+                        }else {
+                            //注册不成功，提示用户
+                            showRegisterFail();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -414,6 +429,23 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
 
             }
         };
+    }
+
+    private void goToUser() {
+        Intent intent = new Intent(UserRegisterDetailActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void saveLoginInformation() {
+        //保存注册信息
+        sp=UserRegisterDetailActivity.this.getSharedPreferences("userInfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USER_NAME", telNum);
+        editor.putString("PASSWORD", passwordEditText.getText().toString());
+        Application.isLogin = true;
+        editor.putBoolean("STATE", Application.isLogin);
+        editor.commit();
     }
 
     private void initView() {
@@ -541,6 +573,15 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
             registerButton.setBackground(getDrawable(R.color.bottom_line));
             registerButton.setTextColor(getColor(R.color.black));
         }
+    }
+    private void showRegisterFail() {
+        //提示用户已经注册
+//        Toast.makeText(this,"已注册",Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(this)
+                .setTitle("提示")
+                .setMessage("注册失败")
+                .setPositiveButton("确定",null)
+                .show();
     }
 
 }

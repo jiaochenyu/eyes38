@@ -1,6 +1,5 @@
 package com.example.eyes38;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import com.example.eyes38.fragment.CartFragment;
 import com.example.eyes38.fragment.HomeFragment;
 import com.example.eyes38.fragment.SortFragment;
 import com.example.eyes38.fragment.UserFragment;
-import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.utils.CartBadgeView;
 
 
@@ -199,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     //选定界面
     private void resetPager(int checkedId) {
         switch (checkedId) {
@@ -212,14 +211,15 @@ public class MainActivity extends AppCompatActivity {
                 showFragment(CAR);
                 break;
             case R.id.userRadiobutton:
-               boolean login_state = sp.getBoolean("STATE", false);
+                showFragment(USER);
+               /*boolean login_state = sp.getBoolean("STATE", false);
                 Log.e("login", login_state + "");
                 if (login_state) {
                     showFragment(USER);
                 } else {
                     Intent intent = new Intent(MainActivity.this, User_loginActivity.class);
                     startActivity(intent);
-                }
+                }*/
                 break;
             default:
                 break;

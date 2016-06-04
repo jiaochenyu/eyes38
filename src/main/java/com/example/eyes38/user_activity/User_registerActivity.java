@@ -1,6 +1,7 @@
 package com.example.eyes38.user_activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,19 +35,20 @@ public class User_registerActivity extends AppCompatActivity {
     //点击下一步的按钮
     private Button nextButton;
     private String telNum;
-    RequestQueue mRequestQueue;
-
+    private RequestQueue mRequestQueue;
+    //偏好设置
+    private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
         initView();
-//        initData();
+        initData();
         initListener();
     }
 
     private void initData() {
-        mRequestQueue = NoHttp.newRequestQueue();
+        sp = this.getSharedPreferences("userInfo", MODE_PRIVATE);//偏好设置初始化
     }
 
     private void initListener() {
