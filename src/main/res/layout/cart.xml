@@ -13,21 +13,6 @@
             style="@style/pagetitletext"
             android:text="@string/cartitle"
             />
-        <Button
-            android:id="@+id/addcounttest"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="#00000000"
-            android:textSize="12sp"
-            android:text="+"/>
-        <Button
-            android:layout_toRightOf="@+id/addcounttest"
-            android:id="@+id/minuscounttest"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="#00000000"
-            android:textSize="12sp"
-            android:text="-"/>
     </RelativeLayout>
     <!-- 内容 -->
     <FrameLayout

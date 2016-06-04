@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,9 +165,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mrecycleList = new ArrayList<>();
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        //request.setRequestFailedReadCache(true);
+
         request.add("district_id", district_id);
+        //request.setRequestFailedReadCache(true);
         mRequestQueue.add(what, request, mOnResponseListener);
+
     }
 
     //ResponseListener
@@ -195,6 +198,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         Home_district home_district = new Home_district(name, district_id);
                         mCity.add(home_district);
                         spinnerlist.add(name);
+                        Log.e("获取的数据哈达和", jsonObject.getString("create_date") + " " + name + district_id);
                     }
                     initspinnerAdapter();
                 } catch (JSONException e) {
@@ -214,6 +218,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         homeFourSort.setCategory_name(jsonObject.getString("category_name"));
                         homeFourSort.setCategory_image(jsonObject.getString("category_image"));
                         mHomeFourSortsList.add(homeFourSort);
+                        Log.e("javabean", homeFourSort.getCategory_name() + homeFourSort.getCategory_image());
                     }
 
                     Glide.with(mMainActivity).load(mHomeFourSortsList.get(0).getCategory_image()).into(home_sort1image);
@@ -324,6 +329,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     if (mCity.get(i).getCityName().equals(cityName))
                         district_id = mCity.get(i).getDistrict_id();
                 }
+                Log.e("spinnersize", district_id + "");
                 refresh1();
             }
 
@@ -360,6 +366,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (hc.getName().equals("一周菜谱")) {
                     Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
                     startActivity(intent);
+                    Log.e("看看hc里有什么", hc.getName());
                 } else {
                     Intent intent = new Intent(mMainActivity, HomezhuantiActivity.class);
                     intent.putExtra("zhuantiname", hc.getName());
@@ -405,7 +412,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     //初始化视图
     private void initView() {
-        ptrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.home_content_ptr);
+        ptrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.sort_content_ptr);
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         mSpinner = (Spinner) view.findViewById(R.id.home_spinner);

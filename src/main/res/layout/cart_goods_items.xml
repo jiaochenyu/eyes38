@@ -109,7 +109,7 @@
             android:text="当周订单"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
         <Button

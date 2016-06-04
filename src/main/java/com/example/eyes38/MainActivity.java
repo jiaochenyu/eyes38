@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private int cartGoodsCount = 0;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
-    public static  CartBadgeView mCartBadgeView;
+    public static CartBadgeView mCartBadgeView;
 
 
     RadioButton mCarradioButton;
     RadioButton mhomeRadioButton;
-    public  Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
+    public Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
     public Handler mainHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,6 +80,23 @@ public class MainActivity extends AppCompatActivity {
         initListeners();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //Log.e("我是start方法", "解决登陆activity界面跳转的问题");
+        //如果从登陆界面退出那么显示在首页
+        /**
+         * 解决方案 MainActivity只要调用了onRestart方法就应该现实在home页
+         */
+        showFragment(HOME);
+        RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
+        radioButton.setChecked(true);
+        ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
+    }
+
+
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
         //初始化 cartradiobutton
@@ -101,15 +118,15 @@ public class MainActivity extends AppCompatActivity {
 
     //设置徽章 样式
     private void initCartBadge() {
-      Boolean login_state = sp.getBoolean("STATE", false);
-        if (login_state ) {
+        Boolean login_state = sp.getBoolean("STATE", false);
+        if (login_state) {
             mCartBadgeView.hide();
         } else {
-                if (getCartGoodsCount() == 0){
-                    mCartBadgeView.hide();
-                }else {
-                    mCartBadgeView.show();
-                }
+            if (getCartGoodsCount() == 0) {
+                mCartBadgeView.hide();
+            } else {
+                mCartBadgeView.show();
+            }
         }
 
     }
@@ -212,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                 showFragment(CAR);
                 break;
             case R.id.userRadiobutton:
-               boolean login_state = sp.getBoolean("STATE", false);
+                boolean login_state = sp.getBoolean("STATE", false);
                 Log.e("login", login_state + "");
                 if (login_state) {
                     showFragment(USER);

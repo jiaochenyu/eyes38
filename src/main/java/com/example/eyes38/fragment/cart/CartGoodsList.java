@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +76,6 @@ public class CartGoodsList extends Fragment {
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     Handler mainHandler = (new MainActivity()).mainHandler; //改变主页面的图标
-    //Handler goodDetailHandler = (new GoodDetailActivity()).goodDetailHandler;// 改变购物商品详情的购物车徽章
 
     //Handler
     Handler mmHandler = new Handler() {
@@ -83,18 +83,12 @@ public class CartGoodsList extends Fragment {
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
-                case mFINFISH:
-                    //加载数据完成
-                    mCart_goodsAdapter = new Cart_GoodsAdapter(mList, getActivity(), mmHandler);
-                    mRecyclerView.setAdapter(mCart_goodsAdapter);
-                    mCart_goodsAdapter.notifyDataSetChanged();
-                    mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, mList.size()));  //通知改变徽章
-                    initListener();
-                    break;
                 case Cart_GoodsAdapter.NOTIFICHANGEPRICE:
                     //更改购物车中商品总价格
                     float price = (float) msg.obj;
-                    mTotalPriceTV.setText(price + "");
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    String st = df.format(price); //double 保留两位小数
+                    mTotalPriceTV.setText(st + "");
                     break;
                 case Cart_GoodsAdapter.CARTGOODSCOUNT:
                     //更改 顶部 选中数量
@@ -226,6 +220,12 @@ public class CartGoodsList extends Fragment {
                 //Log.e("请求完成", "66666666666666");
                 mmHandler.sendMessage(message);
                 //mCountTopTextView.setText(mList.size() + "");
+                mCart_goodsAdapter = new Cart_GoodsAdapter(mList, getActivity(), mmHandler);
+                mRecyclerView.setAdapter(mCart_goodsAdapter);
+                mCart_goodsAdapter.notifyDataSetChanged();
+                mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, mList.size()));  //通知改变徽章
+                //请求完数据才可以有事件发生
+                initListener();
             }
         }
 
@@ -305,65 +305,6 @@ public class CartGoodsList extends Fragment {
         }
     }
 
-    /*//json 解析
-    private void jsonMethod(String result) {
-        try {
-            JSONObject object = new JSONObject(result);
-            JSONObject object2 = object.getJSONObject("data");
-            JSONArray mJsonArray = object2.getJSONArray("data");
-            for (int i = 0; i < mJsonArray.length(); i++) {
-                JSONObject jsonObject = mJsonArray.getJSONObject(i);
-                JSONArray mJsonArray2 = jsonObject.getJSONArray("data");
-                for (int j = 0; i < mJsonArray2.length(); j++) {
-                    JSONObject jsonObject2 = mJsonArray2.getJSONObject(j);
-                    String product_name = jsonObject2.getString("product_name"); //商品名
-                    int shopping_cart_id = jsonObject2.getInt("shopping_cart_id"); // 购物车id shopping_cart_id
-                    int quantity = jsonObject2.getInt("quantity");//数量
-                    boolean discount = jsonObject2.getBoolean("extension1") ; // 是否有优惠
-                    Log.e("quantity", quantity + "");
-                    JSONObject jsonObject3 = jsonObject2.getJSONObject("product");
-                    String path = jsonObject3.getString("image"); //获取图片路径
-                    double price = jsonObject3.getDouble("price"); // 商品价格
-                    //需要传到 商品详情(Goods) Bean
-                    int goods_id = jsonObject3.getInt("product_id"); //ID
-                    String goods_name = jsonObject3.getString("name");
-                    String uri = jsonObject3.getString("image"); //图片
-                    String goods_brand = null; //品牌
-                    String goods_specification = null;
-                    String goods_unit = jsonObject3.getString("extension4"); //单位
-                    String goods_shengben = null;  //成本
-                    String goods_remark = null; //备注 图文详情 是 description字段
-                    float goods_market_price = (float) jsonObject3.getDouble("market_price"); //超市价格
-                    float goods_platform_price = (float) jsonObject3.getDouble("price"); //平台价格
-                    float goods_discount = 0;  //打折
-                    JSONObject jsonObject4 = jsonObject3.getJSONObject("product_search");
-                    int goods_comment_count = jsonObject4.getInt("comment_num");//评论数量
-                    int goods_sales = jsonObject4.getInt("sales");   //销量
-                    int goods_stock = jsonObject4.getInt("stock_num");
-
-                    Goods mGoods = new Goods(goods_id, goods_name, uri,goods_unit, goods_market_price, goods_platform_price, goods_comment_count, goods_stock,goods_remark);
-
-
-                    //mCartGoods.setPath("http://hz-ifs.ilexnet.com/eyes38/599334_1_pic500_120.jpg");
-                    //CartGoods cartGoods = new CartGoods(path, product_name, price, quantity, goods_id, mGoods);
-
-                    CartGoods cartGoods = new CartGoods();
-                    cartGoods.setGoods(mGoods);  //商品信息 （bean）
-                    cartGoods.setPath(path);
-                    cartGoods.setTitle(product_name);
-                    cartGoods.setNum(quantity);
-                    cartGoods.setPrice(price);
-                    cartGoods.setShopping_cart_id(shopping_cart_id);
-                    cartGoods.setDiscount(discount);
-                    mList.add(cartGoods);
-                    Log.e("请求成功", mList.get(i).getTitle());
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private void jsonMethod(String result) {
         try {
@@ -377,14 +318,7 @@ public class CartGoodsList extends Fragment {
                     String product_name = jsonObject3.getString("product_name"); //商品名
                     int shopping_cart_id = jsonObject3.getInt("shopping_cart_id"); // 购物车id shopping_cart_id
                     int quantity = jsonObject3.getInt("quantity");//数量
-                 /*   boolean extension1 = false;// 是否是一周菜谱
-                    if (!jsonObject3.isNull("extension1")) {
-                        extension1 = jsonObject3.getBoolean("extension1"); // 是否是一周菜谱
-                    } else {
-                        extension1 = false;
-                    }*/
-                    String extension1 = jsonObject3.getString("extension1");
-
+                    String extension1 = jsonObject3.getString("extension1"); //是否是一周菜谱
                     int customer_id = jsonObject3.getInt("customer_id");
                     String customer_name = jsonObject3.getString("customer_name");
                     int product_id = jsonObject3.getInt("product_id");
@@ -405,7 +339,7 @@ public class CartGoodsList extends Fragment {
                     Goods goods = new Goods(goods_id, goods_name, path, goods_unit, goods_market_price, (float) price, goods_comment_count, goods_stock, goods_description);
                     CartGoods cartGoods = new CartGoods(shopping_cart_id, customer_id, customer_name, product_id, product_name, store_name, quantity, price, extension1, goods);
                     mList.add(cartGoods);
-                    Log.e("mlist中的数据", mList.get(j).getProduct_name());
+
                 }
             }
         } catch (JSONException e) {

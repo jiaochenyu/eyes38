@@ -75,10 +75,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
                         android:background="@color/white"
+                        android:inputType="number"
+                        android:maxLength="6"
                         android:hint="@string/user_register_detail_validatecodeagin_hint"
                         android:textSize="15sp" />
 
                     <ImageView
+                        android:id="@+id/user_register_detail_validatecode_adjust"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -87,7 +90,7 @@
 
                     <Button
                         android:id="@+id/user_register_detail_obtain"
-                        android:layout_width="wrap_content"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/them_color"
@@ -116,9 +119,11 @@
                         android:layout_weight="10"
                         android:background="@color/white"
                         android:hint="@string/user_register_detail_inputpassword"
+                        android:inputType="textPassword"
                         android:textSize="15sp" />
 
                     <ImageView
+                        android:id="@+id/user_register_detail_password_adjust"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -144,9 +149,11 @@
                         android:layout_weight="10"
                         android:background="@color/white"
                         android:hint="@string/user_register_detail_confirmpassword"
+                        android:inputType="textPassword"
                         android:textSize="15sp" />
 
                     <ImageView
+                        android:id="@+id/user_register_detail_confirmpassword_adjust"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -178,6 +185,7 @@
                             android:id="@+id/user_register_detail_plot_spinner_pro"
                             android:layout_width="150dp"
                             android:layout_height="30dp"
+                            android:background="@color/white"
                             android:spinnerMode="dialog"></Spinner>
 
                         <Spinner
@@ -185,6 +193,7 @@
                             android:layout_width="150dp"
                             android:layout_height="30dp"
                             android:spinnerMode="dialog"
+                            android:background="@color/white"
                             android:visibility="gone"></Spinner>
 
                         <Spinner
@@ -192,6 +201,7 @@
                             android:layout_width="150dp"
                             android:layout_height="30dp"
                             android:spinnerMode="dialog"
+                            android:background="@color/white"
                             android:visibility="gone"></Spinner>
                     </LinearLayout>
 
@@ -201,9 +211,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border"
+                    android:gravity="center"
                     android:padding="10dp">
 
-                    <EditText
+                    <Spinner
                         android:id="@+id/user_register_detail_plotname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -214,12 +225,13 @@
                         android:textSize="15sp" />
 
                     <ImageView
+                        android:id="@+id/user_register_detail_communtiy_adjust"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@drawable/right" />
+                        android:src="@drawable/exclamation" />
                 </LinearLayout>
-                <!--收货人-->
+                <!--&lt;!&ndash;收货人&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -241,6 +253,7 @@
                         android:layout_weight="10"
                         android:background="@color/white"
                         android:hint="@string/user_register_detail_consignee_hint"
+                        android:inputType="textPersonName"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -249,7 +262,7 @@
                         android:layout_weight="1"
                         android:src="@drawable/exclamation" />
                 </LinearLayout>
-                <!--手机号码-->
+                &lt;!&ndash;手机号码&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -271,6 +284,7 @@
                         android:layout_weight="10"
                         android:background="@color/white"
                         android:hint="@string/user_register_detail_telnum_hint"
+                        android:inputType="phone"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -279,7 +293,7 @@
                         android:layout_weight="1"
                         android:src="@drawable/exclamation" />
                 </LinearLayout>
-                <!--详细地址-->
+                &lt;!&ndash;详细地址&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -301,6 +315,7 @@
                         android:layout_weight="10"
                         android:background="@color/white"
                         android:hint="@string/user_register_detail_address_hint"
+                        android:inputType="textPostalAddress"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -308,7 +323,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@drawable/exclamation" />
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <Button
                     android:id="@+id/user_register_detail_register"
@@ -317,6 +332,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
+                    android:background="@color/bottom_line"
+                    android:clickable="false"
                     android:text="@string/user_register_detail_register" />
             </LinearLayout>
         </ScrollView>
