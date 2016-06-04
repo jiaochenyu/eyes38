@@ -5,8 +5,8 @@
     <string name="cartitle">购物车</string>
     <string name="usertitle">我的</string>
     <string-array name="sex">
-        <item>男</item>
         <item>女</item>
+        <item>男</item>
     </string-array>
 
     <string name="sort_menu_default">默认</string>
@@ -38,6 +38,8 @@
     <string name="user_register_detail_address">详细地址</string>
     <string name="user_register_detail_address_hint">详细地址</string>
     <string name="user_register_detail_register">立即注册</string>
+    <string name="loading">正在加载</string>
+    <!--注册输入框验证-->
 
     <!--人民币字样-->
     <string name="rmb">￥</string>

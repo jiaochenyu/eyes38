@@ -93,7 +93,8 @@
                 android:layout_marginRight="0dp"
                 android:layout_weight="8"
                 android:gravity="center|left"
-                android:text="15538299972"
+                android:text=""
+                android:maxLength="11"
                 android:textSize="15sp"/>
             <ImageView
                 android:padding="5dp"
@@ -128,6 +129,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
             <EditText
+                android:maxLength="18"
                 android:focusableInTouchMode="false"
                 android:background="@drawable/edittext"
                 android:id="@+id/password"
@@ -137,7 +139,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_weight="8"
                 android:gravity="center|left"
-                android:text="155555522"
+                android:text=""
                 android:textSize="15sp"/>
             <ImageView
                 android:padding="5dp"

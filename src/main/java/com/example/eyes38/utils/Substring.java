@@ -6,10 +6,10 @@ package com.example.eyes38.utils;
  */
 public class Substring {
     public static String getString(String string){
-        if (!string.equals("")){
+        if (!string.equals("") && string != null){
             int start = string.indexOf("http");
             int end = string.indexOf("jpg")+3;
-            if (end > start){
+            if (end > start && start >= 0 && end > 0){
                 return string.substring(start, end);
             }
         }

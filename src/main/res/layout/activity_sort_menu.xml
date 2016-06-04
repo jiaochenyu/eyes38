@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".activity.SortMenuActivity">
     <!--顶部标题-->
@@ -21,9 +21,9 @@
 
         <!--导入导航栏-->
         <include
+            layout="@layout/sort_sort_meun"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/sort_sort_meun"></include>
+            android:layout_height="wrap_content"></include>
 
         <!--刷新区域-->
         <in.srain.cube.views.ptr.PtrClassicFrameLayout
@@ -32,20 +32,40 @@
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_weight="27"
-            cube_ptr:ptr_resistance="1.7"
-            cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
             cube_ptr:ptr_duration_to_close="300"
             cube_ptr:ptr_duration_to_close_header="2000"
             cube_ptr:ptr_keep_header_when_refresh="true"
-            cube_ptr:ptr_pull_to_fresh="false">
+            cube_ptr:ptr_pull_to_fresh="false"
+            cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+            cube_ptr:ptr_resistance="1.7">
             <!--分类界面-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/sort_sort_recyclerview"
-                android:paddingLeft="10dp"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@color/background"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+                android:paddingLeft="10dp"></android.support.v7.widget.RecyclerView>
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+
+        <LinearLayout
+            android:id="@+id/footview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:visibility="gone"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/footview_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"/>
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tv_head_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"/>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -11,11 +11,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.eyes38.R;
-import com.example.eyes38.user_fragment.AllFragment;
-import com.example.eyes38.user_fragment.CommitFragment;
-import com.example.eyes38.user_fragment.DelieverFragment;
-import com.example.eyes38.user_fragment.PayFragment;
-import com.example.eyes38.user_fragment.ReceiverFragment;
+import com.example.eyes38.fragment.user.AllFragment;
+import com.example.eyes38.fragment.user.CommitFragment;
+import com.example.eyes38.fragment.user.DelieverFragment;
+import com.example.eyes38.fragment.user.PayFragment;
+import com.example.eyes38.fragment.user.ReceiverFragment;
 
 public class User_orderActivity extends AppCompatActivity {
     private static final int ALL = 1;

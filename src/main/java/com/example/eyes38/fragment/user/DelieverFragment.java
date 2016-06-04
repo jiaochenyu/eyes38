@@ -1,4 +1,4 @@
-package com.example.eyes38.user_fragment;
+package com.example.eyes38.fragment.user;
 
 
 import android.os.Bundle;

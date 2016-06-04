@@ -46,6 +46,7 @@ public class User_loginActivity extends AppCompatActivity {
     private Button user_login;//登录按钮
     private String usernameValue, passwordValue;
     private SharedPreferences sp;
+    String customer_id;
     private RequestQueue mRequestQueue;//请求队列
     Handler mHandler = new Handler() {
         @Override
@@ -59,6 +60,7 @@ public class User_loginActivity extends AppCompatActivity {
                         editor.putString("USER_NAME", usernameValue);
                         editor.putString("PASSWORD", passwordValue);
                         Application.isLogin = true;
+                        editor.putString("CUSTOMER_ID",customer_id);
                         editor.putBoolean("STATE", Application.isLogin);
                         editor.commit();
                         //跳转到首页
@@ -168,7 +170,6 @@ public class User_loginActivity extends AppCompatActivity {
                     @Override
                     public void afterTextChanged(Editable s) {
                         usernameValue = username.getText().toString();
-                        Log.e("TTT", usernameValue);
                     }
                 });
             }
@@ -191,7 +192,6 @@ public class User_loginActivity extends AppCompatActivity {
                     @Override
                     public void afterTextChanged(Editable s) {
                         passwordValue = password.getText().toString();
-                        Log.e("TTT", passwordValue);
                     }
                 });
             }
@@ -226,13 +226,11 @@ public class User_loginActivity extends AppCompatActivity {
                     JSONObject object1 = new JSONObject(result);
                     success = object1.getBoolean("success");//取得用户是否成功登录
                     JSONObject object2 = object1.getJSONObject("data");
-                    String customer_id = object2.getString("customer_id");
+                   customer_id = object2.getString("customer_id");
                     String username = object2.getString("username");
                     String firstname = object2.getString("firstname");
                     String email = object2.getString("email");
                     String sex = object2.getString("sex");
-                    Log.e("TTT", success + "-->" + customer_id + "-->" + firstname);
-                    //将取到的值存入bean中
                     UserBean userBean = new UserBean();
                     userBean.setCustomer_id(customer_id);
                     userBean.setFirstname(firstname);
@@ -240,7 +238,6 @@ public class User_loginActivity extends AppCompatActivity {
                     userBean.setSex(sex);
                     userBean.setUsername(username);
                     mList.add(userBean);
-                    Log.e("TTT", success + "");
                     Message message = new Message();
                     message.what = MFINISH;
                     mHandler.sendMessage(message);//通知更新主线程更新ui

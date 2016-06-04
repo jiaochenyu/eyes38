@@ -17,9 +17,9 @@ import java.util.List;
 
 public class CommentReplyActivity extends AppCompatActivity {
 //    评论回复界面
-    List<CommentReply> mList;
-    CommentReplyAdapter commentReplyAdapter;
-    RecyclerView mRecyclerView;
+private List<CommentReply> mList;
+    private CommentReplyAdapter commentReplyAdapter;
+    private RecyclerView mRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
