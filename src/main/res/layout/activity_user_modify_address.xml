@@ -8,7 +8,7 @@
     tools:context="com.example.eyes38.user_activity.Update_user_passwordActivity">
     <!--顶部标题-->
     <RelativeLayout
-        android:id="@+id/usertitle"
+        android:id="@+id/modify_address_usertitle"
         style="@style/pagetitle">
 
         <LinearLayout
@@ -21,18 +21,17 @@
                 android:layout_weight="0.5"/>
 
             <ImageView
-                android:id="@+id/add_address_set_back"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="add_address_set_back"
+                android:onClick="update_password_back3"
                 android:src="@drawable/user_set_back"/>
 
             <TextView
                 style="@style/pagetitletext"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:text="新建收货地址"
+                android:text="修改地址"
                 />
 
             <TextView

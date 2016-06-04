@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".user_activity.User_take_addressActivity">
     <!--顶部标题-->
@@ -43,76 +44,96 @@
 
     <!--设置主体内容-->
 
-    <FrameLayout
-        android:id="@+id/add_address_container"
+    <!--<FrameLayout-->
+        <!--android:id="@+id/add_address_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="28"-->
+        <!--android:background="@color/sort_title_background">-->
+    <!--&lt;!&ndash;空白时的页面&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/add_address_header"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+            <!--&lt;!&ndash;上部分空白&ndash;&gt;-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="4">-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="6"-->
+                <!--android:gravity="center">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/user_getmesssage"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/notice"/>-->
+            <!--</LinearLayout>-->
+            <!--&lt;!&ndash;下部分空白&ndash;&gt;-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="2">-->
+            <!--</LinearLayout>-->
+            <!--&lt;!&ndash;文字部分&ndash;&gt;-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="1">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="您未添加任何收货地址。"-->
+                    <!--android:textSize="12sp"/>-->
+            <!--</LinearLayout>-->
+            <!--&lt;!&ndash;下部分空白&ndash;&gt;-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="15">-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+        <!--&lt;!&ndash;上部分空白&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/add_address_footer"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <!--<ListView-->
+                <!--android:id="@+id/add_address_list"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"></ListView>-->
+        <!--</LinearLayout>-->
+
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/user_take_address_ptr"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="28">
-    <!--空白时的页面-->
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/add_address_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <!--上部分空白-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4">
-            </LinearLayout>
+        android:layout_weight="28"
+        cube_ptr:ptr_duration_to_close="300"
+        cube_ptr:ptr_duration_to_close_header="2000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+        cube_ptr:ptr_resistance="1.7">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="6"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/user_getmesssage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/notice"/>
-            </LinearLayout>
-            <!--下部分空白-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2">
-            </LinearLayout>
-            <!--文字部分-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="您未添加任何收货地址。"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-            <!--下部分空白-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="15">
-            </LinearLayout>
-        </LinearLayout>
-        <!--上部分空白-->
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/add_address_footer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ListView
-                android:id="@+id/add_address_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></ListView>
-        </LinearLayout>
-
-    </FrameLayout>
+        <ListView
+        android:id="@+id/add_address_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+            ></ListView>
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+    <!--</FrameLayout>-->
 
     <!--新建地址-->
     <LinearLayout

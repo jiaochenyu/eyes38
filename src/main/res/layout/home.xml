@@ -50,7 +50,7 @@
 
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@+id/sort_content_ptr"
+        android:id="@+id/home_content_ptr"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="28"
