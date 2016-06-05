@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,10 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.eyes38.Application.Application;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.user_activity.User_backgoodActivity;
 import com.example.eyes38.user_activity.User_creditsActivity;
+import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.user_activity.User_message_setActivity;
 import com.example.eyes38.user_activity.User_orderActivity;
 import com.example.eyes38.user_activity.User_personal_centerActivity;
@@ -30,6 +34,7 @@ import com.example.eyes38.user_activity.User_take_addressActivity;
  * Created by jcy on 2016/5/8.
  */
 public class UserFragment extends Fragment {
+    public static final int REFRESH = 400;
     MainActivity mMainActivity;
     ImageView user_set, user_message;
     View view;
@@ -47,23 +52,59 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mMainActivity = (MainActivity) getActivity();
         view = inflater.inflate(R.layout.user, null);
+        initSharePreferences();
         initViews();
+        //验证是否登录
+        adjustIsLogin();
         toUserSet();
         toUserMessage();
         toUserPersonalMessage();
         toMyCredits();
         toMyAddress();
-        //修改登录名
-        updateUsername();
         //监听并传值
         ListenerValues();
         //向我的订单页面传值，告诉其应该默认页
         return view;
     }
 
+    private void initSharePreferences() {
+        sp = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUsername();
+    }
+
+
+    private void adjustIsLogin() {
+        //获取偏好设置的登录状态
+        Application.isLogin = sp.getBoolean("STATE", false);
+        if (!Application.isLogin) {
+            Intent intent = new Intent(mMainActivity, User_loginActivity.class);
+            startActivity(intent);
+        } else {
+            updateUsername();
+        }
+    }
+
+    public Handler handler = new Handler() {
+        //接收数据，更新user
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case REFRESH:
+                    updateUsername();
+                    break;
+            }
+        }
+    };
+
     private void updateUsername() {
-        sp=getContext().getSharedPreferences("userInfo",Context.MODE_PRIVATE);
-        String username=sp.getString("USER_NAME","");
+        //设置登录名
+        String username = sp.getString("USER_NAME", "");
         user_tel_set.setText(username);
         user_tel_set.setTextSize(12);
 
@@ -75,9 +116,9 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 flag = 0;
-                Intent intent = new Intent(getContext(),User_orderActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putInt("TAG",flag);
+                Intent intent = new Intent(getContext(), User_orderActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("TAG", flag);
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -89,8 +130,8 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 flag = 1;
                 Intent intent = new Intent();
-                intent.putExtra("TAG",flag);
-                intent.setClass(getActivity(),User_orderActivity.class);
+                intent.putExtra("TAG", flag);
+                intent.setClass(getActivity(), User_orderActivity.class);
                 startActivity(intent);
 
             }
@@ -101,8 +142,8 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 flag = 2;
                 Intent intent = new Intent();
-                intent.putExtra("TAG",flag);
-                intent.setClass(getActivity(),User_orderActivity.class);
+                intent.putExtra("TAG", flag);
+                intent.setClass(getActivity(), User_orderActivity.class);
                 startActivity(intent);
 
             }
@@ -113,8 +154,8 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 flag = 3;
                 Intent intent = new Intent();
-                intent.putExtra("TAG",flag);
-                intent.setClass(getActivity(),User_orderActivity.class);
+                intent.putExtra("TAG", flag);
+                intent.setClass(getActivity(), User_orderActivity.class);
                 startActivity(intent);
 
             }
@@ -191,7 +232,7 @@ public class UserFragment extends Fragment {
 
     //初始化控件
     private void initViews() {
-        user_tel_set= (TextView) view.findViewById(R.id.username_tel_set);
+        user_tel_set = (TextView) view.findViewById(R.id.username_tel_set);
         user_set = (ImageView) view.findViewById(R.id.user_set);
         user_message = (ImageView) view.findViewById(R.id.user_message);
         user_person_set = (LinearLayout) view.findViewById(R.id.user_person_set);

@@ -1,6 +1,7 @@
 package com.example.eyes38.user_activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,19 +35,20 @@ public class User_registerActivity extends AppCompatActivity {
     //点击下一步的按钮
     private Button nextButton;
     private String telNum;
-    RequestQueue mRequestQueue;
-
+    private RequestQueue mRequestQueue;
+    //偏好设置
+    private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
         initView();
-//        initData();
+        initData();
         initListener();
     }
 
     private void initData() {
-        mRequestQueue = NoHttp.newRequestQueue();
+        sp = this.getSharedPreferences("userInfo", MODE_PRIVATE);//偏好设置初始化
     }
 
     private void initListener() {
@@ -81,12 +83,17 @@ public class User_registerActivity extends AppCompatActivity {
             //如果长度到达11位，设置下一步按钮可以点击
             if (temp.length() == 11){
                 nextButton.setClickable(true);
-                nextButton.setBackgroundColor(getColor(R.color.them_color));
-                nextButton.setTextColor(getColor(R.color.white));
+                nextButton.setBackground(getResources().getDrawable(R.color.them_color));
+                nextButton.setTextColor(getResources().getColor(R.color.black));
+//                nextButton.setBackgroundColor(getColor(R.color.them_color));
+//                nextButton.setTextColor(getColor(R.color.white));
             }else {
                 nextButton.setClickable(false);
-                nextButton.setBackgroundColor(getColor(R.color.background));
-                nextButton.setTextColor(getColor(R.color.black));
+                //getcolor api23中添加的
+//                nextButton.setBackgroundColor(getColor(R.color.background));
+//                nextButton.setBackground(getDrawable(R.color.background));
+                nextButton.setBackground(getResources().getDrawable(R.color.background));
+                nextButton.setTextColor(getResources().getColor(R.color.black));
             }
         }
     }

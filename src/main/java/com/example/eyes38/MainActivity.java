@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.eyes38.Application.Application;
 import com.example.eyes38.fragment.CartFragment;
 import com.example.eyes38.fragment.HomeFragment;
 import com.example.eyes38.fragment.SortFragment;
@@ -81,10 +82,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+<<<<<<< HEAD
         //如果从登陆界面退出那么显示在首页
         /**
          * 解决方案 MainActivity只要调用了onResume方法就应该现实在home页
          */
+=======
         showFragment(HOME);
         RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
         radioButton.setChecked(true);
@@ -92,6 +95,23 @@ public class MainActivity extends AppCompatActivity {
         ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
         ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
     }
+
+   /* @Override
+    protected void onRestart() {
+        super.onRestart();
+        //Log.e("我是start方法", "解决登陆activity界面跳转的问题");
+        //如果从登陆界面退出那么显示在首页
+        *//**
+         * 解决方案 MainActivity只要调用了onRestart方法就应该现实在home页
+         *//*
+>>>>>>> 4beb2a9669e2dcc399521dec260a2f18e2f9cf1d
+        showFragment(HOME);
+        RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
+        radioButton.setChecked(true);
+        ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
+    }*/
 
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
@@ -217,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.userRadiobutton:
                 boolean login_state = sp.getBoolean("STATE", false);
-                Log.e("login", login_state + "");
+                Application.isLogin = login_state;
                 if (login_state) {
                     showFragment(USER);
                 } else {

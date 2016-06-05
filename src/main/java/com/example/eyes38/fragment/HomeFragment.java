@@ -40,6 +40,7 @@ import com.example.eyes38.fragment.search.SearchActivity;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -165,8 +166,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mrecycleList = new ArrayList<>();
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-
         request.add("district_id", district_id);
+        request.setCacheMode(CacheMode.DEFAULT);
+        mRequestQueue.add(what, request, mOnResponseListener);
         //request.setRequestFailedReadCache(true);
         mRequestQueue.add(what, request, mOnResponseListener);
 

@@ -15,4 +15,9 @@ public class Substring {
         }
         return "";
     }
+    public static String getPhoneString(String string){
+        String start = string.substring(0,3);
+        String end = string.substring(7,11);
+        return start+"****"+end;
+    }
 }
