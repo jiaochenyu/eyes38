@@ -28,17 +28,7 @@ import com.yolanda.nohttp.rest.RequestQueue;
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
     //数据源
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> 6b9f425f42d76e84984d0b20438f90a1b4f28ace
->>>>>>> e4a8edfb55cc157c61b8bf0568d46c03ebaebdd2
->>>>>>> 54f9b21b67341fc4d1b1ff83b38dd297aedb4ff2
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
     private TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
@@ -65,17 +55,6 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> 6b9f425f42d76e84984d0b20438f90a1b4f28ace
->>>>>>> e4a8edfb55cc157c61b8bf0568d46c03ebaebdd2
->>>>>>> 54f9b21b67341fc4d1b1ff83b38dd297aedb4ff2
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

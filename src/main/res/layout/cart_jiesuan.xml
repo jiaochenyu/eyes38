@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+              android:orientation="vertical"
                 android:background="@color/sort_title_background"
 
     >
@@ -10,7 +11,8 @@
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/topical">
         <!--顶部标题-->
 
@@ -34,7 +36,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="18"
         android:layout_below="@+id/top"
         >
 
@@ -315,7 +318,10 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <RadioGroup
                     android:id="@+id/pay_radiogroup"
@@ -347,7 +353,8 @@
     <RelativeLayout
         android:id="@+id/jiesuan_bottom"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         >
@@ -389,7 +396,7 @@
         <TextView
             android:id="@+id/gopay"
             android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="@color/topical"
             android:gravity="center"
@@ -399,5 +406,5 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
 

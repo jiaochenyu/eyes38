@@ -23,6 +23,7 @@ import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.CartGoods;
+import com.example.eyes38.fragment.CartFragmentView;
 import com.example.eyes38.utils.CartDialogDelete;
 import com.example.eyes38.utils.CartDialogSelectDate;
 import com.yolanda.nohttp.Logger;
@@ -61,6 +62,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     Handler mainHandler = (new MainActivity()).mainHandler; // 向MainActivity传值 改变徽章
     Handler mHandler;
 
+    private CartFragmentView listener;
     //无参构造方法
     public Cart_GoodsAdapter() {
     }
@@ -427,7 +429,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     ///************加操作***********
     private void getAddNoHttpMethod(int shoppingCartId) {
         try {
-            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/310";
+            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/"+shoppingCartId;
             mRequestQueue = NoHttp.newRequestQueue();
             Request<String> request = NoHttp.createStringRequest(url, RequestMethod.PUT);
             request.addHeader("Authorization", authorization()); // 添加请求头
@@ -557,6 +559,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         mList.remove(getPosition());
         notifyDataSetChanged();
         //判断购物车是否为空如果为空显示空页面
+        if (mList.size()==0){
+
+        }
         mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
         mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); //改变徽章

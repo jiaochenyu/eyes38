@@ -3,12 +3,11 @@ package com.example.eyes38.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,44 +33,15 @@ import org.json.JSONObject;
 /**
  * Created by jcy on 2016/5/8.
  */
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment  {
 
     private final int mWhat = 2;
-    private final int mFINFISH = 3;
     MainActivity mMainActivity;
     private View view;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
-    SharedPreferences sp;  //偏好设置 看用户登录是否登录
     RequestQueue mRequestQueue;
-
-    public boolean cartState; //购物车是否为空
-
-    Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case mFINFISH:
-                   int num = (int) msg.obj;
-                    if(num>0){
-                        CartGoodsList mCartGoodsList = new CartGoodsList();
-                        mFragmentTransaction.replace(R.id.cartcontent, mCartGoodsList);
-                        mFragmentTransaction.commit();
-                    }else{
-                        //为空
-                        CartEmptyView mCartEmptyView = new CartEmptyView();
-                        mFragmentTransaction.replace(R.id.cartcontent, mCartEmptyView);
-                        mFragmentTransaction.commit();
-                    }
-                    break;
-            }
-        }
-    };
-
-
-
-
+    private SharedPreferences sp; // 偏好设置
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,19 +57,14 @@ public class CartFragment extends Fragment {
 
     private void initViews() {
 
-
     }
-
     private void initData() {
         mFragmentManager = getChildFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-
-
     }
 
     private void initStates() {
         //如果用户没有登录 那么显示空
-
         if (!Application.isLogin) {
             //如果用户没登录  购物车显示空
             CartEmptyView mCartEmptyView = new CartEmptyView();
@@ -108,24 +73,30 @@ public class CartFragment extends Fragment {
         } else {
             //登录了 进行网络请求 判断用户购物车是否为空
             getHttpMethod();
-
         }
     }
-
     private void initOnclickListener() {
 
     }
 
-
+    ///获取用户名和密码
+    private String authorization() {
+        String username = "13091617887";  // 应该从偏好设置中获取账号密码
+        String password = "123456";
+        //Basic 账号+':'+密码  BASE64加密
+        String addHeader = username + ":" + password;
+        String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
+        return authorization;
+    }
 
     private void getHttpMethod() {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
-        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart";
+        String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-//        request.setRequestFailedReadCache(true);
-        //request.add("shoppingCartIds", "219");
+        request.addHeader("Authorization",authorization());
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
+
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
@@ -137,29 +108,33 @@ public class CartFragment extends Fragment {
                 Log.e("请求成功", "success");
                 //请求成功
                 String result = response.get();
-                int num =0;
+                int num =0; // 购物车商品
                 //JSON解析
-                JSONObject object = null;
                 try {
-                    object = new JSONObject(result);
-                    JSONObject object2 = object.getJSONObject("data");
-                    JSONArray mJsonArray = object2.getJSONArray("data");
-                    for (int i = 0; i < mJsonArray.length(); i++) {
-                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
-                        JSONArray mJsonArray2 = jsonObject.getJSONArray("data");
-                        if(mJsonArray2.length()>0){
-                            num = mJsonArray2.length();
+                    JSONObject object = new JSONObject(result);
+                    JSONArray jsonArray = object.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        JSONArray jsonArray2 = jsonObject.getJSONArray("data");
+                        if(jsonArray2.length()>0){
+                            num = jsonArray2.length();
                             break;
                         }
                     }
-
+                    if(num>0){
+                        //不为空显示购物车
+                        CartGoodsList mCartGoodsList = new CartGoodsList();
+                        mFragmentTransaction.replace(R.id.cartcontent, mCartGoodsList);
+                        mFragmentTransaction.commit();
+                    }else{
+                        //为空
+                        CartEmptyView mCartEmptyView = new CartEmptyView();
+                        mFragmentTransaction.replace(R.id.cartcontent, mCartEmptyView);
+                        mFragmentTransaction.commit();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Message message = new Message();
-                message.what = mFINFISH;
-                //Log.e("请求完成", "66666666666666");
-                mHandler.sendMessage(mHandler.obtainMessage(mFINFISH,num));
 
             }
         }
@@ -169,7 +144,6 @@ public class CartFragment extends Fragment {
         }
         @Override
         public void onFinish(int what) {
-            //请求结束。 通知初始化 适配器
         }
     };
 

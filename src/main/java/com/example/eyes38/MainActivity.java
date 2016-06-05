@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case CARTGOODSCOUNT:
                     if (((Integer) msg.obj) != 0) {
-                        Log.e("购物车传值", msg.obj + "");
                         mCartBadgeView.setText(msg.obj + "");
                         mCartBadgeView.show();
                     } else {
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
 
     public int getCartGoodsCount() {
         return cartGoodsCount;
@@ -81,12 +79,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        //Log.e("我是start方法", "解决登陆activity界面跳转的问题");
+    protected void onResume() {
+        super.onResume();
         //如果从登陆界面退出那么显示在首页
         /**
-         * 解决方案 MainActivity只要调用了onRestart方法就应该现实在home页
+         * 解决方案 MainActivity只要调用了onResume方法就应该现实在home页
          */
         showFragment(HOME);
         RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
@@ -96,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
     }
 
-
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
         //初始化 cartradiobutton
@@ -104,11 +100,9 @@ public class MainActivity extends AppCompatActivity {
         mhomeRadioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
         mcar_badgebutton = (Button) findViewById(R.id.car_badgeviewbutton);
         //CartBadgeView这是购物车上的徽章
-        //mCartBadgeView.setBackgroundResource(R.drawable.badge_ifaux);
         mCartBadgeView = new CartBadgeView(MainActivity.this, mcar_badgebutton);
         mCartBadgeView.setTextColor(Color.WHITE);
         mCartBadgeView.setTextSize(12);
-        //mCartBadgeView.setBadgeMargin(30,30);
         mCartBadgeView.setBadgeMargin(5);//各个边的边隔
         mCartBadgeView.setBadgeBackgroundColor(this.getResources().getColor(R.color.topical));
         mCartBadgeView.setBadgePosition(CartBadgeView.POSITION_TOP_RIGHT);
@@ -140,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         showFragment(HOME);
     }
 
-
     //显示fragment
     private void showFragment(int index) {
         mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -168,12 +161,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case CAR:
-               /* if (mCarFragment == null) {
-                    mCarFragment = new CartFragment();
-                    mFragmentTransaction.add(R.id.fragment_container, mCarFragment);
-                } else {
-                    mFragmentTransaction.show(mCarFragment);
-                }*/
                 mCarFragment = new CartFragment();
                 mFragmentTransaction.add(R.id.fragment_container, mCarFragment);
                 break;

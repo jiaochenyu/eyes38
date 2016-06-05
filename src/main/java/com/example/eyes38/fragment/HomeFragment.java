@@ -412,7 +412,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     //初始化视图
     private void initView() {
-        ptrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.sort_content_ptr);
+        ptrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.home_content_ptr);
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         mSpinner = (Spinner) view.findViewById(R.id.home_spinner);
