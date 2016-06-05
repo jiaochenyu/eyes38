@@ -66,8 +66,13 @@ public class SortMenuActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             footview.setVisibility(View.GONE);
+            getHttpMedthod();
         }
     };
+    //记录请求次数
+    private int count = 1;
+    //表示是否还有数据可以加载
+    private boolean isLoad = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,7 @@ public class SortMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sort_menu);
         initView();
         getDatas();
+        initAdapter();
         initData();
         setUI();
         initListener();
@@ -97,7 +103,7 @@ public class SortMenuActivity extends AppCompatActivity {
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getHttpMedthod();
+
                         ptrFrame.refreshComplete();
                     }
                 }, 1800);
@@ -111,7 +117,7 @@ public class SortMenuActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && isScrolling) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && isScrolling && isLoad) {
                     int lastVisibleItem = grid.findLastCompletelyVisibleItemPosition();
                     int totalItemCount = grid.getItemCount();
                     if (lastVisibleItem == totalItemCount-1) {
@@ -127,8 +133,9 @@ public class SortMenuActivity extends AppCompatActivity {
                             }
                         });
                         handler.sendMessageDelayed(new Message(),2000);
-                        loadMoreData();
+//                        loadMoreData();
 //                        Log.e("load","加载");
+//                        加载数据
                         isScrolling = false;
                     }
                 }
@@ -188,6 +195,7 @@ public class SortMenuActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        mRequestQueue = NoHttp.newRequestQueue();
         getHttpMedthod();
         /*Goods g1 = new Goods(1, "苹果", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
         Goods g2 = new Goods(2, "苹果", null, "水果", "100g", "10/100g", null, null, 11f, 10f, 0, 0, 100);
@@ -202,11 +210,15 @@ public class SortMenuActivity extends AppCompatActivity {
     }
 
     private void getHttpMedthod() {
-        mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         request.add("limit","28");
 //        request.add("category_id",category_id);
+        //一次请求六条数据
+        request.add("limit",6);
+        //请求第几页
+        request.add("page",count);
+        count++;
         //request.setRequestFailedReadCache(true);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
@@ -229,23 +241,27 @@ public class SortMenuActivity extends AppCompatActivity {
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray array = object.getJSONArray("data");
-                    mList = new ArrayList<>();
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject jsonObject = array.getJSONObject(i);
-                        int id = jsonObject.getInt("product_id");
-                        String name = jsonObject.getString("name");
-                        String path = jsonObject.getString("image");
-                        String unit = jsonObject.getString("extension4");
-                        String txt_pic = jsonObject.getString("description");
-                        float price = (float) jsonObject.getDouble("price");
-                        float market_price = (float) jsonObject.getDouble("market_price");
-                        JSONObject search = jsonObject.getJSONObject("product_search");
-                        int comment_count = search.getInt("comment_num");
-                        int stock = search.getInt("stock_num");
-                        Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock,txt_pic);
-                        mList.add(goods);
+                    if (array.length() != 0){
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            int id = jsonObject.getInt("product_id");
+                            String name = jsonObject.getString("name");
+                            String path = jsonObject.getString("image");
+                            String unit = jsonObject.getString("extension4");
+                            String txt_pic = jsonObject.getString("description");
+                            float price = (float) jsonObject.getDouble("price");
+                            float market_price = (float) jsonObject.getDouble("market_price");
+                            JSONObject search = jsonObject.getJSONObject("product_search");
+                            int comment_count = search.getInt("comment_num");
+                            int stock = search.getInt("stock_num");
+                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock,txt_pic);
+                            mList.add(goods);
+                        }
+                        sort_sortAdapter.notifyDataSetChanged();
                     }
-                    initAdapter();
+                    else {
+                        isLoad = false;
+                    }
                     setRadioGroupListener();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -274,6 +290,8 @@ public class SortMenuActivity extends AppCompatActivity {
     }
 
     private void initAdapter() {
+        //初始化适配器
+        mList = new ArrayList<>();
         sort_sortAdapter = new Sort_SortAdapter(this, mList);
         mRecyclerView.setAdapter(sort_sortAdapter);
         sort_sortAdapter.setmOnItemClickListener(new Sort_SortAdapter.OnRecyclerViewItemClickListener() {

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +75,7 @@ public class CartGoodsList extends Fragment {
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
     Handler mainHandler = (new MainActivity()).mainHandler; //改变主页面的图标
+
 
     //Handler
     Handler mmHandler = new Handler() {
@@ -178,22 +178,22 @@ public class CartGoodsList extends Fragment {
         });
     }
 
-
     //请求http 获取购物车信息
     private void getHttpMethod() {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        //request.setRequestFailedReadCache(true); //缓存
+        request.addHeader("Authorization", authorization()); // 添加请求头
+        //request.add("shoppingCartIds", "");
+        mRequestQueue.add(mWhat, request, mOnResponseListener);
+    }
+    private String authorization() {
         String username = "13091617887";  // 应该从偏好设置中获取账号密码
         String password = "123456";
         //Basic 账号+':'+密码  BASE64加密
         String addHeader = username + ":" + password;
         String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
-        Log.e("authorization的值", authorization);
-        request.addHeader("Authorization", authorization); // 添加请求头
-        //request.add("shoppingCartIds", "");
-        mRequestQueue.add(mWhat, request, mOnResponseListener);
+        return authorization;
     }
 
     /**
@@ -217,13 +217,12 @@ public class CartGoodsList extends Fragment {
 
                 Message message = new Message();
                 message.what = mFINFISH;
-                //Log.e("请求完成", "66666666666666");
                 mmHandler.sendMessage(message);
                 //mCountTopTextView.setText(mList.size() + "");
                 mCart_goodsAdapter = new Cart_GoodsAdapter(mList, getActivity(), mmHandler);
                 mRecyclerView.setAdapter(mCart_goodsAdapter);
                 mCart_goodsAdapter.notifyDataSetChanged();
-                mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, mList.size()));  //通知改变徽章
+                mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount()));  //通知改变徽章
                 //请求完数据才可以有事件发生
                 initListener();
             }
@@ -276,9 +275,7 @@ public class CartGoodsList extends Fragment {
 
     // 全部选中
     private void selectedAll() {
-        //Log.e("selectedAll","allchecked"+allChecked);
         for (int i = 0; i < mList.size(); i++) {
-            //Cart_GoodsAdapter.getIsSelected().put(i,allChecked);
             //设置beans
             mList.get(i).setSelected(allChecked);
         }
@@ -345,7 +342,15 @@ public class CartGoodsList extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    //返回购物车商品数量
+    private int getAllGoodsCount() {
+        int count = 0;
+        for (int i = 0; i < mList.size(); i++) {
+            count += mList.get(i).getQuantity();
+        }
+        return count;
     }
 
     //显示吐司

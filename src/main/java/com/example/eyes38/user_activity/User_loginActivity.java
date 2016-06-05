@@ -21,6 +21,7 @@ import com.example.eyes38.Application.Application;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.UserBean;
+import com.example.eyes38.fragment.UserFragment;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -66,6 +67,9 @@ public class User_loginActivity extends AppCompatActivity {
                         //跳转到首页
                         Intent intent = new Intent(User_loginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        //更新userfragment的用户名
+//                        UpdateUser();
+                        Application.isLogin = true;
                         show("登录成功！");
                     } else {
                         show("密码输入错误，请重新输入！");
@@ -80,6 +84,13 @@ public class User_loginActivity extends AppCompatActivity {
 
         }
     };
+
+    private void UpdateUser() {
+//        刷新userfagment
+        Handler handler = new UserFragment().handler;
+//            400是更新userfagment的用户名
+        handler.sendEmptyMessage(400);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
