@@ -36,14 +36,13 @@
                 android:id="@+id/dialog_day1"
                 style="@style/cart_dialog_select_day_text"
                 android:layout_alignParentLeft="true"
-                android:text="day1"/>
-
+                android:text="2015-12-12"/>
             <TextView
                 android:id="@+id/dialog_day2"
                 style="@style/cart_dialog_select_day_text"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
-                android:text="day2"
+                android:text="2015-12-12"
                 />
 
             <TextView
@@ -51,7 +50,7 @@
                 style="@style/cart_dialog_select_day_text"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="5dp"
-                android:text="day3"
+                android:text="2015-12-12"
 
                 />
 
