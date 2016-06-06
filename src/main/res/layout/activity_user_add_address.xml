@@ -205,30 +205,27 @@
             android:background="#F2F2F2"
             android:text=""
             android:textSize="0.1sp"/>
+
         <!--收货人-->
         <LinearLayout
-            style="@style/addaddress_linear">
+            android:id="@+id/plot_linear"
+            style="@style/addaddress_linear"
+            android:visibility="gone">
 
             <TextView
-                style="@style/addaddress_text1"/>
-
-            <TextView
-                style="@style/addaddress_text2"
-                android:text="所属小区"/>
-
-            <EditText
-                android:id="@+id/address_plot"
-                style="@style/addaddress_edit"
-                android:hint="请输入小区名"/>
-
-            <ImageView
-                android:id="@+id/address_adjust3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_weight="2"
-                android:src="@drawable/invalid"
-                android:visibility="invisible"/>
+                android:layout_weight="6"/>
+
+            <Spinner
+                android:id="@+id/polt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:dropDownWidth="100dp"
+                android:gravity="center|right"
+                android:spinnerMode="dialog"
+                android:textAlignment="gravity"></Spinner>
         </LinearLayout>
         <!--分割线-->
         <TextView
