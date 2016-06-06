@@ -82,12 +82,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-<<<<<<< HEAD
+
         //如果从登陆界面退出那么显示在首页
         /**
          * 解决方案 MainActivity只要调用了onResume方法就应该现实在home页
          */
-=======
+
         showFragment(HOME);
         RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
         radioButton.setChecked(true);
