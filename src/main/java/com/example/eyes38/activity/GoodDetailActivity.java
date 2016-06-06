@@ -54,10 +54,6 @@ public class GoodDetailActivity extends AppCompatActivity {
         }
     };
 
-<<<<<<< HEAD
-=======
->>>>>>> 5566d1ca6651c37a3350fcd57eae2ca394e103dd
->>>>>>> 19a785258421f7a7212f318bc1c0d7b65484a20c
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +84,7 @@ public class GoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GoodDetailActivity.this, CommentActivity.class);
-                intent.putExtra("product_id",goods.getGoods_id());
+                intent.putExtra("product_id", goods.getGoods_id());
                 startActivity(intent);
             }
         });
@@ -122,7 +118,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         //截取字符串中的url
         String description = goods.getGoods_description();
         //如果有图文详情
-        if (!Substring.getString(description).equals("")){
+        if (!Substring.getString(description).equals("")) {
             Glide.with(this).load(Substring.getString(description)).into(goodsTxtPicImageView);
         }
 
@@ -213,10 +209,10 @@ public class GoodDetailActivity extends AppCompatActivity {
     private void postNoHttp() {
         RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         //增加商品接口
-        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart" ;
+        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         //request.setRequestFailedReadCache(true);
-        request.add("extension1","false");
+        request.add("extension1", "false");
     }
 
 
