@@ -41,13 +41,8 @@ public class ContentFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private View mView;
     private List<SortContent> mList;
-    private Sort_ContentAdapter scAdapter;
-    private LinearLayoutManager linear;
     //下拉刷新控件
 
-    //测试获取json数据
-    //创建 请求队列成员变量
-    private RequestQueue mRequestQueue;
     private final static int mWhat = 520;
     private PtrClassicFrameLayout ptrFrame;
 
@@ -92,7 +87,7 @@ public class ContentFragment extends Fragment {
 
 
     private void initAdapter() {
-        scAdapter = new Sort_ContentAdapter(getContext(), mList);
+        Sort_ContentAdapter scAdapter = new Sort_ContentAdapter(getContext(), mList);
         mRecyclerView.setAdapter(scAdapter);
     }
 
@@ -146,7 +141,7 @@ public class ContentFragment extends Fragment {
     }
 
     private void getHttpMedthod() {
-        mRequestQueue = NoHttp.newRequestQueue();
+        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         //request.setRequestFailedReadCache(true);
@@ -220,7 +215,7 @@ public class ContentFragment extends Fragment {
 
     private void initView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.sort_content_recycler);
-        linear = new LinearLayoutManager(getContext());
+        LinearLayoutManager linear = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linear);
         ptrFrame = (PtrClassicFrameLayout) mView.findViewById(R.id.sort_content_ptr);
     }

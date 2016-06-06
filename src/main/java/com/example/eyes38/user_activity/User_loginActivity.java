@@ -21,7 +21,6 @@ import com.example.eyes38.Application.Application;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.UserBean;
-import com.example.eyes38.fragment.UserFragment;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -48,7 +47,6 @@ public class User_loginActivity extends AppCompatActivity {
     private String usernameValue, passwordValue;
     private SharedPreferences sp;
     String customer_id;
-    private RequestQueue mRequestQueue;//请求队列
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -61,9 +59,9 @@ public class User_loginActivity extends AppCompatActivity {
                         editor.putString("USER_NAME", usernameValue);
                         editor.putString("PASSWORD", passwordValue);
                         Application.isLogin = true;
-                        editor.putString("CUSTOMER_ID",customer_id);
+                        editor.putString("CUSTOMER_ID", customer_id);
                         editor.putBoolean("STATE", Application.isLogin);
-                        editor.commit();
+                        editor.apply();
                         //跳转到首页
                         Intent intent = new Intent(User_loginActivity.this, MainActivity.class);
                         startActivity(intent);
@@ -84,13 +82,6 @@ public class User_loginActivity extends AppCompatActivity {
 
         }
     };
-
-    private void UpdateUser() {
-//        刷新userfagment
-        Handler handler = new UserFragment().handler;
-//            400是更新userfagment的用户名
-        handler.sendEmptyMessage(400);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,9 +122,9 @@ public class User_loginActivity extends AppCompatActivity {
         } else {
             //表示偏好设置中没有值，此时需要对文本框进行监听
             initEditTextListener();
-            String usernameValue=username.getText().toString();
-            String passwordValue=password.getText().toString();
-            if (passwordValue.equals("") || usernameValue.equals("")){
+            String usernameValue = username.getText().toString();
+            String passwordValue = password.getText().toString();
+            if (passwordValue.equals("") || usernameValue.equals("")) {
                 user_login.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -212,7 +203,7 @@ public class User_loginActivity extends AppCompatActivity {
 
     private void httpMethod() {
         //查看用户输入的账号和密码是否正确
-        mRequestQueue = NoHttp.newRequestQueue();
+        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/customer/login";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         String header = "Basic " + newHeader;
@@ -237,7 +228,7 @@ public class User_loginActivity extends AppCompatActivity {
                     JSONObject object1 = new JSONObject(result);
                     success = object1.getBoolean("success");//取得用户是否成功登录
                     JSONObject object2 = object1.getJSONObject("data");
-                   customer_id = object2.getString("customer_id");
+                    customer_id = object2.getString("customer_id");
                     String username = object2.getString("username");
                     String firstname = object2.getString("firstname");
                     String email = object2.getString("email");
@@ -264,7 +255,7 @@ public class User_loginActivity extends AppCompatActivity {
             //隐藏软键盘
             imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-           show("输入有误，请重新输入！");
+            show("输入有误，请重新输入！");
         }
 
         @Override

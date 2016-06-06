@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eyes38">
-
+    <!--所需的权限-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".Application.Application"
@@ -46,19 +47,21 @@
         <activity android:name=".activity.home.HomezhuantiActivity" />
         <activity android:name=".EventActivity.EventActivity" />
         <activity android:name=".activity.CommentReplyActivity" />
-        <activity
-            android:name=".activity.UserRegisterDetailActivity" />
+        <activity android:name=".activity.UserRegisterDetailActivity" />
         <activity android:name=".activity.PayActivity" />
         <activity android:name=".activity.CartActivity" />
         <activity
             android:name=".fragment.search.SearchActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.GuideActivity">
-
         </activity>
-        <activity android:name=".activity.home.LoadActivity">
-
-        </activity>
+        <activity android:name=".activity.home.LoadActivity"/>
+        <!--监听网络广播-->
+        <receiver android:name=".utils.ConnectionChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
