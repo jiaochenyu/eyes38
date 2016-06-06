@@ -15,7 +15,7 @@
         android:layout_height="60dp"
         android:layout_toRightOf="@+id/linear_checkbox"
         android:background="@drawable/cart_addsub_border"
-        android:src="@drawable/p1"/>
+      />
 
     <TextView
         android:id="@+id/goodstitle"
@@ -24,7 +24,8 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/goodspicture"
         android:textColor="#373737"
-        android:text="哈密瓜哈密瓜哈密瓜哈密瓜哈密"
+        android:text=""
+        android:singleLine="true"
         />
     <TextView
         android:id="@+id/dingdanleixing"

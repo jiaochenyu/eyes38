@@ -31,11 +31,9 @@ public class PayActivity extends AppCompatActivity {
     private float peisong = 0;
     PayAdapter mPayAdapter;
 
-
     public float getPeisong() {
         return peisong;
     }
-
     public void setPeisong(float peisong) {
         this.peisong = peisong;
     }

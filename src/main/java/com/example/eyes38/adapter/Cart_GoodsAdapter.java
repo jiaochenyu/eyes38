@@ -3,6 +3,7 @@ package com.example.eyes38.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,6 @@ import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.CartGoods;
-import com.example.eyes38.fragment.CartFragmentView;
 import com.example.eyes38.utils.CartDialogDelete;
 import com.example.eyes38.utils.CartDialogSelectDate;
 import com.yolanda.nohttp.Logger;
@@ -52,6 +52,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     public static final int MINUSFINISH = 389; // 减法操作
     public static final int NOTIFILIST = 388; //购物车状态改变
     public static final int CARTGOODSCOUNT = 308; // 通知mainactivity 改变徽章
+    public static final int UPDATEWEEKFINISH = 390; //更新购物车操作 设置当周订单的日期
+    public static final int UPDATDAYFINISH = 391; //更新购物车操作 设置为当日订单（将extension设置为true）
     private List<CartGoods> mList;
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener = null;//监听事件
@@ -59,10 +61,10 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     private RequestQueue mRequestQueue; //请求队列
     private int position; // 删除位置
     private int cartGoodsCount;
+    SharedPreferences sp;  //偏好设置 看用户登录是否登录
     Handler mainHandler = (new MainActivity()).mainHandler; // 向MainActivity传值 改变徽章
     Handler mHandler;
 
-    private CartFragmentView listener;
     //无参构造方法
     public Cart_GoodsAdapter() {
     }
@@ -141,19 +143,37 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         holder.mPriceTextView.setText(st);
         holder.mTitleTextView.setText(mList.get(position).getProduct_name());
         holder.mCountTextView.setText(mList.get(position).getQuantity() + "");
-        //判断一周菜谱按钮是否显示： 三种状态 extension==null显示两个按钮,==false只显示当日订单,==true或者日期 显示两个按钮
+        /**
+         *  判断一周菜谱按钮是否显示：四种状态
+         *  extension==null显示两个按钮,
+         *  ==false只显示当日订单,
+         *  ==true 显示两个按钮  一周订单背景为灰色 当日订单背景为主题色
+         *  如果为日期 那么一周菜谱按钮显示日期  当日订单背景为灰色
+         */
         //默认状态是 当周订单显示灰色 当日订单显示主题色
         String extension = mList.get(position).getExtension1();
-        Log.e("extension1的值", extension);
         if (extension.equals("false")) {
             //false
             holder.mDayOrder.setVisibility(View.VISIBLE);
             holder.mWeekOrder.setVisibility(View.GONE);
-        } else {
+        } else if (extension.equals("")) {
             holder.mDayOrder.setVisibility(View.VISIBLE);
             holder.mDayOrder.setBackgroundResource(R.color.border_color); //将当日订单背景颜色显示为灰色
             holder.mWeekOrder.setVisibility(View.VISIBLE);
             holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
+        } else if (extension.equals("true")) {
+            holder.mDayOrder.setVisibility(View.VISIBLE);
+            holder.mDayOrder.setBackgroundResource(R.color.topical); //将当日订单背景颜色显示为灰色
+            holder.mWeekOrder.setVisibility(View.VISIBLE);
+            holder.mWeekOrder.setBackgroundResource(R.color.border_color); //将当周订单北京颜色显示主题色
+            holder.mWeekOrder.setText("当周订单");
+        } else {
+            // 一周菜谱按钮显示日期
+            holder.mDayOrder.setVisibility(View.VISIBLE);
+            holder.mDayOrder.setBackgroundResource(R.color.border_color); //将当日订单背景颜色显示为灰色
+            holder.mWeekOrder.setVisibility(View.VISIBLE);
+            holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
+            holder.mWeekOrder.setText(extension);
         }
         // 做个判断 是否显示删除按钮
         if (isShowDelete) {
@@ -174,7 +194,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         holder.mDeleteTextView.setOnClickListener(new ButtonOnClickListener(position));
         holder.mImageView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品图片跳转
         holder.mTitleTextView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品标题进行跳转
-
+        holder.mWeekOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击一周菜谱
+        holder.mDayOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击了当日订单
     }
 
     @Override
@@ -214,10 +235,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
      * 对购物车进行操作
      */
 
-
     //初始化每一个item 设置为true 选中
     private void initDate() {
-        //isSelected = new HashMap<>();
+        sp = mContext.getSharedPreferences("userInfo", mContext.MODE_PRIVATE);
         for (int i = 0; i < mList.size(); i++) {
             mList.get(i).setSelected(true);
         }
@@ -269,16 +289,23 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     }
                     break;
                 case R.id.goodspicture:
-                    //跳转到商品详情
+                    //*******跳转到商品详情
                     goGoodDetailActivity(position);
                     break;
                 case R.id.goodstitle:
-                    // 跳转到商品详情
+                    // *******跳转到商品详情
                     goGoodDetailActivity(position);
+                    break;
+                case R.id.dayOrder:
+                    //将当周订单的按钮背景颜色换成灰色，将当日订单的按钮背景颜色换成橙色；
+                    setPosition(position);
+                    int shoppingCartID = mList.get(position).getShopping_cart_id();
+                    getDayOrderNoHttpMethod(shoppingCartID,"true");
                     break;
                 case R.id.weekOrder:
                     //当周订单 弹出dialog选择日期
-
+                    setPosition(position);
+                    showSelectDateDialog();
                     break;
                 case R.id.delete:
                     showDeleteDialog();
@@ -316,7 +343,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         CartGoods mCartGoods = null;
         float totalPrice = 0;
         for (int i = 0; i < mList.size(); i++) {
-            //Log.e(i+"当前状态",mList.get(i).isSelected()+"");
+
             mCartGoods = mList.get(i);
             if (mCartGoods.isSelected()) {
                 totalPrice += mCartGoods.getQuantity() * mCartGoods.getPrice();
@@ -364,6 +391,93 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         builder.create().show();
     }
 
+    //********** 显示当周订单 选择日期dialog
+    private void showSelectDateDialog() {
+        CartDialogSelectDate.Builder builder = new CartDialogSelectDate.Builder(mContext);
+        builder.setMessage("当周订单");
+        //设置接下来的一周日期：
+        final String[] date = setDate();
+        builder.setDay1ButtonClick(date[0], new DialogInterface.OnClickListener() {
+            //点击了第一天
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                //请求网络 更新购物车 将extension1 的值传到接口中
+                int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
+                getWeekDayOrderNoHttpMethod(shoppingCartIds, date[0]);
+            }
+        });
+        builder.setDay2ButtonClick(date[1], new DialogInterface.OnClickListener() {
+            //点击了第二天
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
+                getWeekDayOrderNoHttpMethod(shoppingCartIds, date[1]);
+            }
+        });
+        builder.setDay3ButtonClick(date[2], new DialogInterface.OnClickListener() {
+            //点击了第三天
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
+                getWeekDayOrderNoHttpMethod(shoppingCartIds, date[2]);
+            }
+        });
+        builder.setDay4ButtonClick(date[3], new DialogInterface.OnClickListener() {
+            //点击了第四天
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
+                getWeekDayOrderNoHttpMethod(shoppingCartIds, date[3]);
+            }
+        });
+        builder.setDay5ButtonClick(date[4], new DialogInterface.OnClickListener() {
+            //点击了第五天
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
+                getWeekDayOrderNoHttpMethod(shoppingCartIds, date[4]);
+            }
+        });
+
+        builder.setDay6ButtonClick(date[5], new DialogInterface.OnClickListener() {
+            //点击了第六天
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
+                getWeekDayOrderNoHttpMethod(shoppingCartIds, date[5]);
+            }
+        });
+        builder.setDay7ButtonClick(date[6], new DialogInterface.OnClickListener() {
+            //点击了第七天
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
+                getWeekDayOrderNoHttpMethod(shoppingCartIds, date[6]);
+            }
+        });
+        //显示dialog
+        builder.create().show();
+    }
+
+    //设置当周订单 日期选择框中的日期 （一周）
+    private String[] setDate() {
+        String[] date = new String[7];
+        Calendar c = Calendar.getInstance();
+        for (int i = 0; i < 7; i++) {
+            date[i] = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE);
+            c.add(Calendar.DATE, 1);
+            Log.e("日期", date[i]);
+        }
+        return date;
+    }
+
 
     // **************统计购物车中 选中的 的数量
     private int getAllGoodsCount() {
@@ -382,44 +496,14 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         Bundle bundle = new Bundle();
         bundle.putSerializable("values", mList.get(position).getGoods());
         intent.putExtra("values", bundle);
-        //intent.putExtra("values",mList.get(position).getGoods());
         mContext.startActivity(intent);
     }
 
 
-    //********** 显示当周订单 选择日期dialog
-    private void showSelectDateDialog() {
-        CartDialogSelectDate.Builder builder = new CartDialogSelectDate.Builder(mContext);
-        builder.setMessage("当周订单");
-        //设置接下来的一周日期：
-        String[] date = setDate();
-        builder.setDay1ButtonClick(date[0], new DialogInterface.OnClickListener() {
-            //点击了第一天
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-            }
-        });
-        //显示dialog
-        builder.create().show();
-    }
-
-    //设置当周订单 日期选择框中的日期 （一周）
-    private String[] setDate() {
-        String[] date = null;
-        Calendar c = Calendar.getInstance();
-        for (int i = 0; i < 7; i++) {
-            date[i] = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + 1 + "-" + c.get(Calendar.DATE);
-            c.add(Calendar.DATE, 1);
-        }
-        return date;
-    }
-
     //**********账号密码进行base64加密
     private String authorization() {
-        String username = "13091617887";  // 应该从偏好设置中获取账号密码
-        String password = "123456";
+        String username = sp.getString("USER_NAME", "");  // 应该从偏好设置中获取账号密码
+        String password = sp.getString("PASSWORD", "");
         //Basic 账号+':'+密码  BASE64加密
         String addHeader = username + ":" + password;
         String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
@@ -429,7 +513,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     ///************加操作***********
     private void getAddNoHttpMethod(int shoppingCartId) {
         try {
-            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/"+shoppingCartId;
+            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + shoppingCartId;
             mRequestQueue = NoHttp.newRequestQueue();
             Request<String> request = NoHttp.createStringRequest(url, RequestMethod.PUT);
             request.addHeader("Authorization", authorization()); // 添加请求头
@@ -443,6 +527,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         }
 
     }
+
     /// ************减操作 ***************
     private void getMinusNoHttpMethod(int shoppingCartId) {
         try {
@@ -459,6 +544,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             e.printStackTrace();
         }
     }
+
     //******** 删除操作 ***********
     private void getDeleteNoHttpMethod(int shoppingCartIds) {
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + shoppingCartIds;
@@ -468,11 +554,46 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         mRequestQueue.add(DELETEFINISH, request, mOnResponseListener);
     }
 
+    //******** 设置当周订单的日期 ***********
+    private void getWeekDayOrderNoHttpMethod(int shoppingCartIds, String extension) {
+        try {
+            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + shoppingCartIds;
+            mRequestQueue = NoHttp.newRequestQueue();
+            Request<String> request = NoHttp.createStringRequest(url, RequestMethod.PUT);
+            request.addHeader("Authorization", authorization()); // 添加请求头
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("quantity", mList.get(position).getQuantity());
+            jsonObject.put("extension1", extension);
+            request.setDefineRequestBodyForJson(jsonObject);
+            mRequestQueue.add(UPDATEWEEKFINISH, request, mOnResponseListener);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    //******** 设置当日订单的日期 ***********
+    private void getDayOrderNoHttpMethod(int shoppingCartIds, String extension) {
+        try {
+            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + shoppingCartIds;
+            mRequestQueue = NoHttp.newRequestQueue();
+            Request<String> request = NoHttp.createStringRequest(url, RequestMethod.PUT);
+            request.addHeader("Authorization", authorization()); // 添加请求头
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("quantity", mList.get(position).getQuantity());
+            jsonObject.put("extension1", extension);
+            request.setDefineRequestBodyForJson(jsonObject);
+            mRequestQueue.add(UPDATDAYFINISH, request, mOnResponseListener);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     // *************加法操作 减法操作  删除操作  请求网络
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
-
         }
 
         @Override
@@ -524,6 +645,46 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     e.printStackTrace();
                 }
             }
+            //点击当周订单后的请求网络操作
+            if (what == UPDATEWEEKFINISH) {
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    boolean resultUpdate = jsonObject.getBoolean("success");
+                    if (resultUpdate) {
+                        //mList.get(getPosition()).setExtension1();
+                        //解析extension1
+                        JSONObject jsonObjectData = jsonObject.getJSONObject("data");
+                        String extension1 = jsonObjectData.getString("extension1");
+                        mList.get(getPosition()).setExtension1(extension1);
+                        notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            //点击当日订单后的请求网络操作
+            if (what == UPDATDAYFINISH) {
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    boolean resultUpdate = jsonObject.getBoolean("success");
+                    if (resultUpdate) {
+                        //mList.get(getPosition()).setExtension1();
+                        //解析extension1
+                        JSONObject jsonObjectData = jsonObject.getJSONObject("data");
+                        String extension1 = jsonObjectData.getString("extension1");
+                        mList.get(getPosition()).setExtension1(extension1);
+                        notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         @Override
@@ -559,8 +720,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         mList.remove(getPosition());
         notifyDataSetChanged();
         //判断购物车是否为空如果为空显示空页面
-        if (mList.size()==0){
-
+        if (mList.size() == 0) {
+            //通知cartFragment 显示空界面。
         }
         mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格

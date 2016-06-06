@@ -42,9 +42,14 @@ public class MainActivity extends AppCompatActivity {
     private int cartGoodsCount = 0;
     private FragmentManager mFragmentManager;
     public static CartBadgeView mCartBadgeView;
+<<<<<<< HEAD
     private RadioButton homeRadioButton, sortRadioButton, cartRadioButton, userRadioButton;
     //网络监听广播
     private ConnectionChangeReceiver mConnectionChangeReceiver = new ConnectionChangeReceiver();
+=======
+    RadioButton mCarradioButton;
+    RadioButton mhomeRadioButton;
+>>>>>>> 19a785258421f7a7212f318bc1c0d7b65484a20c
     public Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
     public Handler mainHandler = new Handler() {
         @Override
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         mCartBadgeView.hide();
                     }
+                    break;
             }
         }
     };
@@ -98,9 +104,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+<<<<<<< HEAD
+=======
+
+        //如果从登陆界面退出那么显示在首页
+>>>>>>> 19a785258421f7a7212f318bc1c0d7b65484a20c
         /**
          * 记录上一次点击的页面编号
          */
+<<<<<<< HEAD
         showFragment(record);
         switch (record) {
             case HOME:
@@ -116,8 +128,21 @@ public class MainActivity extends AppCompatActivity {
                 userRadioButton.setChecked(true);
                 break;
         }
-    }
+=======
+<<<<<<< HEAD
 
+        showFragment(HOME);
+        RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
+        radioButton.setChecked(true);
+        ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
+        ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
+>>>>>>> 19a785258421f7a7212f318bc1c0d7b65484a20c
+    }
+=======
+>>>>>>> 5566d1ca6651c37a3350fcd57eae2ca394e103dd
+
+<<<<<<< HEAD
    /* @Override
     protected void onRestart() {
         super.onRestart();
@@ -129,13 +154,20 @@ public class MainActivity extends AppCompatActivity {
      * 解决方案 MainActivity只要调用了onRestart方法就应该现实在home页
      *//*
 >>>>>>> 4beb2a9669e2dcc399521dec260a2f18e2f9cf1d
+=======
+>>>>>>> 19a785258421f7a7212f318bc1c0d7b65484a20c
         showFragment(HOME);
         RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
         radioButton.setChecked(true);
         ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
         ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
         ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
+<<<<<<< HEAD
     }*/
+=======
+    }
+
+>>>>>>> 19a785258421f7a7212f318bc1c0d7b65484a20c
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
         //初始化 cartradiobutton
@@ -174,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
         mFragmentManager = getSupportFragmentManager();
-
         //设置home 为默认页面
         showFragment(HOME);
     }
