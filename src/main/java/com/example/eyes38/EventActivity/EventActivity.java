@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.EventFragmentAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class EventActivity extends AppCompatActivity {
@@ -46,7 +48,7 @@ public class EventActivity extends AppCompatActivity {
     private ImageView mImageViewScrollLeft;
     private ImageView mImageViewScrollRight;
     private int indicatorWidth;//下划线的宽度
-    public static String[] tabTitle = {"A1", "B2", "C3", "D4", "E5", "F6", "G7"};
+    public static String[] tabTitle = new String[7];
     private LayoutInflater mInflater;
     private int currentIndicatorLeft=0;//当前下划线和左边的距离
 
@@ -125,6 +127,8 @@ public class EventActivity extends AppCompatActivity {
         mFragmentList.add(mEventDay5);
         mFragmentList.add(mEventDay6);
         mFragmentList.add(mEventDay7);
+        //设置标题
+        setTabTitle(setDate());
         //获得屏幕分辨率
         DisplayMetrics dm=new DisplayMetrics();//获取屏幕分辨率
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -143,15 +147,26 @@ public class EventActivity extends AppCompatActivity {
         //初始化适配器
         mEventFragmentAdapter=new EventFragmentAdapter(mFragmentManager,mFragmentList);
         mViewPager.setAdapter(mEventFragmentAdapter);
-        mViewPager.setOffscreenPageLimit(6);
-
-
-
-
-
-
+        mViewPager.setOffscreenPageLimit(6); //设置缓存
 
     }
+    public static void setTabTitle(String[] tabTitle) {
+        EventActivity.tabTitle = tabTitle;
+    }
+    //设置当周订单 日期选择框中的日期 （一周）
+    private String[] setDate() {
+        String[] date =new String[7];
+        Calendar c = Calendar.getInstance();
+        for (int i = 0; i < 7; i++) {
+            date[i] = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DATE);
+            c.add(Calendar.DATE, 1);
+            Log.e("日期：",date[i]);
+        }
+        return date;
+    }
+
+
+
     //标签在horizonScrollView中应该移动的位置
     private void initNavigationHSV() {
         mRadioGroup.removeAllViews();

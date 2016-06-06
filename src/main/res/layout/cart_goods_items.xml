@@ -33,7 +33,7 @@
         android:layout_toRightOf="@+id/linear_checkbox"
         android:background="@drawable/cart_addsub_border"
         android:padding="2dp"
-        android:src="@drawable/p1"/>
+       />
 
     <TextView
         android:id="@+id/goodstitle"
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/goodspicture"
+        android:singleLine="true"
         android:text="全国哈密瓜"
         />
 

@@ -1,6 +1,7 @@
 package com.example.eyes38.fragment.cart;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,7 +23,6 @@ import com.example.eyes38.activity.PayActivity;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
-import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -40,9 +40,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 
 ;
 
@@ -71,6 +68,7 @@ public class CartGoodsList extends Fragment {
     private boolean allChecked = false; // 默认全选
     private boolean deleteChecked = false; // 点击按钮的状态
     Cart_GoodsAdapter mCart_goodsAdapter = null;
+    SharedPreferences sp;  //偏好设置 看用户登录是否登录
     //采用 NoHttp
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
@@ -124,7 +122,6 @@ public class CartGoodsList extends Fragment {
 
     // 初始化界面
     private void initViews() {
-        ptrFrame = (PtrClassicFrameLayout) mView.findViewById(R.id.car_goods_refresh);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.car_goods_list_rv);
         linear = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linear);
@@ -137,6 +134,7 @@ public class CartGoodsList extends Fragment {
     }
 
     private void initData() {
+        sp = getActivity().getSharedPreferences("userInfo",getContext().MODE_PRIVATE);
         mList = new ArrayList<>();
         payList = new ArrayList<CartGoods>();
     }
@@ -154,28 +152,7 @@ public class CartGoodsList extends Fragment {
         mTopAllGoodsCheckBox.setOnClickListener(mClickListener);
         mDeleteOperationTV.setOnClickListener(mClickListener);
         mJiesuanTV.setOnClickListener(mClickListener);
-        //利用 pulltorefesh 刷新
-        LoadMoreFooterView header = new LoadMoreFooterView(mView.getContext()); //刷新动画效果 自定义
-        ptrFrame.setHeaderView(header); //刷新动画效果
-        ptrFrame.addPtrUIHandler(header); //刷新动画效果
-        //刷新方法
-        ptrFrame.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
 
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                frame.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getHttpMethod();
-                        ptrFrame.refreshComplete();
-                    }
-                }, 1800);
-            }
-        });
     }
 
     //请求http 获取购物车信息
@@ -187,9 +164,10 @@ public class CartGoodsList extends Fragment {
         //request.add("shoppingCartIds", "");
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
+
     private String authorization() {
-        String username = "13091617887";  // 应该从偏好设置中获取账号密码
-        String password = "123456";
+        String username = sp.getString("USER_NAME","");  // 应该从偏好设置中获取账号密码
+        String password = sp.getString("PASSWORD","");
         //Basic 账号+':'+密码  BASE64加密
         String addHeader = username + ":" + password;
         String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
@@ -208,17 +186,14 @@ public class CartGoodsList extends Fragment {
         @Override
         public void onSucceed(int what, Response<String> response) {
             if (what == mWhat) {
-
                 mList = new ArrayList<>();
                 //请求成功
                 String result = response.get();
                 //JSON解析
                 jsonMethod(result);
-
                 Message message = new Message();
                 message.what = mFINFISH;
                 mmHandler.sendMessage(message);
-                //mCountTopTextView.setText(mList.size() + "");
                 mCart_goodsAdapter = new Cart_GoodsAdapter(mList, getActivity(), mmHandler);
                 mRecyclerView.setAdapter(mCart_goodsAdapter);
                 mCart_goodsAdapter.notifyDataSetChanged();
