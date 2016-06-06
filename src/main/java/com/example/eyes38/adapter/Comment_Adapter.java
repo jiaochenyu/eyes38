@@ -34,9 +34,7 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comments_item, parent, false);
-        MyViewHolder holder = new MyViewHolder(view);
-        return holder;
-
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -62,7 +60,9 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView portraitImageView,replyImageView;
+        ImageView replyImageView;
+        //用户头像，暂时未用到
+//        ImageView portraitImageView;
         RatingBar mRatingBar;
         TextView comment_usernamTextView, comment_contentTextView, comment_timeTextView;
 
@@ -75,8 +75,8 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
             replyImageView = (ImageView) itemView.findViewById(R.id.comment_reply);
         }
     }
-
-    //刷新添加数据
+    //已经弃用
+    /*//刷新添加数据
     public void addItem(List<Comments> newDatas) {
         newDatas.addAll(mList);
         mList.removeAll(mList);
@@ -88,5 +88,5 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
     public void addMoreItem(List<Comments> newDatas) {
         mList.addAll(newDatas);
         notifyDataSetChanged();
-    }
+    }*/
 }

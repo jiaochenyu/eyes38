@@ -19,11 +19,6 @@ import in.srain.cube.views.ptr.indicator.PtrIndicator;
  * Created by jqchen on 2016/5/26.
  */
 public class LoadMoreFooterView extends FrameLayout implements PtrUIHandler {
-    //自定义刷新动画
-    private LayoutInflater inflater;
-
-    // 下拉刷新视图（头部视图）
-    private ViewGroup headView;
 
     // 下拉刷新文字
     private TextView tvHeadTitle;
@@ -45,11 +40,11 @@ public class LoadMoreFooterView extends FrameLayout implements PtrUIHandler {
     }
 
     private void init(Context context) {
-        inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
         /**
          * 头部
          */
-        headView = (ViewGroup) inflater.inflate(R.layout.widget_header, this, true);
+        ViewGroup headView = (ViewGroup) inflater.inflate(R.layout.widget_header, this, true);
         ivWindmill = (ImageView) headView.findViewById(R.id.iv_windmill);
         tvHeadTitle = (TextView) headView.findViewById(R.id.tv_head_title);
         //设置动画

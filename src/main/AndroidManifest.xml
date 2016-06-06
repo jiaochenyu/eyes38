@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.eyes38">
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    package="com.example.eyes38">
+    <!--所需的权限-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".Application.Application"
@@ -15,52 +16,56 @@
             android:name=".MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- user -->
-        <activity android:name=".user_activity.User_phone_setActivity"/>
-        <activity android:name=".user_activity.User_message_setActivity"/>
-        <activity android:name=".user_activity.User_personal_centerActivity"/>
-        <activity android:name=".user_activity.User_orderActivity"/>
-        <activity android:name=".user_activity.User_take_addressActivity"/>
-        <activity android:name=".user_activity.Update_user_passwordActivity"/>
-        <activity android:name=".user_activity.User_BindPhoneActivity"/>
-        <activity android:name=".user_activity.User_loginActivity"/>
-        <activity android:name=".user_activity.User_creditsActivity"/>
-        <activity android:name=".user_activity.User_backgoodActivity"/>
-        <activity android:name=".user_activity.User_findpasswordActivity"/>
-        <activity android:name=".user_activity.User_findpassword2Activity"/>
-        <activity android:name=".user_activity.User_find_password3Activity"/>
-        <activity android:name=".user_activity.User_registerActivity"/>
-        <activity android:name=".activity.SortMenuActivity"/>
+        <activity android:name=".user_activity.User_phone_setActivity" />
+        <activity android:name=".user_activity.User_message_setActivity" />
+        <activity android:name=".user_activity.User_personal_centerActivity" />
+        <activity android:name=".user_activity.User_orderActivity" />
+        <activity android:name=".user_activity.User_take_addressActivity" />
+        <activity android:name=".user_activity.Update_user_passwordActivity" />
+        <activity android:name=".user_activity.User_BindPhoneActivity" />
+        <activity android:name=".user_activity.User_loginActivity" />
+        <activity android:name=".user_activity.User_creditsActivity" />
+        <activity android:name=".user_activity.User_backgoodActivity" />
+        <activity android:name=".user_activity.User_findpasswordActivity" />
+        <activity android:name=".user_activity.User_findpassword2Activity" />
+        <activity android:name=".user_activity.User_find_password3Activity" />
+        <activity android:name=".user_activity.User_registerActivity" />
+        <activity android:name=".activity.SortMenuActivity" />
         <activity
             android:name=".activity.GoodDetailActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activity.CommentActivity"/>
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.CommentActivity" />
         <activity
             android:name=".user_activity.AddressInfo.User_addAddressActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activity.home.HomexptjActivity"/>
-        <activity android:name=".activity.home.HomezhuantiActivity"/>
-        <activity android:name=".EventActivity.EventActivity"/>
-        <activity android:name=".activity.CommentReplyActivity"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.home.HomexptjActivity" />
+        <activity android:name=".activity.home.HomezhuantiActivity" />
+        <activity android:name=".EventActivity.EventActivity" />
+        <activity android:name=".activity.CommentReplyActivity" />
+        <activity android:name=".activity.UserRegisterDetailActivity" />
+        <activity android:name=".activity.PayActivity" />
         <activity
-            android:name=".activity.UserRegisterDetailActivity"/>
-        <activity android:name=".activity.PayActivity"/>
-        <activity android:name=".activity.CartActivity"  android:launchMode="singleTask"/>
+            android:name=".activity.CartActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".fragment.search.SearchActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activity.GuideActivity">
-
-        </activity>
-        <activity android:name=".activity.home.LoadActivity">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.GuideActivity" />
+        <activity android:name=".activity.home.LoadActivity" />
+        <activity android:name=".user_activity.User_order_detailActivity" />
+        <!--监听网络广播-->
+        <receiver android:name=".utils.ConnectionChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -39,7 +39,7 @@
     <string name="user_register_detail_address_hint">详细地址</string>
     <string name="user_register_detail_register">立即注册</string>
     <string name="loading">正在加载</string>
-    <!--注册输入框验证-->
+    <string name="NetWorkChange">亲,网络不太好哦</string>
 
     <!--人民币字样-->
     <string name="rmb">￥</string>

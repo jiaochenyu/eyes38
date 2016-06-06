@@ -6,52 +6,80 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.eyes38.user_activity.User_orderActivity">
+    <!--设置主体内容-->
 
-        <!--上部分空白-->
+    <FrameLayout
+        android:id="@+id/user_order_deliever_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="28">
+        <!--空白时的页面-->
         <LinearLayout
-            android:layout_weight="4"
+            android:id="@+id/user_order_deliever_header"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="6"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <ImageView
-                android:src="@drawable/notice"
-                android:id="@+id/user_getmesssage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <!--下部分空白-->
-        <LinearLayout
-            android:layout_weight="2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-        </LinearLayout>
-        <!--文字部分-->
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <TextView
-                android:textSize="12sp"
-                android:gravity="center"
-                android:text="不存在任何待发货的订单。"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <!--上部分空白-->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
+                android:layout_height="0dp"
+                android:layout_weight="4">
+            </LinearLayout>
 
-        <!--下部分空白-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/user_getmesssage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/notice"/>
+            </LinearLayout>
+            <!--下部分空白-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+            </LinearLayout>
+            <!--文字部分-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="不存在任何待发货的订单。"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+            <!--下部分空白-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="15">
+            </LinearLayout>
+        </LinearLayout>
+        <!--有内容时的部分-->
         <LinearLayout
-            android:layout_weight="15"
+            android:id="@+id/user_order_deliever_footer"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="match_parent"
+            android:visibility="visible">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_order_deliever_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 
+    </FrameLayout>
 
-
-    </LinearLayout>
+</LinearLayout>
 
 

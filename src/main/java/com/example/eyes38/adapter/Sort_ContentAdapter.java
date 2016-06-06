@@ -44,13 +44,11 @@ public class Sort_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (viewType == ITEM_TYPE_ONE){
             //分类的二级标题
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sort_content_title,parent,false);
-            ItemOneViewHolder itemOneViewHolder = new ItemOneViewHolder(view);
-            return itemOneViewHolder;
+            return new ItemOneViewHolder(view);
         }else if (viewType == ITEM_TYPE_TWO){
             //分类的详细内容
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sort_content_content,parent,false);
-            ItemTwoViewHolder itemTwoViewHolder = new ItemTwoViewHolder(view);
-            return itemTwoViewHolder;
+            return new ItemTwoViewHolder(view);
         }
         return null;
     }
