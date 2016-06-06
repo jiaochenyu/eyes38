@@ -37,7 +37,13 @@
         <activity android:name=".user_activity.User_find_password3Activity"/>
         <activity android:name=".user_activity.User_registerActivity"/>
         <activity android:name=".activity.SortMenuActivity"/>
+<<<<<<< HEAD
         <activity android:name=".activity.GoodDetailActivity"/>
+=======
+        <activity
+            android:name=".activity.GoodDetailActivity"
+            android:launchMode="singleTask"/>
+>>>>>>> 5566d1ca6651c37a3350fcd57eae2ca394e103dd
         <activity android:name=".activity.CommentActivity"/>
         <activity
             android:name=".user_activity.AddressInfo.User_addAddressActivity"
@@ -46,9 +52,16 @@
         <activity android:name=".activity.home.HomezhuantiActivity"/>
         <activity android:name=".EventActivity.EventActivity"/>
         <activity android:name=".activity.CommentReplyActivity"/>
+<<<<<<< HEAD
         <activity android:name=".activity.UserRegisterDetailActivity"/>
         <activity android:name=".activity.PayActivity"/>
         <activity android:name=".activity.CartActivity"/>
+=======
+        <activity
+            android:name=".activity.UserRegisterDetailActivity"/>
+        <activity android:name=".activity.PayActivity"/>
+        <activity android:name=".activity.CartActivity"  android:launchMode="singleTask"/>
+>>>>>>> 5566d1ca6651c37a3350fcd57eae2ca394e103dd
         <activity
             android:name=".fragment.search.SearchActivity"
             android:windowSoftInputMode="adjustPan"/>

@@ -1,9 +1,9 @@
 package com.example.eyes38.utils;
 
-import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +105,7 @@ public class CartDialogSelectDate extends Dialog {
             final CartDialogSelectDate dialog = new CartDialogSelectDate(mContext, R.style.Cart_Dialog);
             View layout = inflater.inflate(R.layout.cart_dialog_selectdate, null);
             dialog.addContentView(layout, new ActionBar.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
             ));
             //
             //((TextView)layout.findViewById(R.id.dialog_text)).setText();
@@ -201,7 +201,7 @@ public class CartDialogSelectDate extends Dialog {
             // 设置第六天的按钮
             if (day6 != null) {
                 ((TextView) layout.findViewById(R.id.dialog_day6))
-                        .setText(day2);
+                        .setText(day6);
                 if (Day6ButtonClikListener != null) {
                     ((TextView) layout.findViewById(R.id.dialog_day6))
                             .setOnClickListener(new View.OnClickListener() {
@@ -219,7 +219,7 @@ public class CartDialogSelectDate extends Dialog {
             // 设置第七天的按钮
             if (day7 != null) {
                 ((TextView) layout.findViewById(R.id.dialog_day7))
-                        .setText(day2);
+                        .setText(day7);
                 if (Day7ButtonClikListener != null) {
                     ((TextView) layout.findViewById(R.id.dialog_day7))
                             .setOnClickListener(new View.OnClickListener() {
