@@ -1,11 +1,15 @@
 package com.example.eyes38.user_activity.AddressInfo;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,9 +22,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.eyes38.R;
-import com.example.eyes38.beans.Receipt;
+import com.example.eyes38.beans.ReceiptAddress;
+import com.example.eyes38.user_activity.User_take_addressActivity;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -40,6 +46,7 @@ public class User_addAddressActivity extends AppCompatActivity {
     private static final int mWHAT2 = 564;
     private static final int mWHAT3 = 566;
     private static final int mWHAT4 = 567;
+    private static final int mWHAT5 = 569;
     private static final int mFinish = 562;
     private static final int mFinish2 = 563;
     private static final int mFinish3 = 565;
@@ -48,18 +55,22 @@ public class User_addAddressActivity extends AppCompatActivity {
     private boolean showFirst;//只用于提示手机号码一次
     private ImageView address_adjust1, address_adjust2, address_adjust3, address_adjust4;//四个用于判断的图片
     private Toast mToast;
-    private boolean flag, flag1, flag2, flag3;
+    private boolean flag, flag1, flag2, flag3,flag4;
     private Button address_button;
     private EditText address_name, address_tel, address_detail;//控件
     private Spinner province, city, area, plot;
     private int num1, num2, num3;//用于url的传值
+    private int country_id;//用于取到country_id
     private LinearLayout city_linear, area_linear, plot_linear;
+    private SharedPreferences sp;//用于去偏好设置里取customer_id
+    private String customer_id;//保存取到的customer_id
+    private String newHeader;//保存用户的头信息
     //定义四个spinner适配器
-    List<Integer> districtList, parentList, districtList2, districtList3;//用于url的取值
+    List<Integer> districtList, parentList, districtList2, districtList3,countryList;//用于url的取值
     List<String> proList, cityList, areaList, plotList;//适配数据
     private RequestQueue mRequestQueue;//请求队列
     ArrayAdapter<String> proAdapter, cityAdapter, areaAdapter, plotAdapter;//适配器
-    private Receipt mReceipt;//收货地址的javabean
+    private ReceiptAddress mReceipt;//收货地址的javabean
     //Handler
     private Handler mHandler = new Handler() {
         @Override
@@ -85,16 +96,20 @@ public class User_addAddressActivity extends AppCompatActivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_add_address);
+        //取出偏好设置里面的信息
+        gethead();
         initViews();
         bindData();//绑定数据
         initListener();//用于控件的监听
         initListener1();//监听省事件
         initListener2();//监听市级事件
         initListener3();//监听区级事件
+        ButtonListener();//监听按键单击事件
     }
 
     private void ButtonListener() {
@@ -104,8 +119,18 @@ public class User_addAddressActivity extends AppCompatActivity {
             address_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //获取所有控件中得内容,存到mReceipt中,用来传值
+                    mReceipt.setCustomer_id(customer_id);
+                    mReceipt.setFirstname(address_name.getText().toString());
+                    mReceipt.setMobile(address_tel.getText().toString());
+                    mReceipt.setAddress_1(address_detail.getText().toString());
+                    //取到了所有需要的参数,现在用增加收货地址的接口保存收货地址
+                    flag4=true;
+                    httpMethod();
+                    //跳转到前一个页面
+                    Intent intent = new Intent(User_addAddressActivity.this, User_take_addressActivity.class);
+                    startActivity(intent);
                     finish();
-                    //在此处传值
                 }
             });
             break;
@@ -113,6 +138,7 @@ public class User_addAddressActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+        ButtonListener();//监听按键单击事件
         //收货人监听事件
         address_name.addTextChangedListener(new TextWatcher() {
             @Override
@@ -134,7 +160,6 @@ public class User_addAddressActivity extends AppCompatActivity {
                 } else if (address_name.length() == 0) {
                     address_adjust1.setImageResource(R.drawable.invalid);
                 } else {
-
                     address_adjust1.setImageResource(R.drawable.valid);
                     true1 = true;
                 }
@@ -225,7 +250,8 @@ public class User_addAddressActivity extends AppCompatActivity {
         districtList2 = new ArrayList<>();
         districtList3 = new ArrayList<>();
         parentList = new ArrayList<>();
-        mReceipt = new Receipt();
+        countryList = new ArrayList<>();
+        mReceipt = new ReceiptAddress();
         //初始化spinnner
         proAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, proList);
         proAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -250,6 +276,7 @@ public class User_addAddressActivity extends AppCompatActivity {
             String url1 = "http://38eye.test.ilexnet.com/api/mobile/setting-api/districts";
             Request<String> request1 = NoHttp.createStringRequest(url1, RequestMethod.GET);
             request1.add("parent_id", "0");
+            request1.setCacheMode(CacheMode.DEFAULT);
             mRequestQueue.add(mWHAT, request1, mOnResponseListener);
             flag = true;
         }
@@ -258,6 +285,7 @@ public class User_addAddressActivity extends AppCompatActivity {
             String url2 = "http://38eye.test.ilexnet.com/api/mobile/setting-api/districts";
             Request<String> request2 = NoHttp.createStringRequest(url2, RequestMethod.GET);
             request2.add("parent_id", num1);
+            request2.setCacheMode(CacheMode.DEFAULT);
             mRequestQueue.add(mWHAT2, request2, mOnResponseListener);
             flag1 = false;
         }
@@ -267,6 +295,7 @@ public class User_addAddressActivity extends AppCompatActivity {
             String url3 = "http://38eye.test.ilexnet.com/api/mobile/setting-api/districts";
             Request<String> request3 = NoHttp.createStringRequest(url3, RequestMethod.GET);
             request3.add("parent_id", num2);
+            request3.setCacheMode(CacheMode.DEFAULT);
             mRequestQueue.add(mWHAT3, request3, mOnResponseListener);
             flag2 = false;
         }
@@ -276,8 +305,26 @@ public class User_addAddressActivity extends AppCompatActivity {
             String url4 = "http://38eye.test.ilexnet.com/api/mobile/community/list";
             Request<String> request4 = NoHttp.createStringRequest(url4, RequestMethod.GET);
             request4.add("district_id", num3);
+            request4.setCacheMode(CacheMode.DEFAULT);
             mRequestQueue.add(mWHAT4, request4, mOnResponseListener);
             flag3 = false;
+        } if (flag4) {
+            //增加收货地址
+            String url5 = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses";
+            Request<String> request5 = NoHttp.createStringRequest(url5, RequestMethod.POST);
+            //增加头信息
+            String header = "Basic " + newHeader;
+            request5.addHeader("Authorization", header);
+            //增加post请求中得body
+            request5.add("address_1", mReceipt.getAddress_1());
+            request5.add("country_id", mReceipt.getCountry_id());
+            request5.add("customer_id", mReceipt.getCustomer_id());
+            request5.add("district_id", mReceipt.getDistrict_id());
+            request5.add("firstname", mReceipt.getFirstname());
+            request5.add("mobile", mReceipt.getMobile());
+            request5.setCacheMode(CacheMode.DEFAULT);
+            mRequestQueue.add(mWHAT5, request5, mOnResponseListener);
+            flag4 = false;
         }
     }
 
@@ -303,8 +350,10 @@ public class User_addAddressActivity extends AppCompatActivity {
                         String name = object2.getString("name");
                         int district_id = Integer.parseInt(object2.getString("district_id"));
                         int parent_id = Integer.parseInt(object2.getString("parent_id"));
+                        int country_id = Integer.parseInt(object2.getString("country_id"));
                         proList.add(name);//省数据List已经获取
                         districtList.add(district_id);
+                        countryList.add(country_id);
                         parentList.add(parent_id);
                     }
                     province.setAdapter(proAdapter);
@@ -397,6 +446,15 @@ public class User_addAddressActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }else if (what == mWHAT5) {
+                //请求成功,增加收货地址
+                String result = response.get();
+                Log.e("dwdw",result);
+                try {
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -417,6 +475,8 @@ public class User_addAddressActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num1 = districtList.get(position);
+                country_id=countryList.get(position);
+                mReceipt.setCountry_id(country_id+"");
                 flag1 = true;
                 area_linear.setVisibility(View.GONE);
                 httpMethod();//费尽心机获取市级数据
@@ -440,6 +500,7 @@ public class User_addAddressActivity extends AppCompatActivity {
                 flag2 = true;
                 plot_linear.setVisibility(View.GONE);
                 httpMethod();//费尽心机获取市级数据
+
             }
 
             @Override
@@ -455,9 +516,27 @@ public class User_addAddressActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num3 = districtList3.get(position);
+                Log.e("看num3",num3+"");
+                mReceipt.setDistrict_id(num3+"");
                 flag3 = true;
                 plot_linear.setVisibility(View.GONE);
+                true3=true;
                 httpMethod();//费尽心机获取区级数据
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    //用于监听小区级单击事件
+    private void initListener4() {
+        plot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             }
 
             @Override
@@ -476,4 +555,16 @@ public class User_addAddressActivity extends AppCompatActivity {
         mToast.show();
     }
 
+    private void gethead() {
+        sp = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String username = sp.getString("USER_NAME", "");
+        String password = sp.getString("PASSWORD", "");
+        customer_id = sp.getString("CUSTOMER_ID", "");
+        String addHeader = username + ":" + password;
+        newHeader = new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));//加密后的header
+    }
+
+    public void add_address_set_back(View view) {
+        finish();
+    }
 }
