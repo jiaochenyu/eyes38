@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.CartBadgeView;
@@ -37,22 +37,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-    public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //从购物车中接收数据
-            switch (msg.what) {
-                case CARTGOODSCOUNT:
-                    if (((Integer) msg.obj) != 0) {
-                        mCartBadgeView.setText(msg.obj + "");
-                        mCartBadgeView.show();
-                    } else {
-                        mCartBadgeView.hide();
-                    }
-            }
-        }
-    };
+    private SharedPreferences sp;  //偏好设置 获取账号 密码
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,15 +112,16 @@ public class GoodDetailActivity extends AppCompatActivity {
     private void initData() {
         //初始化数据，现在数据是写死的
         getData();
-//        goods = new Goods(1,"苹果",null,"水果","100g","10/100g",null,"苹果",11f,10f,0,4,100);
+        sp = getApplication().getSharedPreferences("userInfo", MODE_PRIVATE);  // 偏好设置初始化
+
+
     }
 
     private void getData() {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         goods = (Goods) bundle.get("values");
-        /*Intent intent = getIntent();
-        goods = (Goods) intent.getSerializableExtra("values");*/
+
     }
 
     private void initView() {
@@ -192,27 +178,36 @@ public class GoodDetailActivity extends AppCompatActivity {
     //判断用户登陆状态
     private void customerStates() {
         //如果用户没有登录 那么显示空
-        SharedPreferences sp;  //偏好设置 看用户登录是否登录
-        sp = getApplication().getSharedPreferences("userInfo", MODE_PRIVATE);  // 偏好设置初始化
-        int flag = sp.getInt("STATE", 0);  // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
-        if (flag == 0) {
+
+       // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
+        if (!Application.isLogin) {
             //如果用户没登录  购物车显示空
             Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
         } else {
             //登录了 添加到购物车
-            //postNoHttp();
-            Toast.makeText(GoodDetailActivity.this, "点击了添加到购物车", Toast.LENGTH_SHORT).show();
+            postNoHttp();
         }
     }
 
+
+    private String authorization() {
+        String username = sp.getString("USER_NAME", "");  // 应该从偏好设置中获取账号密码
+        String password = sp.getString("PASSWORD", "");
+        //Basic 账号+':'+密码  BASE64加密
+        String addHeader = username + ":" + password;
+        String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
+        return authorization;
+    }
     //添加到购物车
     private void postNoHttp() {
         RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         //增加商品接口
-        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart";
+        String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
-        //request.setRequestFailedReadCache(true);
+        request.addHeader("Authorization",authorization());
         request.add("extension1", "false");
+        request.add("price",goods.getGoods_platform_price());
+
     }
 
 

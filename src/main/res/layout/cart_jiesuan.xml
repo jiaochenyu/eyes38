@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/sort_title_background"
               android:orientation="vertical"
-                android:background="@color/sort_title_background"
 
     >
 
@@ -17,6 +17,7 @@
         <!--顶部标题-->
 
         <ImageView
+            android:padding="3dp"
             android:id="@+id/pay_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -37,8 +38,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="18"
         android:layout_below="@+id/top"
+        android:layout_weight="18"
         >
 
         <RelativeLayout
@@ -55,28 +56,79 @@
                 android:paddingTop="10dp"
                 android:text="收货信息"/>
 
-           <!-- <android.support.v7.widget.RecyclerView
-                android:id="@+id/adress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/shouhuo"
-                android:background="@drawable/cart_addsub_text_border">
+            <!-- <android.support.v7.widget.RecyclerView
+                 android:id="@+id/adress"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/shouhuo"
+                 android:background="@drawable/cart_addsub_text_border">
 
-            </android.support.v7.widget.RecyclerView>-->
-            <TextView
+             </android.support.v7.widget.RecyclerView>-->
+            <RelativeLayout
                 android:id="@+id/pay_adress"
-                android:paddingLeft="10dp"
-                android:paddingBottom="18dp"
-                android:paddingTop="18dp"
-                android:paddingRight="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/shouhuo"
-                android:gravity="center_vertical"
                 android:background="@drawable/cart_addsub_text_border"
-                android:text="您未添加任何收货地址。"
-                android:drawableRight="@drawable/pay_jianjian"
-                />
+                android:paddingBottom="18dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="18dp"
+                android:paddingTop="18dp">
+
+                <TextView
+                    android:id="@+id/gopay_address_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="您未添加任何收货地址。"
+                    android:visibility="gone"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/gopay_address_notempty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/firstname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text=""
+                        />
+
+                    <TextView
+                        android:id="@+id/phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="30dp"
+                        android:text=""/>
+                    <TextView
+                        android:id="@+id/district"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/firstname"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginTop="3dp"
+                        android:text=""
+                        android:singleLine="true"
+                        />
+
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/youjiantou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/pay_jianjian"
+                    />
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/dingdan"
@@ -318,10 +370,10 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
+                android:paddingBottom="5dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+                android:paddingTop="5dp">
 
                 <RadioGroup
                     android:id="@+id/pay_radiogroup"
@@ -354,8 +406,8 @@
         android:id="@+id/jiesuan_bottom"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
         android:layout_alignParentBottom="true"
+        android:layout_weight="1.5"
         android:background="@color/white"
         >
 
