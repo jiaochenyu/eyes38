@@ -173,12 +173,11 @@ public class User_registerActivity extends AppCompatActivity {
     }
 
     public void user_register_back(View view) {
-        onBackPressed();
+        finish();
     }
 
     public void user_register_login(View view) {
-        Intent intent = new Intent(User_registerActivity.this, User_loginActivity.class);
-        startActivity(intent);
+        finish();
     }
 
 }

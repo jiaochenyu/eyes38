@@ -10,11 +10,8 @@ import android.view.View;
 
 import com.example.eyes38.R;
 import com.example.eyes38.fragment.home.HomeRecycleView;
-import com.example.eyes38.utils.LoadMoreFooterView;
 
-import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 
 public class HomezhuantiActivity extends AppCompatActivity {
     HomeRecycleView mHomeRecycleView;
@@ -23,7 +20,7 @@ public class HomezhuantiActivity extends AppCompatActivity {
     private PtrFrameLayout ptrFrame;
     Context mContext;
     private LayoutInflater inflater;
-    private View mView;
+//    private View mView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +34,7 @@ public class HomezhuantiActivity extends AppCompatActivity {
         //listener();
     }
 
-    private void listener() {
+    /*private void listener() {
         LoadMoreFooterView header = new LoadMoreFooterView(this);
         ptrFrame.setHeaderView(header);
         ptrFrame.addPtrUIHandler(header);
@@ -62,7 +59,7 @@ public class HomezhuantiActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
     public void zhuanti_back(View view) {
         finish();
     }

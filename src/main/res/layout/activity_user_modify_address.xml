@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="update_password_back3"
-                android:src="@drawable/user_set_back"/>
+                android:src="@drawable/back"/>
 
             <TextView
                 style="@style/pagetitletext"

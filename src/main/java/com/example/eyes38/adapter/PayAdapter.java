@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.CartGoods;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.rest.RequestQueue;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
  * Created by jqchen on 2016/5/27.
  */
 public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayHolder>  {
+    private RequestQueue mRequestQueue;
     List<CartGoods> mList;
     Context mContext;
 
@@ -51,7 +54,12 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayHolder>  {
     public int getItemCount() {
         return mList.size();
     }
+    //***********获取数据 收货信息，配送费用
+    private void getNoHttp(){
+        mRequestQueue = NoHttp.newRequestQueue();
+       // String path = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses";
 
+    }
 
     class PayHolder extends RecyclerView.ViewHolder{
         ImageView mImageView; // 图片

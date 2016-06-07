@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.eyes38.R;
@@ -21,6 +20,7 @@ import com.example.eyes38.beans.SortContentContent;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -42,13 +42,11 @@ public class SortMenuActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private Sort_SortAdapter sort_sortAdapter;
     private List<Goods> mList;
-    //分类导航栏
-    private RadioGroup mRadioGroup;
     private TextView titleTextView;
     //分类标题
     private String titlecontent;
     //分类的id
-    private int category_id;
+//    private int category_id;
     //刷新界面
     private PtrClassicFrameLayout ptrFrame;
     private ImageView loading;
@@ -61,7 +59,7 @@ public class SortMenuActivity extends AppCompatActivity {
     //上拉加载的footview
     private LinearLayout footview;
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -120,7 +118,7 @@ public class SortMenuActivity extends AppCompatActivity {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && isScrolling && isLoad) {
                     int lastVisibleItem = grid.findLastCompletelyVisibleItemPosition();
                     int totalItemCount = grid.getItemCount();
-                    if (lastVisibleItem == totalItemCount-1) {
+                    if (lastVisibleItem == totalItemCount - 1) {
                         //显示footview
                         footview.setVisibility(View.VISIBLE);
                         loading.setBackgroundResource(R.drawable.anim);
@@ -132,7 +130,7 @@ public class SortMenuActivity extends AppCompatActivity {
                                 animDrawable.start();
                             }
                         });
-                        handler.sendMessageDelayed(new Message(),2000);
+                        handler.sendMessageDelayed(new Message(), 2000);
 //                        loadMoreData();
 //                        Log.e("load","加载");
 //                        加载数据
@@ -144,24 +142,20 @@ public class SortMenuActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-                    isScrolling = true;
-                } else {
-                    isScrolling = false;
-                }
+                isScrolling = (dy > 0);
             }
         });
     }
-
-    private void loadMoreData() {
+    //测试用
+    /*private void loadMoreData() {
         //加载数据
         for (int i = 0; i < 5; i++) {
-            Goods goods = new Goods(1, "默认","","new", 0, 0, 0, 0, "");
+            Goods goods = new Goods(1, "默认", "", "new", 0, 0, 0, 0, "");
             mList.add(goods);
         }
         sort_sortAdapter.notifyDataSetChanged();
 
-    }
+    }*/
 
     private void setUI() {
         //设置标题栏的内容
@@ -171,14 +165,13 @@ public class SortMenuActivity extends AppCompatActivity {
 
     private void setRadioGroupListener() {
         //对分类导航栏监听
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        /*mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 //                resetDatas(checkedId);
             }
-        });
+        });*/
     }
-
 
 
     private void initView() {
@@ -187,7 +180,7 @@ public class SortMenuActivity extends AppCompatActivity {
         grid = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(grid);
         //分类界面的导航栏
-        mRadioGroup = (RadioGroup) findViewById(R.id.sort_menu);
+//        mRadioGroup = (RadioGroup) findViewById(R.id.sort_menu);
         titleTextView = (TextView) findViewById(R.id.sort_sort_title);
         ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.sort_sort_ptr);
         footview = (LinearLayout) findViewById(R.id.footview);
@@ -212,12 +205,13 @@ public class SortMenuActivity extends AppCompatActivity {
     private void getHttpMedthod() {
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.add("limit","28");
+        request.add("limit", "28");
+        request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
 //        request.add("category_id",category_id);
         //一次请求六条数据
-        request.add("limit",6);
+        request.add("limit", 6);
         //请求第几页
-        request.add("page",count);
+        request.add("page", count);
         count++;
         //request.setRequestFailedReadCache(true);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
@@ -241,7 +235,7 @@ public class SortMenuActivity extends AppCompatActivity {
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray array = object.getJSONArray("data");
-                    if (array.length() != 0){
+                    if (array.length() != 0) {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject jsonObject = array.getJSONObject(i);
                             int id = jsonObject.getInt("product_id");
@@ -254,12 +248,11 @@ public class SortMenuActivity extends AppCompatActivity {
                             JSONObject search = jsonObject.getJSONObject("product_search");
                             int comment_count = search.getInt("comment_num");
                             int stock = search.getInt("stock_num");
-                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock,txt_pic);
+                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic);
                             mList.add(goods);
                         }
                         sort_sortAdapter.notifyDataSetChanged();
-                    }
-                    else {
+                    } else {
                         isLoad = false;
                     }
                     setRadioGroupListener();
@@ -285,8 +278,11 @@ public class SortMenuActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         SortContentContent scc = (SortContentContent) bundle.get("values");
-        titlecontent = scc.getConten();
-        category_id = scc.getId();
+        if (scc != null){
+            titlecontent = scc.getConten();
+            //分类的id 因为数据量少，暂时未用到
+//            category_id = scc.getId();
+        }
     }
 
     private void initAdapter() {

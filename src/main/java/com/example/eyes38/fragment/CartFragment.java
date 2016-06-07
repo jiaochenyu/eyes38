@@ -3,6 +3,8 @@ package com.example.eyes38.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,7 +17,6 @@ import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
 import com.example.eyes38.fragment.cart.CartEmptyView;
 import com.example.eyes38.fragment.cart.CartGoodsList;
-import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -27,22 +28,38 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
-
 
 /**
  * Created by jcy on 2016/5/8.
  */
 public class CartFragment extends Fragment {
-
-    private final int mWhat = 2;
+    private static final int EMPTY = 1;
+    private static final int NOTEMPTY = 2;
+    public final static int SHOWCARTLIST = 3;
+    private final int mWhat = 4;
     private View view;
+    CartGoodsList mCartGoodsList;
+    CartEmptyView mCarEmptyFragment;
     RequestQueue mRequestQueue;
-    private PtrClassicFrameLayout ptrFrame;
     private SharedPreferences sp; // 偏好设置
+
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SHOWCARTLIST:
+                    //不为空显示购物车
+                   /* CartGoodsList mCartGoodsList = new CartGoodsList();
+                    FragmentTransaction mFragmentTransaction = getChildFragmentManager().beginTransaction();
+                    mFragmentTransaction.add(R.id.cartcontent, mCartGoodsList);
+                    mFragmentTransaction.commit();*/
+                   // showFragment(NOTEMPTY);
+                    break;
+            }
+        }
+    };
+
 
     @Nullable
     @Override
@@ -55,15 +72,17 @@ public class CartFragment extends Fragment {
         return view;
     }
 
+
+
     private void initViews() {
-        ptrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.car_goods_refresh);
+
 
     }
 
     private void initData() {
      /*   mFragmentManager = getChildFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();*/
-        sp = getActivity().getSharedPreferences("userInfo",getContext().MODE_PRIVATE);
+        sp = getActivity().getSharedPreferences("userInfo", getContext().MODE_PRIVATE);
     }
 
     private void initStates() {
@@ -74,6 +93,7 @@ public class CartFragment extends Fragment {
             FragmentTransaction mFragmentTransaction = getChildFragmentManager().beginTransaction();
             mFragmentTransaction.replace(R.id.cartcontent, mCartEmptyView);
             mFragmentTransaction.commit();
+            //showFragment(EMPTY);
         } else {
             //登录了 进行网络请求 判断用户购物车是否为空
             getHttpMethod();
@@ -81,40 +101,54 @@ public class CartFragment extends Fragment {
     }
 
     private void initOnclickListener() {
-        //利用 pulltorefesh 刷新
-        LoadMoreFooterView header = new LoadMoreFooterView(view.getContext()); //刷新动画效果 自定义
-        ptrFrame.setHeaderView(header); //刷新动画效果
-        ptrFrame.addPtrUIHandler(header); //刷新动画效果
-        //刷新方法
-        ptrFrame.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
 
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                frame.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getHttpMethod();
-                        ptrFrame.refreshComplete();
-                    }
-                }, 1800);
-            }
-        });
     }
+
+    /**
+     * 解决 Activity has been destroyed  错误 隐藏和显示
+     *
+     * @param index
+     */
+    //show 和 hide 购物车为空界面 和 有商品的界面
+   /* private void showFragment(int index) {
+        FragmentTransaction mFragmentTransaction = getChildFragmentManager().beginTransaction();
+        //隐藏
+        hideFragment(mFragmentTransaction);
+        switch (index) {
+            case EMPTY:
+                mCarEmptyFragment = new CartEmptyView();
+                mFragmentTransaction.add(R.id.cartcontent, mCarEmptyFragment);
+                break;
+            case NOTEMPTY:
+                mCartGoodsList = new CartGoodsList();
+                mFragmentTransaction.add(R.id.cartcontent, mCartGoodsList);
+                break;
+        }
+        mFragmentTransaction.commit();
+    }
+
+    //初始化组件
+    private void hideFragment(FragmentTransaction ft) {
+        if (mCarEmptyFragment != null) {
+            ft.hide(mCarEmptyFragment);
+        }
+        if (mCartGoodsList != null) {
+            ft.hide(mCartGoodsList);
+        }
+    }*/
+
 
     ///获取用户名和密码
     private String authorization() {
 
-        String username = sp.getString("USER_NAME","");  // 应该从偏好设置中获取账号密码
-        String password = sp.getString("PASSWORD","");
+        String username = sp.getString("USER_NAME", "");  // 应该从偏好设置中获取账号密码
+        String password = sp.getString("PASSWORD", "");
         //Basic 账号+':'+密码  BASE64加密
         String addHeader = username + ":" + password;
         String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
         return authorization;
     }
+
     private void getHttpMethod() {
         mRequestQueue = NoHttp.newRequestQueue(); //默认是 3 个 请求
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
@@ -153,14 +187,15 @@ public class CartFragment extends Fragment {
                         FragmentTransaction mFragmentTransaction = getChildFragmentManager().beginTransaction();
                         mFragmentTransaction.replace(R.id.cartcontent, mCartGoodsList);
                         mFragmentTransaction.commit();
+                        //showFragment(NOTEMPTY);
                     } else {
                         //为空
                         CartEmptyView mCartEmptyView = new CartEmptyView();
                         FragmentTransaction mFragmentTransaction = getChildFragmentManager().beginTransaction();
                         mFragmentTransaction.replace(R.id.cartcontent, mCartEmptyView);
                         mFragmentTransaction.commit();
+                       // showFragment(EMPTY);
                     }
-                    initOnclickListener();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -177,5 +212,6 @@ public class CartFragment extends Fragment {
         }
     };
 
-
 }
+
+

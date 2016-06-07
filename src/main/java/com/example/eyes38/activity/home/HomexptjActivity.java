@@ -10,7 +10,6 @@ import com.example.eyes38.R;
 
 public class HomexptjActivity extends AppCompatActivity {
   TextView mTextView;
-    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +17,12 @@ public class HomexptjActivity extends AppCompatActivity {
         setContentView(R.layout.activity_homexptj);
        mTextView = (TextView) findViewById(R.id.nogoods_title);
         Intent intent = getIntent();
-        name=intent.getStringExtra("values");
+        String name = intent.getStringExtra("values");
        mTextView.setText(name);
     }
 
-    private void initView() {
-    }
+    /*private void initView() {
+    }*/
 
     public void nogoods(View view) {
         finish();

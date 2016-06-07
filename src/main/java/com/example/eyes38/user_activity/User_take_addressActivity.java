@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,7 +38,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 public class User_take_addressActivity extends AppCompatActivity {
     private ListView add_address_list;
     private LinearLayout add_address_header, add_address_footer;
-    private SharedPreferences sp;
+    private SharedPreferences sp;//获取偏好设置
     private String newHeader;
     private List<ReceiptAddress> mListView;//存储收货地址的javabean
     private RequestQueue mRequestQueue;
@@ -48,6 +49,7 @@ public class User_take_addressActivity extends AppCompatActivity {
     private PtrFrameLayout ptrFrame;
     private String customer_id;//获取的用户id用于获取address_id
     private String address_id;//判断是否是默认地址
+    private String header;//请求头信息
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,7 @@ public class User_take_addressActivity extends AppCompatActivity {
         //获取头信息
         gethead();
         //获取接口的数据并显示
-        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/" + customer_id, mjudge,null);
+        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/" + customer_id, mjudge, null);
 
     }
 
@@ -104,11 +106,11 @@ public class User_take_addressActivity extends AppCompatActivity {
         newHeader = new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));//加密后的header
     }
 
-    private void getHttpMethod(String url, int what,String address_id) {
+    private void getHttpMethod(String url, int what, String address_id) {
         mListView = new ArrayList<>();
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        String header = "Basic " + newHeader;
+        header = "Basic " + newHeader;
         request.addHeader("Authorization", header);
         request.setCacheMode(CacheMode.DEFAULT);
         mRequestQueue.add(what, request, mOnResponseListener);
@@ -126,6 +128,8 @@ public class User_take_addressActivity extends AppCompatActivity {
                 //spinner获取数据
                 String result = response.get();
                 try {
+                    ReceiptAddress ra=new ReceiptAddress();
+                    mListView.add(0,ra);
                     //解析第一层
                     JSONObject object = new JSONObject(result);
                     JSONArray homefirst = object.getJSONArray("data");
@@ -136,26 +140,36 @@ public class User_take_addressActivity extends AppCompatActivity {
                         String mobile = jsonObject.getString("mobile");
                         String address_1 = jsonObject.getString("address_1");
                         String district = jsonObject.getString("district");
+                        String district_id = jsonObject.getString("district_id");
+                        String maddress_id = jsonObject.getString("address_id");
+                        receiptAddress.setDistrict_id(district_id);
                         receiptAddress.setFirstname(firstname);
                         receiptAddress.setMobile(mobile);
                         receiptAddress.setAddress_1(address_1);
                         receiptAddress.setDistrict(district);
-                        mListView.add(receiptAddress);
+                        receiptAddress.setAddress_id(maddress_id);
+                        if (address_id.equals(maddress_id)) {
+                            mListView.set(0, receiptAddress);
+                        } else {
+                            mListView.add(receiptAddress);
+                        }
                     }
-                    mAdapter = new User_receiptaddressAdapter(mContext, mListView);
+                    mAdapter = new User_receiptaddressAdapter(mContext, mListView,header);
                     add_address_list.setAdapter(mAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (what == mjudge) {
-                //spinner获取数据
+                //spinner获取数据x
                 String result = response.get();
+                Log.e("kankanres", result);
                 try {
                     //解析第一层
                     JSONObject object = new JSONObject(result);
                     JSONObject homefirst = object.getJSONObject("data");
-                    address_id=homefirst.getString("address_id");
-                    getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses", mWhat,address_id);
+                    address_id = homefirst.getString("address_id");
+                    Log.e("address_id121212", address_id);
+                    getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses", mWhat, address_id);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

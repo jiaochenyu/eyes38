@@ -23,7 +23,7 @@ public class Sort_ContentContentAdapter extends RecyclerView.Adapter<Sort_Conten
     Context mContext;
 
     //定义监听接口
-    public static interface OnRecyclerViewItemClickListener{
+    public interface OnRecyclerViewItemClickListener{
 
         void onItemClick(View view, SortContentContent scc);
     }

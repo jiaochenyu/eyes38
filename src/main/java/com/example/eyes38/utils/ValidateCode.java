@@ -22,7 +22,7 @@ public class ValidateCode {
         //获取验证码
         RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/customer/validatecode";
-        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);;
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add("mobile",telNum);
         mRequestQueue.add(VALIDATE,request,mOnResponseListener);
         return isValidate;

@@ -25,7 +25,7 @@ public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.My
     private int preid = 0;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
     //定义监听接口
-    public static interface OnRecyclerViewItemClickListener{
+    public interface OnRecyclerViewItemClickListener{
         void onItemClick(View view, SortTitle sortTitle);
     }
     public void setmOnItemClickListener(OnRecyclerViewItemClickListener listener){

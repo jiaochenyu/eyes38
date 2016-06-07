@@ -20,10 +20,10 @@
     <LinearLayout style="@style/pagecontent">
 
         <!--导入导航栏-->
-        <include
+       <!-- <include
             layout="@layout/sort_sort_meun"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></include>
+            android:layout_height="wrap_content"></include>-->
 
         <!--刷新区域-->
         <in.srain.cube.views.ptr.PtrClassicFrameLayout

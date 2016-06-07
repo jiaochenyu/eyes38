@@ -8,15 +8,14 @@ import com.yolanda.nohttp.NoHttp;
  * Created by jqchen on 2016/5/21.
  */
 public class Application extends android.app.Application {
-    public SharedPreferences mSharedPreferences;
-    public static boolean isLogin = false;
+    public static boolean isLogin;
 
     @Override
     public void onCreate() {
         super.onCreate();
         NoHttp.init(this);
-        mSharedPreferences = this.getSharedPreferences("userInfo",MODE_PRIVATE);
-        boolean states = mSharedPreferences.getBoolean("STATE",false);
-        isLogin = states;
+        SharedPreferences mSharedPreferences = this.getSharedPreferences("userInfo", MODE_PRIVATE);
+        isLogin = mSharedPreferences.getBoolean("STATE", false);
+
     }
 }

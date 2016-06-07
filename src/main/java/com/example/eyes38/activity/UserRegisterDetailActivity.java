@@ -265,7 +265,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         String communityName = community.getName();
         int communityid = community.getId();
         String password = passwordEditText.getText().toString();
-        String confirmPassword = confirmpasswordEditText.getText().toString();
+//        String confirmPassword = confirmpasswordEditText.getText().toString();
         String validateCode = inputValidatecodeEditText.getText().toString();
         String url = "http://38eye.test.ilexnet.com/api/mobile/customer/create";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
@@ -446,7 +446,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         editor.putString("PASSWORD", passwordEditText.getText().toString());
         Application.isLogin = true;
         editor.putBoolean("STATE", Application.isLogin);
-        editor.commit();
+        editor.apply();
     }
 
     private void initView() {

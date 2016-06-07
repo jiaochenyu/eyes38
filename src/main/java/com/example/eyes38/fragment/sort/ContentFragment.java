@@ -17,6 +17,7 @@ import com.example.eyes38.beans.SortContentContent;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -41,13 +42,8 @@ public class ContentFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private View mView;
     private List<SortContent> mList;
-    private Sort_ContentAdapter scAdapter;
-    private LinearLayoutManager linear;
     //下拉刷新控件
 
-    //测试获取json数据
-    //创建 请求队列成员变量
-    private RequestQueue mRequestQueue;
     private final static int mWhat = 520;
     private PtrClassicFrameLayout ptrFrame;
 
@@ -92,7 +88,7 @@ public class ContentFragment extends Fragment {
 
 
     private void initAdapter() {
-        scAdapter = new Sort_ContentAdapter(getContext(), mList);
+        Sort_ContentAdapter scAdapter = new Sort_ContentAdapter(getContext(), mList);
         mRecyclerView.setAdapter(scAdapter);
     }
 
@@ -146,9 +142,10 @@ public class ContentFragment extends Fragment {
     }
 
     private void getHttpMedthod() {
-        mRequestQueue = NoHttp.newRequestQueue();
+        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
         //request.setRequestFailedReadCache(true);
         request.add("active",1);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
@@ -220,7 +217,7 @@ public class ContentFragment extends Fragment {
 
     private void initView() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.sort_content_recycler);
-        linear = new LinearLayoutManager(getContext());
+        LinearLayoutManager linear = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linear);
         ptrFrame = (PtrClassicFrameLayout) mView.findViewById(R.id.sort_content_ptr);
     }

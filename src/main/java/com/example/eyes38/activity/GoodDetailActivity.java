@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +36,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private ImageView backImageView;
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
-    private RadioGroup mRadioGroup; //
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-    private RequestQueue mRequestQueue;  //请求队列
     public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
         @Override
         public void handleMessage(Message msg) {
@@ -56,6 +53,10 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +87,7 @@ public class GoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GoodDetailActivity.this, CommentActivity.class);
-                intent.putExtra("product_id",goods.getGoods_id());
+                intent.putExtra("product_id", goods.getGoods_id());
                 startActivity(intent);
             }
         });
@@ -100,10 +101,14 @@ public class GoodDetailActivity extends AppCompatActivity {
 
 
         MyOnClickLisenter myOnClickLisenter = new MyOnClickLisenter();
-
+        //联系我
+        mConsultButton.setOnClickListener(myOnClickLisenter);
         //购物车
         mCartButton.setOnClickListener(myOnClickLisenter);
-
+        //立即购买
+        mBuynowButton.setOnClickListener(myOnClickLisenter);
+        //加入加入购物车
+        mAddCartButton.setOnClickListener(myOnClickLisenter);
     }
 
     private void setViewToData() {
@@ -116,7 +121,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         //截取字符串中的url
         String description = goods.getGoods_description();
         //如果有图文详情
-        if (!Substring.getString(description).equals("")){
+        if (!Substring.getString(description).equals("")) {
             Glide.with(this).load(Substring.getString(description)).into(goodsTxtPicImageView);
         }
 
@@ -150,7 +155,6 @@ public class GoodDetailActivity extends AppCompatActivity {
         backImageView = (ImageView) findViewById(R.id.goods_detail_back);
         mButton = (Button) findViewById(R.id.goods_detail_carbutton);
         mConsultButton = (RadioButton) findViewById(R.id.goods_detail_radio_consult);
-        mRadioGroup = (RadioGroup) findViewById(R.id.goods_detail_radiogroup); //
         mCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_cart); //购物车
         mBuynowButton = (RadioButton) findViewById(R.id.goods_detail_radio_buynow); // 立即购买
         mAddCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_addcart); // 加入购物车
@@ -192,7 +196,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private void customerStates() {
         //如果用户没有登录 那么显示空
         SharedPreferences sp;  //偏好设置 看用户登录是否登录
-        sp = getApplication().getSharedPreferences("userInfo", getApplication().MODE_PRIVATE);  // 偏好设置初始化
+        sp = getApplication().getSharedPreferences("userInfo", MODE_PRIVATE);  // 偏好设置初始化
         int flag = sp.getInt("STATE", 0);  // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
         if (flag == 0) {
             //如果用户没登录  购物车显示空
@@ -206,12 +210,12 @@ public class GoodDetailActivity extends AppCompatActivity {
 
     //添加到购物车
     private void postNoHttp() {
-        mRequestQueue = NoHttp.newRequestQueue();//默认是三个请求
+        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         //增加商品接口
-        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart" ;
+        String url = "http://api.dev.ilexnet.com/simulate/38eye/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         //request.setRequestFailedReadCache(true);
-        request.add("extension1","false");
+        request.add("extension1", "false");
     }
 
 

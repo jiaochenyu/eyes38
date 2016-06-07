@@ -23,7 +23,7 @@ public class Sort_SortAdapter extends RecyclerView.Adapter<Sort_SortAdapter.MyVi
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     //定义监听接口
-    public static interface OnRecyclerViewItemClickListener{
+    public interface OnRecyclerViewItemClickListener{
 
         void onItemClick(View view, Goods goods);
     }
