@@ -17,10 +17,11 @@ public class UserOrderBean implements Serializable{
     private String shipping_name;//收货人姓名
     private String shipping_mobile;//收货人手机号
     private String shipping_address;//收货人地址
-    private double shipping_freight;//运费
+    private double shipping_freight;//总金额
     private int shipping_district_id;//小区id
+    private String order_id;//订单id
 
-    public UserOrderBean(String create_date, int order_status_id, int total_count, double total, List<UserOrderGoods> list, String order_no, String shipping_name, String shipping_mobile, String shipping_address, double shipping_freight, int shipping_district_id) {
+    public UserOrderBean(String create_date, int order_status_id, int total_count, double total, List<UserOrderGoods> list, String order_no, String shipping_name, String shipping_mobile, String shipping_address, double shipping_freight, int shipping_district_id, String order_id) {
         this.create_date = create_date;
         this.order_status_id = order_status_id;
         this.total_count = total_count;
@@ -32,6 +33,7 @@ public class UserOrderBean implements Serializable{
         this.shipping_address = shipping_address;
         this.shipping_freight = shipping_freight;
         this.shipping_district_id = shipping_district_id;
+        this.order_id = order_id;
     }
 
     public UserOrderBean() {
@@ -123,5 +125,13 @@ public class UserOrderBean implements Serializable{
 
     public void setShipping_district_id(int shipping_district_id) {
         this.shipping_district_id = shipping_district_id;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 }

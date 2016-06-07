@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 解决方案 MainActivity只要调用了onResume方法就应该现实在home页
          */
-<<<<<<< HEAD
 
         showFragment(HOME);
         RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
@@ -94,16 +93,9 @@ public class MainActivity extends AppCompatActivity {
         ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
         ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
     }
-=======
->>>>>>> 5566d1ca6651c37a3350fcd57eae2ca394e103dd
 
-        showFragment(HOME);
-        RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
-        radioButton.setChecked(true);
-        ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
-        ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
-        ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
-    }
+
+
 
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);

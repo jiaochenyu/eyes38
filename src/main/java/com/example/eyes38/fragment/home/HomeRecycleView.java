@@ -160,17 +160,11 @@ public class HomeRecycleView {
             @Override
             public void onItemClick(View view, HomeContentContent hcc) {
                 //跳转到商品详情页面,传一个goods对象,键值是values,
-<<<<<<< HEAD
 
 
 
-                Goods goods = new Goods(0, hcc.getName(), hcc.getImage(), null, 0, 0, 0, 0, "");
-
-
-=======
 
                 Goods goods = new Goods(0, hcc.getName(), hcc.getImage(), null, 0, 0, 0, 0, "");
->>>>>>> 5566d1ca6651c37a3350fcd57eae2ca394e103dd
                 Intent intent = new Intent(mContext, GoodDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("values", goods);
