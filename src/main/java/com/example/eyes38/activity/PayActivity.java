@@ -1,11 +1,12 @@
 package com.example.eyes38.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -15,6 +16,10 @@ import android.widget.TextView;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.PayAdapter;
 import com.example.eyes38.beans.CartGoods;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -29,11 +34,14 @@ public class PayActivity extends AppCompatActivity {
     private RecyclerView mGoodsRecyclerView; // 显示订单商品
     private List<CartGoods> mList; // 把购物车选中的商品信息传过来
     private float peisong = 0;
+    private RequestQueue mRequestQueue;
+    private SharedPreferences sp; //偏好设置 获取密码和用户id
     PayAdapter mPayAdapter;
 
     public float getPeisong() {
         return peisong;
     }
+
     public void setPeisong(float peisong) {
         this.peisong = peisong;
     }
@@ -75,10 +83,10 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        sp = this.getSharedPreferences("userInfo",MODE_PRIVATE); //初始化偏好设置
         mList = new ArrayList<>();
         Intent intent = getIntent();
         mList = (List<CartGoods>) intent.getSerializableExtra("list");
-        Log.e("传过来的集合", mList.size() + "    " + mList.toString());
         mPayAdapter = new PayAdapter(mList, PayActivity.this);
         mGoodsRecyclerView.setAdapter(mPayAdapter);
     }
@@ -93,7 +101,25 @@ public class PayActivity extends AppCompatActivity {
         payBackImag.setOnClickListener(clickListener);
     }
 
-    //时间监听
+    // -*****获取默认收货地址 首先获取用户id根据用户信息获取默认地址id
+    private void getAdressNoHttp() {
+        String path = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses";
+        mRequestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(path, RequestMethod.GET);
+        request.addHeader("Authorization",authorization());
+
+    }
+    //**********账号密码进行base64加密
+    private String authorization() {
+        String username = sp.getString("USER_NAME", "");  // 应该从偏好设置中获取账号密码
+        String password = sp.getString("PASSWORD", "");
+        //Basic 账号+':'+密码  BASE64加密
+        String addHeader = username + ":" + password;
+        String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
+        return authorization;
+    }
+
+    //事件监听
     private class ClickListener implements View.OnClickListener {
 
         @Override

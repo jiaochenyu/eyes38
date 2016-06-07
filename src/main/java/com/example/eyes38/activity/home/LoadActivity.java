@@ -10,16 +10,24 @@ import android.view.View;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 
+/**
+ * 此类是每次进入应用的加载页
+ * create by jqchen
+ * update by 2016.6.6
+ */
+
 public class LoadActivity extends AppCompatActivity {
+
+    public static final int END = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
-        Message msg = new Message().obtain();
-        handler.sendMessageDelayed(msg,10000);
+        handler.sendEmptyMessageDelayed(END,5000);
     }
-    Handler handler = new Handler(){
+
+    private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -32,6 +40,7 @@ public class LoadActivity extends AppCompatActivity {
     public void loadend(View view) {
         Intent intent = new Intent(LoadActivity.this, MainActivity.class);
         startActivity(intent);
+        handler.removeMessages(END);
         finish();
     }
 }

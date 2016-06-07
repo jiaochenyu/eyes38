@@ -25,8 +25,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     @Override
     public CommentReplyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_reply_item,parent,false);
-        CommentReplyViewHolder holder = new CommentReplyViewHolder(view);
-        return holder;
+        return new CommentReplyViewHolder(view);
     }
 
     @Override

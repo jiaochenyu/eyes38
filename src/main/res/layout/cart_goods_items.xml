@@ -27,6 +27,7 @@
 
 
     <ImageView
+        android:layout_marginLeft="7dp"
         android:id="@+id/goodspicture"
         android:layout_width="100dp"
         android:layout_height="100dp"

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.eyes38.user_activity.User_orderActivity">
+    <!--顶部标题-->
+    <RelativeLayout
+        android:id="@+id/usertitle"
+        style="@style/pagetitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="user_order_detail_back"
+                android:src="@drawable/user_set_back"/>
+
+            <TextView
+                style="@style/pagetitletext"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="订单详情"
+                />
+
+            <ImageView
+                android:id="@+id/user_order_detail"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:padding="2dp"
+                android:src="@drawable/user_order_detail"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <!-- 内容 -->
+    <ScrollView
+        android:id="@+id/usercontent"
+        style="@style/pagecontent">
+
+        <LinearLayout
+            android:id="@+id/user_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--上部分空白-->
+            <LinearLayout
+                android:background="#f2f2f2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="6"
+                android:orientation="vertical">
+                <!--订单状态一栏-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:padding="2dp"
+                        android:src="@drawable/user_order_detail_present"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text="订单状态:"/>
+
+                    <TextView
+                        android:id="@+id/user_order_detail_state"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center_vertical"
+                        android:text="待付款"/>
+                </LinearLayout>
+                <!--订单状态一栏-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="0.6"
+                        android:padding="2dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.9"
+                        android:gravity="center_vertical"
+                        android:text="订单号:"/>
+
+                    <TextView
+                        android:id="@+id/user_order_detail_number"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="center_vertical"
+                        android:text="14652024167"/>
+                </LinearLayout>
+            </LinearLayout>
+            <!--中间分隔-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:background="#F2F2F2"
+                android:textSize="10sp"/>
+            <!--支付金额-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:padding="2dp"
+                    android:src="@drawable/user_order_detail_purse"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="支付金额:  ¥"/>
+
+                <TextView
+                    android:id="@+id/user_order_detail_total"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:gravity="center_vertical"
+                    android:text="14652024167"/>
+            </LinearLayout>
+            <!--中间分隔-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:background="#F2F2F2"
+                android:textSize="10sp"/>
+            <!--详细地址-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:padding="5dp"
+                >
+                <!--手机号一栏-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:src="@drawable/user_order_detail_dingwei"/>
+
+                    <TextView
+                        android:id="@+id/user_order_detail_person"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text="dda"/>
+
+                    <TextView
+                        android:id="@+id/user_order_detail_tel"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center_vertical|right"
+                        android:padding="2dp"
+                        android:text="122******33333"/>
+                </LinearLayout>
+                <!--订单状态一栏-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:padding="2dp"/>
+
+                    <TextView
+                        android:id="@+id/user_order_detail_address"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="8"
+                        android:gravity="center_vertical"
+                        android:text="江苏省 苏州市 姑苏区 111"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--中间分隔-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:background="#F2F2F2"
+                android:textSize="10sp"/>
+            <!--商品信息四个字-->
+            <TextView
+                android:layout_marginLeft="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="商品信息"/>
+            <!--小的分隔线-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:background="#F2F2F2"
+                android:textSize="0.2sp"/>
+            <!--一个recycleView-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_order_detail_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+            <!--中间分隔-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:background="#F2F2F2"
+                android:textSize="10sp"/>
+            <!--结算-->
+            <LinearLayout
+                android:layout_marginLeft="4dp"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="2dp"
+                    android:text="商品总额"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"/>
+                <TextView
+                    android:id="@+id/user_order_detail_total_goods"
+                    android:layout_marginRight="4dp"
+                    android:gravity="center_vertical|right"
+                    android:layout_weight="6"
+                    android:layout_marginLeft="2dp"
+                    android:text="¥7220.00"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+            <!--小的分隔线-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:background="#F2F2F2"
+                android:textSize="0.2sp"/>
+            <!--运费-->
+            <LinearLayout
+                android:layout_marginLeft="4dp"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="2dp"
+                    android:text="运费"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/user_order_detail_yunfei"
+                    android:layout_marginRight="4dp"
+                    android:gravity="center_vertical|right"
+                    android:layout_weight="6"
+                    android:layout_marginLeft="2dp"
+                    android:text="¥9.00"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <TextView
+                    android:layout_weight="6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+                <Button
+                    android:id="@+id/user_order_detail_cancel"
+                    android:layout_margin="5dp"
+                    android:background="#FFF"
+                    android:text="取消订单"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+                <Button
+                    android:id="@+id/user_order_detail_go_to_pay"
+                    android:layout_margin="5dp"
+                    android:background="#FFF"
+                    android:text="去支付"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:background="#F2F2F2"
+                android:layout_weight="6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"></LinearLayout>
+            <LinearLayout
+                android:background="#F2F2F2"
+                android:layout_weight="6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"></LinearLayout>
+            <LinearLayout
+                android:background="#F2F2F2"
+                android:layout_weight="6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"></LinearLayout>
+            
+            
+            
+        </LinearLayout>
+        
+    </ScrollView>
+
+</LinearLayout>
+
+

@@ -44,14 +44,10 @@ public class SortFragment extends Fragment {
     private Sort_TitleAdapter titleAdapter;
     //处理事务
     private List<SortTitle> mList;
-    private LinearLayoutManager liner;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
     private ContentFragment mContentFragment;
 
-    //测试获取json数据
-    //创建 请求队列成员变量
-    private RequestQueue mRequestQueue;
     private final static int mWhat = 520;
 
     @Nullable
@@ -103,7 +99,7 @@ public class SortFragment extends Fragment {
     }
 
     private void getHttpMedthod() {
-        mRequestQueue = NoHttp.newRequestQueue();
+        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         //request.setRequestFailedReadCache(true);
@@ -132,8 +128,8 @@ public class SortFragment extends Fragment {
                     mList = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
-                        boolean ischecked = false;
-                        ischecked = (i == 0 ?true:false);
+                        boolean ischecked;
+                        ischecked = (i == 0 );
                         int id = jsonObject.getInt("category_id");
                         String name = jsonObject.getString("name");
                         String path = jsonObject.getString("image");
@@ -163,7 +159,7 @@ public class SortFragment extends Fragment {
 
     private void initView() {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.sort_title);
-        liner = new LinearLayoutManager(getContext());
+        LinearLayoutManager liner = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(liner);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mRecyclerView.setHasFixedSize(true);

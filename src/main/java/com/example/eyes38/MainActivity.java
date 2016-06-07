@@ -1,8 +1,10 @@
 package com.example.eyes38;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +22,7 @@ import com.example.eyes38.fragment.SortFragment;
 import com.example.eyes38.fragment.UserFragment;
 import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.utils.CartBadgeView;
+import com.example.eyes38.utils.ConnectionChangeReceiver;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int SORT = 2;
     private static final int CAR = 3;
     private static final int USER = 4;
-
+    //记录点击的是那一页的编号
+    private static int record = HOME;
     private RadioGroup mRadioGroup;
     private HomeFragment mHomeFragment;
     private SortFragment mSortFragment;
@@ -37,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
     private UserFragment mUserFragment;
     private int cartGoodsCount = 0;
     private FragmentManager mFragmentManager;
-    private FragmentTransaction mFragmentTransaction;
     public static CartBadgeView mCartBadgeView;
-    RadioButton mCarradioButton;
-    RadioButton mhomeRadioButton;
+    private RadioButton homeRadioButton, sortRadioButton, cartRadioButton, userRadioButton;
+    //网络监听广播
+    private ConnectionChangeReceiver mConnectionChangeReceiver = new ConnectionChangeReceiver();
     public Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
     public Handler mainHandler = new Handler() {
         @Override
@@ -71,34 +75,58 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //注册网络监听广播
+        registerNet();
         //初始化组件
         initView();
         initData();
         initListeners();
     }
 
+    private void registerNet() {
+        //注册网络监听广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(mConnectionChangeReceiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mConnectionChangeReceiver);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
-        //如果从登陆界面退出那么显示在首页
         /**
-         * 解决方案 MainActivity只要调用了onResume方法就应该现实在home页
+         * 记录上一次点击的页面编号
          */
-
-        showFragment(HOME);
-        RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
-        radioButton.setChecked(true);
-        ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
-        ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
-        ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
+        showFragment(record);
+        switch (record) {
+            case HOME:
+                homeRadioButton.setChecked(true);
+                break;
+            case SORT:
+                sortRadioButton.setChecked(true);
+                break;
+            case CAR:
+                cartRadioButton.setChecked(true);
+                break;
+            case USER:
+                userRadioButton.setChecked(true);
+                break;
+        }
     }
+
 
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);
         //初始化 cartradiobutton
-        mCarradioButton = (RadioButton) findViewById(R.id.carRadiobutton);
-        mhomeRadioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
+        homeRadioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
+        sortRadioButton = (RadioButton) findViewById(R.id.sortRadiobutton);
+        cartRadioButton = (RadioButton) findViewById(R.id.carRadiobutton);
+        userRadioButton = (RadioButton) findViewById(R.id.userRadiobutton);
         mcar_badgebutton = (Button) findViewById(R.id.car_badgeviewbutton);
         //CartBadgeView这是购物车上的徽章
         mCartBadgeView = new CartBadgeView(MainActivity.this, mcar_badgebutton);
@@ -136,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
     //显示fragment
     private void showFragment(int index) {
-        mFragmentTransaction = mFragmentManager.beginTransaction();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         //隐藏
         hideFragment(mFragmentTransaction);
         /**
@@ -208,21 +236,26 @@ public class MainActivity extends AppCompatActivity {
         switch (checkedId) {
             case R.id.homeRadiobutton:
                 showFragment(HOME);
+                record = HOME;
                 break;
             case R.id.sortRadiobutton:
                 showFragment(SORT);
+                record = SORT;
                 break;
             case R.id.carRadiobutton:
                 showFragment(CAR);
+                record = CAR;
                 break;
             case R.id.userRadiobutton:
                 boolean login_state = sp.getBoolean("STATE", false);
                 Application.isLogin = login_state;
                 if (login_state) {
                     showFragment(USER);
+                    record = USER;
                 } else {
                     Intent intent = new Intent(MainActivity.this, User_loginActivity.class);
                     startActivity(intent);
+                    record = HOME;
                 }
                 break;
             default:

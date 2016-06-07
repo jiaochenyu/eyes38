@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentReplyActivity extends AppCompatActivity {
-//    评论回复界面
-private List<CommentReply> mList;
+    //    评论回复界面
+    private List<CommentReply> mList;
     private CommentReplyAdapter commentReplyAdapter;
     private RecyclerView mRecyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +32,8 @@ private List<CommentReply> mList;
 
     private void setAdapter() {
         //如果没有评论，显示评论为空的界面
-        if (mList.size() == 0){
-            setContentView(R.layout.comment_reply_none);
-        }else {
+        if (mList.size() == 0) setContentView(R.layout.comment_reply_none);
+        else {
             commentReplyAdapter = new CommentReplyAdapter(mList);
             mRecyclerView.setAdapter(commentReplyAdapter);
         }
