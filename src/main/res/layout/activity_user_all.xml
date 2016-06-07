@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.eyes38.user_activity.User_orderActivity">
     <!--设置主体内容-->
+    <!--刷新区域-->
+
 
     <FrameLayout
         android:id="@+id/user_order_all_container"
@@ -66,17 +69,33 @@
             </LinearLayout>
         </LinearLayout>
         <!--有内容时的部分-->
-        <LinearLayout
-            android:id="@+id/user_order_all_footer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/user_order_all_recycle"
+
+            <LinearLayout
+                android:id="@+id/user_order_all_footer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:visibility="gone">
+                <in.srain.cube.views.ptr.PtrClassicFrameLayout
+                    android:id="@+id/user_order_all_ptr"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    cube_ptr:ptr_duration_to_close="300"
+                    cube_ptr:ptr_duration_to_close_header="2000"
+                    cube_ptr:ptr_keep_header_when_refresh="true"
+                    cube_ptr:ptr_pull_to_fresh="false"
+                    cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+                    cube_ptr:ptr_resistance="1.7">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/user_order_all_recycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+                </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+
+            </LinearLayout>
+
+
 
     </FrameLayout>
 

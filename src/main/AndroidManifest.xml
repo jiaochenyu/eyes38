@@ -59,19 +59,38 @@
             android:launchMode="singleTask"/>
         <activity
             android:name=".fragment.search.SearchActivity"
+<<<<<<< HEAD
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.GuideActivity"/>
         <activity android:name=".activity.home.LoadActivity"/>
         <activity android:name=".user_activity.User_order_detailActivity"/>
         <!-- 监听网络广播 -->
+=======
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.GuideActivity" />
+        <activity android:name=".activity.home.LoadActivity" />
+        <activity android:name=".user_activity.User_order_detailActivity" />
+<<<<<<< HEAD
+        <!--监听网络广播-->
+>>>>>>> 3e6b57bf382157d3851c67eebd86cf0aebde1835
         <receiver android:name=".utils.ConnectionChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
+<<<<<<< HEAD
 
         <activity android:name=".activity.PaySelectActivity">
         </activity>
+=======
+=======
+        <service android:name=".utils.NetworkStateService">
+            <intent-filter>
+                <action android:name="com.eyes38.network.state"/>
+            </intent-filter>
+        </service>
+>>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
+>>>>>>> 3e6b57bf382157d3851c67eebd86cf0aebde1835
     </application>
 
 </manifest>

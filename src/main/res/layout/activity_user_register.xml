@@ -15,26 +15,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
-
             <ImageView
                 android:onClick="user_register_back"
                 android:id="@+id/password_set_back"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/user_set_back"/>
+                android:src="@drawable/back"/>
 
             <TextView
                 style="@style/pagetitletext"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:text="注册"
-                />
+                android:text="注册" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -118,11 +111,8 @@
         <LinearLayout
             android:layout_weight="2"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="0dp">
-            <TextView
-                android:layout_weight="7"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"/>
             <TextView
                 android:onClick="user_forget_password"
                 android:textSize="12sp"
@@ -130,8 +120,7 @@
                 android:gravity="center"
                 android:paddingLeft="20dp"
                 android:text="已有账号?"
-                android:layout_weight="3"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
             <Button
                 android:layout_margin="5dp"
@@ -141,8 +130,7 @@
                 android:textSize="12sp"
                 android:background="@drawable/user_login_border"
                 android:text="登录"
-                android:layout_weight="1.5"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout

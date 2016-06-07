@@ -20,6 +20,7 @@ import com.example.eyes38.beans.SortContentContent;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -205,6 +206,7 @@ public class SortMenuActivity extends AppCompatActivity {
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         request.add("limit", "28");
+        request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
 //        request.add("category_id",category_id);
         //一次请求六条数据
         request.add("limit", 6);

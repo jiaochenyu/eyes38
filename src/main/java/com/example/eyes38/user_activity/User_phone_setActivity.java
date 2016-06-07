@@ -2,12 +2,13 @@ package com.example.eyes38.user_activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.eyes38.Application.Application;
+import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 
 public class User_phone_setActivity extends AppCompatActivity {
@@ -51,7 +52,9 @@ public class User_phone_setActivity extends AppCompatActivity {
         editor=sp.edit();
         editor.putBoolean("STATE",false);
         Application.isLogin = false;
-        editor.commit();
+        editor.apply();
+        //把mainactivity默认显示home页
+        MainActivity.record = 1;
         Intent intent=new Intent(User_phone_setActivity.this,User_loginActivity.class);
         startActivity(intent);
         finish();

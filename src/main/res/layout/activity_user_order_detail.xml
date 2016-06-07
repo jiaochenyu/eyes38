@@ -21,11 +21,16 @@
                 android:layout_weight="0.5"/>
 
             <ImageView
+                android:id="@+id/user_order_detail_back"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="user_order_detail_back"
+<<<<<<< HEAD
                 android:src="@drawable/user_set_back"/>
+=======
+                android:onClick="user_order_detail_back"
+                android:src="@drawable/back"/>
+>>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
 
             <TextView
                 style="@style/pagetitletext"
@@ -35,11 +40,11 @@
                 />
 
             <ImageView
-                android:id="@+id/user_order_detail"
+                android:id="@+id/user_order_detail_home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:padding="2dp"
+                android:padding="5dp"
                 android:src="@drawable/user_order_detail"/>
         </LinearLayout>
     </RelativeLayout>
@@ -323,21 +328,23 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"/>
                 <Button
+                    android:singleLine="true"
                     android:id="@+id/user_order_detail_cancel"
                     android:layout_margin="5dp"
                     android:background="#FFF"
                     android:text="取消订单"
                     android:layout_weight="2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="30dp"/>
                 <Button
+                    android:singleLine="true"
                     android:id="@+id/user_order_detail_go_to_pay"
                     android:layout_margin="5dp"
                     android:background="#FFF"
                     android:text="去支付"
                     android:layout_weight="2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="30dp"/>
 
             </LinearLayout>
             <LinearLayout

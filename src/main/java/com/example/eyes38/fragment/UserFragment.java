@@ -85,6 +85,7 @@ public class UserFragment extends Fragment {
             Intent intent = new Intent(mMainActivity, User_loginActivity.class);
             startActivity(intent);
         } else {
+
             updateUsername();
         }
     }
@@ -105,6 +106,8 @@ public class UserFragment extends Fragment {
     private void updateUsername() {
         //设置登录名
         String username = sp.getString("USER_NAME", "");
+        String custom_id=sp.getString("CUSTOMER_ID","");
+
         user_tel_set.setText(username);
         user_tel_set.setTextSize(12);
 

@@ -37,8 +37,30 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
+<<<<<<< HEAD
     private SharedPreferences sp;  //偏好设置 获取账号 密码
+=======
+    public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //从购物车中接收数据
+            switch (msg.what) {
+                case CARTGOODSCOUNT:
+                    if (((Integer) msg.obj) != 0) {
+                        mCartBadgeView.setText(msg.obj + "");
+                        mCartBadgeView.show();
+                    } else {
+                        mCartBadgeView.hide();
+                    }
+            }
+        }
+    };
+<<<<<<< HEAD
+=======
+>>>>>>> 3e6b57bf382157d3851c67eebd86cf0aebde1835
 
+>>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

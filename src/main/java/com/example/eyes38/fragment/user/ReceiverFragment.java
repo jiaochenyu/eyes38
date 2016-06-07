@@ -46,7 +46,6 @@ public class ReceiverFragment extends Fragment {
     User_orderActivity mMainActivity;
     View view;
     RecyclerView mRecyclerView;
-    private double goods_total;
     User_order_AllAdapter mUser_order_allAdapter = null;//适配器
     //用来存放全部订单的集合
     List<UserOrderBean> mList;
@@ -56,6 +55,7 @@ public class ReceiverFragment extends Fragment {
     //偏好设置
     private String newHeader;
     private SharedPreferences sp;
+    String order_id;
     private String customer_id, usernameValue, passwordValue;
     //Nohttp工具
     private RequestQueue mRequestQueue;
@@ -117,9 +117,11 @@ public class ReceiverFragment extends Fragment {
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object2 = array.getJSONObject(i);
                         String order_no = object2.getString("order_no");//物品订单号
+                        order_id=object2.getString("order_id");//订单号
                         String shipping_name = object2.getString("shipping_firstname");//收货人姓名
                         String shipping_address = object2.getString("shipping_address_1");//收货人详细地址
                         String shipping_mobile = object2.getString("shipping_mobile");//收货人的手机号
+                        double order_goods_amount= Double.parseDouble(object2.getString("order_goods_amount"));//除了运费的总金额
                         int shipping_district_id = Integer.parseInt(object2.getString("shipping_district_id"));//收货人小区的地址
                         double total = Double.parseDouble(object2.getString("total"));//物品总价
                         int order_status_id = Integer.parseInt(object2.getString("order_status_id"));//订单状态
@@ -131,16 +133,15 @@ public class ReceiverFragment extends Fragment {
                         mGoodsList = new ArrayList<>();
                         for (int j = 0; j < array1.length(); j++) {
                             JSONObject object3 = array1.getJSONObject(j);
+                            String order_id=object3.getString("order_id");//订单id
                             String name = object3.getString("name");//物品名称
                             int quantity = Integer.parseInt(object3.getString("quantity"));//物品数量
                             double price = Double.parseDouble(object3.getString("price"));//物品单价
-                            goods_total += price * quantity;
                             String image = object3.getString("image");//物品图片
-                            userOrderGoods = new UserOrderGoods(image, name, price, quantity);
+                            userOrderGoods = new UserOrderGoods(image, name, price, quantity,order_id);
                             mGoodsList.add(userOrderGoods);
                         }
-                        double shipping_freight = total - goods_total;//当前购物的运费
-                        mUserOrderBean = new UserOrderBean(create_date, order_status_id, total_count, total, mGoodsList, order_no, shipping_name, shipping_mobile, shipping_address, shipping_freight, shipping_district_id);
+                        mUserOrderBean = new UserOrderBean(create_date, order_status_id, total_count, total, mGoodsList, order_no, shipping_name, shipping_mobile, shipping_address,order_goods_amount, shipping_district_id,order_id);
                         mList.add(mUserOrderBean);
                     }
                     Log.e("array", mList.size() + "N");

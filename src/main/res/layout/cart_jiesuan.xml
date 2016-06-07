@@ -23,7 +23,7 @@
             android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:onClick="user_myorder_back"
-            android:src="@drawable/user_set_back"/>
+            android:src="@drawable/back"/>
 
         <TextView
             style="@style/pagetitletext"

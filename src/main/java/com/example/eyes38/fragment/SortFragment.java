@@ -19,6 +19,7 @@ import com.example.eyes38.fragment.sort.ContentFragment;
 import com.example.eyes38.utils.DividerItemDecoration;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -103,6 +104,7 @@ public class SortFragment extends Fragment {
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         //request.setRequestFailedReadCache(true);
+        request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
         request.add("active",1);
         request.add("parent_id",0);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
