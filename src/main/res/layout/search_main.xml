@@ -13,18 +13,12 @@
         android:layout_height="wrap_content"
         android:background="@color/topical"
         android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"/>
-
         <ImageView
             android:id="@+id/search_back"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/user_set_back"/>
+            android:src="@drawable/back"/>
 
         <ImageView
             android:padding="2dp"

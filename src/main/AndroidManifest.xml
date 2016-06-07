@@ -60,12 +60,11 @@
         <activity android:name=".activity.GuideActivity" />
         <activity android:name=".activity.home.LoadActivity" />
         <activity android:name=".user_activity.User_order_detailActivity" />
-        <!--监听网络广播-->
-        <receiver android:name=".utils.ConnectionChangeReceiver">
+        <service android:name=".utils.NetworkStateService">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.eyes38.network.state"/>
             </intent-filter>
-        </receiver>
+        </service>
     </application>
 
 </manifest>

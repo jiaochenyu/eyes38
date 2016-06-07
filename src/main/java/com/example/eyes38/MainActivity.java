@@ -1,10 +1,8 @@
 package com.example.eyes38;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,7 +20,7 @@ import com.example.eyes38.fragment.SortFragment;
 import com.example.eyes38.fragment.UserFragment;
 import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.utils.CartBadgeView;
-import com.example.eyes38.utils.ConnectionChangeReceiver;
+import com.example.eyes38.utils.NetworkStateService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAR = 3;
     private static final int USER = 4;
     //记录点击的是那一页的编号
-    private static int record = HOME;
+    public static int record = HOME;
     private RadioGroup mRadioGroup;
     private HomeFragment mHomeFragment;
     private SortFragment mSortFragment;
@@ -43,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     public static CartBadgeView mCartBadgeView;
     private RadioButton homeRadioButton, sortRadioButton, cartRadioButton, userRadioButton;
-    //网络监听广播
-    private ConnectionChangeReceiver mConnectionChangeReceiver = new ConnectionChangeReceiver();
     public Button mcar_badgebutton; //占位按钮 是透明的 为了让 徽章 显示在上面
     public Handler mainHandler = new Handler() {
         @Override
@@ -75,25 +71,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //注册网络监听广播
-        registerNet();
+        //注册网络监听广播的服务
+        registerNetService();
+//        registerNet();
         //初始化组件
         initView();
         initData();
         initListeners();
     }
 
-    private void registerNet() {
-        //注册网络监听广播
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(mConnectionChangeReceiver, filter);
+    private void registerNetService() {
+        //监听网络状态的服务
+        Intent intent = new Intent(this, NetworkStateService.class);
+        intent.setAction("com.eyes38.network.state");
+        startService(intent);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mConnectionChangeReceiver);
+        Intent intent = new Intent(this, NetworkStateService.class);
+        intent.setAction("com.eyes38.network.state");
+        stopService(intent);
     }
 
     @Override
