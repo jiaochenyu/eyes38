@@ -12,7 +12,6 @@ import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
 import com.example.eyes38.fragment.cart.CartEmptyView;
 import com.example.eyes38.fragment.cart.CartGoodsList;
-import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -25,9 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 
 public class CartActivity extends AppCompatActivity {
     private final int mWhat = 2;
@@ -63,7 +59,7 @@ public class CartActivity extends AppCompatActivity {
         sp = this.getSharedPreferences("userInfo",MODE_PRIVATE);
     }
 
-    private void initListener() {
+   /* private void initListener() {
         //利用 pulltorefesh 刷新
         LoadMoreFooterView header = new LoadMoreFooterView(this); //刷新动画效果 自定义
         ptrFrame.setHeaderView(header); //刷新动画效果
@@ -86,7 +82,7 @@ public class CartActivity extends AppCompatActivity {
                 }, 1800);
             }
         });
-    }
+    }*/
 
     private void initStates() {
         //如果用户没有登录 那么显示空
@@ -155,7 +151,6 @@ public class CartActivity extends AppCompatActivity {
                         mFragmentTransaction.replace(R.id.cartcontent, mCartEmptyView);
                         mFragmentTransaction.commit();
                     }
-                    initListener();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

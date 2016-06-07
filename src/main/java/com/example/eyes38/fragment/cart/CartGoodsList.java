@@ -23,6 +23,7 @@ import com.example.eyes38.activity.PayActivity;
 import com.example.eyes38.adapter.Cart_GoodsAdapter;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -40,6 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 
 ;
 
@@ -56,7 +60,6 @@ public class CartGoodsList extends Fragment {
     private List<CartGoods> mList;
     private List<CartGoods> payList;  // 选中商品
     private PtrClassicFrameLayout ptrFrame;
-    ;  //刷新
     LinearLayoutManager linear;  //布局管理器
     private RecyclerView mRecyclerView;
     private TextView mCountTopTextView;  // n件商品有包邮优惠
@@ -116,12 +119,14 @@ public class CartGoodsList extends Fragment {
         mView = inflater.inflate(R.layout.cart_goods, null);
         initViews();
         initData();
+        initPTRListener();
         getHttpMethod();
         return mView;
     }
 
     // 初始化界面
     private void initViews() {
+        ptrFrame = (PtrClassicFrameLayout) mView.findViewById(R.id.car_goods_refresh);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.car_goods_list_rv);
         linear = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linear);
@@ -138,7 +143,32 @@ public class CartGoodsList extends Fragment {
         mList = new ArrayList<>();
         payList = new ArrayList<CartGoods>();
     }
+    private void initPTRListener(){
+        //利用 pulltorefesh 刷新
+        LoadMoreFooterView header = new LoadMoreFooterView(mView.getContext()); //刷新动画效果 自定义
+        ptrFrame.setHeaderView(header); //刷新动画效果
+        ptrFrame.addPtrUIHandler(header); //刷新动画效果
+        //刷新方法
+        ptrFrame.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
 
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getHttpMethod();
+                        ptrFrame.refreshComplete();
+                    }
+                }, 1800);
+            }
+        });
+
+
+    }
     private void initListener() {
         //测试 点击item 获取 Bean 对象
        /* mCart_goodsAdapter.setOnItemClickListener(new Cart_GoodsAdapter.OnRecyclerViewItemClickListener() {
@@ -152,7 +182,6 @@ public class CartGoodsList extends Fragment {
         mTopAllGoodsCheckBox.setOnClickListener(mClickListener);
         mDeleteOperationTV.setOnClickListener(mClickListener);
         mJiesuanTV.setOnClickListener(mClickListener);
-
     }
 
     //请求http 获取购物车信息

@@ -6,132 +6,142 @@
               android:orientation="vertical">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="14"
-                android:orientation="vertical"
-                >
-
-                <RelativeLayout
-                    android:id="@+id/linearOperation"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/cart_item_bottom_border"
-                    android:orientation="horizontal"
-                    android:paddingBottom="0dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="0dp">
-
-                    <CheckBox
-                        android:id="@+id/allGoodsCheckboxTop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:button="@null"
-                        android:drawableRight="@drawable/cart_checkbox"
-                        />
-
-                    <TextView
-                        android:id="@+id/checkedCountTop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/allGoodsCheckboxTop"
-                        android:text="0"
-                        />
-
-                    <TextView
-                        android:id="@+id/checkedDiscount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/checkedCountTop"
-                        android:text="件商品(暂无包邮优惠)"/>
-
-                    <TextView
-                        android:id="@+id/DeleteOperationTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:text="编辑"/>
-
-                </RelativeLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/car_goods_list_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity=""
-                    android:layout_weight="14">
-                </android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-
-
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="14"
+        android:orientation="vertical"
+        >
 
         <RelativeLayout
+            android:id="@+id/linearOperation"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_alignParentBottom="true"
-            android:layout_weight="1"
-            >
-            <!-- 全选的布局 -->
+            android:layout_weight="2"
+            android:background="@drawable/cart_item_bottom_border"
+            android:orientation="horizontal"
+            android:paddingBottom="0dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="0dp">
+
             <CheckBox
-                android:id="@+id/checkboxAllGoods"
+                android:id="@+id/allGoodsCheckboxTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_centerVertical="true"
                 android:button="@null"
-                android:drawableLeft="@drawable/cart_checkbox"
-                android:text="全选"/>
-            <!-- 合计的布局 -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/heji"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="合计:￥"
-                    android:textColor="#F63A19"/>
-
-                <TextView
-                    android:id="@+id/allGoodsCountPrice"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/heji"
-                    android:layout_toRightOf="@+id/heji"
-                    android:gravity="left"
-                    android:paddingRight="10dp"
-                    android:text="00.00"
-                    android:textColor="#F63A19"/>
-            </LinearLayout>
-            <!-- 去结算的布局 -->
+                android:drawableRight="@drawable/cart_checkbox"
+                />
 
             <TextView
-                android:id="@+id/jiesuanButton"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
+                android:id="@+id/checkedCountTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/allGoodsCheckboxTop"
+                android:text="0"
+                />
+
+            <TextView
+                android:id="@+id/checkedDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/checkedCountTop"
+                android:text="件商品(暂无包邮优惠)"/>
+
+            <TextView
+                android:id="@+id/DeleteOperationTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_gravity="right"
-                android:background="@color/topical"
-                android:gravity="center"
-                android:text="结算"
-                android:textColor="@color/white"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:text="编辑"/>
 
         </RelativeLayout>
 
+        <in.srain.cube.views.ptr.PtrClassicFrameLayout
+            android:id="@+id/car_goods_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="28"
+            cube_ptr:ptr_duration_to_close="300"
+            cube_ptr:ptr_duration_to_close_header="2000"
+            cube_ptr:ptr_keep_header_when_refresh="true"
+            cube_ptr:ptr_pull_to_fresh="false"
+            cube_ptr:ptr_ratio_of_header_height_to_refresh="1.5"
+            cube_ptr:ptr_resistance="1.7">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/car_goods_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity=""
+                android:layout_weight="14">
+            </android.support.v7.widget.RecyclerView>
+        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="1"
+        >
+        <!-- 全选的布局 -->
+        <CheckBox
+            android:id="@+id/checkboxAllGoods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/cart_checkbox"
+            android:text="全选"/>
+        <!-- 合计的布局 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/heji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="合计:￥"
+                android:textColor="@color/topical"/>
+
+            <TextView
+                android:id="@+id/allGoodsCountPrice"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/heji"
+                android:layout_toRightOf="@+id/heji"
+                android:gravity="left"
+                android:paddingRight="10dp"
+                android:text="00.00"
+                android:textColor="@color/topical"/>
+        </LinearLayout>
+        <!-- 去结算的布局 -->
+
+        <TextView
+            android:id="@+id/jiesuanButton"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:background="@color/topical"
+            android:gravity="center"
+            android:text="结算"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
 
 
 </LinearLayout>
