@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.User_receiptaddressAdapter;
 import com.example.eyes38.beans.ReceiptAddress;
+import com.example.eyes38.beans.SpinnerSelect;
 import com.example.eyes38.user_activity.AddressInfo.User_addAddressActivity;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.yolanda.nohttp.NoHttp;
@@ -50,6 +51,7 @@ public class User_take_addressActivity extends AppCompatActivity {
     private String customer_id;//获取的用户id用于获取address_id
     private String address_id;//判断是否是默认地址
     private String header;//请求头信息
+    private SpinnerSelect mSpinnerSelect;//记录选中的spinner的位置
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,8 +130,6 @@ public class User_take_addressActivity extends AppCompatActivity {
                 //spinner获取数据
                 String result = response.get();
                 try {
-                    ReceiptAddress ra=new ReceiptAddress();
-                    mListView.add(0,ra);
                     //解析第一层
                     JSONObject object = new JSONObject(result);
                     JSONArray homefirst = object.getJSONArray("data");
@@ -142,14 +142,16 @@ public class User_take_addressActivity extends AppCompatActivity {
                         String district = jsonObject.getString("district");
                         String district_id = jsonObject.getString("district_id");
                         String maddress_id = jsonObject.getString("address_id");
+                        String mcustomer_id = jsonObject.getString("customer_id");
                         receiptAddress.setDistrict_id(district_id);
                         receiptAddress.setFirstname(firstname);
                         receiptAddress.setMobile(mobile);
                         receiptAddress.setAddress_1(address_1);
                         receiptAddress.setDistrict(district);
                         receiptAddress.setAddress_id(maddress_id);
+                        receiptAddress.setCustomer_id(mcustomer_id);
                         if (address_id.equals(maddress_id)) {
-                            mListView.set(0, receiptAddress);
+                            mListView.add(0, receiptAddress);
                         } else {
                             mListView.add(receiptAddress);
                         }
@@ -160,7 +162,7 @@ public class User_take_addressActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else if (what == mjudge) {
-                //spinner获取数据x
+                //spinner获取数据
                 String result = response.get();
                 Log.e("kankanres", result);
                 try {
@@ -168,7 +170,6 @@ public class User_take_addressActivity extends AppCompatActivity {
                     JSONObject object = new JSONObject(result);
                     JSONObject homefirst = object.getJSONObject("data");
                     address_id = homefirst.getString("address_id");
-                    Log.e("address_id121212", address_id);
                     getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses", mWhat, address_id);
                 } catch (JSONException e) {
                     e.printStackTrace();

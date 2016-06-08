@@ -22,6 +22,7 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
     private List<HomeContentContent> mList;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
     Context mContext;
+    private String zhuantiname;//记录是哪一个专题的产品
 
 
     //定义监听接口
@@ -39,9 +40,10 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
         this.mOnItemClickListener = listener;
     }
 
-    public Home_ContentContentAdapter(List<HomeContentContent> mList, Context mContext) {
+    public Home_ContentContentAdapter(List<HomeContentContent> mList, Context mContext, String zhuantiname) {
         this.mList = mList;
         this.mContext = mContext;
+        this.zhuantiname=zhuantiname;
     }
 
     @Override

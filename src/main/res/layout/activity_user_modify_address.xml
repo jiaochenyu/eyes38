@@ -59,13 +59,13 @@
                 android:text="收货人"/>
 
             <EditText
-                android:id="@+id/address_name"
+                android:id="@+id/modify_address_name"
                 style="@style/addaddress_edit"
                 android:hint="收货人的姓名"
                 android:maxLength="16"/>
 
             <ImageView
-                android:id="@+id/address_adjust1"
+                android:id="@+id/modify_address_adjust1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
@@ -93,13 +93,13 @@
                 android:text="手机号码"/>
 
             <EditText
-                android:id="@+id/address_tel"
+                android:id="@+id/modify_address_tel"
                 style="@style/addaddress_edit"
                 android:hint="11位手机号码"
                 android:maxLength="11"/>
 
             <ImageView
-                android:id="@+id/address_adjust2"
+                android:id="@+id/modify_address_adjust2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
@@ -128,7 +128,7 @@
                 android:text="所在地区"/>
 
             <Spinner
-                android:id="@+id/province"
+                android:id="@+id/modify_province"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="15"
@@ -147,9 +147,9 @@
             android:textSize="0.1sp"/>
         <!--收货人-->
         <LinearLayout
-            android:id="@+id/city_linear"
+            android:id="@+id/modify_city_linear"
             style="@style/addaddress_linear"
-            android:visibility="gone">
+            >
 
             <TextView
                 android:layout_width="0dp"
@@ -157,7 +157,7 @@
                 android:layout_weight="6"/>
 
             <Spinner
-                android:id="@+id/city"
+                android:id="@+id/modify_city"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="15"
@@ -176,9 +176,9 @@
 
         <!--收货人-->
         <LinearLayout
-            android:id="@+id/area_linear"
+            android:id="@+id/modify_area_linear"
             style="@style/addaddress_linear"
-            android:visibility="gone">
+           >
 
             <TextView
                 android:layout_width="0dp"
@@ -186,7 +186,36 @@
                 android:layout_weight="6"/>
 
             <Spinner
-                android:id="@+id/area"
+                android:id="@+id/modify_area"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:dropDownWidth="100dp"
+                android:gravity="center|right"
+                android:spinnerMode="dialog"
+                android:textAlignment="gravity"></Spinner>
+        </LinearLayout>
+        <!--分割线-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:background="#F2F2F2"
+            android:text=""
+            android:textSize="0.1sp"/>
+        <!--收货人-->
+        <LinearLayout
+            android:id="@+id/modify_plot_linear"
+            style="@style/addaddress_linear"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"/>
+
+            <Spinner
+                android:id="@+id/modify_polt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="15"
@@ -196,39 +225,8 @@
                 android:textAlignment="gravity"></Spinner>
         </LinearLayout>
 
-        <!--分割线-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:background="#F2F2F2"
-            android:text=""
-            android:textSize="0.1sp"/>
-        <!--收货人-->
-        <LinearLayout
-            style="@style/addaddress_linear">
 
-            <TextView
-                style="@style/addaddress_text1"/>
 
-            <TextView
-                style="@style/addaddress_text2"
-                android:text="所属小区"/>
-
-            <EditText
-                android:id="@+id/address_plot"
-                style="@style/addaddress_edit"
-                android:hint="请输入小区名"/>
-
-            <ImageView
-                android:id="@+id/address_adjust3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_weight="2"
-                android:src="@drawable/invalid"
-                android:visibility="invisible"/>
-        </LinearLayout>
         <!--分割线-->
         <TextView
             android:layout_width="match_parent"
@@ -249,12 +247,12 @@
                 android:text="详细地址"/>
 
             <EditText
-                android:id="@+id/address_detail"
+                android:id="@+id/modify_address_detail"
                 style="@style/addaddress_edit"
                 android:hint="详细地址"/>
 
             <ImageView
-                android:id="@+id/address_adjust4"
+                android:id="@+id/modify_address_adjust4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
@@ -298,7 +296,7 @@
                     android:gravity="center"
                     android:textSize="20sp"
                     android:enabled="false"
-                    android:id="@+id/address_button"
+                    android:id="@+id/modify_address_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2.45"

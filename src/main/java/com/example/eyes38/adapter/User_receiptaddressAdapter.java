@@ -2,6 +2,8 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.eyes38.R;
 import com.example.eyes38.beans.ReceiptAddress;
+import com.example.eyes38.user_activity.AddressInfo.User_modifyAddressActivity;
 import com.example.eyes38.utils.CartDialogDelete;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -28,6 +31,8 @@ import java.util.List;
  * Created by huangjiechun on 16/6/3.
  */
 public class User_receiptaddressAdapter extends BaseAdapter implements View.OnClickListener {
+    public static final int DELETERECEIPTADDRESS = 1;  //删除收货地址
+    public static final int SETDETAULTRECEIPTADDRESS = 2;  //删除收货地址
     private Context mContext;
     private List<ReceiptAddress> mDatas;//存收货地址的list
     LayoutInflater mInflater;
@@ -35,7 +40,6 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
     private ReceiptAddress mReceipt;//收货地址的javabean
     private int position; // 删除位置
     private String head;//头信息
-    private int mWhat = 123;
 
     public User_receiptaddressAdapter() {
     }
@@ -72,37 +76,33 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (position == 0) {//默认地址时绑定的视图
-                final ViewHolder viewHolder;
-                convertView = mInflater.inflate(R.layout.add_address_list_default_item, null);
-                viewHolder = new ViewHolder();
-                //初始化
-                viewHolder.address_checkbox_default = (CheckBox) convertView.findViewById(R.id.address_checkbox_default);
-                viewHolder.add_address_default_name = (TextView) convertView.findViewById(R.id.add_address_default_name);
-                viewHolder.add_address_default_province = (TextView) convertView.findViewById(R.id.add_address_default_province);
-                viewHolder.add_address_default_detail = (TextView) convertView.findViewById(R.id.add_address_default_detail);
-                viewHolder.add_address_default_tel = (TextView) convertView.findViewById(R.id.add_address_default_tel);
-                viewHolder.add_address_default_modify = (LinearLayout) convertView.findViewById(R.id.add_address_default_modify);
-                viewHolder.address_default_delete_image = (ImageView) convertView.findViewById(R.id.address_default_delete_image);
-                viewHolder.address_default_delete_text = (TextView) convertView.findViewById(R.id.address_default_delete_text);
-                //把当前控件缓存到视图中
-                mReceipt = mDatas.get(0);
-                viewHolder.address_checkbox_default.setChecked(true);//设置默认收货地址的checkbox为选中的状态
-                viewHolder.add_address_default_name.setText(mReceipt.getFirstname());
-                viewHolder.add_address_default_province.setText(mReceipt.getDistrict());
-                viewHolder.add_address_default_tel.setText(mReceipt.getMobile());
-                viewHolder.add_address_default_detail.setText(mReceipt.getAddress_1());
-                // viewHolder.address_checkbox_default.setOnCheckedChangeListener(new CheckBoxChangedListener());
+        if (position == 0) {
+            //默认地址时绑定的视图
+            final ViewHolder viewHolder;
+            convertView = mInflater.inflate(R.layout.add_address_list_default_item, null);
+            viewHolder = new ViewHolder();
+            //初始化
+            viewHolder.address_checkbox_default = (CheckBox) convertView.findViewById(R.id.address_checkbox_default);
+            viewHolder.add_address_default_name = (TextView) convertView.findViewById(R.id.add_address_default_name);
+            viewHolder.add_address_default_province = (TextView) convertView.findViewById(R.id.add_address_default_province);
+            viewHolder.add_address_default_detail = (TextView) convertView.findViewById(R.id.add_address_default_detail);
+            viewHolder.add_address_default_tel = (TextView) convertView.findViewById(R.id.add_address_default_tel);
+            viewHolder.add_address_default_modify = (LinearLayout) convertView.findViewById(R.id.add_address_default_modify);
+            viewHolder.address_default_delete_image = (ImageView) convertView.findViewById(R.id.address_default_delete_image);
+            viewHolder.address_default_delete_text = (TextView) convertView.findViewById(R.id.address_default_delete_text);
+            //把当前控件缓存到视图中
+            mReceipt = mDatas.get(0);
+            viewHolder.address_checkbox_default.setTag(0);
+            viewHolder.address_checkbox_default.setChecked(true);//设置默认收货地址的checkbox为选中的状态
+            viewHolder.add_address_default_name.setText(mReceipt.getFirstname());
+            viewHolder.add_address_default_province.setText(mReceipt.getDistrict());
+            viewHolder.add_address_default_tel.setText(mReceipt.getMobile());
+            viewHolder.add_address_default_detail.setText(mReceipt.getAddress_1());
+            viewHolder.address_checkbox_default.setOnCheckedChangeListener(new CheckBoxChangedListener());
             viewHolder.address_default_delete_image.setOnClickListener(new ItemOnClickListener(0));
-//                viewHolder.address_default_delete_image.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        showDeleteDialog();
-//                    }
-//                });
-                viewHolder.address_default_delete_text.setOnClickListener(new ItemOnClickListener(0));
-//            viewHolder.add_address_default_modify.setOnClickListener(new ItemOnClickListener(0));
-                return convertView;
+            viewHolder.address_default_delete_text.setOnClickListener(new ItemOnClickListener(0));
+            viewHolder.add_address_default_modify.setOnClickListener(new ItemOnClickListener(0));
+            return convertView;
 
         } else {//非默认地址时绑定的视图
             final ViewHolder viewHolder;
@@ -113,18 +113,21 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
             viewHolder.add_address_province = (TextView) convertView.findViewById(R.id.add_address_province);
             viewHolder.add_address_detail = (TextView) convertView.findViewById(R.id.add_address_detail);
             viewHolder.add_address_tel = (TextView) convertView.findViewById(R.id.add_address_tel);
+            viewHolder.address_delete_image = (ImageView) convertView.findViewById(R.id.address_delete_image);
+            viewHolder.address_delete_text = (TextView) convertView.findViewById(R.id.address_delete_text);
             viewHolder.add_address_modify = (LinearLayout) convertView.findViewById(R.id.add_address_modify);
+            viewHolder.address_checkbox = (CheckBox) convertView.findViewById(R.id.address_checkbox);
             //把当前控件缓存到视图中
             mReceipt = mDatas.get(position);
             viewHolder.add_address_name.setText(mReceipt.getFirstname());
             viewHolder.add_address_province.setText(mReceipt.getDistrict());
             viewHolder.add_address_tel.setText(mReceipt.getMobile());
             viewHolder.add_address_detail.setText(mReceipt.getAddress_1());
-            //  viewHolder.address_checkbox.setOnCheckedChangeListener(new CheckBoxChangedListener());
+            viewHolder.address_checkbox.setTag(position);
+            viewHolder.address_checkbox.setOnCheckedChangeListener(new CheckBoxChangedListener());
             viewHolder.address_delete_image.setOnClickListener(new ItemOnClickListener(position));
             viewHolder.address_delete_text.setOnClickListener(new ItemOnClickListener(position));
-//            viewHolder.add_address_modify.setOnClickListener(new ItemOnClickListener(position));
-
+            viewHolder.add_address_modify.setOnClickListener(new ItemOnClickListener(position));
             return convertView;
 
         }
@@ -132,7 +135,6 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
 
     @Override
     public void onClick(View v) {
-
     }
 
     class ViewHolder {
@@ -152,7 +154,6 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
         TextView address_delete_text;//删除文字
         LinearLayout add_address_modify;//列表
         LinearLayout add_address_default_modify;//默认地址列表
-
     }
 
     //设置删除按钮的单击事件
@@ -167,31 +168,71 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.address_default_delete_image:
+                    //删除操作
                     setPosition(position);
-                        showDeleteDialog();
+                    showDeleteDialog();
                     break;
                 case R.id.address_default_delete_text:
+                    //删除操作
                     setPosition(position);
                     showDeleteDialog();
                     break;
                 case R.id.address_delete_image:
+                    //删除操作
                     setPosition(position);
-                      showDeleteDialog();
+                    showDeleteDialog();
                     break;
                 case R.id.address_delete_text:
+                    //删除操作
                     setPosition(position);
-                     showDeleteDialog();
+                    showDeleteDialog();
+                    break;
+                case R.id.add_address_default_modify:
+                    //修改地址
+                    setPosition(position);
+                    modifyReceiptAddress();
+                    break;
+                case R.id.add_address_modify:
+                    //修改地址
+                    setPosition(position);
+                    modifyReceiptAddress();
                     break;
             }
         }
+    }
+
+    //修改收货地址
+    private void modifyReceiptAddress() {
+        Intent intent = new Intent(mContext, User_modifyAddressActivity.class);
+        mContext.startActivity(intent);
+
     }
 
     //CheckBox 选择改变监听器
     private class CheckBoxChangedListener implements CheckBox.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            //取到单击的选中框的位置
             int position = (int) buttonView.getTag();
+            //设置默认地址
+            SetDefaultNoHttpMethod(position);
+            ReceiptAddress ra1 = mDatas.get(position);
+            mDatas.remove(position);
+            mDatas.add(0, ra1);
+            notifyDataSetChanged();
+
         }
+    }
+
+    //设置默认地址操作
+    private void SetDefaultNoHttpMethod(int position1) {
+        String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/" + mDatas.get(position1).getCustomer_id() + "/default-address";
+        mRequestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.add("address_id", mDatas.get(position1).getAddress_id());
+        Log.e("affaf", mDatas.get(position1).getAddress_id() + "|||" + position1);
+        request.addHeader("Authorization", head); // 添加请求头
+        mRequestQueue.add(SETDETAULTRECEIPTADDRESS, request, mOnResponseListener);
     }
 
 
@@ -223,7 +264,7 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.DELETE);
         request.addHeader("Authorization", head); // 添加请求头
-        mRequestQueue.add(mWhat, request, mOnResponseListener);
+        mRequestQueue.add(DELETERECEIPTADDRESS, request, mOnResponseListener);
     }
 
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
@@ -234,11 +275,14 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
 
         @Override
         public void onSucceed(int what, Response<String> response) {
-            if (what == mWhat) {
-                String result = response.get();
-                //如果
+            if (what == DELETERECEIPTADDRESS) {
+                //从列表中移除要删除的元素,并通知刷新
                 mDatas.remove(getPosition());
                 notifyDataSetChanged();
+            } else if (what == SETDETAULTRECEIPTADDRESS) {
+                //设置默认地址,网络请求成功之后通知刷新
+                String result = response.get();
+                Log.e("fafa", result);
             }
         }
 
