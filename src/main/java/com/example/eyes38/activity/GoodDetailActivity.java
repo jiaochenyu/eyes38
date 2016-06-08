@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
@@ -22,11 +24,19 @@ import com.example.eyes38.utils.CartBadgeView;
 import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
+import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
+    public static final int GETCOMMENTNUM = 100;
     //数据源
 
     private Goods goods;
@@ -37,9 +47,8 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-<<<<<<< HEAD
     private SharedPreferences sp;  //偏好设置 获取账号 密码
-=======
+
     public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
         @Override
         public void handleMessage(Message msg) {
@@ -56,11 +65,7 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
-<<<<<<< HEAD
-=======
->>>>>>> 3e6b57bf382157d3851c67eebd86cf0aebde1835
 
->>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +126,6 @@ public class GoodDetailActivity extends AppCompatActivity {
         goodsUnitTextView.setText(goods.getGoods_platform_price() + goods.getGoods_unit());
         goodsStockTextView.setText(goods.getGoods_stock() + "");
         goodsRemarkTextView.setText(goods.getGoods_name());
-        goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
         //截取字符串中的url
         String description = goods.getGoods_description();
         //如果有图文详情
@@ -143,8 +147,51 @@ public class GoodDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         goods = (Goods) bundle.get("values");
+        //获取商品评价数量
+        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
+        String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
+        Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        //添加属性，筛选评论
+        mRequest.add("item_id", goods.getGoods_id());
+        mRequest.add("parent_id", 0);
+        //设置缓存
+        mRequest.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
+        mRequestQueue.add(GETCOMMENTNUM, mRequest, mOnResponseListener);
 
     }
+
+    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == GETCOMMENTNUM) {
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("data");
+                    int comment_num = array.length();
+                    goods.setGoods_comment_count(comment_num);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
 
     private void initView() {
         //初始化控件
@@ -201,7 +248,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private void customerStates() {
         //如果用户没有登录 那么显示空
 
-       // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
+        // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
         if (!Application.isLogin) {
             //如果用户没登录  购物车显示空
             Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
@@ -220,15 +267,16 @@ public class GoodDetailActivity extends AppCompatActivity {
         String authorization = "Basic " + new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));
         return authorization;
     }
+
     //添加到购物车
     private void postNoHttp() {
         RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         //增加商品接口
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
-        request.addHeader("Authorization",authorization());
+        request.addHeader("Authorization", authorization());
         request.add("extension1", "false");
-        request.add("price",goods.getGoods_platform_price());
+        request.add("price", goods.getGoods_platform_price());
 
     }
 

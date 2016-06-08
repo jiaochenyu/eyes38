@@ -2,40 +2,61 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="@color/white">
+
     <ImageView
         android:id="@+id/comment_reply_portrait"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/portrait_mode"/>
+        android:src="@drawable/portrait_mode" />
+
     <TextView
         android:id="@+id/comment_reply_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/comment_reply_portrait"
-        android:text="陈军权" />
+        android:text="陈军权"
+        android:textSize="15sp" />
+
     <TextView
         android:id="@+id/comment_reply_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="@string/goods_comment_id"/>
+        android:layout_marginTop="10dp"
+        android:text="@string/goods_comment_id" />
+
     <TextView
         android:id="@+id/comment_reply_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_toLeftOf="@id/comment_reply_number" />
+    <TextView
+        android:id="@+id/comment_reply_line"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/comment_reply_id"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/comment_line"/>
     <TextView
         android:id="@+id/comment_reply_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/comment_reply_portrait"/>
+        android:layout_below="@id/comment_reply_line"
+        android:layout_marginBottom="10dp" />
+
     <TextView
+        android:layout_alignParentRight="true"
         android:id="@+id/comment_reply_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/comment_reply_content"/>
+        android:layout_marginBottom="5dp"
+        android:layout_below="@id/comment_reply_content" />
 
 
 </RelativeLayout>

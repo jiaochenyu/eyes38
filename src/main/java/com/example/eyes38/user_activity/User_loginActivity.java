@@ -33,7 +33,7 @@ public class User_loginActivity extends AppCompatActivity {
     private Button user_login;//登录按钮
     private String usernameValue, passwordValue;
     private SharedPreferences sp;
-    private int customer_id;
+    private String customer_id;
     private RequestQueue mRequestQueue;
 
     @Override
@@ -105,7 +105,7 @@ public class User_loginActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(result);
                         JSONObject object = (JSONObject) jsonObject.get("data");
-                        customer_id = object.getInt("customer_id");
+                        customer_id = object.getString("customer_id");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -135,7 +135,7 @@ public class User_loginActivity extends AppCompatActivity {
         editor.putString("USER_NAME", usernameValue);
         editor.putString("PASSWORD", passwordValue);
         Application.isLogin = true;
-        editor.putInt("CUSTOMER_ID", customer_id);
+        editor.putString("CUSTOMER_ID", customer_id);
         editor.putBoolean("STATE", Application.isLogin);
         editor.apply();
         //跳转到首页
@@ -147,7 +147,6 @@ public class User_loginActivity extends AppCompatActivity {
     private void resetEditTex() {
         //密码错误
         show("密码输入错误，请重新输入！");
-        username.setText("");
         password.setText("");
     }
 

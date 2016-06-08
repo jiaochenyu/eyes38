@@ -101,19 +101,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 记录上一次点击的页面编号
          */
-<<<<<<< HEAD
 
-        showFragment(HOME);
-        RadioButton radioButton = (RadioButton) findViewById(R.id.homeRadiobutton);
-        radioButton.setChecked(true);
-        ((RadioButton) findViewById(R.id.sortRadiobutton)).setChecked(false);
-        ((RadioButton) findViewById(R.id.carRadiobutton)).setChecked(false);
-        ((RadioButton) findViewById(R.id.userRadiobutton)).setChecked(false);
-    }
-
-
-
-=======
         showFragment(record);
         switch (record) {
             case HOME:
@@ -131,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
->>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
 
     private void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.group);

@@ -16,18 +16,6 @@ public class Receipt implements Serializable {
     private String district ;
     private boolean defaultAddress ;//是否是默认收货地址
 
-    @Override
-    public String toString() {
-        return "Receipt{" +
-                "Receipt_person='" + Receipt_person + '\'' +
-                ", Receipt_phone='" + Receipt_phone + '\'' +
-                ", Receipt_pro='" + Receipt_pro + '\'' +
-                ", Receipt_city='" + Receipt_city + '\'' +
-                ", Receipt_area='" + Receipt_area + '\'' +
-                ", Receipt_plot='" + Receipt_plot + '\'' +
-                ", Receipt_detail='" + Receipt_detail + '\'' +
-                '}';
-    }
 
     public Receipt() {
     }
@@ -114,15 +102,4 @@ public class Receipt implements Serializable {
         this.defaultAddress = defaultAddress;
     }
 
-    //省、市、区、收货箱、详细地址
-    @Override
-    public String toString() {
-        return "Receipt{" +
-                "Receipt_pro='" + Receipt_pro + '\'' +
-                ", Receipt_city='" + Receipt_city + '\'' +
-                ", Receipt_area='" + Receipt_area + '\'' +
-                ", Receipt_detail='" + Receipt_detail + '\'' +
-                ", Receipt_plot='" + Receipt_plot + '\'' +
-                '}';
-    }
 }

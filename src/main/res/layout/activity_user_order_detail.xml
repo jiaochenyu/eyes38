@@ -25,12 +25,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-<<<<<<< HEAD
-                android:src="@drawable/user_set_back"/>
-=======
                 android:onClick="user_order_detail_back"
                 android:src="@drawable/back"/>
->>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
+
 
             <TextView
                 style="@style/pagetitletext"
