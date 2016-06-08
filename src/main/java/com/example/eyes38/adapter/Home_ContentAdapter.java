@@ -91,7 +91,7 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mHome_headAdapter = new Home_Head_item_Adapter(name, mContext);
             one.mheadRecyclView.setLayoutManager(new LinearLayoutManager(mContext));
             one.mheadRecyclView.setAdapter(mHome_headAdapter);
-          List<HomeContentContent> list = mList.get(position / 2).getList();
+            List<HomeContentContent> list = mList.get(position / 2).getList();
             final int size = list.size();
             //记录这个专题有没有内容
             mHome_headAdapter.setOnMoreClickListener(new Home_Head_item_Adapter.OnMoreClickListener() {
@@ -122,11 +122,12 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof ItemTwoViewHolder) {
             ItemTwoViewHolder two = (ItemTwoViewHolder) holder;
             //获得分类详细的内容，list集合
-            List<HomeContentContent> list = mList.get((position - 1) / 2).getList();
+            final List<HomeContentContent> list = mList.get((position - 1) / 2).getList();
+            final String zhuantiname = mList.get((position - 1) / 2).getName();
             //初始化适配器
             //判断是否有商品
             if (list.size() > 0) {
-                contentAdapter = new Home_ContentContentAdapter(list, mContext);
+                contentAdapter = new Home_ContentContentAdapter(list, mContext,zhuantiname);
                 //新建布局管理器
                 GridLayoutManager grid = new GridLayoutManager(mContext, 2);
                 //绑定布局器
@@ -137,7 +138,10 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onItemClick(View view, HomeContentContent hcc) {
                         //跳转到商品详情页面,传一个goods对象,键值是values,
-                        Goods goods = new Goods(0, hcc.getName(), hcc.getImage(),null, 0, 0, 0, 0,"");
+                        Goods goods = new Goods(0, hcc.getName(), hcc.getImage(), null, 0, 0, 0, 0, "");
+                        if (zhuantiname.equals("一周菜谱")) {
+                            goods.setExtension("true");
+                        }
                         Intent intent = new Intent(mContext, GoodDetailActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("values", goods);

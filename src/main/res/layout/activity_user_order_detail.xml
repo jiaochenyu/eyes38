@@ -348,17 +348,17 @@
                 android:background="#F2F2F2"
                 android:layout_weight="6"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"></LinearLayout>
+                android:layout_height="0dp"/>
             <LinearLayout
                 android:background="#F2F2F2"
                 android:layout_weight="6"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"></LinearLayout>
+                android:layout_height="0dp"/>
             <LinearLayout
                 android:background="#F2F2F2"
                 android:layout_weight="6"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"></LinearLayout>
+                android:layout_height="0dp"/>
             
             
             

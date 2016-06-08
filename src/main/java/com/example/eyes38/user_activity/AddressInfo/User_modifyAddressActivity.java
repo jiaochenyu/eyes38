@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.example.eyes38.R;
@@ -55,7 +56,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     private boolean showFirst;//只用于提示手机号码一次
     private ImageView address_adjust1, address_adjust2, address_adjust3, address_adjust4;//四个用于判断的图片
     private Toast mToast;
-    private boolean flag, flag1, flag2, flag3,flag4;
+    private boolean flag, flag1, flag2, flag3, flag4;
     private Button address_button;
     private EditText address_name, address_tel, address_detail;//控件
     private Spinner province, city, area, plot;
@@ -66,11 +67,13 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     private String customer_id;//保存取到的customer_id
     private String newHeader;//保存用户的头信息
     //定义四个spinner适配器
-    List<Integer> districtList, parentList, districtList2, districtList3,countryList;//用于url的取值
+    List<Integer> districtList, parentList, districtList2, districtList3, countryList;//用于url的取值
     List<String> proList, cityList, areaList, plotList;//适配数据
     private RequestQueue mRequestQueue;//请求队列
     ArrayAdapter<String> proAdapter, cityAdapter, areaAdapter, plotAdapter;//适配器
     private ReceiptAddress mReceipt;//收货地址的javabean
+    private ReceiptAddress mReceiptAddress;//接收传递过来的收货地址javabean
+    String[] tmp;
     //Handler
     private Handler mHandler = new Handler() {
         @Override
@@ -100,16 +103,20 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_add_address);
+        setContentView(R.layout.activity_user_modify_address);
+        Intent intent = getIntent();
+        mReceiptAddress = (ReceiptAddress) intent.getSerializableExtra("modifyvalues");
+
         //取出偏好设置里面的信息
         gethead();
         initViews();
         bindData();//绑定数据
         initListener();//用于控件的监听
+        ButtonListener();//监听按键单击事件
+        Log.e("daolemei","fsff");
         initListener1();//监听省事件
         initListener2();//监听市级事件
         initListener3();//监听区级事件
-        ButtonListener();//监听按键单击事件
     }
 
     private void ButtonListener() {
@@ -125,7 +132,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                     mReceipt.setMobile(address_tel.getText().toString());
                     mReceipt.setAddress_1(address_detail.getText().toString());
                     //取到了所有需要的参数,现在用增加收货地址的接口保存收货地址
-                    flag4=true;
+                    flag4 = true;
                     httpMethod();
                     //跳转到前一个页面
                     Intent intent = new Intent(User_modifyAddressActivity.this, User_take_addressActivity.class);
@@ -181,7 +188,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-        Log.e("EditText中又什么",address_name.getText().toString());
+                Log.e("EditText中又什么", address_name.getText().toString());
                 String text = address_tel.getText().toString();
                 Pattern pattern = Pattern.compile("[0-9]*");
                 Matcher matcher = pattern.matcher(text);
@@ -227,21 +234,20 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        address_button = (Button) findViewById(R.id.address_button);
-        address_adjust1 = (ImageView) findViewById(R.id.address_adjust1);
-        address_adjust2 = (ImageView) findViewById(R.id.address_adjust2);
-        address_adjust3 = (ImageView) findViewById(R.id.address_adjust3);
-        address_adjust4 = (ImageView) findViewById(R.id.address_adjust4);
-        city_linear = (LinearLayout) findViewById(R.id.city_linear);
-        area_linear = (LinearLayout) findViewById(R.id.area_linear);
-        plot_linear = (LinearLayout) findViewById(R.id.plot_linear);
-        address_name = (EditText) findViewById(R.id.address_name);
-        address_tel = (EditText) findViewById(R.id.address_tel);
-        address_detail = (EditText) findViewById(R.id.address_detail);
-        province = (Spinner) findViewById(R.id.province);
-        city = (Spinner) findViewById(R.id.city);
-        area = (Spinner) findViewById(R.id.area);
-        plot = (Spinner) findViewById(R.id.polt);
+        address_button = (Button) findViewById(R.id.modify_address_button);
+        address_adjust1 = (ImageView) findViewById(R.id.modify_address_adjust1);
+        address_adjust2 = (ImageView) findViewById(R.id.modify_address_adjust2);
+        address_adjust4 = (ImageView) findViewById(R.id.modify_address_adjust4);
+        city_linear = (LinearLayout) findViewById(R.id.modify_city_linear);
+        area_linear = (LinearLayout) findViewById(R.id.modify_area_linear);
+        plot_linear = (LinearLayout) findViewById(R.id.modify_plot_linear);
+        address_name = (EditText) findViewById(R.id.modify_address_name);//收货人姓名
+        address_tel = (EditText) findViewById(R.id.modify_address_tel);//收货人电话
+        address_detail = (EditText) findViewById(R.id.modify_address_detail);//详细收货地址
+        province = (Spinner) findViewById(R.id.modify_province);
+        city = (Spinner) findViewById(R.id.modify_city);
+        area = (Spinner) findViewById(R.id.modify_area);
+        plot = (Spinner) findViewById(R.id.modify_polt);
         proList = new ArrayList<>();
         cityList = new ArrayList<>();
         areaList = new ArrayList<>();
@@ -261,6 +267,21 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         areaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         plotAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, plotList);
         plotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        initData();//设置各个控件的默认值
+    }
+
+    private void initData() {
+
+        address_name.setText(mReceiptAddress.getFirstname());
+        address_tel.setText(mReceiptAddress.getMobile());
+        address_detail.setText(mReceiptAddress.getAddress_1());
+        String district = mReceiptAddress.getDistrict();
+        Log.e("faafwffasf",district);
+        tmp = district.split(" ");
+//        setSpinnerItemSelectedByValue(city, tmp[1]);
+//        setSpinnerItemSelectedByValue(area, tmp[2]);
+
+
     }
 
     private void bindData() {
@@ -308,7 +329,8 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             request4.setCacheMode(CacheMode.DEFAULT);
             mRequestQueue.add(mWHAT4, request4, mOnResponseListener);
             flag3 = false;
-        } if (flag4) {
+        }
+        if (flag4) {
             //增加收货地址
             String url5 = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses";
             Request<String> request5 = NoHttp.createStringRequest(url5, RequestMethod.POST);
@@ -364,7 +386,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            //
             else if (what == mWHAT2) {
                 //请求成功
                 String result = response.get();
@@ -382,13 +403,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         districtList2.add(district_id);
                         parentList.add(parent_id);
                     }
-                    if (cityList.size() != 0) {
-                        city_linear.setVisibility(View.VISIBLE);
-                        city.setAdapter(cityAdapter);
-                    } else {
-                        city_linear.setVisibility(View.GONE);
-
-                    }
+                    city.setAdapter(cityAdapter);
                     Message message = new Message();
                     message.what = mFinish2;
                 } catch (JSONException e) {
@@ -412,12 +427,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         districtList3.add(district_id);
                         parentList.add(parent_id);
                     }
-                    if (areaList.size() != 0) {
-                        area_linear.setVisibility(View.VISIBLE);
-                        area.setAdapter(areaAdapter);
-                    } else {
-                        area_linear.setVisibility(View.GONE);
-                    }
+                    area.setAdapter(areaAdapter);
                     Message message = new Message();
                     message.what = mFinish3;
                 } catch (JSONException e) {
@@ -435,21 +445,16 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         String name = object2.getString("name");
                         plotList.add(name);//第三级县数据
                     }
-                    if (plotList.size() != 0) {
-                        plot_linear.setVisibility(View.VISIBLE);
-                        plot.setAdapter(plotAdapter);
-                    } else {
-                        plot_linear.setVisibility(View.GONE);
-                    }
+                    plot.setAdapter(plotAdapter);
                     Message message = new Message();
                     message.what = mFinish4;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else if (what == mWHAT5) {
+            } else if (what == mWHAT5) {
                 //请求成功,增加收货地址
                 String result = response.get();
-                Log.e("dwdw",result);
+                Log.e("dwdw", result);
                 try {
 
                 } catch (Exception e) {
@@ -475,12 +480,11 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num1 = districtList.get(position);
-                country_id=countryList.get(position);
-                mReceipt.setCountry_id(country_id+"");
+                country_id = countryList.get(position);
+                mReceipt.setCountry_id(country_id + "");
                 flag1 = true;
-                area_linear.setVisibility(View.GONE);
+                setSpinnerItemSelectedByValue(province, tmp[0]);
                 httpMethod();//费尽心机获取市级数据
-
             }
 
             @Override
@@ -488,7 +492,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     //用于监听市级单击事件
@@ -498,7 +501,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num2 = districtList2.get(position);
                 flag2 = true;
-                plot_linear.setVisibility(View.GONE);
+                setSpinnerItemSelectedByValue(city, tmp[1]);
                 httpMethod();//费尽心机获取市级数据
 
             }
@@ -516,11 +519,11 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num3 = districtList3.get(position);
-                Log.e("看num3",num3+"");
-                mReceipt.setDistrict_id(num3+"");
+                Log.e("看num3", num3 + "");
+                mReceipt.setDistrict_id(num3 + "");
                 flag3 = true;
-                plot_linear.setVisibility(View.GONE);
-                true3=true;
+                true3 = true;
+                setSpinnerItemSelectedByValue(area, tmp[2]);
                 httpMethod();//费尽心机获取区级数据
 
             }
@@ -564,7 +567,19 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         newHeader = new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));//加密后的header
     }
 
-    public void add_address_set_back(View view) {
+    //通过spinner的值来确定spinner的默认选定位置
+    public static void setSpinnerItemSelectedByValue(Spinner spinner,String value){
+        SpinnerAdapter apsAdapter=  spinner.getAdapter(); //得到SpinnerAdapter对象
+        int k= apsAdapter.getCount();
+        for(int i=0;i<k;i++){
+            if(value.equals(apsAdapter.getItem(i).toString())){
+                spinner.setSelection(i,true);// 默认选中项
+                break;
+            }
+        }
+    }
+
+    public void update_password_back3(View view) {
         finish();
     }
 }

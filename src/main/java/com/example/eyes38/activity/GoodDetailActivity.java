@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,12 +20,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
+import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
 import com.example.eyes38.utils.CartBadgeView;
 import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+<<<<<<< HEAD
 import com.yolanda.nohttp.rest.CacheMode;
+=======
+>>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -33,12 +38,22 @@ import com.yolanda.nohttp.rest.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+<<<<<<< HEAD
 
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
     public static final int GETCOMMENTNUM = 100;
-    //数据源
+=======
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class GoodDetailActivity extends AppCompatActivity {
+    private static final int CARTGOODSCOUNT = 308; // 购物车商品总数（响应码）
+    private static final int CREATECART = 309; // 创建购物车（响应吗）
+    private static final int ADDCART = 310; // 加入购物车（响应码）
+>>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
+    //数据源
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
     private TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
@@ -47,6 +62,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
+<<<<<<< HEAD
     private SharedPreferences sp;  //偏好设置 获取账号 密码
 
     public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
@@ -65,6 +81,12 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
+=======
+    private CartGoods mCartGoods;
+    private List<CartGoods> mList;
+    private SharedPreferences sp;  //偏好设置 获取账号 密码
+    private RequestQueue mRequestQueue;
+>>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +96,14 @@ public class GoodDetailActivity extends AppCompatActivity {
         initData();
         setViewToData();
         initListener();
+        getCartNoHttp(); //请求购物车 获取购物车中商品数量
         setCartBadgeView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCartNoHttp(); //请求购物车 获取购物车中商品数量
     }
 
     private void setCartBadgeView() {
@@ -87,6 +116,35 @@ public class GoodDetailActivity extends AppCompatActivity {
         mCartBadgeView.setBadgeMargin(5);//各个边的边隔
         mCartBadgeView.setBadgeBackgroundColor(this.getResources().getColor(R.color.topical));
         mCartBadgeView.setBadgePosition(CartBadgeView.POSITION_TOP_RIGHT);
+
+    }
+
+    private void initView() {
+        //初始化控件
+        //商品图片，图文详情
+        goodsPicImageView = (ImageView) findViewById(R.id.goods_detail_pic);
+        goodsTxtPicImageView = (ImageView) findViewById(R.id.goods_detail_txt_pic);
+        //商品规格，库存量，备注，评论数量
+        goodsUnitTextView = (TextView) findViewById(R.id.goods_detail_unit);
+        goodsStockTextView = (TextView) findViewById(R.id.goods_detail_stock);
+        goodsRemarkTextView = (TextView) findViewById(R.id.goods_detai_remark);
+        goodsCommentCountTextView = (TextView) findViewById(R.id.goods_detail_commentcount);
+        linearLayout = (LinearLayout) findViewById(R.id.goods_comment_layout);
+        backImageView = (ImageView) findViewById(R.id.goods_detail_back);
+        mButton = (Button) findViewById(R.id.goods_detail_carbutton);
+        mConsultButton = (RadioButton) findViewById(R.id.goods_detail_radio_consult);
+        mCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_cart); //购物车
+        mBuynowButton = (RadioButton) findViewById(R.id.goods_detail_radio_buynow); // 立即购买
+        mAddCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_addcart); // 加入购物车
+
+    }
+
+    private void initData() {
+        //初始化数据，现在数据是写死的
+        getData();
+        mList = new ArrayList<>();
+        sp = getApplication().getSharedPreferences("userInfo", MODE_PRIVATE);  // 偏好设置初始化
+        mRequestQueue = NoHttp.newRequestQueue();
 
     }
 
@@ -132,21 +190,14 @@ public class GoodDetailActivity extends AppCompatActivity {
         if (!Substring.getString(description).equals("")) {
             Glide.with(this).load(Substring.getString(description)).into(goodsTxtPicImageView);
         }
-
     }
 
-    private void initData() {
-        //初始化数据，现在数据是写死的
-        getData();
-        sp = getApplication().getSharedPreferences("userInfo", MODE_PRIVATE);  // 偏好设置初始化
-
-
-    }
 
     private void getData() {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         goods = (Goods) bundle.get("values");
+<<<<<<< HEAD
         //获取商品评价数量
         RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
@@ -212,6 +263,10 @@ public class GoodDetailActivity extends AppCompatActivity {
         mAddCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_addcart); // 加入购物车
 
     }
+=======
+    }
+
+>>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
 
     class MyOnClickLisenter implements View.OnClickListener {
 
@@ -233,12 +288,9 @@ public class GoodDetailActivity extends AppCompatActivity {
                     break;
                 case R.id.goods_detail_radio_addcart:
                     //加入购物车
-                    /**
-                     * 先判断用户是否登陆
-                     * （没登录将商品添加到本地购物车（数据库）。
-                     * 登陆了将本地购物车添加到用户购物车。)
-                     */
+                    Log.e("点击了加入购物车", "yes");
                     customerStates(); //判断用户登陆状态
+
                     break;
             }
         }
@@ -247,14 +299,18 @@ public class GoodDetailActivity extends AppCompatActivity {
     //判断用户登陆状态
     private void customerStates() {
         //如果用户没有登录 那么显示空
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
         // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
         if (!Application.isLogin) {
             //如果用户没登录  购物车显示空
             Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
         } else {
-            //登录了 添加到购物车
-            postNoHttp();
+            //登录了 进行判断购物车中商品是否已经存在
+            Log.e("执行了商品是否存在的方法", "yes");
+            goodsExist();
         }
     }
 
@@ -268,17 +324,199 @@ public class GoodDetailActivity extends AppCompatActivity {
         return authorization;
     }
 
+<<<<<<< HEAD
+=======
+    //先获取购物车中的商品总数，和该商品是否在购物车中 如果在那么在加入购物车的时候quantity + 1
+    //如果不在 那么应该调用 创建购物车的接口
+>>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
     //添加到购物车
-    private void postNoHttp() {
-        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
+    //**************获取购物车信息************
+    private void getCartNoHttp() {
+        String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.addHeader("Authorization", authorization());
+        mRequestQueue.add(CARTGOODSCOUNT, request, mOnResponseListener);
+    }
+
+    //添加商品前先判断商品是否已经存在了(一周菜谱和非一周菜谱是两种类型) 判断商品id 和extension1 是否已经存在。
+    private void goodsExist() {
+        if (mList.size() == 0) {
+            Log.e("购物车为空", "yes");
+            postCreateGooodsNoHttp();
+        } else {
+            Log.e("购物车有几种商品", mList.size() + "");
+            for (int i = 0; i < mList.size(); i++) {
+                if (mList.get(i).getProduct_id() == goods.getGoods_id()) {
+                    Log.e("执行了比较商品id是否存在方法", "yes");
+                    //说明该商品已经存在。接下来判断改商品的extension值和购物车中extension的值是否一样
+                    if (mList.get(i).getExtension1().equals(goods.getExtension())) {
+                        //说明存在该类型的商品。那么应该进行更新购物车操作（加操作）。先加一
+                        if (mList.get(i).getQuantity() >= goods.getGoods_stock()) {
+                            Toast.makeText(GoodDetailActivity.this, "库存不足", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mList.get(i).setQuantity(mList.get(i).getQuantity() + 1);
+                            putAddGooodsNoHttp(mList.get(i).getShopping_cart_id(), mList.get(i).getQuantity(), mList.get(i).getExtension1());
+                        }
+
+                    } else {
+                        //说明不存在该类型的商品。那么应该进行创建购物车操作
+                        Log.e("商品extension不对应", "yes");
+                        postCreateGooodsNoHttp();
+                    }
+                } else {
+                    //说明不存在该类型的商品。那么应该进行创建购物车操作
+                    Log.e("商品id不存在", "yes");
+                    postCreateGooodsNoHttp();
+                }
+            }
+
+        }
+    }
+
+        //******************更新购物车进行加操作
+
+    private void putAddGooodsNoHttp(int shoppingCartId, int quantity, String extension1) {
+        try {
+            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + shoppingCartId;
+            Request<String> request = NoHttp.createStringRequest(url, RequestMethod.PUT);
+            request.addHeader("Authorization", authorization()); // 添加请求头
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("quantity", quantity);
+            jsonObject.put("extension1", extension1);
+            request.setDefineRequestBodyForJson(jsonObject);
+            mRequestQueue.add(ADDCART, request, mOnResponseListener);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //******************创建购物车********
+    private void postCreateGooodsNoHttp() {
         //增加商品接口
+        Log.e("创建购物车", goods.getExtension() + " " + goods.getGoods_platform_price() + " " + goods.getGoods_id());
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.addHeader("Authorization", authorization());
+<<<<<<< HEAD
         request.add("extension1", "false");
         request.add("price", goods.getGoods_platform_price());
 
+=======
+        request.add("extension1", goods.getExtension());
+        request.add("price", goods.getGoods_platform_price());
+        request.add("product_id", goods.getGoods_id());
+        request.add("quantity", 1);
+        mRequestQueue.add(CREATECART, request, mOnResponseListener);
+>>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
     }
 
+    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == CARTGOODSCOUNT) {
+                try {
+                    mList = new ArrayList<>();
+                    String result = response.get();
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+                        JSONArray jsonArray2 = jsonObject2.getJSONArray("data");
+                        for (int j = 0; j < jsonArray2.length(); j++) {
+                            JSONObject jsonObject3 = jsonArray2.getJSONObject(j);
+                            int shopping_cart_id = jsonObject3.getInt("shopping_cart_id"); // 购物车id shopping_cart_id
+                            int quantity = jsonObject3.getInt("quantity");//数量
+                            String extension1 = jsonObject3.getString("extension1"); //是否是一周菜谱
+                            int product_id = jsonObject3.getInt("product_id");
+                            CartGoods cartGoods = new CartGoods(shopping_cart_id, 0, null, product_id, null, null, quantity, 0, extension1, null);
+                            mList.add(cartGoods);
+                        }
+                    }
+                    if (mList.size() == 0) {
+                        mCartBadgeView.hide();
+                    } else {
+                        Log.e("购物车数量", getAllGoodsCount() + "");
+                        mCartBadgeView.setText(getAllGoodsCount() + "");
+                        mCartBadgeView.show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (what == ADDCART) {
+                try {
+                    String result = response.get();
+                    JSONObject jsonObject = new JSONObject(result);
+                    boolean resultADD = jsonObject.getBoolean("success");
+                    //如果返回true 进行加法操作
+                    if (resultADD) {
+                        Toast.makeText(GoodDetailActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                        mCartBadgeView.show();
+                        mCartBadgeView.setText(getAllGoodsCount() + "");
+                    } else {
+                        Toast.makeText(GoodDetailActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (what == CREATECART) {
+                Log.e("请求创建购物车", goods.getExtension() + " " + goods.getGoods_platform_price() + " " + goods.getGoods_id());
+                try {
+                    String result = response.get();
+                    JSONObject jsonObject = new JSONObject(result);
+                    boolean resultCreate = jsonObject.getBoolean("success");
+                    if (resultCreate) {
+                        Toast.makeText(GoodDetailActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                        JSONObject jsonObject2 = jsonObject.getJSONObject("data");
+                        int shopping_cart_id = jsonObject2.getInt("shopping_cart_id"); // 购物车id shopping_cart_id
+                        int quantity = jsonObject2.getInt("quantity");//数量
+                        String extension1 = jsonObject2.getString("extension1"); //是否是一周菜谱
+                        int product_id = jsonObject2.getInt("product_id");
+                        CartGoods cartGoods = new CartGoods(shopping_cart_id, -1, null, product_id, null, null, quantity, 0, extension1, null);
+                        mList.add(cartGoods);
+                        Log.e("创建购物车结束", getAllGoodsCount() + "");
+                        mCartBadgeView.show();
+                        mCartBadgeView.setText(getAllGoodsCount() + "");
+                    } else {
+                        Toast.makeText(GoodDetailActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
+
+
+    //返回购物车商品数量
+    private int getAllGoodsCount() {
+        int count = 0;
+        for (int i = 0; i < mList.size(); i++) {
+            count += mList.get(i).getQuantity();
+        }
+        return count;
+    }
 
 }

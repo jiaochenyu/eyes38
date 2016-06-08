@@ -13,7 +13,7 @@ public class CartGoods implements Serializable {
     private int product_id;
     private String product_name;
     private String store_name;
-    private int quantity;  // 数量
+    private int quantity = 0;  // 数量
     private double price; //商品价格
     private String extension1=null; // 是否是一周菜谱
     private boolean isSelected; // 是否被选中
