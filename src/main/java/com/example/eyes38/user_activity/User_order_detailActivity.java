@@ -11,8 +11,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.User_order_orderAdapter;
 import com.example.eyes38.beans.UserOrderBean;
@@ -23,6 +26,7 @@ import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
 import com.yolanda.nohttp.rest.Response;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +34,7 @@ import org.json.JSONObject;
 public class User_order_detailActivity extends AppCompatActivity {
     private UserOrderBean mUserOrderBean;
     private UserOrderGoods mOrderGoods;
+    private ImageView mImageView, user_order_detail_home;
     private TextView user_order_detail_state;//订单状态
     private TextView user_order_detail_number;//订单号
     private TextView user_order_detail_total;//总金额
@@ -44,7 +49,7 @@ public class User_order_detailActivity extends AppCompatActivity {
     private int district_id;
     private String detail_address1;
     private Context mContext;
-    private User_order_orderAdapter mAdapter=null;
+    private User_order_orderAdapter mAdapter = null;
     //偏好设置
     private String newHeader;
     private SharedPreferences sp;
@@ -56,7 +61,9 @@ public class User_order_detailActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MFINISH:
-
+                    //设置收货人详细地址
+                    String address_detail = detail_address1 + " " + mUserOrderBean.getShipping_address();
+                    user_order_detail_address.setText(address_detail + "");
                     break;
             }
             super.handleMessage(msg);
@@ -104,10 +111,13 @@ public class User_order_detailActivity extends AppCompatActivity {
                         district_id = Integer.parseInt(object1.getString("district_id"));
                         while (mUserOrderBean.getShipping_district_id() == district_id) {
                             detail_address1 = object1.getString("district");
-                            Log.e("detail_address1", detail_address1 + "");
+                            break;
                         }
-                        break;
                     }
+                    Message message = new Message();
+                    message.what = MFINISH;
+                    mHandler.sendMessage(message);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -135,6 +145,13 @@ public class User_order_detailActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        mImageView = (ImageView) findViewById(R.id.user_order_detail_back);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         user_order_detail_state = (TextView) findViewById(R.id.user_order_detail_state);
         user_order_detail_number = (TextView) findViewById(R.id.user_order_detail_number);
         user_order_detail_total = (TextView) findViewById(R.id.user_order_detail_total);
@@ -143,9 +160,17 @@ public class User_order_detailActivity extends AppCompatActivity {
         user_order_detail_address = (TextView) findViewById(R.id.user_order_detail_address);
         user_order_detail_total_goods = (TextView) findViewById(R.id.user_order_detail_total_goods);
         user_order_detail_yunfei = (TextView) findViewById(R.id.user_order_detail_yunfei);
+        user_order_detail_home = (ImageView) findViewById(R.id.user_order_detail_home);
+        user_order_detail_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(User_order_detailActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         user_order_detail_recycle = (RecyclerView) findViewById(R.id.user_order_detail_recycle);
         mUserOrderBean = new UserOrderBean();
-        mOrderGoods=new UserOrderGoods();
+        mOrderGoods = new UserOrderGoods();
         sp = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);//偏好设置初始化
         //设置recycleview的布局管理
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
@@ -154,6 +179,7 @@ public class User_order_detailActivity extends AppCompatActivity {
 
     //传入正确的值
     private void setData() {
+        //返回键
         //设置订单状态
         int order_state = mUserOrderBean.getOrder_status_id();
         if (order_state == 16) {
@@ -169,23 +195,21 @@ public class User_order_detailActivity extends AppCompatActivity {
         user_order_detail_person.setText(mUserOrderBean.getShipping_name());
         //设置收货人手机号
         String mobile = mUserOrderBean.getShipping_mobile();
-        String mobile_noe = mobile.substring(0, 2);
-        String mobile_two = mobile.substring(mobile.length() - 2, mobile.length());
-        user_order_detail_number.setText(mobile_noe + "*****" + mobile_two);
-        //设置收货人详细地址
-        String address_detail=detail_address1+mUserOrderBean.getShipping_address();
-        user_order_detail_address.setText(address_detail+"");
+        Log.e("mobile",mobile);
+        String mobile_noe = mobile.substring(0, 3);
+        String mobile_two = mobile.substring(mobile.length()-4, mobile.length());
+        user_order_detail_tel.setText(mobile_noe + "****" + mobile_two);
         //recycleview
-        if (mAdapter==null){
-            mAdapter=new User_order_orderAdapter(mUserOrderBean.getmList(),this);
+        if (mAdapter == null) {
+            mAdapter = new User_order_orderAdapter(mUserOrderBean.getmList(), this);
             user_order_detail_recycle.setAdapter(mAdapter);
-        }else {
+        } else {
             mAdapter.notifyDataSetChanged();
         }
-
-       /* //商品总额
-        user_order_detail_total_goods.setText(total_goods+"");
+        user_order_detail_total_goods.setText(mUserOrderBean.getShipping_freight() + "");
         //运费
-        user_order_detail_yunfei.setText((float)mUserOrderBean.getTotal()-total_goods+"");*/
+        user_order_detail_yunfei.setText(mUserOrderBean.getTotal() - mUserOrderBean.getShipping_freight() + "");
+
     }
+
 }

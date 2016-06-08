@@ -15,15 +15,7 @@ public class Goods implements Serializable {
     private int goods_comment_count;//评论数量
     private int goods_stock;//商品库存
     private String goods_description;//商品图文详情
-    private String extension ; //是否是一周菜谱
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
-    }
+    private String extension = "false" ; //是否是一周菜谱
 
     public Goods() {
     }
@@ -110,5 +102,13 @@ public class Goods implements Serializable {
 
     public void setGoods_description(String goods_description) {
         this.goods_description = goods_description;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }

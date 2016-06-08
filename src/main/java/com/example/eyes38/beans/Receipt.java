@@ -6,26 +6,15 @@ import java.io.Serializable;
  * Created by huangjiechun on 16/6/6.
  */
 public class Receipt implements Serializable {
-    private String Receipt_person;
-    private String Receipt_phone;
-    private String Receipt_pro;
-    private String Receipt_city;
-    private String Receipt_area;
-    private String Receipt_plot;
-    private String Receipt_detail;
-
-    @Override
-    public String toString() {
-        return "Receipt{" +
-                "Receipt_person='" + Receipt_person + '\'' +
-                ", Receipt_phone='" + Receipt_phone + '\'' +
-                ", Receipt_pro='" + Receipt_pro + '\'' +
-                ", Receipt_city='" + Receipt_city + '\'' +
-                ", Receipt_area='" + Receipt_area + '\'' +
-                ", Receipt_plot='" + Receipt_plot + '\'' +
-                ", Receipt_detail='" + Receipt_detail + '\'' +
-                '}';
-    }
+    private String Receipt_person; //收货姓名
+    private String Receipt_phone; //电话
+    private String Receipt_pro; // 省
+    private String Receipt_city; //市
+    private String Receipt_area; //区
+    private String Receipt_plot; //小区
+    private String Receipt_detail; //自己填的
+    private String district ;
+    private boolean defaultAddress ;//是否是默认收货地址
 
     public Receipt() {
     }
@@ -95,4 +84,23 @@ public class Receipt implements Serializable {
     public void setReceipt_detail(String receipt_detail) {
         this.Receipt_detail = receipt_detail;
     }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public boolean isDefaultAddress() {
+        return defaultAddress;
+    }
+
+    public void setDefaultAddress(boolean defaultAddress) {
+        this.defaultAddress = defaultAddress;
+    }
+
+    //省、市、区、收货箱、详细地址
+
 }
