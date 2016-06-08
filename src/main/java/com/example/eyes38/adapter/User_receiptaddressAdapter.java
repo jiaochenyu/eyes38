@@ -39,6 +39,9 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
     private RequestQueue mRequestQueue;
     private ReceiptAddress mReceipt;//收货地址的javabean
     private int position; // 删除位置
+    private int modifyposition; // 删除位置
+
+
     private String head;//头信息
 
     public User_receiptaddressAdapter() {
@@ -50,6 +53,14 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getModifyposition() {
+        return modifyposition;
+    }
+
+    public void setModifyposition(int modifyposition) {
+        this.modifyposition = modifyposition;
     }
 
     public User_receiptaddressAdapter(Context context, List<ReceiptAddress> datas, String header) {
@@ -189,12 +200,12 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
                     break;
                 case R.id.add_address_default_modify:
                     //修改地址
-                    setPosition(position);
+                    setModifyposition(position);
                     modifyReceiptAddress();
                     break;
                 case R.id.add_address_modify:
                     //修改地址
-                    setPosition(position);
+                    setModifyposition(position);
                     modifyReceiptAddress();
                     break;
             }
@@ -204,10 +215,8 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
     //修改收货地址
     private void modifyReceiptAddress() {
         Intent intent = new Intent(mContext, User_modifyAddressActivity.class);
-
-        intent.putExtra("modifyvalues",mReceipt);
+        intent.putExtra("modifyvalues", mDatas.get(getModifyposition()));
         mContext.startActivity(intent);
-
     }
 
     //CheckBox 选择改变监听器
@@ -218,7 +227,7 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
             int position = (int) buttonView.getTag();
             //设置默认地址
             SetDefaultNoHttpMethod(position);
-            ReceiptAddress ra1 = mDatas.get(position);
+            ReceiptAddress ra1 = mDatas.get(getPosition());
             mDatas.remove(position);
             mDatas.add(0, ra1);
             notifyDataSetChanged();

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.example.eyes38.R;
@@ -72,6 +73,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     ArrayAdapter<String> proAdapter, cityAdapter, areaAdapter, plotAdapter;//适配器
     private ReceiptAddress mReceipt;//收货地址的javabean
     private ReceiptAddress mReceiptAddress;//接收传递过来的收货地址javabean
+    String[] tmp;
     //Handler
     private Handler mHandler = new Handler() {
         @Override
@@ -102,15 +104,19 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_modify_address);
+        Intent intent = getIntent();
+        mReceiptAddress = (ReceiptAddress) intent.getSerializableExtra("modifyvalues");
+
         //取出偏好设置里面的信息
         gethead();
         initViews();
         bindData();//绑定数据
         initListener();//用于控件的监听
+        ButtonListener();//监听按键单击事件
+        Log.e("daolemei","fsff");
         initListener1();//监听省事件
         initListener2();//监听市级事件
         initListener3();//监听区级事件
-        ButtonListener();//监听按键单击事件
     }
 
     private void ButtonListener() {
@@ -265,11 +271,17 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        Intent intent = new Intent();
-        mReceiptAddress = (ReceiptAddress) intent.getSerializableExtra("modifyvalues");
+
         address_name.setText(mReceiptAddress.getFirstname());
         address_tel.setText(mReceiptAddress.getMobile());
         address_detail.setText(mReceiptAddress.getAddress_1());
+        String district = mReceiptAddress.getDistrict();
+        Log.e("faafwffasf",district);
+        tmp = district.split(" ");
+//        setSpinnerItemSelectedByValue(city, tmp[1]);
+//        setSpinnerItemSelectedByValue(area, tmp[2]);
+
+
     }
 
     private void bindData() {
@@ -374,7 +386,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            //
             else if (what == mWHAT2) {
                 //请求成功
                 String result = response.get();
@@ -393,7 +404,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         parentList.add(parent_id);
                     }
                     city.setAdapter(cityAdapter);
-                    setSpinnerItemSelectedByValue(city, "苏州市");//设置
                     Message message = new Message();
                     message.what = mFinish2;
                 } catch (JSONException e) {
@@ -418,7 +428,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         parentList.add(parent_id);
                     }
                     area.setAdapter(areaAdapter);
-                    setSpinnerItemSelectedByValue(area, "姑苏区");
                     Message message = new Message();
                     message.what = mFinish3;
                 } catch (JSONException e) {
@@ -474,8 +483,8 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                 country_id = countryList.get(position);
                 mReceipt.setCountry_id(country_id + "");
                 flag1 = true;
+                setSpinnerItemSelectedByValue(province, tmp[0]);
                 httpMethod();//费尽心机获取市级数据
-
             }
 
             @Override
@@ -483,7 +492,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     //用于监听市级单击事件
@@ -493,6 +501,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num2 = districtList2.get(position);
                 flag2 = true;
+                setSpinnerItemSelectedByValue(city, tmp[1]);
                 httpMethod();//费尽心机获取市级数据
 
             }
@@ -514,6 +523,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                 mReceipt.setDistrict_id(num3 + "");
                 flag3 = true;
                 true3 = true;
+                setSpinnerItemSelectedByValue(area, tmp[2]);
                 httpMethod();//费尽心机获取区级数据
 
             }
@@ -558,12 +568,12 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     }
 
     //通过spinner的值来确定spinner的默认选定位置
-    public static void setSpinnerItemSelectedByValue(Spinner spinner, String value) {
-        android.widget.SpinnerAdapter apsAdapter = spinner.getAdapter(); //得到SpinnerAdapter对象
-        int k = apsAdapter.getCount();
-        for (int i = 0; i < k; i++) {
-            if (value.equals(apsAdapter.getItem(i).toString())) {
-                spinner.setSelection(i, true);// 默认选中项
+    public static void setSpinnerItemSelectedByValue(Spinner spinner,String value){
+        SpinnerAdapter apsAdapter=  spinner.getAdapter(); //得到SpinnerAdapter对象
+        int k= apsAdapter.getCount();
+        for(int i=0;i<k;i++){
+            if(value.equals(apsAdapter.getItem(i).toString())){
+                spinner.setSelection(i,true);// 默认选中项
                 break;
             }
         }
