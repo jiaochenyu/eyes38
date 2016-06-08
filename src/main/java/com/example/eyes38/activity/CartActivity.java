@@ -40,6 +40,7 @@ public class CartActivity extends AppCompatActivity {
         initData();
         //判断 购物车是否为空。 是空显示CartEmptyView
         initStates();
+        //initListener();
     }
 
 
@@ -59,7 +60,7 @@ public class CartActivity extends AppCompatActivity {
         sp = this.getSharedPreferences("userInfo",MODE_PRIVATE);
     }
 
-   /* private void initListener() {
+  /*  private void initListener() {
         //利用 pulltorefesh 刷新
         LoadMoreFooterView header = new LoadMoreFooterView(this); //刷新动画效果 自定义
         ptrFrame.setHeaderView(header); //刷新动画效果
@@ -82,8 +83,8 @@ public class CartActivity extends AppCompatActivity {
                 }, 1800);
             }
         });
-    }*/
-
+    }
+*/
     private void initStates() {
         //如果用户没有登录 那么显示空
         if (!Application.isLogin) {
