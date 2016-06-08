@@ -71,6 +71,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;//请求队列
     ArrayAdapter<String> proAdapter, cityAdapter, areaAdapter, plotAdapter;//适配器
     private ReceiptAddress mReceipt;//收货地址的javabean
+    private ReceiptAddress mReceiptAddress;//接收传递过来的收货地址javabean
     //Handler
     private Handler mHandler = new Handler() {
         @Override
@@ -234,9 +235,9 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         city_linear = (LinearLayout) findViewById(R.id.modify_city_linear);
         area_linear = (LinearLayout) findViewById(R.id.modify_area_linear);
         plot_linear = (LinearLayout) findViewById(R.id.modify_plot_linear);
-        address_name = (EditText) findViewById(R.id.modify_address_name);
-        address_tel = (EditText) findViewById(R.id.modify_address_tel);
-        address_detail = (EditText) findViewById(R.id.modify_address_detail);
+        address_name = (EditText) findViewById(R.id.modify_address_name);//收货人姓名
+        address_tel = (EditText) findViewById(R.id.modify_address_tel);//收货人电话
+        address_detail = (EditText) findViewById(R.id.modify_address_detail);//详细收货地址
         province = (Spinner) findViewById(R.id.modify_province);
         city = (Spinner) findViewById(R.id.modify_city);
         area = (Spinner) findViewById(R.id.modify_area);
@@ -260,6 +261,15 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         areaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         plotAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, plotList);
         plotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        initData();//设置各个控件的默认值
+    }
+
+    private void initData() {
+        Intent intent = new Intent();
+        mReceiptAddress = (ReceiptAddress) intent.getSerializableExtra("modifyvalues");
+        address_name.setText(mReceiptAddress.getFirstname());
+        address_tel.setText(mReceiptAddress.getMobile());
+        address_detail.setText(mReceiptAddress.getAddress_1());
     }
 
     private void bindData() {
@@ -357,7 +367,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         parentList.add(parent_id);
                     }
                     province.setAdapter(proAdapter);
-                    setSpinnerItemSelectedByValue(province,"江苏省");
                     Message message = new Message();
                     message.what = mFinish;
                     mHandler.sendMessage(message);
@@ -384,7 +393,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         parentList.add(parent_id);
                     }
                     city.setAdapter(cityAdapter);
-                    setSpinnerItemSelectedByValue(city,"苏州市");//设置
+                    setSpinnerItemSelectedByValue(city, "苏州市");//设置
                     Message message = new Message();
                     message.what = mFinish2;
                 } catch (JSONException e) {
@@ -409,7 +418,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         parentList.add(parent_id);
                     }
                     area.setAdapter(areaAdapter);
-                    setSpinnerItemSelectedByValue(area,"姑苏区");
+                    setSpinnerItemSelectedByValue(area, "姑苏区");
                     Message message = new Message();
                     message.what = mFinish3;
                 } catch (JSONException e) {
@@ -548,10 +557,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         newHeader = new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));//加密后的header
     }
 
-    public void add_address_set_back(View view) {
-        finish();
-    }
-
     //通过spinner的值来确定spinner的默认选定位置
     public static void setSpinnerItemSelectedByValue(Spinner spinner, String value) {
         android.widget.SpinnerAdapter apsAdapter = spinner.getAdapter(); //得到SpinnerAdapter对象
@@ -562,5 +567,9 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    public void update_password_back3(View view) {
+        finish();
     }
 }

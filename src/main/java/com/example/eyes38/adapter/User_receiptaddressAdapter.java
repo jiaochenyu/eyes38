@@ -204,6 +204,8 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
     //修改收货地址
     private void modifyReceiptAddress() {
         Intent intent = new Intent(mContext, User_modifyAddressActivity.class);
+
+        intent.putExtra("modifyvalues",mReceipt);
         mContext.startActivity(intent);
 
     }
