@@ -16,10 +16,6 @@ public class Receipt implements Serializable {
     private String district ;
     private boolean defaultAddress ;//是否是默认收货地址
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
     public Receipt() {
     }
 
@@ -105,9 +101,4 @@ public class Receipt implements Serializable {
         this.defaultAddress = defaultAddress;
     }
 
-<<<<<<< HEAD
-=======
-    //省、市、区、收货箱、详细地址
-
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
 }

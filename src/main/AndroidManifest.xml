@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eyes38">
-<<<<<<< HEAD
-
     <!-- 所需的权限 -->
-=======
-    <!--所需的权限-->
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -50,7 +45,6 @@
         <activity
             android:name=".user_activity.AddressInfo.User_addAddressActivity"
             android:windowSoftInputMode="adjustPan" />
-<<<<<<< HEAD
         <activity android:name=".activity.home.HomexptjActivity" />
         <activity android:name=".activity.home.HomezhuantiActivity" />
         <activity android:name=".EventActivity.EventActivity" />
@@ -59,17 +53,9 @@
         <activity
             android:name=".activity.PayActivity"
             android:launchMode="singleTask" />
-=======
         <activity
             android:name=".user_activity.AddressInfo.User_modifyAddressActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.home.HomexptjActivity" />
-        <activity android:name=".activity.home.HomezhuantiActivity" />
-        <activity android:name=".EventActivity.EventActivity" />
-        <activity android:name=".activity.CommentReplyActivity" />
-        <activity android:name=".activity.UserRegisterDetailActivity" />
-        <activity android:name=".activity.PayActivity" />
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
         <activity
             android:name=".activity.CartActivity"
             android:launchMode="singleTask" />
@@ -79,20 +65,13 @@
         <activity android:name=".activity.GuideActivity" />
         <activity android:name=".activity.home.LoadActivity" />
         <activity android:name=".user_activity.User_order_detailActivity" />
-<<<<<<< HEAD
         <activity android:name=".activity.PaySelectActivity" />
 
-=======
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
         <service android:name=".utils.NetworkStateService">
             <intent-filter>
                 <action android:name="com.eyes38.network.state" />
             </intent-filter>
         </service>
-<<<<<<< HEAD
-
-=======
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
     </application>
 
 </manifest>

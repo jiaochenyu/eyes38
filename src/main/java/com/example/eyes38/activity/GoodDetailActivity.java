@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -26,10 +24,7 @@ import com.example.eyes38.utils.CartBadgeView;
 import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
-<<<<<<< HEAD
 import com.yolanda.nohttp.rest.CacheMode;
-=======
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -38,21 +33,16 @@ import com.yolanda.nohttp.rest.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-<<<<<<< HEAD
-
-public class GoodDetailActivity extends AppCompatActivity {
-    private static final int CARTGOODSCOUNT = 308;
-    public static final int GETCOMMENTNUM = 100;
-=======
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308; // 购物车商品总数（响应码）
     private static final int CREATECART = 309; // 创建购物车（响应吗）
     private static final int ADDCART = 310; // 加入购物车（响应码）
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
+    public static final int GETCOMMENTNUM = 100;
     //数据源
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
@@ -62,31 +52,10 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-<<<<<<< HEAD
-    private SharedPreferences sp;  //偏好设置 获取账号 密码
-
-    public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //从购物车中接收数据
-            switch (msg.what) {
-                case CARTGOODSCOUNT:
-                    if (((Integer) msg.obj) != 0) {
-                        mCartBadgeView.setText(msg.obj + "");
-                        mCartBadgeView.show();
-                    } else {
-                        mCartBadgeView.hide();
-                    }
-            }
-        }
-    };
-=======
     private CartGoods mCartGoods;
     private List<CartGoods> mList;
     private SharedPreferences sp;  //偏好设置 获取账号 密码
     private RequestQueue mRequestQueue;
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,7 +166,6 @@ public class GoodDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         goods = (Goods) bundle.get("values");
-<<<<<<< HEAD
         //获取商品评价数量
         RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
@@ -210,63 +178,6 @@ public class GoodDetailActivity extends AppCompatActivity {
         mRequestQueue.add(GETCOMMENTNUM, mRequest, mOnResponseListener);
 
     }
-
-    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
-        @Override
-        public void onStart(int what) {
-
-        }
-
-        @Override
-        public void onSucceed(int what, Response<String> response) {
-            if (what == GETCOMMENTNUM) {
-                String result = response.get();
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONArray array = jsonObject.getJSONArray("data");
-                    int comment_num = array.length();
-                    goods.setGoods_comment_count(comment_num);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
-            }
-        }
-
-        @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-
-        }
-
-        @Override
-        public void onFinish(int what) {
-
-        }
-    };
-
-    private void initView() {
-        //初始化控件
-        //商品图片，图文详情
-        goodsPicImageView = (ImageView) findViewById(R.id.goods_detail_pic);
-        goodsTxtPicImageView = (ImageView) findViewById(R.id.goods_detail_txt_pic);
-        //商品规格，库存量，备注，评论数量
-        goodsUnitTextView = (TextView) findViewById(R.id.goods_detail_unit);
-        goodsStockTextView = (TextView) findViewById(R.id.goods_detail_stock);
-        goodsRemarkTextView = (TextView) findViewById(R.id.goods_detai_remark);
-        goodsCommentCountTextView = (TextView) findViewById(R.id.goods_detail_commentcount);
-        linearLayout = (LinearLayout) findViewById(R.id.goods_comment_layout);
-        backImageView = (ImageView) findViewById(R.id.goods_detail_back);
-        mButton = (Button) findViewById(R.id.goods_detail_carbutton);
-        mConsultButton = (RadioButton) findViewById(R.id.goods_detail_radio_consult);
-        mCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_cart); //购物车
-        mBuynowButton = (RadioButton) findViewById(R.id.goods_detail_radio_buynow); // 立即购买
-        mAddCartButton = (RadioButton) findViewById(R.id.goods_detail_radio_addcart); // 加入购物车
-
-    }
-=======
-    }
-
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
 
     class MyOnClickLisenter implements View.OnClickListener {
 
@@ -299,10 +210,6 @@ public class GoodDetailActivity extends AppCompatActivity {
     //判断用户登陆状态
     private void customerStates() {
         //如果用户没有登录 那么显示空
-<<<<<<< HEAD
-
-=======
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
         // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
         if (!Application.isLogin) {
             //如果用户没登录  购物车显示空
@@ -324,13 +231,12 @@ public class GoodDetailActivity extends AppCompatActivity {
         return authorization;
     }
 
-<<<<<<< HEAD
-=======
+
     //先获取购物车中的商品总数，和该商品是否在购物车中 如果在那么在加入购物车的时候quantity + 1
     //如果不在 那么应该调用 创建购物车的接口
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
+
     //添加到购物车
-    //**************获取购物车信息************
+//**************获取购物车信息************
     private void getCartNoHttp() {
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
@@ -373,7 +279,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         }
     }
 
-        //******************更新购物车进行加操作
+//******************更新购物车进行加操作
 
     private void putAddGooodsNoHttp(int shoppingCartId, int quantity, String extension1) {
         try {
@@ -397,17 +303,11 @@ public class GoodDetailActivity extends AppCompatActivity {
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.addHeader("Authorization", authorization());
-<<<<<<< HEAD
-        request.add("extension1", "false");
-        request.add("price", goods.getGoods_platform_price());
-
-=======
         request.add("extension1", goods.getExtension());
         request.add("price", goods.getGoods_platform_price());
         request.add("product_id", goods.getGoods_id());
         request.add("quantity", 1);
         mRequestQueue.add(CREATECART, request, mOnResponseListener);
->>>>>>> 4754343ec0bc8a26613934054c747be24ed6fdd5
     }
 
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
@@ -494,6 +394,18 @@ public class GoodDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+            }
+            if (what == GETCOMMENTNUM) {
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("data");
+                    int comment_num = array.length();
+                    goods.setGoods_comment_count(comment_num);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
             }
 
         }
