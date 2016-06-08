@@ -16,7 +16,6 @@ public class Goods implements Serializable {
     private int goods_stock;//商品库存
     private String goods_description;//商品图文详情
     private String extension = "false" ; //是否是一周菜谱
-
     public Goods() {
     }
 

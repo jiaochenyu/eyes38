@@ -33,6 +33,7 @@
         </LinearLayout>
     </RelativeLayout>
     <!-- 内容 -->
+<!--
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/car_goods_refresh"
         android:layout_width="match_parent"
@@ -44,15 +45,17 @@
         cube_ptr:ptr_pull_to_fresh="false"
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.5"
         cube_ptr:ptr_resistance="1.7">
+-->
 
         <FrameLayout
             android:id="@+id/cartcontent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="28">
 
         </FrameLayout>
 
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+<!--    </in.srain.cube.views.ptr.PtrClassicFrameLayout>-->
 
 
 </LinearLayout>

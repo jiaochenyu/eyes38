@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by huangjiechun on 16/5/26.
  */
 public class HomeContentContent implements Serializable {
+    private int product_id;
     String image;
     String name;
     Double price;

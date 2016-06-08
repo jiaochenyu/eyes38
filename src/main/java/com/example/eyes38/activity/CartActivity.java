@@ -44,9 +44,8 @@ public class CartActivity extends AppCompatActivity {
     }
 
 
-
     private void initViews() {
-        ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.car_goods_refresh);
+        //ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.car_goods_refresh);
         mBackImageView = (ImageView) findViewById(R.id.cartactivity_back);
         mBackImageView.setOnClickListener(new View.OnClickListener() {
             @Override

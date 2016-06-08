@@ -37,11 +37,11 @@ import java.util.List;
 public class PayActivity extends AppCompatActivity {
     public final static int mAdressIDWhat = 1;
     public final static int mDefaultAdressWhat = 2;
+    public final static int mPeiSong = 3;
     private ImageView payBackImag; //返回
     private RelativeLayout mPayAddressRl, mNotEmptyRl;
     private TextView allGoodsPrice, peisongMoney, totalPrice; //收货地址(显示默认)、总价、运费、总价格(商品价格+运费)
     private TextView emptyTV, firstNameTV, phoneTV, districtTV;
-    private int flag = 0;
     private TextView goPay;  // 去付款
     private RadioGroup mPayRadioGroup; //支付方式
     private RadioButton mWeChatRadioButton; //微信支付
@@ -54,6 +54,7 @@ public class PayActivity extends AppCompatActivity {
     private List<Receipt> mReceiptList;  // 默认地址
     private Receipt mReceipt;
     private String address_id; //收货地址id
+    private float jiesuanMoney;  //总金额 商品金额+配送费用
 
     public float getPeisong() {
         return peisong;
@@ -67,13 +68,21 @@ public class PayActivity extends AppCompatActivity {
         this.address_id = address_id;
     }
 
+    public float getJiesuanMoney() {
+        return jiesuanMoney;
+    }
+
+    public void setJiesuanMoney(float jiesuanMoney) {
+        this.jiesuanMoney = jiesuanMoney;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart_jiesuan);
         initViews();
         initData();
-        setView();
+        //setView();
         initListener();
         getAdressIDNoHttp();
 
@@ -105,13 +114,12 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void setView() {
+
+        peisongMoney.setText(getPeisong() + "");  //配送价格
         DecimalFormat df = new DecimalFormat("0.00");
+        setJiesuanMoney((float) (allGoodsPrice() + getPeisong()));
         String st = df.format(allGoodsPrice()); // 商品价格
         allGoodsPrice.setText(st);
-
-        setPeisong(20);
-        peisongMoney.setText(getPeisong() + "");  //配送价格
-
         String st2 = df.format(allGoodsPrice() + getPeisong()); //商品价格 + 配送价格
         totalPrice.setText(st2);
     }
@@ -125,7 +133,7 @@ public class PayActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mList = (List<CartGoods>) intent.getSerializableExtra("list"); // 从购物车中获取list
-
+        Log.e("传过来的值",mList.get(0).getProduct_name());
         mPayAdapter = new PayAdapter(mList, PayActivity.this);
         mGoodsRecyclerView.setAdapter(mPayAdapter);
     }
@@ -171,6 +179,15 @@ public class PayActivity extends AppCompatActivity {
         request.add("customer_id", customerID);
         mRequestQueue.add(mDefaultAdressWhat, request, mOnResponseListener);
 
+    }
+    //获取配送费用
+    private void getPeiSongMoneyNoHttp() {
+        String path = "http://38eye.test.ilexnet.com/api/mobile/setting/getShippingProperties";
+        mRequestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(path, RequestMethod.GET);
+        request.addHeader("Authorization", authorization());
+        request.add("district_id","2145");
+        mRequestQueue.add(mPeiSong, request, mOnResponseListener);
     }
 
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
@@ -224,6 +241,18 @@ public class PayActivity extends AppCompatActivity {
                         emptyTV.setVisibility(View.VISIBLE);
                         mNotEmptyRl.setVisibility(View.GONE);
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (what == mPeiSong){
+                try {
+                    String result = response.get();
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONObject jsonData = jsonObject.getJSONObject("data");
+                    float delivery_money = (float) jsonData.getDouble("delivery_money");
+                    setPeisong(delivery_money);
+                    setView();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
