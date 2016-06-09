@@ -24,13 +24,15 @@
             android:text="@string/goods_comment_title" />
     </RelativeLayout>
     <!-- 内容 -->
-    <LinearLayout style="@style/pagecontent">
+    <LinearLayout style="@style/pagecontent"
+        android:id="@+id/comment_exist">
         <!--导入商品评价导航栏-->
         <include layout="@layout/goods_comments_merge"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></include>
+            android:layout_height="wrap_content"/>
 
         <in.srain.cube.views.ptr.PtrClassicFrameLayout
+            android:visibility="visible"
             android:id="@+id/goods_comment_ptr"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,8 +46,28 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/goods_comment_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content"
+                android:background="@color/comment_background"
+                android:layout_marginTop="10dp"/>
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+        <RelativeLayout style="@style/pagecontent"
+            android:id="@+id/comment_none"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/comment_reply_none_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/article"/>
+            <TextView
+                android:id="@+id/comment_reply_none_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/comment_reply_none_imageview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/goods_comment_reply_none"/>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

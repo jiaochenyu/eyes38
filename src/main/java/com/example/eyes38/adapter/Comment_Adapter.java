@@ -14,15 +14,14 @@ import com.example.eyes38.R;
 import com.example.eyes38.activity.CommentReplyActivity;
 import com.example.eyes38.beans.Comments;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by jqchen on 2016/5/20.
  */
 public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyViewHolder> {
-    List<Comments> mList;
-    Context context;
+    private List<Comments> mList;
+    private Context context;
 
 
     public Comment_Adapter(List<Comments> mList, Context context) {
@@ -39,15 +38,15 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.comment_usernamTextView.setText(mList.get(position).getName());
-        holder.comment_contentTextView.setText(mList.get(position).getContent());
-        holder.comment_timeTextView.setText(mList.get(position).getTime());
-        holder.mRatingBar.setRating(mList.get(position).getRatingbar());
+        holder.comment_usernamTextView.setText(mList.get(position).getAuthor_name());
+        holder.comment_contentTextView.setText(mList.get(position).getComment());
+        holder.comment_timeTextView.setText(mList.get(position).getCreate_date());
+        holder.mRatingBar.setRating(mList.get(position).getRating());
         holder.replyImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CommentReplyActivity.class);
-                intent.putExtra("values", (Serializable) mList.get(position).getReplyList());
+                intent.putExtra("values",mList.get(position));
                 context.startActivity(intent);
             }
         });

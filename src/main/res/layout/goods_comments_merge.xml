@@ -35,11 +35,6 @@
             style="@style/comment_menu_radio"
             android:text="差评" />
 
-        <RadioButton
-            android:id="@+id/comment_picture"
-            style="@style/comment_menu_radio"
-            android:text="有图" />
-
     </RadioGroup>
 
 

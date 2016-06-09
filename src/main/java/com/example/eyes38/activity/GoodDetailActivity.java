@@ -24,6 +24,7 @@ import com.example.eyes38.utils.CartBadgeView;
 import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -36,10 +37,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308; // 购物车商品总数（响应码）
     private static final int CREATECART = 309; // 创建购物车（响应吗）
     private static final int ADDCART = 310; // 加入购物车（响应码）
+    public static final int GETCOMMENTNUM = 100;
     //数据源
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
@@ -150,7 +153,6 @@ public class GoodDetailActivity extends AppCompatActivity {
         goodsUnitTextView.setText(goods.getGoods_platform_price() + goods.getGoods_unit());
         goodsStockTextView.setText(goods.getGoods_stock() + "");
         goodsRemarkTextView.setText(goods.getGoods_name());
-        goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
         //截取字符串中的url
         String description = goods.getGoods_description();
         //如果有图文详情
@@ -164,8 +166,18 @@ public class GoodDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         goods = (Goods) bundle.get("values");
-    }
+        //获取商品评价数量
+        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
+        String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
+        Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        //添加属性，筛选评论
+        mRequest.add("item_id", goods.getGoods_id());
+        mRequest.add("parent_id", 0);
+        //设置缓存
+        mRequest.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
+        mRequestQueue.add(GETCOMMENTNUM, mRequest, mOnResponseListener);
 
+    }
 
     class MyOnClickLisenter implements View.OnClickListener {
 
@@ -219,10 +231,12 @@ public class GoodDetailActivity extends AppCompatActivity {
         return authorization;
     }
 
+
     //先获取购物车中的商品总数，和该商品是否在购物车中 如果在那么在加入购物车的时候quantity + 1
     //如果不在 那么应该调用 创建购物车的接口
+
     //添加到购物车
-    //**************获取购物车信息************
+//**************获取购物车信息************
     private void getCartNoHttp() {
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
@@ -265,7 +279,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         }
     }
 
-        //******************更新购物车进行加操作
+//******************更新购物车进行加操作
 
     private void putAddGooodsNoHttp(int shoppingCartId, int quantity, String extension1) {
         try {
@@ -380,6 +394,18 @@ public class GoodDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+            }
+            if (what == GETCOMMENTNUM) {
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("data");
+                    int comment_num = array.length();
+                    goods.setGoods_comment_count(comment_num);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
             }
 
         }

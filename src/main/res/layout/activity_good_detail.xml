@@ -30,7 +30,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
@@ -40,7 +40,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/good_detail_defult"/>
+                    android:src="@drawable/good_detail_defult"
+                    android:contentDescription="@string/goods_detail_pic_description" />
                 <!--显示规格-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,15 +50,16 @@
 
                     <TextView
                         style="@style/goods_detail_unit_text"
-                        android:text="￥"/>
+                        android:text="@string/goods_detail_rmb"/>
 
                     <TextView
                         android:id="@+id/goods_detail_unit"
                         style="@style/goods_detail_unit_text"
-                        android:text="0.01/个"/>
+                        android:text="@string/goods_detail_unit"/>
                 </LinearLayout>
                 <!--显示库存-->
                 <LinearLayout
+                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white">
@@ -71,7 +73,7 @@
                         android:id="@+id/goods_detail_stock"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="88"/>
+                        android:text="@string/goods_detail_stocknum"/>
                 </LinearLayout>
                 <!--分割线-->
                 <TextView
@@ -82,7 +84,7 @@
                 <TextView
                     android:id="@+id/goods_detai_remark"
                     style="@style/goods_detail_remark"
-                    android:text="美国猪带骨肉眼大排 500g 盒装"/>
+                    android:text="@string/goods_detail_name"/>
                 <!--分割线-->
                 <TextView
                     android:layout_width="match_parent"
@@ -93,11 +95,10 @@
                     android:id="@+id/goods_comment_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp"
                     android:clickable="true">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1">
@@ -105,18 +106,17 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="评论("/>
+                            android:text="@string/goods_detail_comment_left"/>
                         <!--评论数量-->
                         <TextView
                             android:id="@+id/goods_detail_commentcount"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"/>
+                            android:layout_height="wrap_content" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=")"/>
+                            android:text="@string/goods_detail_comment_right"/>
                     </LinearLayout>
                     <!--右边箭头-->
                     <ImageView
@@ -140,11 +140,11 @@
                     android:textColor="@color/white"/>
 
                 <ImageView
+                    android:layout_weight="1"
                     android:id="@+id/goods_detail_txt_pic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/good_detail_defult"/>
+                    android:scaleType="centerCrop" />
             </LinearLayout>
         </ScrollView>
 

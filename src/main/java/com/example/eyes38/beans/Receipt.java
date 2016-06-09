@@ -101,6 +101,4 @@ public class Receipt implements Serializable {
         this.defaultAddress = defaultAddress;
     }
 
-    //省、市、区、收货箱、详细地址
-
 }

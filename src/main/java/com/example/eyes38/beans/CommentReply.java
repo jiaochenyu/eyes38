@@ -6,21 +6,30 @@ import java.io.Serializable;
  * Created by jqchen on 2016/5/27.
  */
 public class CommentReply implements Serializable {
+    /**
+     * id 编号，表明几楼
+     * comment_id 后台编号
+     * author_name 评论作者
+     * path 头像地址
+     * comment 回复内容
+     * create_date 评论时间
+     */
     private int id;
-    private String name;
+    private int comment_id;
+    private String author_name;
     private String path;
-    private String content;
-    private String time;
-
+    private String comment;
+    private String create_date;
     public CommentReply() {
     }
 
-    public CommentReply(int id, String name, String path, String content, String time) {
+    public CommentReply(int id, int comment_id, String author_name, String path, String comment, String create_date) {
         this.id = id;
-        this.name = name;
+        this.comment_id = comment_id;
+        this.author_name = author_name;
         this.path = path;
-        this.content = content;
-        this.time = time;
+        this.comment = comment;
+        this.create_date = create_date;
     }
 
     public int getId() {
@@ -31,12 +40,20 @@ public class CommentReply implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getComment_id() {
+        return comment_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setComment_id(int comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public String getAuthor_name() {
+        return author_name;
+    }
+
+    public void setAuthor_name(String author_name) {
+        this.author_name = author_name;
     }
 
     public String getPath() {
@@ -47,19 +64,19 @@ public class CommentReply implements Serializable {
         this.path = path;
     }
 
-    public String getContent() {
-        return content;
+    public String getComment() {
+        return comment;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public String getTime() {
-        return time;
+    public String getCreate_date() {
+        return create_date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setCreate_date(String create_date) {
+        this.create_date = create_date;
     }
 }
