@@ -40,7 +40,7 @@
             android:layout_weight="8">
 
             <EditText
-                android:focusableInTouchMode="false"
+                android:padding="5dp"
                 android:id="@+id/search_edit"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -100,7 +100,7 @@
               android:layout_height="1dp"/>
           <GridView
               android:padding="10dp"
-              android:layout_margin="15dp"
+              android:layout_margin="50dp"
               android:layout_weight="11"
               android:numColumns="3"
               android:columnWidth="50dp"
@@ -109,7 +109,7 @@
               android:verticalSpacing="10sp"
               android:id="@+id/hotGridView"
               android:layout_width="match_parent"
-              android:layout_height="0dp"></GridView>
+              android:layout_height="60dp"></GridView>
           <!--暂时放个简单的分割线吧-->
           <TextView
               android:background="#FFF"

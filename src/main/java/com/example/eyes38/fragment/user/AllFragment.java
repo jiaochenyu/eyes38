@@ -132,7 +132,6 @@ public class AllFragment extends Fragment {
     }
 
     private void HttpMethod() {
-
         String url = "http://38eye.test.ilexnet.com/api/mobile/order-api/orders/list-by-customers/" + customer_id;
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         String addHeader = usernameValue + ":" + passwordValue;

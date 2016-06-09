@@ -25,17 +25,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.eyes38.R;
+import com.example.eyes38.beans.Goods;
 import com.example.eyes38.fragment.search.search_adapter.GridAdapter;
 import com.example.eyes38.fragment.search.search_adapter.ListAdapter;
 import com.example.eyes38.fragment.search.search_adapter.SearchRecycleViewAdapter;
-import com.example.eyes38.fragment.search.search_bean.SearchBean;
 import com.example.eyes38.fragment.search.search_bean.bansearchBean;
 import com.example.eyes38.fragment.search.search_bean.gridBean;
 import com.example.eyes38.fragment.search.utils.HistoryTable;
 import com.example.eyes38.fragment.search.utils.MyHelper;
-import com.example.eyes38.utils.DividerItemDecoration;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -64,9 +64,9 @@ public class SearchActivity extends AppCompatActivity {
     public static final int mFinish = 922;
     private Context mContext;
     //数据库总量
-    private List<SearchBean> mList;
+    private List<Goods> mList;
     //搜索结果
-    private List<SearchBean> resultList;
+    private List<Goods> resultList;
     //历史记录
     private List<bansearchBean> banList;
     //适配器
@@ -113,11 +113,11 @@ public class SearchActivity extends AppCompatActivity {
 
     //请求http获取
     private void getHttpMetod() {
-        mRequestQueue = NoHttp.newRequestQueue(1);
-        String url = "http://fuwuqi.guanweiming.top/headvip/json/testdata";
+        mRequestQueue = NoHttp.newRequestQueue();
+        String url = "http://38eye.test.ilexnet.com/api/mobile/product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-       // request.setRequestFailedReadCache(true);
-        request.add("size", "7");
+        request.add("limit", "28");
+        request.setCacheMode(CacheMode.DEFAULT);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
 
@@ -139,25 +139,25 @@ public class SearchActivity extends AppCompatActivity {
                 resultList.clear();
                 try {
                     JSONObject object = new JSONObject(result);
-                    JSONArray data = object.getJSONArray("goods");
+                    JSONArray data = object.getJSONArray("data");
                     for (int i = 0; i < data.length(); i++) {
-                        JSONObject object1 = data.getJSONObject(i);
-                        SearchBean searchBean = new SearchBean();
-                        String image = object1.getString("pic");
-                        String name = object1.getString("title");
-                        float price = Float.parseFloat(object1.getString("id"));
-                        String size = object1.getString("content");
-                        searchBean.setName(name);
-                        searchBean.setPic(image);
-                        searchBean.setPrice(price);
-                        searchBean.setSize(size);
-                        mList.add(searchBean);
-                        Log.e("TAG", image + "-->" + name + "-->" + price + "-->" + size);
+                        JSONObject jsonObject = data.getJSONObject(i);
+                        int id = jsonObject.getInt("product_id");
+                        String name = jsonObject.getString("name");
+                        String path = jsonObject.getString("image");
+                        String unit = jsonObject.getString("extension4");
+                        String txt_pic = jsonObject.getString("description");
+                        float price = (float) jsonObject.getDouble("price");
+                        float market_price = (float) jsonObject.getDouble("market_price");
+                        JSONObject search = jsonObject.getJSONObject("product_search");
+                        int comment_count = search.getInt("comment_num");
+                        int stock = search.getInt("stock_num");
+                        Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic);
+                        mList.add(goods);
                     }
                     for (int i = 0; i < mList.size(); i++) {
                         //匹配条件
-                        if (mList.get(i).getName().contains(text.trim())) {
-                            Log.e("AA", text);
+                        if (mList.get(i).getGoods_name().contains(text.trim())) {
                             resultList.add(mList.get(i));
                         }
                     }
@@ -393,7 +393,6 @@ public class SearchActivity extends AppCompatActivity {
         resultList = new ArrayList<>();
         banList = new ArrayList<>();
         setAdapter();
-        Log.e("TAGGG",banList.size()+"");
         //将历史数据上的放在文本框上
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -407,7 +406,6 @@ public class SearchActivity extends AppCompatActivity {
         //设置cycleView的布局管理
         GridLayoutManager gridLayoutManager = new GridLayoutManager(SearchActivity.this, 2);
         resultRecyclerView.setLayoutManager(gridLayoutManager);
-        resultRecyclerView.addItemDecoration(new DividerItemDecoration(SearchActivity.this, 1));
         mEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -53,10 +53,6 @@ public class GoodDetailActivity extends AppCompatActivity {
             }
         }
     };
-<<<<<<< HEAD
-=======
-
->>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -160,13 +160,6 @@ public class HomeRecycleView {
             @Override
             public void onItemClick(View view, HomeContentContent hcc) {
                 //跳转到商品详情页面,传一个goods对象,键值是values,
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
                 Goods goods = new Goods(0, hcc.getName(), hcc.getImage(), null, 0, 0, 0, 0, "");
                 Intent intent = new Intent(mContext, GoodDetailActivity.class);
                 Bundle bundle = new Bundle();

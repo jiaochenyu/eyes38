@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eyes38">
     <!--所需的权限-->
+    <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:name=".Application.Application"
         android:allowBackup="true"
@@ -14,6 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,20 +64,12 @@
         <activity android:name=".activity.GuideActivity" />
         <activity android:name=".activity.home.LoadActivity" />
         <activity android:name=".user_activity.User_order_detailActivity" />
-<<<<<<< HEAD
         <!--监听网络广播-->
-        <receiver android:name=".utils.ConnectionChangeReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-=======
         <service android:name=".utils.NetworkStateService">
             <intent-filter>
                 <action android:name="com.eyes38.network.state"/>
             </intent-filter>
         </service>
->>>>>>> 441a3ddd08cb0cddd42c00b30dc39be5dd978d68
     </application>
 
 </manifest>

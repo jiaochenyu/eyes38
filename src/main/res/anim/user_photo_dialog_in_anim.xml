@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 我的账号设置dialog进入动画 -->
+    <translate
+        android:duration="500"
+        android:fromXDelta="0"
+        android:fromYDelta="1000"
+        android:toXDelta="0"
+        android:toYDelta="700" />
+
+</set>
