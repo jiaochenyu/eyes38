@@ -2,6 +2,7 @@ package com.example.eyes38.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
-import com.example.eyes38.beans.HomeContent;
 import com.example.eyes38.beans.HomeContentContent;
 
 import java.util.List;
@@ -29,11 +29,6 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
     public static interface OnRecyclerViewItemClickListener {
 
         void onItemClick(View view, HomeContentContent hcc);
-    }
-
-    public static interface OnHeadViewItemClickListener {
-
-        void onItemClick(View view, HomeContent hc);
     }
 
     public void setmOnItemClickListener(OnRecyclerViewItemClickListener listener) {
@@ -57,13 +52,14 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.mTextView.setText(mList.get(position).getName());
-        if (!mList.get(position).getImage().equals("")) {
-            Glide.with(mContext).load(mList.get(position).getImage()).into(holder.mImageView);
+        holder.mTextView.setText(mList.get(position).getGoods_name());
+        if (!mList.get(position).getPath().equals("")) {
+            Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
         }
         holder.itemView.setTag(mList.get(position));
-        holder.priceTextvew.setText(mList.get(position).getPrice()+"");
-        holder.danweiTexiview.setText(mList.get(position).getExtension4()+"");
+        Log.e("price01",mList.get(position).toString());
+        holder.priceTextvew.setText(mList.get(position).getGoods_platform_price()+"");
+        holder.danweiTexiview.setText(mList.get(position).getGoods_unit()+"");
     }
 
     @Override

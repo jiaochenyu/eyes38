@@ -65,11 +65,11 @@ public class Home_item_adapter extends RecyclerView.Adapter<Home_item_adapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         initData();
 
-        holder.mTextView.setText(mlist.get(position).getName());
-        Glide.with(mContext).load(mlist.get(position).getImage()).into(holder.mImageView);
+        holder.mTextView.setText(mlist.get(position).getGoods_name());
+        Glide.with(mContext).load(mlist.get(position).getPath()).into(holder.mImageView);
         holder.itemView.setTag(mlist.get(position));
-        holder.priceTextvew.setText(mlist.get(position).getPrice()+"");
-        holder.danweiTexiview.setText(mlist.get(position).getExtension4()+"");
+        holder.priceTextvew.setText(mlist.get(position).getGoods_platform_price()+"");
+        holder.danweiTexiview.setText(mlist.get(position).getGoods_unit()+"");
     }
 
     private void initData() {

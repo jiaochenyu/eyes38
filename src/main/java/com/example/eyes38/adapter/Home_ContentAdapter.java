@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,7 +139,16 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onItemClick(View view, HomeContentContent hcc) {
                         //跳转到商品详情页面,传一个goods对象,键值是values,
-                        Goods goods = new Goods(0, hcc.getName(), hcc.getImage(), null, 0, 0, 0, 0, "");
+                        Goods goods = new Goods();
+                        Log.e("hcc",hcc.toString());
+                        goods.setGoods_id(hcc.getGoods_id());
+                        goods.setGoods_name(hcc.getGoods_name());
+                        goods.setPath(hcc.getPath());
+                        goods.setGoods_unit(hcc.getGoods_unit());
+                        goods.setGoods_market_price(hcc.getGoods_market_price());
+                        goods.setGoods_platform_price(hcc.getGoods_platform_price());
+                        goods.setGoods_description(hcc.getGoods_description());
+                        goods.setGoods_stock(hcc.getGoods_stock());
                         if (zhuantiname.equals("一周菜谱")) {
                             goods.setExtension("true");
                         }
