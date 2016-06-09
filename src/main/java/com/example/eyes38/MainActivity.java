@@ -101,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 记录上一次点击的页面编号
          */
+<<<<<<< HEAD
+=======
+
+>>>>>>> af7e8073a54e52aa49c908129ddffb47d33771ee
         showFragment(record);
         switch (record) {
             case HOME:

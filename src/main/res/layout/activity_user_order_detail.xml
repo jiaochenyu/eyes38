@@ -25,7 +25,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+<<<<<<< HEAD
                 android:src="@drawable/back"/>
+=======
+                android:onClick="user_order_detail_back"
+                android:src="@drawable/back"/>
+
+>>>>>>> af7e8073a54e52aa49c908129ddffb47d33771ee
 
             <TextView
                 style="@style/pagetitletext"
@@ -346,17 +352,17 @@
                 android:background="#F2F2F2"
                 android:layout_weight="6"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"></LinearLayout>
+                android:layout_height="0dp"/>
             <LinearLayout
                 android:background="#F2F2F2"
                 android:layout_weight="6"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"></LinearLayout>
+                android:layout_height="0dp"/>
             <LinearLayout
                 android:background="#F2F2F2"
                 android:layout_weight="6"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"></LinearLayout>
+                android:layout_height="0dp"/>
             
             
             

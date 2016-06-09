@@ -122,8 +122,8 @@
     <style name="goods_detail_remark">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:background">@color/white</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
@@ -284,8 +284,8 @@
 
     <style name="comment_ratingbar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/comment_ratingbar</item>
-        <item name="android:minHeight">15dp</item>
-        <item name="android:maxHeight">15dp</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
     </style>
 
     <!--评论界面导航栏属性-->
@@ -308,6 +308,7 @@
         <item name="android:textColor">@color/topical</item>
         <item name="android:background">@drawable/cart_dialog_week_border</item>
     </style>
+<<<<<<< HEAD
     <!--图片上传-->
     <style name="transparentFrameWindowStyle" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/user_photo_choose_bg</item>
@@ -317,5 +318,12 @@
         <item name="android:windowEnterAnimation">@anim/user_photo_dialog_in_anim</item>
         <item name="android:windowExitAnimation">@anim/user_photo_dialog_out_anim</item>
     </style>
+=======
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+>>>>>>> af7e8073a54e52aa49c908129ddffb47d33771ee
 
 </resources>

@@ -26,7 +26,6 @@ import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.utils.CartDialogDelete;
 import com.example.eyes38.utils.CartDialogSelectDate;
-import com.yolanda.nohttp.Logger;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -328,7 +327,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //如果商品全部被选中，则全选按钮也被 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
-            mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList));
+            mHandler.sendMessage(mHandler.obtainMessage(NOTIFILIST, mList)); // 改变了list 结算页面的list
+            mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); //改变徽章
         }
     }
 
@@ -600,7 +600,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         public void onSucceed(int what, Response<String> response) {
             //加法
             if (what == ADDFINISH) {
-                Logger.e(response.get());
                 String result = response.get();
                 try {
                     JSONObject jsonObject = new JSONObject(result);

@@ -33,13 +33,13 @@ public class ReceiptAddress implements Serializable{
     private String customer_id;
     private String firstname;
     private String mobile;
-    private String address_1;
-    private String district_id;
-    private String country_id;
-    private String version;
-    private String create_by;
-    private Object update_by;
-    private String district;
+    private String address_1; //自己填的详细地址
+    private String district_id; // 地区编号
+    private String country_id; //
+    private String version; //
+    private String create_by; // 地址电话
+    private Object update_by; //
+    private String district; // 三级联动
 
     public String getAddress_id() {
         return address_id;

@@ -36,7 +36,7 @@
             android:layout_below="@id/comment_reply_none_imageview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:text="@string/goods_comment_none"/>
+            android:text="@string/goods_comment_reply_none"/>
     </RelativeLayout>
 
 </LinearLayout>

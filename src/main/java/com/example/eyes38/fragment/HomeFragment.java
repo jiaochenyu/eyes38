@@ -282,13 +282,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                 if (mmList.size() < 2) {
                                     //只显示两个
                                     JSONObject jsonObject1 = array2.getJSONObject(j);
+                                    String type = jsonObject1.getString("type");
                                     if (!jsonObject1.getString("product").equals("false")) {
                                         JSONObject jsonObject2 = jsonObject1.getJSONObject("product");
+                                        int product_id = jsonObject2.getInt("product_id");
                                         String image = jsonObject2.getString("image");
                                         String name = jsonObject2.getString("name");
-                                        Double price = jsonObject2.getDouble("price");
+                                        float price = (float) jsonObject2.getDouble("price");
+                                        float market_price = (float) jsonObject2.getDouble("market_price");
                                         String extension4 = jsonObject2.getString("extension4");
-                                        HomeContentContent hcc = new HomeContentContent(image, name, price, extension4);
+                                        Log.e("fafasf",market_price+"");
+                                        int stock_num = jsonObject2.getInt("stock_num");
+                                        String description = jsonObject2.getString("description");
+                                        HomeContentContent hcc = new HomeContentContent();
+                                        hcc.setGoods_id(product_id);
+                                        hcc.setGoods_name(name);
+                                        hcc.setPath(image);
+                                        hcc.setGoods_unit(extension4);
+                                        hcc.setGoods_market_price(price);
+                                        hcc.setGoods_platform_price(market_price);
+                                        hcc.setGoods_stock(stock_num);
+                                        hcc.setGoods_description(description);
+                                        if (type.equals("week")){
+                                            hcc.setExtension("true");
+                                        }
+                                        Log.e("stocketawda",stock_num+"");
                                         mmList.add(hcc);
                                     }
                                 }
