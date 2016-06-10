@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,15 @@ import com.example.eyes38.user_activity.User_orderActivity;
 import com.example.eyes38.user_activity.User_personal_centerActivity;
 import com.example.eyes38.user_activity.User_phone_setActivity;
 import com.example.eyes38.user_activity.User_take_addressActivity;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -35,9 +46,15 @@ import com.example.eyes38.user_activity.User_take_addressActivity;
  */
 public class UserFragment extends Fragment {
     public static final int REFRESH = 400;
+    private static final int INWHAT1 = 520;
+    private static final int INWHAT2 = 521;
+    private static final int INWHAT3 = 522;
+    private static final int INWHAT4 = 523;
     MainActivity mMainActivity;
     ImageView user_set, user_message;
     View view;
+    private String custom_id, username, password;
+    RequestQueue mRequestQueue;
     int flag;//用于传值
     RadioButton user_pay, user_send, user_receive, user_back;
     LinearLayout user_person_set;//头像跳转
@@ -85,7 +102,6 @@ public class UserFragment extends Fragment {
             Intent intent = new Intent(mMainActivity, User_loginActivity.class);
             startActivity(intent);
         } else {
-
             updateUsername();
         }
     }
@@ -103,15 +119,104 @@ public class UserFragment extends Fragment {
         }
     };
 
+    //更新个人页面基本信息
     private void updateUsername() {
         //设置登录名
-        String username = sp.getString("USER_NAME", "");
-        String custom_id=sp.getString("CUSTOMER_ID","");
-
+        username = sp.getString("USER_NAME", "");
+        custom_id = sp.getString("CUSTOMER_ID", "");
+        password = sp.getString("PASSWORD", "");
+        getHttpMethod();
         user_tel_set.setText(username);
         user_tel_set.setTextSize(12);
 
     }
+
+    //获取个人中心数量
+    private void getHttpMethod() {
+        //待付款
+        String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/" + custom_id + "/statistics";
+        Request<String> request1 = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request1.add("needLoadParams", "unPayedOrders");
+        mRequestQueue.add(INWHAT1, request1, mOnResponseListener);
+        //待发货
+        Request<String> request2 = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request2.add("needLoadParams", "payedOrders");
+        mRequestQueue.add(INWHAT2, request2, mOnResponseListener);
+        //待收货
+        Request<String> request3 = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request3.add("needLoadParams", "deliveredOrders");
+        mRequestQueue.add(INWHAT3, request3, mOnResponseListener);
+        //退货
+        Request<String> request4 = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request4.add("needLoadParams", "aftersaleOrders");
+        mRequestQueue.add(INWHAT4, request4, mOnResponseListener);
+
+    }
+
+    private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == INWHAT1) {
+                String result = response.get();
+                Log.e("result", result + "");
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONObject object1 = object.getJSONObject("data");
+                    String unPayedOrders = object1.getString("unPayedOrdersCount");
+                    Log.e("ggg", unPayedOrders);
+                    user_pay.setText("待付款(" + unPayedOrders + ")");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (what == INWHAT2) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONObject object1 = object.getJSONObject("data");
+                    String payedOrders = object1.getString("payedOrdersCount");
+                    user_send.setText("待发货(" + payedOrders + ")");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (what == INWHAT3) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONObject object1 = object.getJSONObject("data");
+                    String deliveredOrdersCount = object1.getString("deliveredOrdersCount");
+                    user_receive.setText("待收货(" + deliveredOrdersCount + ")");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (what == INWHAT4) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONObject object1 = object.getJSONObject("data");
+                    String aftersaleOrdersCount = object1.getString("aftersaleOrdersCount");
+                    user_back.setText("待付款(" + aftersaleOrdersCount + ")");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
 
     private void ListenerValues() {
         //跳转到我的订单页面
@@ -246,7 +351,7 @@ public class UserFragment extends Fragment {
         user_send = (RadioButton) view.findViewById(R.id.user_send);
         user_receive = (RadioButton) view.findViewById(R.id.user_receive);
         user_back = (RadioButton) view.findViewById(R.id.user_back);
-
+        mRequestQueue = NoHttp.newRequestQueue();
     }
 
 

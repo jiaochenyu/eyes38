@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:gravity="bottom"
+              android:background="#dcd9d9"
+              android:padding="15dp"
+              android:layout_margin="0dp"
+              android:id="@+id/user_photo_upload"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+   <Button
+       android:background="#edebeb"
+       android:textSize="15sp"
+       android:layout_weight="2"
+       android:text="本地相册"
+       android:onClick="local_upload"
+       android:id="@+id/photo_local_upload"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"/>
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    <Button
+        android:background="#edebeb"
+        android:textSize="15sp"
+        android:layout_weight="2"
+        android:onClick="camera_upload"
+        android:text="相机拍照"
+        android:id="@+id/photo_camera_upload"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <Button
+        android:background="#edebeb"
+        android:textSize="15sp"
+        android:layout_weight="2"
+        android:onClick="cancel_upload"
+        android:text="取消"
+        android:id="@+id/photo_cancel_upload"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+
+   </LinearLayout>

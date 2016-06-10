@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by jqchen on 2016/5/18.
  */
 public class Goods implements Serializable {
-    private int goods_id;//商品id
+    private int goods_id;//商品id4
     private String goods_name;//商品名称
     private String path;//商品图片地址
     private String goods_unit;//商品规格

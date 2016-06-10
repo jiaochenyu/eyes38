@@ -167,6 +167,7 @@ public class User_order_AllAdapter extends RecyclerView.Adapter<User_order_AllAd
                     JSONObject object = new JSONObject(result);
                     boolean deleteOrder = object.getBoolean("success");
                     if (deleteOrder) {
+                        mList.remove(setPosition);
                         notifyDataSetChanged();
                         Toast.makeText(mContext, "取消成功", Toast.LENGTH_SHORT).show();
                     } else {
