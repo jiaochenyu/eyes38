@@ -17,8 +17,10 @@ public class CartGoods implements Serializable {
     private double price; //商品价格
     private String extension1=null; // 是否是一周菜谱
     private boolean isSelected; // 是否被选中
+    private int viewType;
     //商品信息
     private Goods mGoods;
+
 
     /**
      * group : NORMAL
@@ -28,7 +30,7 @@ public class CartGoods implements Serializable {
     public CartGoods() {
     }
 
-    public CartGoods(int shopping_cart_id, int customer_id, String customer_name, int product_id, String product_name, String store_name, int quantity, double price, String extension1, Goods goods) {
+    public CartGoods(int shopping_cart_id, int customer_id, String customer_name, int product_id, String product_name, String store_name, int quantity, double price, String extension1, Goods goods,int viewType) {
         this.shopping_cart_id = shopping_cart_id;
         this.customer_id = customer_id;
         this.customer_name = customer_name;
@@ -39,6 +41,7 @@ public class CartGoods implements Serializable {
         this.price = price;
         this.extension1 = extension1;
         mGoods = goods;
+        this.viewType = viewType;
     }
 
     public Goods getGoods() {
@@ -140,6 +143,14 @@ public class CartGoods implements Serializable {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public int getViewType() {
+        return viewType;
+    }
+
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
     }
 }
 

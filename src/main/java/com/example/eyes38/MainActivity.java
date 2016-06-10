@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -25,6 +26,7 @@ import com.example.eyes38.utils.NetworkStateService;
 
 public class MainActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308;
+    public final static int SHOWCARTLIST = 309;
     private SharedPreferences sp;
     private static final int HOME = 1;
     private static final int SORT = 2;
@@ -54,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         mCartBadgeView.hide();
                     }
+                    break;
+                case SHOWCARTLIST:
+                    Log.e("执行了showcartlist", "yes");
+                    CartFragment mCarFragment = new CartFragment();
+                    FragmentTransaction mFragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    mFragmentTransaction.add(R.id.fragment_container, mCarFragment);
+                    mFragmentTransaction.commit();
                     break;
             }
         }

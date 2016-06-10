@@ -43,7 +43,12 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayHolder>  {
     public void onBindViewHolder(PayHolder holder, int position) {
         Glide.with(mContext).load(mList.get(position).getGoods().getPath()).into(holder.mImageView);
         holder.goodsName.setText(mList.get(position).getProduct_name());
-        holder.orderType.setText("");
+        if(mList.get(position).getExtension1().equals("false")){
+            holder.orderType.setText("当日订单");
+        }else {
+            holder.orderType.setText("当周订单"+mList.get(position).getExtension1());
+        }
+
         holder.goodsNum.setText(mList.get(position).getQuantity()+"");
         //double类型保留两位小数
         DecimalFormat df = new DecimalFormat("0.00");

@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * Created by jqchen on 2016/5/20.
  */
-public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.CartGoodsViewHolder> implements View.OnClickListener {
+public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     public static final int NOTIFICHANGEPRICE = 383;  //通知购物车页面  改变总价格
     public static final int NOTIFICHANGEALLSELECTED = 384; //通知购物车页面 设置为全选
     public static final int DELETEFINISH = 386;  // 删除操作
@@ -53,13 +53,14 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     public static final int CARTGOODSCOUNT = 308; // 通知mainactivity 改变徽章
     public static final int UPDATEWEEKFINISH = 390; //更新购物车操作 设置当周订单的日期
     public static final int UPDATDAYFINISH = 391; //更新购物车操作 设置为当日订单（将extension设置为true）
+    public static final int DeleteMethod = 520;
     private List<CartGoods> mList;
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener = null;//监听事件
     private boolean isShowDelete; // 是否显示删除按钮
     private RequestQueue mRequestQueue; //请求队列
     private int position; // 删除位置
-    private int cartGoodsCount;
+    private int cartGoodsCount; //购物车总量
     SharedPreferences sp;  //偏好设置 看用户登录是否登录
     Handler mainHandler = (new MainActivity()).mainHandler; // 向MainActivity传值 改变徽章
     Handler mHandler;
@@ -119,11 +120,107 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     }
 
     @Override
-    public CartGoodsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_goods_items, parent, false);
-        CartGoodsViewHolder cartGoodsViewHolder = new CartGoodsViewHolder(view);
-        view.setOnClickListener(this);
-        return cartGoodsViewHolder;
+    public int getItemViewType(int position) {
+        return mList.get(position).getViewType();
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
+        RecyclerView.ViewHolder holder = null;
+        switch (viewType) {
+            case 2:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_goods_items, parent, false);
+                holder = new CartGoodsViewHolder(view);
+                view.setOnClickListener(this);
+                break;
+            case 1:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_goods_top_items, parent, false);
+                holder = new CartTopViewHolder(view);
+                break;
+        }
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        if (viewHolder instanceof CartTopViewHolder) {
+            CartTopViewHolder cartTopViewHolder = (CartTopViewHolder) viewHolder;
+
+            cartTopViewHolder.mCountTopTextView.setText(getAllGoodsCount() + "");
+            cartTopViewHolder.mTopAllGoodsCheckBox.setChecked(isAllSelected());
+
+            cartTopViewHolder.mTopAllGoodsCheckBox.setOnClickListener(new ButtonOnClickListener(position));
+            cartTopViewHolder.mDeleteOperationTV.setOnClickListener(new ButtonOnClickListener(position));
+        }
+        if (viewHolder instanceof CartGoodsViewHolder) {
+            CartGoodsViewHolder holder = (CartGoodsViewHolder) viewHolder;
+            //设置item Tag
+            holder.itemView.setTag(mList.get(position));
+            Glide.with(mContext).load(mList.get(position).getGoods().getPath()).into(holder.mImageView);
+            //double类型保留两位小数
+            DecimalFormat df = new DecimalFormat("0.00");
+            String st = df.format(mList.get(position).getPrice() * mList.get(position).getQuantity()); //double 保留两位小数
+            holder.mPriceTextView.setText(st);
+            holder.mTitleTextView.setText(mList.get(position).getProduct_name());
+            holder.mCountTextView.setText(mList.get(position).getQuantity() + "");
+            /**
+             *  判断一周菜谱按钮是否显示：四种状态
+             *  extension==null显示两个按钮,
+             *  ==false只显示当日订单,
+             *  ==true 显示两个按钮  一周订单背景为灰色 当日订单背景为主题色
+             *  如果为日期 那么一周菜谱按钮显示日期  当日订单背景为灰色
+             */
+            //默认状态是 当周订单显示灰色 当日订单显示主题色
+            String extension = mList.get(position).getExtension1();
+            if (extension.equals("false")) {
+                //false
+                holder.mDayOrder.setVisibility(View.VISIBLE);
+                holder.mWeekOrder.setVisibility(View.GONE);
+            } else if (extension.equals("")) {
+                holder.mDayOrder.setVisibility(View.VISIBLE);
+                holder.mDayOrder.setBackgroundResource(R.color.border_color); //将当日订单背景颜色显示为灰色
+                holder.mWeekOrder.setVisibility(View.VISIBLE);
+                holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
+            } else if (extension.equals("true")) {
+                holder.mDayOrder.setVisibility(View.VISIBLE);
+                holder.mDayOrder.setBackgroundResource(R.color.topical); //将当日订单背景颜色显示为灰色
+                holder.mWeekOrder.setVisibility(View.VISIBLE);
+                holder.mWeekOrder.setBackgroundResource(R.color.border_color); //将当周订单北京颜色显示主题色
+                holder.mWeekOrder.setText("当周订单");
+            } else {
+                // 一周菜谱按钮显示日期
+                holder.mDayOrder.setVisibility(View.VISIBLE);
+                holder.mDayOrder.setBackgroundResource(R.color.border_color); //将当日订单背景颜色显示为灰色
+                holder.mWeekOrder.setVisibility(View.VISIBLE);
+                holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
+                holder.mWeekOrder.setText(extension);
+            }
+            // 做个判断 是否显示删除按钮
+            if (isShowDelete) {
+                //如果显示 删除
+                holder.mDeleteTextView.setVisibility(View.VISIBLE);
+                holder.mDayOrder.setVisibility(View.GONE);
+                holder.mWeekOrder.setVisibility(View.GONE);
+            } else {
+                holder.mDeleteTextView.setVisibility(View.GONE);
+                holder.mDayOrder.setVisibility(View.VISIBLE);
+            }
+            holder.mCheckBox.setTag(position);
+
+            holder.mCheckBox.setChecked(mList.get(position).isSelected());
+            holder.mCheckBox.setOnCheckedChangeListener(new CheckBoxChangedListener());
+            holder.mCheckBox.setOnClickListener(new ButtonOnClickListener(position));
+            holder.addButton.setOnClickListener(new ButtonOnClickListener(position));
+            holder.subButton.setOnClickListener(new ButtonOnClickListener(position));
+            holder.mDeleteTextView.setOnClickListener(new ButtonOnClickListener(position));
+            holder.mImageView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品图片跳转
+            holder.mTitleTextView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品标题进行跳转
+            holder.mWeekOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击一周菜谱
+            holder.mDayOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击了当日订单
+        }
+
+
     }
 
     //初始化 mOnRecyclerViewItemClickListener
@@ -131,71 +228,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         this.mOnRecyclerViewItemClickListener = listener;
     }
 
-    @Override
-    public void onBindViewHolder(CartGoodsViewHolder holder, int position) {
-        //设置item Tag
-        holder.itemView.setTag(mList.get(position));
-        Glide.with(mContext).load(mList.get(position).getGoods().getPath()).into(holder.mImageView);
-        //double类型保留两位小数
-        DecimalFormat df = new DecimalFormat("0.00");
-        String st = df.format(mList.get(position).getPrice() * mList.get(position).getQuantity()); //double 保留两位小数
-        holder.mPriceTextView.setText(st);
-        holder.mTitleTextView.setText(mList.get(position).getProduct_name());
-        holder.mCountTextView.setText(mList.get(position).getQuantity() + "");
-        /**
-         *  判断一周菜谱按钮是否显示：四种状态
-         *  extension==null显示两个按钮,
-         *  ==false只显示当日订单,
-         *  ==true 显示两个按钮  一周订单背景为灰色 当日订单背景为主题色
-         *  如果为日期 那么一周菜谱按钮显示日期  当日订单背景为灰色
-         */
-        //默认状态是 当周订单显示灰色 当日订单显示主题色
-        String extension = mList.get(position).getExtension1();
-        if (extension.equals("false")) {
-            //false
-            holder.mDayOrder.setVisibility(View.VISIBLE);
-            holder.mWeekOrder.setVisibility(View.GONE);
-        } else if (extension.equals("")) {
-            holder.mDayOrder.setVisibility(View.VISIBLE);
-            holder.mDayOrder.setBackgroundResource(R.color.border_color); //将当日订单背景颜色显示为灰色
-            holder.mWeekOrder.setVisibility(View.VISIBLE);
-            holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
-        } else if (extension.equals("true")) {
-            holder.mDayOrder.setVisibility(View.VISIBLE);
-            holder.mDayOrder.setBackgroundResource(R.color.topical); //将当日订单背景颜色显示为灰色
-            holder.mWeekOrder.setVisibility(View.VISIBLE);
-            holder.mWeekOrder.setBackgroundResource(R.color.border_color); //将当周订单北京颜色显示主题色
-            holder.mWeekOrder.setText("当周订单");
-        } else {
-            // 一周菜谱按钮显示日期
-            holder.mDayOrder.setVisibility(View.VISIBLE);
-            holder.mDayOrder.setBackgroundResource(R.color.border_color); //将当日订单背景颜色显示为灰色
-            holder.mWeekOrder.setVisibility(View.VISIBLE);
-            holder.mWeekOrder.setBackgroundResource(R.color.topical); //将当周订单北京颜色显示主题色
-            holder.mWeekOrder.setText(extension);
-        }
-        // 做个判断 是否显示删除按钮
-        if (isShowDelete) {
-            //如果显示 删除
-            holder.mDeleteTextView.setVisibility(View.VISIBLE);
-            holder.mDayOrder.setVisibility(View.GONE);
-            holder.mWeekOrder.setVisibility(View.GONE);
-        } else {
-            holder.mDeleteTextView.setVisibility(View.GONE);
-            holder.mDayOrder.setVisibility(View.VISIBLE);
-        }
-        holder.mCheckBox.setTag(position);
-
-        holder.mCheckBox.setChecked(mList.get(position).isSelected());
-        holder.mCheckBox.setOnCheckedChangeListener(new CheckBoxChangedListener());
-        holder.addButton.setOnClickListener(new ButtonOnClickListener(position));
-        holder.subButton.setOnClickListener(new ButtonOnClickListener(position));
-        holder.mDeleteTextView.setOnClickListener(new ButtonOnClickListener(position));
-        holder.mImageView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品图片跳转
-        holder.mTitleTextView.setOnClickListener(new ButtonOnClickListener(position)); // 点击商品标题进行跳转
-        holder.mWeekOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击一周菜谱
-        holder.mDayOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击了当日订单
-    }
 
     @Override
     public int getItemCount() {
@@ -204,6 +236,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
 
     //  ViewHolder
     class CartGoodsViewHolder extends RecyclerView.ViewHolder {
+        //显示商品item
         CheckBox mCheckBox;
         ImageView mImageView;
         TextView mTitleTextView, mPriceTextView, mCountTextView, mDeleteTextView;// 商品名称, 商品价格， 增减数量  ,删除按钮
@@ -229,6 +262,20 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         }
     }
 
+    //显示顶部item  全选 编辑
+    class CartTopViewHolder extends RecyclerView.ViewHolder {
+        TextView mCountTopTextView;  // n件商品
+        TextView mDeleteOperationTV;// 编辑删除操作
+        CheckBox mTopAllGoodsCheckBox; // 全选含有优惠信息商品 的checkbox
+
+        public CartTopViewHolder(View itemView) {
+            super(itemView);
+            mCountTopTextView = (TextView) itemView.findViewById(R.id.checkedCountTop); // 顶部显示选中数量文本框
+            mDeleteOperationTV = (TextView) itemView.findViewById(R.id.DeleteOperationTV);  //编辑按钮
+            mTopAllGoodsCheckBox = (CheckBox) itemView.findViewById(R.id.allGoodsCheckboxTop); // 顶部全选框
+        }
+    }
+
 
     /**
      * 对购物车进行操作
@@ -237,14 +284,14 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     //初始化每一个item 设置为true 选中
     private void initDate() {
         sp = mContext.getSharedPreferences("userInfo", mContext.MODE_PRIVATE);
-        for (int i = 0; i < mList.size(); i++) {
+        for (int i = 1; i < mList.size(); i++) {
             mList.get(i).setSelected(true);
         }
         if (isAllSelected()) {
             //通知改变总价格
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
             //通知改变总数量
-            mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount()));
+            //mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount()));
             //如果商品全部被选中，则全选按钮也被 和 顶部全选按钮 默认为选中
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEALLSELECTED, isAllSelected()));
             //通知改变了选中状态 目的是向结算界面中传递选中的list集合
@@ -299,7 +346,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     //将当周订单的按钮背景颜色换成灰色，将当日订单的按钮背景颜色换成橙色；
                     setPosition(position);
                     int shoppingCartID = mList.get(position).getShopping_cart_id();
-                    getDayOrderNoHttpMethod(shoppingCartID,"true");
+                    getDayOrderNoHttpMethod(shoppingCartID, "true");
                     break;
                 case R.id.weekOrder:
                     //当周订单 弹出dialog选择日期
@@ -310,6 +357,19 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
                     showDeleteDialog();
                     setPosition(position);
                     break;
+                case R.id.allGoodsCheckboxTop:
+                    // 头部 选中全部商品的商品
+                    selectedAll();
+                    notifyDataSetChanged();
+                    break;
+                case R.id.DeleteOperationTV:
+                    //编辑按钮删除操作  将删除按钮显示出来
+                    showDelete();
+                    break;
+                case R.id.checkbox_list:
+                    setPosition(position);
+                    notifyDataSetChanged();
+                    break;
             }
         }
     }
@@ -319,9 +379,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position = (int) buttonView.getTag();
-            CartGoods mCartGoods = mList.get(position);
-            mCartGoods.setSelected(isChecked);
-
+            mList.get(position).setSelected(isChecked);
+            Log.e("hahahhaahahahhaa",getAllGoodsCount()+" ");
             mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
             //通知改变总价格 将总价格传给Handler
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
@@ -342,8 +401,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         String st = df.format(); //double 保留两位小数*/
         CartGoods mCartGoods = null;
         float totalPrice = 0;
-        for (int i = 0; i < mList.size(); i++) {
-
+        for (int i = 1; i < mList.size(); i++) {
             mCartGoods = mList.get(i);
             if (mCartGoods.isSelected()) {
                 totalPrice += mCartGoods.getQuantity() * mCartGoods.getPrice();
@@ -359,12 +417,34 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
      */
     private boolean isAllSelected() {
         boolean flag = true;
-        for (int i = 0; i < mList.size(); i++) {
+        for (int i = 1; i < mList.size(); i++) {
             if (!mList.get(i).isSelected()) {
                 flag = false;
             }
         }
         return flag;
+    }
+
+    // 全部选中
+    private void selectedAll() {
+        if(isAllSelected() == true){
+            for (int i = 1; i < mList.size(); i++) {
+                //设置beans
+                mList.get(i).setSelected(false);
+            }
+        }else {
+            for (int i = 1; i < mList.size(); i++) {
+                //设置beans
+                mList.get(i).setSelected(true);
+            }
+        }
+
+    }
+
+    private void showDelete() {
+        // 将删除按钮显示出来
+        setShowDelete(!isShowDelete);
+        notifyDataSetChanged();
     }
 
 
@@ -473,7 +553,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         for (int i = 0; i < 7; i++) {
             date[i] = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE);
             c.add(Calendar.DATE, 1);
-            Log.e("日期", date[i]);
         }
         return date;
     }
@@ -482,7 +561,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
     // **************统计购物车中 选中的 的数量
     private int getAllGoodsCount() {
         int count = 0;
-        for (int i = 0; i < mList.size(); i++) {
+        for (int i = 1; i < mList.size(); i++) {
             if (mList.get(i).isSelected()) {
                 count += mList.get(i).getQuantity();
             }
@@ -571,6 +650,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         }
 
     }
+
     //******** 设置当日订单的日期 ***********
     private void getDayOrderNoHttpMethod(int shoppingCartIds, String extension) {
         try {
@@ -719,8 +799,10 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter<Cart_GoodsAdapter.Ca
         mList.remove(getPosition());
         notifyDataSetChanged();
         //判断购物车是否为空如果为空显示空页面
-        if (mList.size() == 0) {
+        Log.e("mlist大小",mList.size()+"");
+        if (mList.size() == 1) {
             //通知cartFragment 显示空界面。
+            mHandler.sendEmptyMessage(DeleteMethod);
         }
         mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
