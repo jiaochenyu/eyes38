@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +23,7 @@ import com.example.eyes38.utils.CartBadgeView;
 import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -37,10 +37,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GoodDetailActivity extends AppCompatActivity {
     private static final int CARTGOODSCOUNT = 308; // 购物车商品总数（响应码）
     private static final int CREATECART = 309; // 创建购物车（响应吗）
     private static final int ADDCART = 310; // 加入购物车（响应码）
+    public static final int GETCOMMENTNUM = 100;
     //数据源
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
@@ -155,7 +157,6 @@ public class GoodDetailActivity extends AppCompatActivity {
         goodsUnitTextView.setText(goods.getGoods_platform_price() + goods.getGoods_unit());
         goodsStockTextView.setText(goods.getGoods_stock() + "");
         goodsRemarkTextView.setText(goods.getGoods_name());
-        goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
         //截取字符串中的url
         String description = goods.getGoods_description();
         //如果有图文详情
@@ -169,8 +170,18 @@ public class GoodDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("values");
         goods = (Goods) bundle.get("values");
-    }
+        //获取商品评价数量
+        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
+        String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
+        Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        //添加属性，筛选评论
+        mRequest.add("item_id", goods.getGoods_id());
+        mRequest.add("parent_id", 0);
+        //设置缓存
+        mRequest.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
+        mRequestQueue.add(GETCOMMENTNUM, mRequest, mOnResponseListener);
 
+    }
 
     class MyOnClickLisenter implements View.OnClickListener {
 
@@ -203,7 +214,6 @@ public class GoodDetailActivity extends AppCompatActivity {
                     break;
                 case R.id.goods_detail_radio_addcart:
                     //加入购物车
-                    Log.e("点击了加入购物车", "yes");
                     customerStates(); //判断用户登陆状态
                     break;
             }
@@ -219,7 +229,6 @@ public class GoodDetailActivity extends AppCompatActivity {
             Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
         } else {
             //登录了 进行判断购物车中商品是否已经存在
-            Log.e("执行了商品是否存在的方法", "yes");
             goodsExist();
         }
     }
@@ -234,10 +243,12 @@ public class GoodDetailActivity extends AppCompatActivity {
         return authorization;
     }
 
+
     //先获取购物车中的商品总数，和该商品是否在购物车中 如果在那么在加入购物车的时候quantity + 1
     //如果不在 那么应该调用 创建购物车的接口
+
     //添加到购物车
-    //**************获取购物车信息************
+//**************获取购物车信息************
     private void getCartNoHttp() {
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
@@ -248,13 +259,10 @@ public class GoodDetailActivity extends AppCompatActivity {
     //添加商品前先判断商品是否已经存在了(一周菜谱和非一周菜谱是两种类型) 判断商品id 和extension1 是否已经存在。
     private void goodsExist() {
         if (mList.size() == 0) {
-            Log.e("购物车为空", "yes");
             postCreateGooodsNoHttp();
         } else {
-            Log.e("购物车有几种商品", mList.size() + "");
             for (int i = 0; i < mList.size(); i++) {
                 if (mList.get(i).getProduct_id() == goods.getGoods_id()) {
-                    Log.e("执行了比较商品id是否存在方法", "yes");
                     //说明该商品已经存在。接下来判断改商品的extension值和购物车中extension的值是否一样
                     if (mList.get(i).getExtension1().equals(goods.getExtension())) {
                         //说明存在该类型的商品。那么应该进行更新购物车操作（加操作）。先加一
@@ -267,13 +275,11 @@ public class GoodDetailActivity extends AppCompatActivity {
                         }
                     } else {
                         //说明不存在该类型的商品。那么应该进行创建购物车操作
-                        Log.e("商品extension不对应", "yes");
                         postCreateGooodsNoHttp();
                     }
                     break;
                 } else if(i == (mList.size()-1)) {
                     //说明不存在该类型的商品。那么应该进行创建购物车操作
-                    Log.e("商品id不存在", "yes");
                     postCreateGooodsNoHttp();
                 }
             }
@@ -301,7 +307,6 @@ public class GoodDetailActivity extends AppCompatActivity {
     //******************创建购物车********
     private void postCreateGooodsNoHttp() {
         //增加商品接口
-        Log.e("创建购物车", goods.getExtension() + " " + goods.getGoods_platform_price() + " " + goods.getGoods_id());
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.addHeader("Authorization", authorization());
@@ -335,15 +340,13 @@ public class GoodDetailActivity extends AppCompatActivity {
                             int quantity = jsonObject3.getInt("quantity");//数量
                             String extension1 = jsonObject3.getString("extension1"); //是否是一周菜谱
                             int product_id = jsonObject3.getInt("product_id");
-                            CartGoods cartGoods = new CartGoods(shopping_cart_id, 0, null, product_id, null, null, quantity, 0, extension1, null);
+                            CartGoods cartGoods = new CartGoods(shopping_cart_id, 0, null, product_id, null, null, quantity, 0, extension1, null,0);
                             mList.add(cartGoods);
-
                         }
                     }
                     if (mList.size() == 0) {
                         mCartBadgeView.hide();
                     } else {
-                        Log.e("购物车数量", getAllGoodsCount() + "");
                         mCartBadgeView.setText(getAllGoodsCount() + "");
                         mCartBadgeView.show();
                     }
@@ -374,7 +377,6 @@ public class GoodDetailActivity extends AppCompatActivity {
 
             }
             if (what == CREATECART) {
-                Log.e("请求创建购物车", goods.getExtension() + " " + goods.getGoods_platform_price() + " " + goods.getGoods_id());
                 try {
                     String result = response.get();
                     JSONObject jsonObject = new JSONObject(result);
@@ -386,9 +388,8 @@ public class GoodDetailActivity extends AppCompatActivity {
                         int quantity = jsonObject2.getInt("quantity");//数量
                         String extension1 = jsonObject2.getString("extension1"); //是否是一周菜谱
                         int product_id = jsonObject2.getInt("product_id");
-                        CartGoods cartGoods = new CartGoods(shopping_cart_id, -1, null, product_id, null, null, quantity, 0, extension1, null);
+                        CartGoods cartGoods = new CartGoods(shopping_cart_id, -1, null, product_id, null, null, quantity, 0, extension1, null,-1);
                         mList.add(cartGoods);
-                        Log.e("创建购物车结束", getAllGoodsCount() + "");
                         mCartBadgeView.show();
                         mCartBadgeView.setText(getAllGoodsCount() + "");
                     } else {
@@ -398,6 +399,18 @@ public class GoodDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+            }
+            if (what == GETCOMMENTNUM) {
+                String result = response.get();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("data");
+                    int comment_num = array.length();
+                    goods.setGoods_comment_count(comment_num);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                goodsCommentCountTextView.setText(goods.getGoods_comment_count() + "");
             }
 
         }

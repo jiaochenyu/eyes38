@@ -21,7 +21,8 @@
     <string name="goods_details_title">产品详情</string>
     <string name="goods_comment_title">商品评价</string>
     <string name="goods_comment_reply">评价回复</string>
-    <string name="goods_comment_none">没有回复</string>
+    <string name="goods_comment_reply_none">没有回复</string>
+    <string name="goods_comment_none">没有评论</string>
     <string name="goods_comment_id">楼</string>
     <string name="user_register_detail_title">设置登录密码</string>
     <string name="user_register_detail_validatecode">验证短信已发送至</string>
@@ -45,6 +46,9 @@
     <string name="rmb">￥</string>
     <!--库存-->
     <string name="goods_stock">库存:</string>
+    <string name="activity_back">返回上一页</string>
+    <string name="comment_rating">好评</string>
+    <string name="comment_all">全部(</string>
 
     <string-array name="search_spinner">
         <item>水果</item>
@@ -52,5 +56,13 @@
         <item>水产</item>
         <item>蔬菜</item>
     </string-array>
+    <string name="title_activity_goods_comment">GoodsCommentActivity</string>
+    <string name="goods_detail_unit">0.01/个</string>
+    <string name="goods_detail_rmb">￥</string>
+    <string name="goods_detail_pic_description">商品详情图片</string>
+    <string name="goods_detail_stocknum">88</string>
+    <string name="goods_detail_name">美国猪带骨肉眼大排 500g 盒装</string>
+    <string name="goods_detail_comment_left">评论(</string>
+    <string name="goods_detail_comment_right">)</string>
 
 </resources>

@@ -30,10 +30,10 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
 
     @Override
     public void onBindViewHolder(CommentReplyViewHolder holder, int position) {
-        holder.nameTextView.setText(mList.get(position).getName());
+        holder.nameTextView.setText(mList.get(position).getAuthor_name());
         holder.idTextView.setText(mList.get(position).getId()+"");
-        holder.contentTextView.setText(mList.get(position).getContent());
-        holder.timeTextView.setText(mList.get(position).getTime());
+        holder.contentTextView.setText(mList.get(position).getComment());
+        holder.timeTextView.setText(mList.get(position).getCreate_date());
     }
 
     @Override

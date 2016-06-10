@@ -64,6 +64,7 @@
         android:textSize="0.1sp"/>
     <!--下部分数据-->
     <LinearLayout
+        android:id="@+id/add_address_modify"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
@@ -96,7 +97,7 @@
         </LinearLayout>
         <!--地址第二行-->
         <LinearLayout
-            android:id="@+id/add_address_modify"
+
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.5">

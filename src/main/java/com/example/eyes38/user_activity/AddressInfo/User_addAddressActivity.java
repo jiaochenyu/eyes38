@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.eyes38.R;
 import com.example.eyes38.beans.ReceiptAddress;
+import com.example.eyes38.beans.SpinnerSelect;
 import com.example.eyes38.user_activity.User_take_addressActivity;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -71,6 +72,7 @@ public class User_addAddressActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;//请求队列
     ArrayAdapter<String> proAdapter, cityAdapter, areaAdapter, plotAdapter;//适配器
     private ReceiptAddress mReceipt;//收货地址的javabean
+    private SpinnerSelect mSpinnerSelect;//记录选中的spinner的位置
     //Handler
     private Handler mHandler = new Handler() {
         @Override
@@ -227,10 +229,11 @@ public class User_addAddressActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        mSpinnerSelect=new SpinnerSelect();
+        mSpinnerSelect.setPlot_select(0);
         address_button = (Button) findViewById(R.id.address_button);
         address_adjust1 = (ImageView) findViewById(R.id.address_adjust1);
         address_adjust2 = (ImageView) findViewById(R.id.address_adjust2);
-        address_adjust3 = (ImageView) findViewById(R.id.address_adjust3);
         address_adjust4 = (ImageView) findViewById(R.id.address_adjust4);
         city_linear = (LinearLayout) findViewById(R.id.city_linear);
         area_linear = (LinearLayout) findViewById(R.id.area_linear);
@@ -478,6 +481,7 @@ public class User_addAddressActivity extends AppCompatActivity {
                 country_id=countryList.get(position);
                 mReceipt.setCountry_id(country_id+"");
                 flag1 = true;
+                mSpinnerSelect.setProvince_select(position);
                 area_linear.setVisibility(View.GONE);
                 httpMethod();//费尽心机获取市级数据
 
@@ -498,6 +502,7 @@ public class User_addAddressActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num2 = districtList2.get(position);
                 flag2 = true;
+                mSpinnerSelect.setCity_select(position);
                 plot_linear.setVisibility(View.GONE);
                 httpMethod();//费尽心机获取市级数据
 
@@ -519,6 +524,7 @@ public class User_addAddressActivity extends AppCompatActivity {
                 Log.e("看num3",num3+"");
                 mReceipt.setDistrict_id(num3+"");
                 flag3 = true;
+                mSpinnerSelect.setArea_select(position);
                 plot_linear.setVisibility(View.GONE);
                 true3=true;
                 httpMethod();//费尽心机获取区级数据
@@ -537,6 +543,7 @@ public class User_addAddressActivity extends AppCompatActivity {
         plot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mSpinnerSelect.setPlot_select(position);
             }
 
             @Override

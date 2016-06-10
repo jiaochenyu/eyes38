@@ -2,49 +2,64 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:layout_marginBottom="10dp">
+    android:background="@color/white">
     <ImageView
+        android:layout_marginLeft="10dp"
         android:id="@+id/comment_portrait"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/portrait_mode"/>
     <TextView
+        android:layout_marginTop="5dp"
         android:id="@+id/comment_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:layout_toRightOf="@id/comment_portrait"
         android:text="陈军权" />
     <ImageView
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/comment_reply"
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
         android:src="@drawable/comment_reply"/>
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/comment_line"
+        android:layout_width="match_parent"
+        android:layout_height="1.7dp"
+        android:background="@color/comment_line"
+        android:layout_below="@id/comment_portrait"/>
     <RatingBar
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/comment_ratingbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
         android:stepSize="1"
         style="@style/comment_ratingbar"
-        android:layout_below="@id/comment_portrait"/>
+        android:layout_below="@id/comment_line"/>
 
     <TextView
+        android:layout_marginRight="10dp"
         android:id="@+id/comment_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/comment_line"
         android:text="2016.5.24" />
 
     <TextView
+        android:layout_marginLeft="10dp"
         android:id="@+id/comment_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/comment_ratingbar"
+        android:textSize="16sp"
         android:text="测试评论内容" />
     <ImageView
         android:id="@+id/comment_image"
