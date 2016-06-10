@@ -6,13 +6,6 @@ import java.io.Serializable;
  * Created by huangjiechun on 16/5/26.
  */
 public class HomeContentContent implements Serializable {
-<<<<<<< HEAD
-    private int product_id;
-    String image;
-    String name;
-    Double price;
-    String extension4;
-=======
     private int goods_id;//商品id
     private String goods_name;//商品名称
     private String path;//商品图片地址
@@ -23,7 +16,6 @@ public class HomeContentContent implements Serializable {
     private int goods_stock;//商品库存
     private String goods_description;//商品图文详情
     private String extension = "false"; //是否是一周菜谱
->>>>>>> 91d5dd23d243fe6d26519f3641c51c0e87eac871
 
     @Override
     public String toString() {

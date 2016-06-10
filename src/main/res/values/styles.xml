@@ -308,7 +308,6 @@
         <item name="android:textColor">@color/topical</item>
         <item name="android:background">@drawable/cart_dialog_week_border</item>
     </style>
-<<<<<<< HEAD
     <!--图片上传-->
     <style name="transparentFrameWindowStyle" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/user_photo_choose_bg</item>
@@ -318,12 +317,9 @@
         <item name="android:windowEnterAnimation">@anim/user_photo_dialog_in_anim</item>
         <item name="android:windowExitAnimation">@anim/user_photo_dialog_out_anim</item>
     </style>
-=======
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
->>>>>>> af7e8073a54e52aa49c908129ddffb47d33771ee
 
 </resources>
