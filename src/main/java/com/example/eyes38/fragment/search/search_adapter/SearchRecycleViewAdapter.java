@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.beans.Search_hot;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class SearchRecycleViewAdapter extends RecyclerView.Adapter<SearchRecycle
     private List<Goods> mList;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
     private Context mContext;
-
+    private List<Search_hot> hotList;
     public SearchRecycleViewAdapter(List<Goods> list, Context context) {
         mList = list;
         mContext = context;
