@@ -50,7 +50,7 @@ public class Sort_SortAdapter extends RecyclerView.Adapter<Sort_SortAdapter.MyVi
         Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
         holder.nameTextView.setText(mList.get(position).getGoods_name());
         holder.priceTextView.setText(mList.get(position).getGoods_platform_price()+"");
-        holder.unitTextView.setText(mList.get(position).getGoods_unit());
+        holder.unitTextView.setText(mList.get(position).getGoods_platform_price()+"/"+mList.get(position).getGoods_unit());
         holder.itemView.setTag(mList.get(position));
     }
 
