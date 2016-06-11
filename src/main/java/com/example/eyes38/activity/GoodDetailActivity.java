@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +54,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
+<<<<<<< HEAD
     public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
         @Override
         public void handleMessage(Message msg) {
@@ -71,10 +72,17 @@ public class GoodDetailActivity extends AppCompatActivity {
         }
     };
 
+=======
+>>>>>>> 73cacea4c19b0318d7019242acd657d74ec81079
     private CartGoods mCartGoods;
     private List<CartGoods> mList;
     private SharedPreferences sp;  //偏好设置 获取账号 密码
     private RequestQueue mRequestQueue;
+    private int position; // 记录购物车中的位置
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +99,8 @@ public class GoodDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getCartNoHttp(); //请求购物车 获取购物车中商品数量
+        getCartNoHttp();
     }
-
     private void setCartBadgeView() {
         //CartBadgeView这是购物车上的徽章
         mCartBadgeView = new CartBadgeView(GoodDetailActivity.this, mButton);
@@ -130,7 +137,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private void initData() {
         //初始化数据，现在数据是写死的
         getData();
-        mList = new ArrayList<>();
+        //mList = new ArrayList<>();
         sp = getApplication().getSharedPreferences("userInfo", MODE_PRIVATE);  // 偏好设置初始化
         mRequestQueue = NoHttp.newRequestQueue();
 
@@ -214,13 +221,22 @@ public class GoodDetailActivity extends AppCompatActivity {
 //                    finish();
                     break;
                 case R.id.goods_detail_radio_buynow:
-                    //立即购买
+                    //立即购买 跳转到购物车
+                    List<CartGoods> buynowList = new ArrayList<>();
+                    CartGoods cartGoods = new CartGoods();
+                    cartGoods.setExtension1(goods.getExtension());
+                    cartGoods.setProduct_name(goods.getGoods_name());
+                    cartGoods.setGoods(goods);
+                    cartGoods.setQuantity(1); // 立即加入1件商品到购物车
+                    cartGoods.setPrice(goods.getGoods_platform_price());
+                    buynowList.add(cartGoods);
+                    Intent intentBuynow = new Intent(GoodDetailActivity.this,PayActivity.class);
+                    intentBuynow.putExtra("list", (Serializable) buynowList);
+                    startActivity(intentBuynow);
                     break;
                 case R.id.goods_detail_radio_addcart:
                     //加入购物车
-                    Log.e("点击了加入购物车", "yes");
                     customerStates(); //判断用户登陆状态
-
                     break;
             }
         }
@@ -235,7 +251,6 @@ public class GoodDetailActivity extends AppCompatActivity {
             Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
         } else {
             //登录了 进行判断购物车中商品是否已经存在
-            Log.e("执行了商品是否存在的方法", "yes");
             goodsExist();
         }
     }
@@ -266,13 +281,10 @@ public class GoodDetailActivity extends AppCompatActivity {
     //添加商品前先判断商品是否已经存在了(一周菜谱和非一周菜谱是两种类型) 判断商品id 和extension1 是否已经存在。
     private void goodsExist() {
         if (mList.size() == 0) {
-            Log.e("购物车为空", "yes");
             postCreateGooodsNoHttp();
         } else {
-            Log.e("购物车有几种商品", mList.size() + "");
             for (int i = 0; i < mList.size(); i++) {
                 if (mList.get(i).getProduct_id() == goods.getGoods_id()) {
-                    Log.e("执行了比较商品id是否存在方法", "yes");
                     //说明该商品已经存在。接下来判断改商品的extension值和购物车中extension的值是否一样
                     if (mList.get(i).getExtension1().equals(goods.getExtension())) {
                         //说明存在该类型的商品。那么应该进行更新购物车操作（加操作）。先加一
@@ -280,17 +292,16 @@ public class GoodDetailActivity extends AppCompatActivity {
                             Toast.makeText(GoodDetailActivity.this, "库存不足", Toast.LENGTH_SHORT).show();
                         } else {
                             mList.get(i).setQuantity(mList.get(i).getQuantity() + 1);
+                            setPosition(i);
                             putAddGooodsNoHttp(mList.get(i).getShopping_cart_id(), mList.get(i).getQuantity(), mList.get(i).getExtension1());
                         }
-
                     } else {
                         //说明不存在该类型的商品。那么应该进行创建购物车操作
-                        Log.e("商品extension不对应", "yes");
                         postCreateGooodsNoHttp();
                     }
-                } else {
+                    break;
+                } else if(i == (mList.size()-1)) {
                     //说明不存在该类型的商品。那么应该进行创建购物车操作
-                    Log.e("商品id不存在", "yes");
                     postCreateGooodsNoHttp();
                 }
             }
@@ -298,7 +309,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         }
     }
 
-//******************更新购物车进行加操作
+    //******************更新购物车进行加操作
 
     private void putAddGooodsNoHttp(int shoppingCartId, int quantity, String extension1) {
         try {
@@ -318,7 +329,6 @@ public class GoodDetailActivity extends AppCompatActivity {
     //******************创建购物车********
     private void postCreateGooodsNoHttp() {
         //增加商品接口
-        Log.e("创建购物车", goods.getExtension() + " " + goods.getGoods_platform_price() + " " + goods.getGoods_id());
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.addHeader("Authorization", authorization());
@@ -352,14 +362,13 @@ public class GoodDetailActivity extends AppCompatActivity {
                             int quantity = jsonObject3.getInt("quantity");//数量
                             String extension1 = jsonObject3.getString("extension1"); //是否是一周菜谱
                             int product_id = jsonObject3.getInt("product_id");
-                            CartGoods cartGoods = new CartGoods(shopping_cart_id, 0, null, product_id, null, null, quantity, 0, extension1, null);
+                            CartGoods cartGoods = new CartGoods(shopping_cart_id, 0, null, product_id, null, null, quantity, 0, extension1, null,0);
                             mList.add(cartGoods);
                         }
                     }
                     if (mList.size() == 0) {
                         mCartBadgeView.hide();
                     } else {
-                        Log.e("购物车数量", getAllGoodsCount() + "");
                         mCartBadgeView.setText(getAllGoodsCount() + "");
                         mCartBadgeView.show();
                     }
@@ -381,6 +390,7 @@ public class GoodDetailActivity extends AppCompatActivity {
                         mCartBadgeView.setText(getAllGoodsCount() + "");
                     } else {
                         Toast.makeText(GoodDetailActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+                        mList.get(position).setQuantity(mList.get(position).getQuantity() - 1);
                     }
 
                 } catch (JSONException e) {
@@ -389,7 +399,6 @@ public class GoodDetailActivity extends AppCompatActivity {
 
             }
             if (what == CREATECART) {
-                Log.e("请求创建购物车", goods.getExtension() + " " + goods.getGoods_platform_price() + " " + goods.getGoods_id());
                 try {
                     String result = response.get();
                     JSONObject jsonObject = new JSONObject(result);
@@ -401,9 +410,8 @@ public class GoodDetailActivity extends AppCompatActivity {
                         int quantity = jsonObject2.getInt("quantity");//数量
                         String extension1 = jsonObject2.getString("extension1"); //是否是一周菜谱
                         int product_id = jsonObject2.getInt("product_id");
-                        CartGoods cartGoods = new CartGoods(shopping_cart_id, -1, null, product_id, null, null, quantity, 0, extension1, null);
+                        CartGoods cartGoods = new CartGoods(shopping_cart_id, -1, null, product_id, null, null, quantity, 0, extension1, null,-1);
                         mList.add(cartGoods);
-                        Log.e("创建购物车结束", getAllGoodsCount() + "");
                         mCartBadgeView.show();
                         mCartBadgeView.setText(getAllGoodsCount() + "");
                     } else {
@@ -439,7 +447,6 @@ public class GoodDetailActivity extends AppCompatActivity {
 
         }
     };
-
 
     //返回购物车商品数量
     private int getAllGoodsCount() {

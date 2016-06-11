@@ -135,7 +135,11 @@ public class User_loginActivity extends AppCompatActivity {
         editor.putString("USER_NAME", usernameValue);
         editor.putString("PASSWORD", passwordValue);
         Application.isLogin = true;
+<<<<<<< HEAD
         editor.putString("CUSTOMER_ID", customer_id+"");
+=======
+        editor.putString("CUSTOMER_ID", customer_id);
+>>>>>>> 73cacea4c19b0318d7019242acd657d74ec81079
         editor.putBoolean("STATE", Application.isLogin);
         editor.apply();
         //跳转到首页
