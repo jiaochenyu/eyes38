@@ -41,6 +41,23 @@ public class ReceiptAddress implements Serializable{
     private Object update_by; //
     private String district; // 三级联动
 
+    @Override
+    public String toString() {
+        return "ReceiptAddress{" +
+                "address_id='" + address_id + '\'' +
+                ", customer_id='" + customer_id + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", address_1='" + address_1 + '\'' +
+                ", district_id='" + district_id + '\'' +
+                ", country_id='" + country_id + '\'' +
+                ", version='" + version + '\'' +
+                ", create_by='" + create_by + '\'' +
+                ", update_by=" + update_by +
+                ", district='" + district + '\'' +
+                '}';
+    }
+
     public String getAddress_id() {
         return address_id;
     }

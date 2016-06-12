@@ -11,16 +11,15 @@
         style="@style/pagetitle">
         <ImageView
             android:onClick="nogoods"
-            android:layout_marginLeft="5dp"
+            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:src="@drawable/back"/>
 
         <TextView
             android:id="@+id/nogoods_title"
             style="@style/pagetitletext"
-            android:text="新品推荐"/>
+            android:text="@string/new_recommend"/>
 
     </RelativeLayout>
 

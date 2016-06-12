@@ -10,35 +10,17 @@
     <RelativeLayout
         android:id="@+id/modify_address_usertitle"
         style="@style/pagetitle">
+        <ImageView
+            android:onClick="update_password_back3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:onClick="update_password_back3"
-                android:src="@drawable/back"/>
-
-            <TextView
-                style="@style/pagetitletext"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:text="修改地址"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/sort_sort_title"
+            style="@style/pagetitletext"
+            android:text="@string/update_address" />
     </RelativeLayout>
 
     <!--设置主体内容-->
@@ -292,10 +274,9 @@
                     android:layout_weight="0.1"/>
 
                 <Button
-                    android:background="#F2F2F2"
+                    android:background="@color/topical"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:enabled="false"
                     android:id="@+id/modify_address_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

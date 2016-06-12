@@ -64,5 +64,24 @@
     <string name="goods_detail_name">美国猪带骨肉眼大排 500g 盒装</string>
     <string name="goods_detail_comment_left">评论(</string>
     <string name="goods_detail_comment_right">)</string>
+    <string name="cart_title">购物车</string>
+    <string name="event_title">一周菜谱</string>
+    <string name="new_recommend">新品推荐</string>
+    <string name="option_address">选择地址</string>
+    <string name="bind_phone">绑定手机</string>
+    <string name="update_password">修改密码</string>
+    <string name="add_address">新建收货地址</string>
+    <string name="aftersales_service">售后服务-订单列表</string>
+    <string name="user_credits">我的积分</string>
+    <string name="find_password">找回密码</string>
+    <string name="message_center">消息中心</string>
+    <string name="update_address">修改地址</string>
+    <string name="my_order">我的订单</string>
+    <string name="orders_detail">订单详情</string>
+    <string name="user_message">个人信息</string>
+    <string name="set">设置</string>
+    <string name="register">注册</string>
+    <string name="address_manager">收货地址管理</string>
+    <string name="pull_up_load">上拉加载数据</string>
 
 </resources>

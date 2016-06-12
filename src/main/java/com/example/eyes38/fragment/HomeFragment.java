@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,13 +52,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
-
 
 /**
  * Created by jcy on 2016/5/8.
@@ -156,7 +153,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         ptrFrame.refreshComplete();
                         refresh();
                     }
-                }, 1800);
+                }, 1500);
 
             }
         });
@@ -169,7 +166,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         request.add("district_id", district_id);
         request.setCacheMode(CacheMode.DEFAULT);
         mRequestQueue.add(what, request, mOnResponseListener);
-        //request.setRequestFailedReadCache(true);
         mRequestQueue.add(what, request, mOnResponseListener);
 
     }
@@ -200,7 +196,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         Home_district home_district = new Home_district(name, district_id);
                         mCity.add(home_district);
                         spinnerlist.add(name);
-                        Log.e("获取的数据哈达和", jsonObject.getString("create_date") + " " + name + district_id);
                     }
                     initspinnerAdapter();
                 } catch (JSONException e) {
@@ -220,7 +215,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         homeFourSort.setCategory_name(jsonObject.getString("category_name"));
                         homeFourSort.setCategory_image(jsonObject.getString("category_image"));
                         mHomeFourSortsList.add(homeFourSort);
-                        Log.e("javabean", homeFourSort.getCategory_name() + homeFourSort.getCategory_image());
                     }
 
                     Glide.with(mMainActivity).load(mHomeFourSortsList.get(0).getCategory_image()).into(home_sort1image);
@@ -291,7 +285,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                         float price = (float) jsonObject2.getDouble("price");
                                         float market_price = (float) jsonObject2.getDouble("market_price");
                                         String extension4 = jsonObject2.getString("extension4");
-                                        Log.e("fafasf",market_price+"");
                                         int stock_num = jsonObject2.getInt("stock_num");
                                         String description = jsonObject2.getString("description");
                                         HomeContentContent hcc = new HomeContentContent();
@@ -306,7 +299,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                         if (type.equals("week")){
                                             hcc.setExtension("true");
                                         }
-                                        Log.e("stocketawda",stock_num+"");
                                         mmList.add(hcc);
                                     }
                                 }
@@ -349,7 +341,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     if (mCity.get(i).getCityName().equals(cityName))
                         district_id = mCity.get(i).getDistrict_id();
                 }
-                Log.e("spinnersize", district_id + "");
                 refresh1();
             }
 
@@ -386,7 +377,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (hc.getName().equals("一周菜谱")) {
                     Intent intent = new Intent(mMainActivity, HomexptjActivity.class);
                     startActivity(intent);
-                    Log.e("看看hc里有什么", hc.getName());
                 } else {
                     Intent intent = new Intent(mMainActivity, HomezhuantiActivity.class);
                     intent.putExtra("zhuantiname", hc.getName());
@@ -509,8 +499,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void refresh() {
-        //计算屏幕的尺寸
-        //   caculate();
         //获取spinner的数据并实现
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/sell-district/list", mWhatspinner);
         //获取轮播图的数据并实现,最新接口没数据,用的测试接口的数据
@@ -529,35 +517,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         //获取recycleView的数据并实现
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mWhatrecycle);
         listener();
-    }
-
-    private void caculate() {
-        final Handler myHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 1) {
-                    if (mRelativeLayout.getWidth() != 0) {
-                        timer.cancel();
-                        height = mRelativeLayout.getHeight();
-                        if (height != 0) {
-                            //初始化spinner
-                            mHomeSpinnerView = new HomeSpinnerView(mMainActivity, mSpinner, height);
-                            mHomeSpinnerView.startspinner();
-                        }
-                    }
-                }
-            }
-        };
-
-        timer = new Timer();
-        TimerTask task = new TimerTask() {
-            public void run() {
-                Message message = new Message();
-                message.what = 1;
-                myHandler.sendMessage(message);
-            }
-        };
-        //延迟每次延迟10 毫秒 隔1秒执行一次
-        timer.schedule(task, 10, 1000);
     }
 }

@@ -11,35 +11,17 @@
     <RelativeLayout
         android:id="@+id/usertitle"
         style="@style/pagetitle">
+        <ImageView
+            android:onClick="user_myorder_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
-
-            <ImageView
-                android:onClick="user_myorder_back"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/back"/>
-
-            <TextView
-                style="@style/pagetitletext"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:text="我的订单"
-                android:textSize="15sp"
-                />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/sort_sort_title"
+            style="@style/pagetitletext"
+            android:text="@string/my_order" />
     </RelativeLayout>
 
     <!-- 内容 -->

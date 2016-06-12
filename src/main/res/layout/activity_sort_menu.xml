@@ -11,6 +11,13 @@
         android:id="@+id/sorttitle"
         style="@style/pagetitle">
         <!--sort_sort_title分类中标题-->
+        <ImageView
+            android:id="@+id/goods_detail_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="back"
+            android:padding="5dp"
+            android:src="@drawable/back" />
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"

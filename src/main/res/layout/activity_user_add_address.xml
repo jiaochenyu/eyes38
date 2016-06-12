@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,59 +10,39 @@
         android:id="@+id/usertitle"
         style="@style/pagetitle">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/add_address_set_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="add_address_set_back"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
-
-            <ImageView
-                android:id="@+id/add_address_set_back"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:onClick="add_address_set_back"
-                android:src="@drawable/back"/>
-
-            <TextView
-                style="@style/pagetitletext"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:text="新建收货地址"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/sort_sort_title"
+            style="@style/pagetitletext"
+            android:text="@string/add_address" />
     </RelativeLayout>
 
     <!--设置主体内容-->
     <LinearLayout
         android:id="@+id/user_set_content"
         style="@style/pagecontent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
         <!--收货人-->
-        <LinearLayout
-            style="@style/addaddress_linear">
+        <LinearLayout style="@style/addaddress_linear">
 
-            <TextView
-                style="@style/addaddress_text1"/>
+            <TextView style="@style/addaddress_text1" />
 
             <TextView
                 style="@style/addaddress_text2"
-                android:text="收货人"/>
+                android:text="收货人" />
 
             <EditText
                 android:id="@+id/address_name"
                 style="@style/addaddress_edit"
                 android:hint="收货人的姓名"
-                android:maxLength="16"/>
+                android:maxLength="16" />
 
             <ImageView
                 android:id="@+id/address_adjust1"
@@ -72,7 +51,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
                 android:src="@drawable/invalid"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -81,23 +60,21 @@
             android:layout_weight="0.1"
             android:background="#F2F2F2"
             android:text=""
-            android:textSize="0.1sp"/>
+            android:textSize="0.1sp" />
         <!--收货人-->
-        <LinearLayout
-            style="@style/addaddress_linear">
+        <LinearLayout style="@style/addaddress_linear">
 
-            <TextView
-                style="@style/addaddress_text1"/>
+            <TextView style="@style/addaddress_text1" />
 
             <TextView
                 style="@style/addaddress_text2"
-                android:text="手机号码"/>
+                android:text="手机号码" />
 
             <EditText
                 android:id="@+id/address_tel"
                 style="@style/addaddress_edit"
                 android:hint="11位手机号码"
-                android:maxLength="11"/>
+                android:maxLength="11" />
 
             <ImageView
                 android:id="@+id/address_adjust2"
@@ -106,7 +83,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
                 android:src="@drawable/invalid"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -115,18 +92,16 @@
             android:layout_weight="0.1"
             android:background="#F2F2F2"
             android:text=""
-            android:textSize="0.1sp"/>
+            android:textSize="0.1sp" />
 
-        <LinearLayout
-            style="@style/addaddress_linear">
+        <LinearLayout style="@style/addaddress_linear">
 
-            <TextView
-                style="@style/addaddress_text1"/>
+            <TextView style="@style/addaddress_text1" />
 
             <TextView
                 style="@style/addaddress_text2"
                 android:layout_weight="5"
-                android:text="所在地区"/>
+                android:text="所在地区" />
 
             <Spinner
                 android:id="@+id/province"
@@ -145,7 +120,7 @@
             android:layout_weight="0.1"
             android:background="#F2F2F2"
             android:text=""
-            android:textSize="0.1sp"/>
+            android:textSize="0.1sp" />
         <!--收货人-->
         <LinearLayout
             android:id="@+id/city_linear"
@@ -155,7 +130,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6"/>
+                android:layout_weight="6" />
 
             <Spinner
                 android:id="@+id/city"
@@ -173,7 +148,7 @@
             android:layout_weight="0.1"
             android:background="#F2F2F2"
             android:text=""
-            android:textSize="0.1sp"/>
+            android:textSize="0.1sp" />
 
         <!--收货人-->
         <LinearLayout
@@ -184,7 +159,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6"/>
+                android:layout_weight="6" />
 
             <Spinner
                 android:id="@+id/area"
@@ -204,7 +179,7 @@
             android:layout_weight="0.1"
             android:background="#F2F2F2"
             android:text=""
-            android:textSize="0.1sp"/>
+            android:textSize="0.1sp" />
 
         <!--收货人-->
         <LinearLayout
@@ -215,7 +190,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6"/>
+                android:layout_weight="6" />
 
             <Spinner
                 android:id="@+id/polt"
@@ -234,22 +209,20 @@
             android:layout_weight="0.1"
             android:background="#F2F2F2"
             android:text=""
-            android:textSize="0.1sp"/>
+            android:textSize="0.1sp" />
         <!--收货人-->
-        <LinearLayout
-            style="@style/addaddress_linear">
+        <LinearLayout style="@style/addaddress_linear">
 
-            <TextView
-                style="@style/addaddress_text1"/>
+            <TextView style="@style/addaddress_text1" />
 
             <TextView
                 style="@style/addaddress_text2"
-                android:text="详细地址"/>
+                android:text="详细地址" />
 
             <EditText
                 android:id="@+id/address_detail"
                 style="@style/addaddress_edit"
-                android:hint="详细地址"/>
+                android:hint="详细地址" />
 
             <ImageView
                 android:id="@+id/address_adjust4"
@@ -258,7 +231,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
                 android:src="@drawable/invalid"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -267,7 +240,7 @@
             android:layout_weight="0.1"
             android:background="#F2F2F2"
             android:text=""
-            android:textSize="0.1sp"/>
+            android:textSize="0.1sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -279,7 +252,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="18"/>
+                android:layout_weight="18" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -289,24 +262,24 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.1"/>
+                    android:layout_weight="0.1" />
 
                 <Button
-                    android:background="#F2F2F2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:enabled="false"
                     android:id="@+id/address_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2.45"
+                    android:background="#F2F2F2"
+                    android:enabled="false"
+                    android:gravity="center"
                     android:text="保存"
-                    android:textColor="#FFF"/>
+                    android:textColor="#FFF"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.1"/>
+                    android:layout_weight="0.1" />
             </LinearLayout>
 
         </LinearLayout>
