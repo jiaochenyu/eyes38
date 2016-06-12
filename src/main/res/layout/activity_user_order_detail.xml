@@ -25,7 +25,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+<<<<<<< HEAD
+=======
                 android:onClick="user_order_detail_back"
+>>>>>>> 73cacea4c19b0318d7019242acd657d74ec81079
                 android:src="@drawable/back"/>
 
             <TextView
