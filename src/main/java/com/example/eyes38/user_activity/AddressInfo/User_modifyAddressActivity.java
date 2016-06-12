@@ -48,6 +48,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     private static final int mWHAT3 = 566;
     private static final int mWHAT4 = 567;
     private static final int mWHAT5 = 569;
+    private static final int mWHAT6 = 570;
     private static final int mFinish = 562;
     private static final int mFinish2 = 563;
     private static final int mFinish3 = 565;
@@ -56,7 +57,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     private boolean showFirst;//只用于提示手机号码一次
     private ImageView address_adjust1, address_adjust2, address_adjust3, address_adjust4;//四个用于判断的图片
     private Toast mToast;
-    private boolean flag, flag1, flag2, flag3, flag4;
+    private boolean flag, flag1, flag2, flag3, flag4,flag5;
     private Button address_button;
     private EditText address_name, address_tel, address_detail;//控件
     private Spinner province, city, area, plot;
@@ -113,35 +114,30 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         bindData();//绑定数据
         initListener();//用于控件的监听
         ButtonListener();//监听按键单击事件
-        Log.e("daolemei","fsff");
         initListener1();//监听省事件
         initListener2();//监听市级事件
         initListener3();//监听区级事件
     }
 
     private void ButtonListener() {
-        while (true1 && true2 && true3 && true4) {
-            address_button.setBackgroundResource(R.color.topical);
-            address_button.setEnabled(true);
-            address_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //获取所有控件中得内容,存到mReceipt中,用来传值
-                    mReceipt.setCustomer_id(customer_id);
-                    mReceipt.setFirstname(address_name.getText().toString());
-                    mReceipt.setMobile(address_tel.getText().toString());
-                    mReceipt.setAddress_1(address_detail.getText().toString());
-                    //取到了所有需要的参数,现在用增加收货地址的接口保存收货地址
-                    flag4 = true;
-                    httpMethod();
-                    //跳转到前一个页面
-                    Intent intent = new Intent(User_modifyAddressActivity.this, User_take_addressActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            break;
+        address_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //获取所有控件中得内容,存到mReceipt中,用来传值
+                mReceipt.setCustomer_id(customer_id);
+                mReceipt.setFirstname(address_name.getText().toString());
+                mReceipt.setMobile(address_tel.getText().toString());
+                mReceipt.setAddress_1(address_detail.getText().toString());
+                //取到了所有需要的参数,现在用增加收货地址的接口保存收货地址
+                flag4 = true;
+                httpMethod();
+                //跳转到前一个页面
+                Intent intent = new Intent(User_modifyAddressActivity.this, User_take_addressActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
+        );
     }
 
     private void initListener() {
@@ -151,6 +147,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (address_name.length() == 0) {
+
                     address_adjust1.setVisibility(View.VISIBLE);//默认设置不合法
                 }
 
@@ -188,7 +185,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.e("EditText中又什么", address_name.getText().toString());
                 String text = address_tel.getText().toString();
                 Pattern pattern = Pattern.compile("[0-9]*");
                 Matcher matcher = pattern.matcher(text);
@@ -271,17 +267,11 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     }
 
     private void initData() {
-
         address_name.setText(mReceiptAddress.getFirstname());
         address_tel.setText(mReceiptAddress.getMobile());
         address_detail.setText(mReceiptAddress.getAddress_1());
         String district = mReceiptAddress.getDistrict();
-        Log.e("faafwffasf",district);
         tmp = district.split(" ");
-//        setSpinnerItemSelectedByValue(city, tmp[1]);
-//        setSpinnerItemSelectedByValue(area, tmp[2]);
-
-
     }
 
     private void bindData() {
@@ -331,13 +321,18 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             flag3 = false;
         }
         if (flag4) {
-            //增加收货地址
-            String url5 = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses";
+//          //http://38eye.test.ilexnet.com/api/mobile/address-to-community/detail/105
+            //http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses/105修改收货地址
+            //http://38eye.test.ilexnet.com/api/mobile/address-to-community/detail/106
+            //http://38eye.test.ilexnet.com/api/mobile/address-to-community/save这个接口用来保存收货箱
+            //修改收货地址
+            String url5 = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses/"+mReceiptAddress.getAddress_id();
             Request<String> request5 = NoHttp.createStringRequest(url5, RequestMethod.POST);
             //增加头信息
             String header = "Basic " + newHeader;
             request5.addHeader("Authorization", header);
             //增加post请求中得body
+            Log.e("fafafa",mReceipt.toString());
             request5.add("address_1", mReceipt.getAddress_1());
             request5.add("country_id", mReceipt.getCountry_id());
             request5.add("customer_id", mReceipt.getCustomer_id());
@@ -347,6 +342,18 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             request5.setCacheMode(CacheMode.DEFAULT);
             mRequestQueue.add(mWHAT5, request5, mOnResponseListener);
             flag4 = false;
+        }
+        if(flag5){
+            String url6 = "http://38eye.test.ilexnet.com/api/mobile/address-to-community/save";
+            Request<String> request6 = NoHttp.createStringRequest(url6, RequestMethod.POST);
+            //增加头信息
+            String header = "Basic " + newHeader;
+            request6.addHeader("Authorization", header);
+            //增加post请求中得body
+            request6.add("address_id", mReceipt.getAddress_id());
+            request6.add("community_id", 1);
+            mRequestQueue.add(mWHAT6, request6, mOnResponseListener);
+            flag5 = false;
         }
     }
 
@@ -379,14 +386,14 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         parentList.add(parent_id);
                     }
                     province.setAdapter(proAdapter);
+                    setSpinnerItemSelectedByValue(province, tmp[0]);//设置spinner的默认值
                     Message message = new Message();
                     message.what = mFinish;
                     mHandler.sendMessage(message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-            else if (what == mWHAT2) {
+            } else if (what == mWHAT2) {
                 //请求成功
                 String result = response.get();
                 try {
@@ -404,6 +411,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         parentList.add(parent_id);
                     }
                     city.setAdapter(cityAdapter);
+                    setSpinnerItemSelectedByValue(city, tmp[1]);//设置spinner的默认值
                     Message message = new Message();
                     message.what = mFinish2;
                 } catch (JSONException e) {
@@ -428,6 +436,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         parentList.add(parent_id);
                     }
                     area.setAdapter(areaAdapter);
+                    setSpinnerItemSelectedByValue(area, tmp[2]);//设置spinner的默认值
                     Message message = new Message();
                     message.what = mFinish3;
                 } catch (JSONException e) {
@@ -452,9 +461,18 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else if (what == mWHAT5) {
-                //请求成功,增加收货地址
+                //请求成功,修改收货地址
                 String result = response.get();
-                Log.e("dwdw", result);
+                try {
+                    flag5=true;
+                    httpMethod();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else if (what == mWHAT6){
+                //请求成功,修改收货箱成功
+                String result = response.get();
                 try {
 
                 } catch (Exception e) {
@@ -483,7 +501,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                 country_id = countryList.get(position);
                 mReceipt.setCountry_id(country_id + "");
                 flag1 = true;
-                setSpinnerItemSelectedByValue(province, tmp[0]);
                 httpMethod();//费尽心机获取市级数据
             }
 
@@ -501,7 +518,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num2 = districtList2.get(position);
                 flag2 = true;
-                setSpinnerItemSelectedByValue(city, tmp[1]);
                 httpMethod();//费尽心机获取市级数据
 
             }
@@ -519,11 +535,9 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num3 = districtList3.get(position);
-                Log.e("看num3", num3 + "");
                 mReceipt.setDistrict_id(num3 + "");
                 flag3 = true;
                 true3 = true;
-                setSpinnerItemSelectedByValue(area, tmp[2]);
                 httpMethod();//费尽心机获取区级数据
 
             }
@@ -568,12 +582,12 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     }
 
     //通过spinner的值来确定spinner的默认选定位置
-    public static void setSpinnerItemSelectedByValue(Spinner spinner,String value){
-        SpinnerAdapter apsAdapter=  spinner.getAdapter(); //得到SpinnerAdapter对象
-        int k= apsAdapter.getCount();
-        for(int i=0;i<k;i++){
-            if(value.equals(apsAdapter.getItem(i).toString())){
-                spinner.setSelection(i,true);// 默认选中项
+    public static void setSpinnerItemSelectedByValue(Spinner spinner, String value) {
+        SpinnerAdapter apsAdapter = spinner.getAdapter(); //得到SpinnerAdapter对象
+        int k = apsAdapter.getCount();
+        for (int i = 0; i < k; i++) {
+            if (value.equals(apsAdapter.getItem(i).toString())) {
+                spinner.setSelection(i, true);// 默认选中项
                 break;
             }
         }
