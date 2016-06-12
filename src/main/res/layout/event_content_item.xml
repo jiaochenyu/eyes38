@@ -1,40 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="120dp"
-              android:layout_height="120dp"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="6dp"
-              android:layout_marginTop="6dp"
-              android:gravity="center"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_weight="8"
-        android:gravity="center"
+    <ImageView
+        android:id="@+id/event_imageview"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <ImageView
-            android:id="@+id/event_content_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:scaleType="fitXY"
-            android:src="@drawable/defult"/>
-    </LinearLayout>W
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/event_item_nametextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/event_imageview"
+        android:singleLine="true"
+        android:text="苹果" />
     <LinearLayout
-        android:layout_weight="2"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/event_item_nametextview"
+        >
+
         <TextView
-            android:id="@+id/event_content_text"
+            android:id="@+id/event_item_remark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Event Test"
-            android:textSize="15sp"/>
+            android:textColor="@color/goods_detail_addcar"
+            android:textSize="18sp"
+            android:layout_below="@id/event_item_nametextview"
+            android:text="￥" />
 
+        <TextView
+            android:id="@+id/event_item_pricetextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/goods_detail_addcar"
+            android:layout_toRightOf="@id/event_item_remark"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/event_item_nametextview"
+            android:textSize="18sp"
+            android:text="3.4" />
+        <TextView
+            android:id="@+id/event_item_xiegangtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/goods_detail_addcar"
+            android:layout_toRightOf="@id/event_item_pricetextview"
+            android:layout_below="@id/event_item_nametextview"
+            android:textSize="18sp"
+            android:text="/" />
+        <TextView
+            android:id="@+id/event_item_danweitview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/goods_detail_addcar"
+            android:layout_toRightOf="@id/event_item_xiegangtview"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/event_item_nametextview"
+            android:textSize="18sp"
+            android:text="个" />
     </LinearLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

@@ -82,9 +82,10 @@ public class PayActivity extends AppCompatActivity {
         setContentView(R.layout.cart_jiesuan);
         initViews();
         initData();
-        //setView();
+        setView();
         initListener();
         getAdressIDNoHttp();
+        getPeiSongMoneyNoHttp();
 
     }
 
@@ -114,26 +115,21 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void setView() {
-
         peisongMoney.setText(getPeisong() + "");  //配送价格
         DecimalFormat df = new DecimalFormat("0.00");
-        setJiesuanMoney((float) (allGoodsPrice() + getPeisong()));
         String st = df.format(allGoodsPrice()); // 商品价格
         allGoodsPrice.setText(st);
-        String st2 = df.format(allGoodsPrice() + getPeisong()); //商品价格 + 配送价格
-        totalPrice.setText(st2);
     }
 
     private void initData() {
         sp = this.getSharedPreferences("userInfo", MODE_PRIVATE); //初始化偏好设置
         mList = new ArrayList<>();
         mReceiptList = new ArrayList<>();
-
         mReceipt = new Receipt();
 
         Intent intent = getIntent();
         mList = (List<CartGoods>) intent.getSerializableExtra("list"); // 从购物车中获取list
-        Log.e("传过来的值",mList.get(0).getProduct_name());
+
         mPayAdapter = new PayAdapter(mList, PayActivity.this);
         mGoodsRecyclerView.setAdapter(mPayAdapter);
     }
@@ -252,7 +248,12 @@ public class PayActivity extends AppCompatActivity {
                     JSONObject jsonData = jsonObject.getJSONObject("data");
                     float delivery_money = (float) jsonData.getDouble("delivery_money");
                     setPeisong(delivery_money);
-                    setView();
+                    setJiesuanMoney((float) (allGoodsPrice() + delivery_money));
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    String st1 = df.format(delivery_money); // 配送价格
+                    peisongMoney.setText(st1);
+                    String st2 = df.format(allGoodsPrice() + getPeisong()); //商品价格 + 配送价格
+                    totalPrice.setText(st2);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -303,6 +304,7 @@ public class PayActivity extends AppCompatActivity {
         double goodsPrice = 0;
         for (int i = 0; i < mList.size(); i++) {
             goodsPrice += mList.get(i).getPrice() * mList.get(i).getQuantity();
+            Log.e("传过来的值",goodsPrice+" "+mList.get(i).getPrice()+"   "+mList.get(i).getQuantity());
         }
         return goodsPrice;
     }
@@ -310,6 +312,5 @@ public class PayActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("销毁了","销毁了payactivity");
     }
 }

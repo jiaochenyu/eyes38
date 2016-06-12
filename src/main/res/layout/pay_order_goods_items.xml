@@ -8,14 +8,13 @@
                 android:paddingRight="5dp"
                 android:paddingTop="15dp">
 
-
     <ImageView
         android:id="@+id/goodspicture"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_toRightOf="@+id/linear_checkbox"
         android:background="@drawable/cart_addsub_border"
-      />
+        />
 
     <TextView
         android:id="@+id/goodstitle"
@@ -23,27 +22,46 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/goodspicture"
-        android:textColor="#373737"
-        android:text=""
         android:singleLine="true"
+        android:text="商品名称"
+        android:textColor="#373737"
         />
+
+    <TextView
+        android:id="@+id/item_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/goodstitle"
+        android:layout_centerVertical="true"
+        android:text="单价:¥ "
+        android:textColor="#373737"/>
+
+    <TextView
+        android:id="@+id/item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/item_price_tv"
+        android:textColor="#373737"
+        android:text="0.00"/>
+
     <TextView
         android:id="@+id/dingdanleixing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/goodstitle"
         android:layout_alignBottom="@+id/goodspicture"
-        android:textColor="#999999"
-        android:text="订单类型 : "/>
+        android:layout_alignLeft="@+id/goodstitle"
+        android:text="订单类型 : "
+        android:textColor="#999999"/>
+
     <TextView
         android:id="@+id/ordertype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/dingdanleixing"
         android:layout_alignBottom="@+id/goodspicture"
-        android:textColor="#999999"
-        android:text="当日订单"/>
-
+        android:layout_toRightOf="@+id/dingdanleixing"
+        android:text="当日订单"
+        android:textColor="#999999"/>
 
 
     <TextView
@@ -63,7 +81,6 @@
         android:textColor="@color/topical"/>
 
 
-
     <TextView
         android:id="@+id/goodsNum"
         android:layout_width="wrap_content"
@@ -77,8 +94,8 @@
         android:id="@+id/fuhao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/goodsNum"
         android:layout_alignBottom="@id/goodsNum"
+        android:layout_toLeftOf="@+id/goodsNum"
         android:text="x"
         android:textColor="@color/text"/>
 </RelativeLayout>

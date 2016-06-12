@@ -291,7 +291,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                         float price = (float) jsonObject2.getDouble("price");
                                         float market_price = (float) jsonObject2.getDouble("market_price");
                                         String extension4 = jsonObject2.getString("extension4");
-                                        Log.e("fafasf",market_price+"");
                                         int stock_num = jsonObject2.getInt("stock_num");
                                         String description = jsonObject2.getString("description");
                                         HomeContentContent hcc = new HomeContentContent();
@@ -306,7 +305,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                         if (type.equals("week")){
                                             hcc.setExtension("true");
                                         }
-                                        Log.e("stocketawda",stock_num+"");
                                         mmList.add(hcc);
                                     }
                                 }

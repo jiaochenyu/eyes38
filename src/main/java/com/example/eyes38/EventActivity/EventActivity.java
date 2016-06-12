@@ -3,13 +3,12 @@ package com.example.eyes38.EventActivity;
 import android.annotation.TargetApi;
 import android.app.FragmentTransaction;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,6 @@ import java.util.List;
 
 public class EventActivity extends AppCompatActivity {
     RadioGroup mRadioGroup;
-    View view;
     ViewPager mViewPager;
     List<Fragment> mFragmentList;
     EventDay1 mEventDay1;
@@ -80,7 +78,6 @@ public class EventActivity extends AppCompatActivity {
                     mViewPager.setCurrentItem(checkedId);    //ViewPager 跟随一起 切换
                     //记录当前 下标的距最左侧的 距离
                     currentIndicatorLeft = ( mRadioGroup.getChildAt(checkedId)).getLeft();
-
                     mEventSyncHorizontalScrollView.smoothScrollTo(
                             (checkedId > 1 ? ( mRadioGroup.getChildAt(checkedId)).getLeft() : 0) - ( mRadioGroup.getChildAt(2)).getLeft(), 0);
                 }
@@ -102,7 +99,6 @@ public class EventActivity extends AppCompatActivity {
                 }
 
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -160,12 +156,9 @@ public class EventActivity extends AppCompatActivity {
         for (int i = 0; i < 7; i++) {
             date[i] = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DATE);
             c.add(Calendar.DATE, 1);
-            Log.e("日期：",date[i]);
         }
         return date;
     }
-
-
 
     //标签在horizonScrollView中应该移动的位置
     private void initNavigationHSV() {
@@ -174,17 +167,21 @@ public class EventActivity extends AppCompatActivity {
             RadioButton rb= (RadioButton) mInflater.inflate(R.layout.event_day_radiogroup_item,null);
             rb.setId(i);
             rb.setText(tabTitle[i]);
+            if(i == 0){
+                rb.setChecked(true);
+            }else {
+                rb.setChecked(false);
+            }
             rb.setLayoutParams(new ViewGroup.LayoutParams(indicatorWidth,ViewGroup.LayoutParams.MATCH_PARENT));
             mRadioGroup.addView(rb);
         }
     }
-
     private void initViews() {
         mViewPager= (ViewPager) findViewById(R.id.event_content_viewpager);
         mRadioGroup= (RadioGroup) findViewById(R.id.event_day_radiogroup);
         mRelativeLayout= (RelativeLayout) findViewById(R.id.event_day_relativeLayout);
         mEventSyncHorizontalScrollView= (EventSyncHorizontalScrollView) findViewById(R.id.horizontalScrollView);
-        mImageViewIndicator= (ImageView) findViewById(R.id.event_day_indicator);
+        mImageViewIndicator= (ImageView) findViewById(R.id.event_day_indicator); //下滑线
         mImageViewScrollLeft= (ImageView) findViewById(R.id.event_day_scroll_left);
         mImageViewScrollRight= (ImageView) findViewById(R.id.event_day_scroll_right);
     }

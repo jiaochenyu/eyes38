@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.EventRecycleViewAdapter;
-import com.example.eyes38.beans.EventContentGood;
+import com.example.eyes38.beans.Goods;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -40,7 +40,7 @@ public class EventDay2 extends Fragment{
     RecyclerView mRecyclerView;
     //适配器
     EventRecycleViewAdapter mEventRecycleViewAdapter=null;
-    List<EventContentGood> mList;
+    List<Goods> mList;
     //采用 NoHttp
     //创建 请求队列成员变量
     private RequestQueue mRequestQueue;
@@ -113,15 +113,15 @@ public class EventDay2 extends Fragment{
                     JSONArray data=jsonObject.getJSONArray("data");
                     for (int i=0;i<data.length();i++){
                         JSONObject object=data.getJSONObject(i);
-                        EventContentGood good=new EventContentGood();
+                        Goods good=new Goods();
                         String image=object.getString("image");
                         String title=object.getString("name");
-                        good.setPic(image);
-                        good.setTitle(title);
+                        good.setPath(image);
+                        good.setGoods_name(title);
                         mList.add(good);
                         Log.e("TAG","-->"+image+"-->"+title);
                     }
-                    mEventRecycleViewAdapter=new EventRecycleViewAdapter(mList,mEventActivity);
+                    mEventRecycleViewAdapter=new EventRecycleViewAdapter(mList,getActivity());
                     mRecyclerView.setAdapter(mEventRecycleViewAdapter);
                     Message message=new Message();
                     message.what= mFinish;

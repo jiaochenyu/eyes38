@@ -11,25 +11,27 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.EventContentGood;
+import com.example.eyes38.beans.Goods;
 
 import java.util.List;
 
 /**
  * Created by weixiao on 2016/5/25.
  */
-public class EventRecycleViewAdapter extends RecyclerView.Adapter<EventRecycleViewAdapter.EventRecycleViewHolder>implements View.OnClickListener {
-    private List<EventContentGood> mList;
-    private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener=null;
+public class EventRecycleViewAdapter extends RecyclerView.Adapter<EventRecycleViewAdapter.EventRecycleViewHolder> implements View.OnClickListener {
+    private List<Goods> mList;
+    private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener = null;
     private Context mContext;
 
-    public EventRecycleViewAdapter(List<EventContentGood> list, Context context) {
+    public EventRecycleViewAdapter(List<Goods> list, Context context) {
         mList = list;
-        mContext=context;
+        mContext = context;
     }
+
     //实现点击事件
     @Override
     public void onClick(View v) {
-        if (mOnRecyclerViewItemClickListener!=null){
+        if (mOnRecyclerViewItemClickListener != null) {
             mOnRecyclerViewItemClickListener.OnItemClick(v, (EventContentGood) v.getTag());
         }
 
@@ -38,22 +40,29 @@ public class EventRecycleViewAdapter extends RecyclerView.Adapter<EventRecycleVi
 
 
     //监听接口OnRecyclerViewItemClickListener
-    public static interface OnRecyclerViewItemClickListener{
-        void OnItemClick(View view,EventContentGood eventContentGood);
+    public static interface OnRecyclerViewItemClickListener {
+        void OnItemClick(View view, EventContentGood eventContentGood);
+    }
+
+    public void setOnRecyclerViewItemClickListener(OnRecyclerViewItemClickListener onRecyclerViewItemClickListener) {
+        mOnRecyclerViewItemClickListener = onRecyclerViewItemClickListener;
     }
     @Override
     public EventRecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //定义一个view
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.event_content_item,parent,false);
-       EventRecycleViewHolder eventRecycleViewHolder=new EventRecycleViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_content_item, parent, false);
+        EventRecycleViewHolder eventRecycleViewHolder = new EventRecycleViewHolder(view);
         view.setOnClickListener(this);
         return eventRecycleViewHolder;
     }
+
     @Override
     public void onBindViewHolder(EventRecycleViewHolder holder, int position) {
-        Glide.with(mContext).load(mList.get(position).getPic()).into(holder.mImageView);
-        holder.mTextView.setText(mList.get(position).getTitle());
-
+        holder.mTextView.setText(mList.get(position).getGoods_name());
+        Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
+        holder.itemView.setTag(mList.get(position));
+        holder.priceTextvew.setText(mList.get(position).getGoods_platform_price()+"");
+        holder.danweiTexiview.setText(mList.get(position).getGoods_unit()+"");
     }
 
     @Override
@@ -63,13 +72,17 @@ public class EventRecycleViewAdapter extends RecyclerView.Adapter<EventRecycleVi
 
     //新建一个eventRecycleViewHolder类
     public class EventRecycleViewHolder extends RecyclerView.ViewHolder {
-        ImageView mImageView;
-        TextView mTextView;
+        ImageView mImageView;//图片
+        TextView mTextView;//商品名
+        TextView priceTextvew;//价格
+        TextView danweiTexiview;//单位
 
-        public EventRecycleViewHolder(View itemView) {
-            super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.event_content_image);
-            mTextView = (TextView) itemView.findViewById(R.id.event_content_text);
+        public EventRecycleViewHolder(View view) {
+            super(view);
+            mImageView = (ImageView) view.findViewById(R.id.home_imageview);
+            mTextView = (TextView) view.findViewById(R.id.home_sort_item_nametextview);
+            priceTextvew = (TextView) view.findViewById(R.id.home_sort_item_pricetextview);
+            danweiTexiview = (TextView) view.findViewById(R.id.home_sort_item_danweitview);
         }
     }
 }
