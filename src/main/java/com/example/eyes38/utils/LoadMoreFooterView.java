@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -25,6 +26,8 @@ public class LoadMoreFooterView extends FrameLayout implements PtrUIHandler {
 
     // 下拉图标
     private ImageView ivWindmill;
+    private int mLastMotionY;
+    private int mLastMotionX;
 
     public LoadMoreFooterView(Context context) {
         this(context, null);
@@ -60,6 +63,35 @@ public class LoadMoreFooterView extends FrameLayout implements PtrUIHandler {
         ivWindmill.setVisibility(VISIBLE);
         //ivWindmill.setImageResource(R.mipmap.ic_launcher);
         tvHeadTitle.setText("下拉刷新");
+    }
+
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent e) {
+        int y = (int) e.getRawY();
+        int x = (int) e.getRawX();
+        boolean resume = false;
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                // 首先拦截down事件,记录y坐标
+                mLastMotionY = y;
+                mLastMotionX = x;
+                resume = false;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                // deltaY > 0 是向下运动,< 0是向上运动
+                int deltaY = y - mLastMotionY;
+                int deleaX = x - mLastMotionX;
+
+                if (Math.abs(deleaX) > Math.abs(deltaY)) {
+                    resume = false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
+        return false;
     }
 
     @Override

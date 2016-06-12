@@ -3,6 +3,7 @@ package com.example.eyes38.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eyes38.R;
 import com.example.eyes38.beans.ReceiptAddress;
@@ -33,6 +35,7 @@ import java.util.List;
 public class User_receiptaddressAdapter extends BaseAdapter implements View.OnClickListener {
     public static final int DELETERECEIPTADDRESS = 1;  //删除收货地址
     public static final int SETDETAULTRECEIPTADDRESS = 2;  //删除收货地址
+    public static final int DeleteMethod = 3;  //通知更新
     private Context mContext;
     private List<ReceiptAddress> mDatas;//存收货地址的list
     LayoutInflater mInflater;
@@ -40,8 +43,8 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
     private ReceiptAddress mReceipt;//收货地址的javabean
     private int position; // 删除位置
     private int modifyposition; // 删除位置
-
-
+    Handler mHandler;
+    private Toast toast;//用于快速更新呢的Toast
     private String head;//头信息
 
     public User_receiptaddressAdapter() {
@@ -63,10 +66,11 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
         this.modifyposition = modifyposition;
     }
 
-    public User_receiptaddressAdapter(Context context, List<ReceiptAddress> datas, String header) {
+    public User_receiptaddressAdapter(Context context, List<ReceiptAddress> datas, String header, Handler handler) {
         mContext = context;
         mDatas = datas;
         head = header;
+        mHandler = handler;
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -227,10 +231,12 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
             int position = (int) buttonView.getTag();
             //设置默认地址
             SetDefaultNoHttpMethod(position);
-            ReceiptAddress ra1 = mDatas.get(getPosition());
-            mDatas.remove(position);
-            mDatas.add(0, ra1);
-            notifyDataSetChanged();
+
+//            ReceiptAddress ra1 = mDatas.get(getPosition());
+//            mDatas.remove(position);
+//            mDatas.add(0, ra1);
+//            notifyDataSetChanged();
+
 
         }
     }
@@ -293,7 +299,9 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
             } else if (what == SETDETAULTRECEIPTADDRESS) {
                 //设置默认地址,网络请求成功之后通知刷新
                 String result = response.get();
-                Log.e("fafa", result);
+                mHandler.sendEmptyMessage(DeleteMethod);
+                showtoast("设置默认地址成功");
+
             }
         }
 
@@ -307,4 +315,14 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
 
         }
     };
+
+    private void showtoast(String text) {
+        if (toast == null) {
+            toast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(text);
+        }
+        toast.show();
+    }
+
 }

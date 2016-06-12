@@ -292,10 +292,9 @@
                     android:layout_weight="0.1"/>
 
                 <Button
-                    android:background="#F2F2F2"
+                    android:background="@color/topical"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:enabled="false"
                     android:id="@+id/modify_address_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
