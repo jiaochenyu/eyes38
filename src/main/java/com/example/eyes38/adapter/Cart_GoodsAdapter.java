@@ -221,8 +221,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
             holder.mWeekOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击一周菜谱
             holder.mDayOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击了当日订单
         }
-
-
     }
 
     //初始化 mOnRecyclerViewItemClickListener
@@ -383,7 +381,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position = (int) buttonView.getTag();
             mList.get(position).setSelected(isChecked);
-            Log.e("hahahhaahahahhaa",getAllGoodsCount()+" ");
             mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
             //通知改变总价格 将总价格传给Handler
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));

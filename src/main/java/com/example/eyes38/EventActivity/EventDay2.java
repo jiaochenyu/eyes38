@@ -119,7 +119,6 @@ public class EventDay2 extends Fragment{
                         good.setPath(image);
                         good.setGoods_name(title);
                         mList.add(good);
-                        Log.e("TAG","-->"+image+"-->"+title);
                     }
                     mEventRecycleViewAdapter=new EventRecycleViewAdapter(mList,getActivity());
                     mRecyclerView.setAdapter(mEventRecycleViewAdapter);

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
-import com.example.eyes38.beans.EventContentGood;
 import com.example.eyes38.beans.Goods;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class EventRecycleViewAdapter extends RecyclerView.Adapter<EventRecycleVi
     @Override
     public void onClick(View v) {
         if (mOnRecyclerViewItemClickListener != null) {
-            mOnRecyclerViewItemClickListener.OnItemClick(v, (EventContentGood) v.getTag());
+            mOnRecyclerViewItemClickListener.OnItemClick(v, (Goods) v.getTag());
         }
 
     }
@@ -40,8 +39,8 @@ public class EventRecycleViewAdapter extends RecyclerView.Adapter<EventRecycleVi
 
 
     //监听接口OnRecyclerViewItemClickListener
-    public static interface OnRecyclerViewItemClickListener {
-        void OnItemClick(View view, EventContentGood eventContentGood);
+    public interface OnRecyclerViewItemClickListener {
+        void OnItemClick(View view, Goods goods);
     }
 
     public void setOnRecyclerViewItemClickListener(OnRecyclerViewItemClickListener onRecyclerViewItemClickListener) {
@@ -79,10 +78,10 @@ public class EventRecycleViewAdapter extends RecyclerView.Adapter<EventRecycleVi
 
         public EventRecycleViewHolder(View view) {
             super(view);
-            mImageView = (ImageView) view.findViewById(R.id.home_imageview);
-            mTextView = (TextView) view.findViewById(R.id.home_sort_item_nametextview);
-            priceTextvew = (TextView) view.findViewById(R.id.home_sort_item_pricetextview);
-            danweiTexiview = (TextView) view.findViewById(R.id.home_sort_item_danweitview);
+            mImageView = (ImageView) view.findViewById(R.id.event_imageview);
+            mTextView = (TextView) view.findViewById(R.id.event_item_nametextview);
+            priceTextvew = (TextView) view.findViewById(R.id.event_item_pricetextview);
+            danweiTexiview = (TextView) view.findViewById(R.id.event_item_danweitview);
         }
     }
 }

@@ -2,72 +2,75 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:background="@color/white"
                 android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/event_imageview"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="3dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:id="@+id/event_item_nametextview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/event_imageview"
-        android:singleLine="true"
-        android:text="苹果" />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/event_item_nametextview"
-        >
+            <ImageView
+                android:id="@+id/event_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="3dp"
+                />
 
-        <TextView
-            android:id="@+id/event_item_remark"
+            <TextView
+                android:id="@+id/event_item_nametextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_imageview"
+                android:layout_centerHorizontal="true"
+                android:singleLine="true"
+                android:text="苹果"/>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/goods_detail_addcar"
-            android:textSize="18sp"
             android:layout_below="@id/event_item_nametextview"
-            android:text="￥" />
+           android:layout_centerHorizontal="true"
+            >
 
-        <TextView
-            android:id="@+id/event_item_pricetextview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/goods_detail_addcar"
-            android:layout_toRightOf="@id/event_item_remark"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/event_item_nametextview"
-            android:textSize="18sp"
-            android:text="3.4" />
-        <TextView
-            android:id="@+id/event_item_xiegangtview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/goods_detail_addcar"
-            android:layout_toRightOf="@id/event_item_pricetextview"
-            android:layout_below="@id/event_item_nametextview"
-            android:textSize="18sp"
-            android:text="/" />
-        <TextView
-            android:id="@+id/event_item_danweitview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/goods_detail_addcar"
-            android:layout_toRightOf="@id/event_item_xiegangtview"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/event_item_nametextview"
-            android:textSize="18sp"
-            android:text="个" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/event_item_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_item_nametextview"
+                android:text="￥"
+                android:textColor="@color/goods_detail_addcar"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/event_item_pricetextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_item_nametextview"
+                android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@id/event_item_remark"
+                android:text="3.4"
+                android:textColor="@color/goods_detail_addcar"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/event_item_xiegangtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_item_nametextview"
+                android:layout_toRightOf="@id/event_item_pricetextview"
+                android:text="/"
+                android:textColor="@color/goods_detail_addcar"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/event_item_danweitview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_item_nametextview"
+                android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@id/event_item_xiegangtview"
+                android:text="个"
+                android:textColor="@color/goods_detail_addcar"
+                android:textSize="15sp"/>
+        </LinearLayout>
 </RelativeLayout>

@@ -395,7 +395,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initrecycleAdapter() {
-        hcAdapter = new Home_ContentAdapter(mMainActivity, mrecycleList);
+        hcAdapter = new Home_ContentAdapter(mMainActivity, mrecycleList,district_id);
         mRecyclerView.setAdapter(hcAdapter);
         LinearLayoutManager linear = new LinearLayoutManager(mMainActivity);
         mRecyclerView.setLayoutManager(linear);
