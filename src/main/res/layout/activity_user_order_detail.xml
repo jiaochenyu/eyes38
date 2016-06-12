@@ -323,15 +323,6 @@
                     android:layout_height="match_parent"/>
                 <Button
                     android:singleLine="true"
-                    android:id="@+id/user_order_detail_cancel"
-                    android:layout_margin="5dp"
-                    android:background="#FFF"
-                    android:text="取消订单"
-                    android:layout_weight="2"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"/>
-                <Button
-                    android:singleLine="true"
                     android:id="@+id/user_order_detail_go_to_pay"
                     android:layout_margin="5dp"
                     android:background="#FFF"

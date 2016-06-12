@@ -2,8 +2,12 @@ package com.example.eyes38.fragment.search.search_adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.audiofx.LoudnessEnhancer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +18,23 @@ import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.GoodDetailActivity;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.beans.SearchGoods;
 import com.example.eyes38.beans.Search_hot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by weixiao on 2016/5/25.
  */
 public class SearchRecycleViewAdapter extends RecyclerView.Adapter<SearchRecycleViewAdapter.EventRecycleViewHolder> implements View.OnClickListener {
-    private List<Goods> mList;
+    public static final int HOTFINISH = 315;
+    private List<SearchGoods> mList;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
     private Context mContext;
     private List<Search_hot> hotList;
-    public SearchRecycleViewAdapter(List<Goods> list, Context context) {
+
+    public SearchRecycleViewAdapter(List<SearchGoods> list, Context context) {
         mList = list;
         mContext = context;
     }
@@ -51,6 +59,7 @@ public class SearchRecycleViewAdapter extends RecyclerView.Adapter<SearchRecycle
 
     @Override
     public EventRecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        hotList = new ArrayList<>();//热门初始化
         //定义一个view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_menu_item, parent, false);
         EventRecycleViewHolder eventRecycleViewHolder = new EventRecycleViewHolder(view);
@@ -59,7 +68,7 @@ public class SearchRecycleViewAdapter extends RecyclerView.Adapter<SearchRecycle
     }
 
     @Override
-    public void onBindViewHolder(EventRecycleViewHolder holder, final int position) {
+    public void onBindViewHolder(final EventRecycleViewHolder holder, final int position) {
         Glide.with(mContext).load(mList.get(position).getPath()).into(holder.pic);
         holder.name.setText(mList.get(position).getGoods_name());
         holder.price.setText(mList.get(position).getGoods_platform_price() + "");
@@ -67,7 +76,6 @@ public class SearchRecycleViewAdapter extends RecyclerView.Adapter<SearchRecycle
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //设置搜索物品点击事件
                 // 跳转到商品详情页面,传一个goods对象,键值是values,
                 Goods mGoods = new Goods(mList.get(position).getGoods_id(), mList.get(position).getGoods_name(), mList.get(position).getPath(), mList.get(position).getGoods_unit(), mList.get(position).getGoods_market_price(), mList.get(position).getGoods_platform_price(), mList.get(position).getGoods_comment_count(), mList.get(position).getGoods_stock(), mList.get(position).getGoods_description());
                 Intent intent = new Intent(mContext, GoodDetailActivity.class);

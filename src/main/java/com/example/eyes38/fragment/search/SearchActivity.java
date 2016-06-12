@@ -12,27 +12,32 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.beans.SearchGoods;
 import com.example.eyes38.fragment.search.search_adapter.GridAdapter;
 import com.example.eyes38.fragment.search.search_adapter.ListAdapter;
 import com.example.eyes38.fragment.search.search_adapter.SearchRecycleViewAdapter;
 import com.example.eyes38.fragment.search.search_bean.bansearchBean;
-import com.example.eyes38.fragment.search.search_bean.gridBean;
 import com.example.eyes38.fragment.search.utils.HistoryTable;
 import com.example.eyes38.fragment.search.utils.MyHelper;
+import com.example.eyes38.fragment.search.utils.SlidingMenu;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.CacheMode;
@@ -46,11 +51,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 public class SearchActivity extends AppCompatActivity {
-
-    public static final int HISTORY_NUM = 10;//显示的历史数据条数
+    public static final int mWhat2 = 25;
     //创建数据库辅助类对象
     MyHelper myHelper;
     //声明一个数据库操作类
@@ -64,17 +72,18 @@ public class SearchActivity extends AppCompatActivity {
     public static final int mFinish = 922;
     private Context mContext;
     //数据库总量
-    private List<Goods> mList;
+    private List<SearchGoods> mList;
     //搜索结果
-    private List<Goods> resultList;
+    private List<SearchGoods> resultList;
     //历史记录
     private List<bansearchBean> banList;
     //适配器
     SearchRecycleViewAdapter mSearchRecycleViewAdapter = null;
     ListAdapter mListAdapter;
     GridAdapter mGridAdapter;
+    SlidingMenu mleftMenu;
     //gridbean
-    List<gridBean> mGridList;
+    List<Goods> mGridList;
     GridView mGridView;
     private ImageView search_back;
     private Button search_go;
@@ -82,9 +91,26 @@ public class SearchActivity extends AppCompatActivity {
     private EditText mEditText;
     private boolean flag;
     private boolean notify;
+    //综合等radiobutton
+    private RadioButton search_comprise, search_num, search_price, search_num_down, search_price_down;
+    //有无库存
+    private CheckBox mCheckBox;
+    //两个radiogroup
+    RadioGroup search_category, search_caixi;
+    //分类等radiobutton
+    private RadioButton search_fruit, search_meat, search_water, search_green, search_riyong;
+    //菜系分类
+    private RadioButton search_common, search_special;
+    //价格区间
+    private EditText search_by_low, search_by_high;
+    //确定及取消
+    private Button search_window_cancel, search_window_yes;
+
+    private Button search_sift;
     RecyclerView resultRecyclerView;
     ListView listView;
-    LinearLayout result_Layout, now_Layout;
+    LinearLayout now_Layout;
+    RelativeLayout result_Layout;
     InputMethodManager imm;
     //采用nohttp
     private RequestQueue mRequestQueue;
@@ -135,7 +161,7 @@ public class SearchActivity extends AppCompatActivity {
             if (what == mWhat) {
                 //请求成功
                 String result = response.get();
-                mList.clear();
+                mList = new ArrayList<>();//ssssss
                 resultList.clear();
                 try {
                     JSONObject object = new JSONObject(result);
@@ -151,15 +177,32 @@ public class SearchActivity extends AppCompatActivity {
                         float market_price = (float) jsonObject.getDouble("market_price");
                         JSONObject search = jsonObject.getJSONObject("product_search");
                         int comment_count = search.getInt("comment_num");
+                        int sales_num = search.getInt("sales");
                         int stock = search.getInt("stock_num");
-                        Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic);
-                        mList.add(goods);
+                        SearchGoods searchGoods = new SearchGoods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic, "false", sales_num);
+                        mList.add(searchGoods);
                     }
                     for (int i = 0; i < mList.size(); i++) {
-                        //匹配条件
-                        if (mList.get(i).getGoods_name().contains(text.trim())) {
+                        //匹配条件  加上排序条件
+                        if (mList.get(i).getGoods_name().contains(text.trim()) && search_comprise.isChecked()) {
+                            //默认按销量*0.6+价格*0.4+评价*0.2排序
                             resultList.add(mList.get(i));
+                            Collections.sort(resultList, new Comparator<SearchGoods>() {
+                                @Override
+                                public int compare(SearchGoods gd1, SearchGoods gd2) {
+                                    //综合排名按降序排列
+                                    if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 < gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
+                                        return 1;
+                                    }
+                                    if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 == gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
+                                        return 0;
+                                    }
+                                    return -1;
+                                }
+                            });
                         }
+
+
                     }
                     //此时判断resultList的大小
                     if (resultList.size() == 0) {
@@ -176,8 +219,11 @@ public class SearchActivity extends AppCompatActivity {
                     } else {
                         mSearchRecycleViewAdapter.notifyDataSetChanged();
                     }
+                    //判断
+                    AdjustSearchChange();
+                    //筛选部分的监听
+                    SearchShifListener();
 
-                    Log.e("bb", "sss");
                     //接着判断editText内容
                     mEditText.addTextChangedListener(new TextWatcher() {
                         @Override
@@ -218,6 +264,118 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
+        private void AdjustSearchChange() {
+            //价格
+            search_price.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //在判断价格升序还是降序
+                    search_price.setTextColor(getResources().getColor(R.color.topical));
+                    search_num.setTextColor(getResources().getColor(R.color.bottomtext));
+                    search_price_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            search_price.setTextColor(getResources().getColor(R.color.topical));
+                            Collections.sort(resultList, new Comparator<SearchGoods>() {
+                                @Override
+                                public int compare(SearchGoods gd1, SearchGoods gd2) {
+                                    //综合排名按降序排列>从低到高
+                                    if (gd1.getGoods_platform_price() > gd2.getGoods_platform_price()) {
+                                        return 1;
+                                    }
+                                    if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
+                                        return 0;
+                                    }
+                                    return -1;
+                                }
+                            });
+                            mSearchRecycleViewAdapter.notifyDataSetChanged();
+                        }
+                    });
+                    Collections.sort(resultList, new Comparator<SearchGoods>() {
+                        @Override
+                        public int compare(SearchGoods gd1, SearchGoods gd2) {
+                            //综合排名按降序排列>从低到高
+                            if (gd1.getGoods_platform_price() < gd2.getGoods_platform_price()) {
+                                return 1;
+                            }
+                            if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
+                                return 0;
+                            }
+                            return -1;
+                        }
+                    });
+                    mSearchRecycleViewAdapter.notifyDataSetChanged();
+                }
+            });
+            //综合
+            search_comprise.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    search_price.setTextColor(getResources().getColor(R.color.bottomtext));
+                    search_num.setTextColor(getResources().getColor(R.color.bottomtext));
+                    Collections.sort(resultList, new Comparator<SearchGoods>() {
+                        @Override
+                        public int compare(SearchGoods gd1, SearchGoods gd2) {
+                            //价格默认排名按降序排列
+                            if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 < gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
+                                return 1;
+                            }
+                            if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 == gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
+                                return 0;
+                            }
+                            return -1;
+                        }
+                    });
+                    mSearchRecycleViewAdapter.notifyDataSetChanged();
+                }
+            });
+            //销量
+            search_num.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    search_num.setTextColor(getResources().getColor(R.color.topical));
+                    search_price.setTextColor(getResources().getColor(R.color.bottomtext));
+                    //在对升序还是降序进行监听
+                    search_num_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            search_num.setTextColor(getResources().getColor(R.color.topical));
+                            Collections.sort(resultList, new Comparator<SearchGoods>() {
+                                @Override
+                                public int compare(SearchGoods gd1, SearchGoods gd2) {
+                                    //综合排名按降序排列
+                                    if (gd1.getSales() > gd2.getSales()) {
+                                        return 1;
+                                    }
+                                    if (gd1.getSales() == gd2.getSales()) {
+                                        return 0;
+                                    }
+                                    return -1;
+                                }
+                            });
+                            mSearchRecycleViewAdapter.notifyDataSetChanged();
+                        }
+                    });
+                    Collections.sort(resultList, new Comparator<SearchGoods>() {
+                        @Override
+                        public int compare(SearchGoods gd1, SearchGoods gd2) {
+                            //综合排名默认按降序排列
+                            if (gd1.getSales() < gd2.getSales()) {
+                                return 1;
+                            }
+                            if (gd1.getSales() == gd2.getSales()) {
+                                return 0;
+                            }
+                            return -1;
+                        }
+                    });
+                    mSearchRecycleViewAdapter.notifyDataSetChanged();
+                }
+            });
+
+        }
+
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
 
@@ -232,6 +390,12 @@ public class SearchActivity extends AppCompatActivity {
 
     //事件监听
     private void initListeners() {
+        search_sift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mleftMenu.toggle();
+            }
+        });
         //监听清除数据按键
         history_clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,27 +471,24 @@ public class SearchActivity extends AppCompatActivity {
         mDatabase = myHelper.getReadableDatabase();
         //查询
         banList.clear();
-        mCursor = mDatabase.query(HistoryTable.Field.TABLE_NAME, null, null, null, null, null, null);
+        mCursor = mDatabase.query(HistoryTable.Field.TABLE_NAME, null, null, null, null, null, HistoryTable.Field._ID + " desc");
         while (mCursor.moveToNext()) {
             String name = mCursor.getString(mCursor.getColumnIndex(HistoryTable.Field.HISTORY_NAME));
             bansearchBean bansearchBean = new bansearchBean(name);
             banList.add(bansearchBean);
         }
-        Log.e("QWER", banList.size() + "");
         if (banList.size() == 0) {
             notify = true;
         } else {
             //用于判断list中的数量和内容
             for (int i = 0; i < banList.size(); i++) {
-                if (banList.get(i).getContent().equals(text) || banList.size() > HISTORY_NUM) {
+                if (banList.get(i).getContent().equals(text)) {
                     notify = false;
                 } else {
                     notify = true;
                 }
             }
         }
-        Log.e("QWER", "" + notify);
-
         mDatabase.close();
     }
 
@@ -360,13 +521,12 @@ public class SearchActivity extends AppCompatActivity {
         //清空所有数据
         banList.clear();
         //查询
-        mCursor = mDatabase.query(HistoryTable.Field.TABLE_NAME, null, null, null, null, null, null);
+        mCursor = mDatabase.query(HistoryTable.Field.TABLE_NAME, null, null, null, null, null, HistoryTable.Field._ID + " desc");
         while (mCursor.moveToNext()) {
             String name = mCursor.getString(mCursor.getColumnIndex(HistoryTable.Field.HISTORY_NAME));
             bansearchBean bansearchBean = new bansearchBean(name);
             banList.add(bansearchBean);
         }
-        Log.e("QWER", banList.size() + "GG");
         if (banList.size() > 0) {
             history_clear.setText("清除历史搜索");//sssssssssssss
         }
@@ -380,9 +540,19 @@ public class SearchActivity extends AppCompatActivity {
         gridViewSearch();
         history_clear = (Button) findViewById(R.id.history_clear);
         //创建数据库对象N
+        mleftMenu = (SlidingMenu) findViewById(R.id.id_menu);
+        //筛选按钮
+        search_sift = (Button) findViewById(R.id.search_sift);
+        search_comprise = (RadioButton) findViewById(R.id.search_comprise);
+        search_num = (RadioButton) findViewById(R.id.search_num);
+        search_price = (RadioButton) findViewById(R.id.search_price);
+        search_num_down = (RadioButton) findViewById(R.id.search_num_down);
+        search_price_down = (RadioButton) findViewById(R.id.search_price_down);
+        //筛选监听
+        searchByShit();
         myHelper = new MyHelper(SearchActivity.this);
         now_Layout = (LinearLayout) findViewById(R.id.now_linear);
-        result_Layout = (LinearLayout) findViewById(R.id.result_linear);
+        result_Layout = (RelativeLayout) findViewById(R.id.result_linear);
         search_back = (ImageView) findViewById(R.id.search_back);
         search_go = (Button) findViewById(R.id.search_go);
         search_clear = (ImageView) findViewById(R.id.search_clear);
@@ -393,6 +563,84 @@ public class SearchActivity extends AppCompatActivity {
         resultList = new ArrayList<>();
         banList = new ArrayList<>();
         setAdapter();
+        someViewListener();
+
+    }
+
+    //筛选按钮监听
+    private void searchByShit() {
+        mCheckBox = (CheckBox) findViewById(R.id.search_by_yes);
+        search_category = (RadioGroup) findViewById(R.id.search_category);
+        search_caixi = (RadioGroup) findViewById(R.id.search_caixi);
+        search_fruit = (RadioButton) findViewById(R.id.search_fruit);
+        search_meat = (RadioButton) findViewById(R.id.search_meat);
+        search_water = (RadioButton) findViewById(R.id.search_water);
+        search_green = (RadioButton) findViewById(R.id.search_green);
+        search_riyong = (RadioButton) findViewById(R.id.search_riyong);
+        search_common = (RadioButton) findViewById(R.id.search_common);
+        search_special = (RadioButton) findViewById(R.id.search_special);
+        search_by_low = (EditText) findViewById(R.id.search_by_low);
+        search_by_high = (EditText) findViewById(R.id.search_by_high);
+        search_window_cancel = (Button) findViewById(R.id.search_window_cancel);
+        search_window_yes = (Button) findViewById(R.id.search_window_yes);
+    }
+
+    //筛选按钮的监听
+    private void SearchShifListener() {
+        //确定按钮的监听
+        search_window_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCheckBox.isChecked()) {
+                    Iterator<SearchGoods> iterator = resultList.iterator();
+                    while (iterator.hasNext()) {
+                        SearchGoods searchGoods = iterator.next();
+                        if (searchGoods.getGoods_stock() == 0) {
+                            iterator.remove();
+                        }
+                    }
+                }
+
+                float low, high;
+                //价格区间
+                String text1 = search_by_low.getText().toString();
+                String text2 = search_by_high.getText().toString();
+                if (text1.equals("")) {
+                    text1 = "-0.1";
+                }
+                if (text2.equals("")) {
+                    text2 = "9999999999";
+                }
+                low = Float.parseFloat(text1);
+                high = Float.parseFloat(text2);
+                //这里需要使用增强的for循环，不然容易显示错误
+                Iterator<SearchGoods> iterator = resultList.iterator();
+                while (iterator.hasNext()) {
+                    SearchGoods searchGoods = iterator.next();
+                    if (searchGoods.getGoods_platform_price() < low || searchGoods.getGoods_platform_price() > high) {
+                        iterator.remove();
+                    }
+                }
+                mSearchRecycleViewAdapter.notifyDataSetChanged();
+                mleftMenu.toggle();
+                //为什么要多点击几次,才正确显示呢?????
+
+
+            }
+
+        });
+
+        //取消按钮监听
+        search_window_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mleftMenu.toggle();
+            }
+        });
+
+    }
+
+    private void someViewListener() {
         //将历史数据上的放在文本框上
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -443,15 +691,86 @@ public class SearchActivity extends AppCompatActivity {
     //绑定gridview
     private void gridViewSearch() {
         mGridList = new ArrayList<>();
-        //假数据
-        for (int i = 0; i < 9; i++) {
-            gridBean gridBean = new gridBean();
-            gridBean.setText("热搜" + i);
-            mGridList.add(gridBean);
-        }
-        mGridAdapter = new GridAdapter(SearchActivity.this, mGridList);
-        mGridView.setAdapter(mGridAdapter);
+        getHttpMetod2();
+
     }
+
+    //获取28个中9个数据
+    private void getHttpMetod2() {
+        mRequestQueue = NoHttp.newRequestQueue();
+        String url = "http://38eye.test.ilexnet.com/api/mobile/product-api/products";
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.add("limit", "28");
+        request.setCacheMode(CacheMode.DEFAULT);
+        mRequestQueue.add(mWhat2, request, mOnResponseListener2);
+    }
+
+    private OnResponseListener<String> mOnResponseListener2 = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == mWhat2) {
+                //请求成功
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    if (array.length() != 0) {
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            int id = jsonObject.getInt("product_id");
+                            String name = jsonObject.getString("name");
+                            String path = jsonObject.getString("image");
+                            String unit = jsonObject.getString("extension4");
+                            String txt_pic = jsonObject.getString("description");
+                            float price = (float) jsonObject.getDouble("price");
+                            float market_price = (float) jsonObject.getDouble("market_price");
+                            JSONObject search = jsonObject.getJSONObject("product_search");
+                            int comment_count = search.getInt("comment_num");
+                            int stock = search.getInt("stock_num");
+                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic);
+                            mGridList.add(goods);
+                        }
+                    }
+                    //随机生成9个(28以内的)不重复的随机整数
+                    Random random = new Random();
+                    boolean[] bool = new boolean[28];
+                    List<Integer> integers = new ArrayList<>();
+                    List<Goods> gridList = new ArrayList<>();
+                    int randInt;
+                    for (int i = 0; i < 9; i++) {
+                        do {
+                            randInt = random.nextInt(28);
+                        } while (bool[randInt]);
+                        bool[randInt] = true;
+                        integers.add(randInt);
+                    }
+                    for (int i = 0; i < 9; i++) {
+                        gridList.add(mGridList.get(integers.get(i)));
+                    }
+
+                    mGridAdapter = new GridAdapter(SearchActivity.this, gridList);
+                    mGridView.setAdapter(mGridAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
 
     public void show(String text) {
         if (mToast == null) {
@@ -461,7 +780,6 @@ public class SearchActivity extends AppCompatActivity {
         }
         mToast.show();
     }
-
 }
 
 

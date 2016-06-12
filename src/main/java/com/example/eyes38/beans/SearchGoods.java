@@ -3,10 +3,10 @@ package com.example.eyes38.beans;
 import java.io.Serializable;
 
 /**
- * Created by huangjiechun on 16/5/26.
+ * Created by jqchen on 2016/5/18.
  */
-public class HomeContentContent implements Serializable {
-    private int goods_id;//商品id
+public class SearchGoods implements Serializable {
+    private int goods_id;//商品id4
     private String goods_name;//商品名称
     private String path;//商品图片地址
     private String goods_unit;//商品规格
@@ -16,24 +16,23 @@ public class HomeContentContent implements Serializable {
     private int goods_stock;//商品库存
     private String goods_description;//商品图文详情
     private String extension = "false"; //是否是一周菜谱
+    private int sales;//销售数量
 
-    @Override
-    public String toString() {
-        return "HomeContentContent{" +
-                "goods_id=" + goods_id +
-                ", goods_name='" + goods_name + '\'' +
-                ", path='" + path + '\'' +
-                ", goods_unit='" + goods_unit + '\'' +
-                ", goods_market_price=" + goods_market_price +
-                ", goods_platform_price=" + goods_platform_price +
-                ", goods_comment_count=" + goods_comment_count +
-                ", goods_stock=" + goods_stock +
-                ", goods_description='" + goods_description + '\'' +
-                ", extension='" + extension + '\'' +
-                '}';
+    public SearchGoods() {
     }
 
-    public HomeContentContent() {
+    public SearchGoods(int goods_id, String goods_name, String path, String goods_unit, float goods_market_price, float goods_platform_price, int goods_comment_count, int goods_stock, String goods_description, String extension, int sales) {
+        this.goods_id = goods_id;
+        this.goods_name = goods_name;
+        this.path = path;
+        this.goods_unit = goods_unit;
+        this.goods_market_price = goods_market_price;
+        this.goods_platform_price = goods_platform_price;
+        this.goods_comment_count = goods_comment_count;
+        this.goods_stock = goods_stock;
+        this.goods_description = goods_description;
+        this.extension = extension;
+        this.sales = sales;
     }
 
     public int getGoods_id() {
@@ -114,5 +113,13 @@ public class HomeContentContent implements Serializable {
 
     public void setExtension(String extension) {
         this.extension = extension;
+    }
+
+    public int getSales() {
+        return sales;
+    }
+
+    public void setSales(int sales) {
+        this.sales = sales;
     }
 }
