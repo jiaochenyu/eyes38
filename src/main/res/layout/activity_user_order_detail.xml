@@ -10,42 +10,24 @@
     <RelativeLayout
         android:id="@+id/usertitle"
         style="@style/pagetitle">
+        <ImageView
+            android:id="@+id/user_order_detail_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
-
-            <ImageView
-                android:id="@+id/user_order_detail_back"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-<<<<<<< HEAD
-=======
-                android:onClick="user_order_detail_back"
->>>>>>> 73cacea4c19b0318d7019242acd657d74ec81079
-                android:src="@drawable/back"/>
-
-            <TextView
-                style="@style/pagetitletext"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:text="订单详情"
-                />
-
-            <ImageView
-                android:id="@+id/user_order_detail_home"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:padding="5dp"
-                android:src="@drawable/user_order_detail"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/sort_sort_title"
+            style="@style/pagetitletext"
+            android:text="@string/orders_detail" />
+        <ImageView
+            android:id="@+id/user_order_detail_home"
+            android:padding="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/user_house"/>
     </RelativeLayout>
     <!-- 内容 -->
     <ScrollView

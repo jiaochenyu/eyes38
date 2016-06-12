@@ -302,4 +302,8 @@ public class SortMenuActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void back(View view) {
+        finish();
+    }
 }

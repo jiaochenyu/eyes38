@@ -11,27 +11,17 @@
     <RelativeLayout
         android:id="@+id/usertitle"
         style="@style/pagetitle">
+        <ImageView
+            android:onClick="user_personal_center_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:onClick="user_personal_center_back"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/back"/>
-
-            <TextView
-                style="@style/pagetitletext"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:text="个人信息"
-                android:textSize="15sp"
-                />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/sort_sort_title"
+            style="@style/pagetitletext"
+            android:text="@string/user_message" />
     </RelativeLayout>
 
     <!-- 内容 -->
