@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:onClick="back"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"
@@ -36,7 +36,7 @@
             android:visibility="visible"
             android:id="@+id/goods_comment_ptr"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             cube_ptr:ptr_duration_to_close="300"
             cube_ptr:ptr_duration_to_close_header="2000"
             cube_ptr:ptr_keep_header_when_refresh="true"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/article"/>
+                android:src="@mipmap/article"/>
             <TextView
                 android:id="@+id/comment_reply_none_textview"
                 android:layout_width="wrap_content"
@@ -70,5 +70,11 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/goods_comment_reply_none"/>
         </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
     </LinearLayout>
 </LinearLayout>

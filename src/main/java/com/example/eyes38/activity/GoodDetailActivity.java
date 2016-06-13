@@ -173,7 +173,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private void setViewToData() {
         //将数据写入各个控件
         Glide.with(this).load(goods.getPath()).into(goodsPicImageView);
-        goodsUnitTextView.setText(goods.getGoods_platform_price() + goods.getGoods_unit());
+        goodsUnitTextView.setText(goods.getGoods_platform_price() +"/"+ goods.getGoods_unit());
         goodsStockTextView.setText(goods.getGoods_stock() + "");
         goodsRemarkTextView.setText(goods.getGoods_name());
         //截取字符串中的url

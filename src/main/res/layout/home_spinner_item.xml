@@ -10,5 +10,4 @@
           android:paddingBottom="3dp"
           android:paddingTop="5dp"
           android:text="全国"
-          android:background="@color/goods_detail_addcar"
-           />
+          android:background="@color/goods_detail_addcar" />

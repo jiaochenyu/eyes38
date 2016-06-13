@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"
@@ -70,7 +70,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:paddingBottom="1dp"
-            android:src="@drawable/event_day_navagation_scroll_left"
+            android:src="@mipmap/event_day_navagation_scroll_left"
             android:visibility="gone" >
         </ImageView>
 
@@ -81,7 +81,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingBottom="1dip"
-            android:src="@drawable/event_day_navagation_scroll_right"
+            android:src="@mipmap/event_day_navagation_scroll_right"
             android:visibility="visible" >
         </ImageView>
     </RelativeLayout>
@@ -89,8 +89,7 @@
     <!--内容-->
     <android.support.v4.view.ViewPager
         android:id="@+id/event_content_viewpager"
-        style="@style/pagecontent"
-      >
+        style="@style/pagecontent">
     </android.support.v4.view.ViewPager>
 
 

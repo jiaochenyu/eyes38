@@ -9,7 +9,7 @@
         android:id="@+id/sort_content_content_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/defult" />
+        android:src="@mipmap/defult" />
 
     <TextView
         android:id="@+id/sort_content_content_textview"

@@ -31,7 +31,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.eyes38.R;
-import com.example.eyes38.utils.GetPathFromUri4kitkat;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -44,7 +43,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 
 public class User_personal_centerActivity extends AppCompatActivity {
     public static final int mWHAT = 321;
@@ -187,11 +185,11 @@ public class User_personal_centerActivity extends AppCompatActivity {
                     image_uri = object1.getString("image");
                     Log.e("image下拉的uri", image_uri);
                     if (image_uri.equals("")) {
-                        image_button.setImageResource(R.drawable.user_photo);
+                        image_button.setImageResource(R.mipmap.user_photo);
                         Log.e("TAGm", "1");
                     } else if (!image_uri.equals("")){
                         //如何通过uri找到本地图片呢,草 ，不开心  真心不会
-                        image_button.setImageResource(R.drawable.user_photo);
+                        image_button.setImageResource(R.mipmap.user_photo);
                       /*  try {
                            String uri= GetPathFromUri4kitkat.getImageAbsolutePath(User_personal_centerActivity.this, Uri.parse(image_uri));
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContentResolver, Uri.parse(uri));

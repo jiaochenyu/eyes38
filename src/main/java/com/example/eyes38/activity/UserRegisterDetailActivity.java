@@ -75,7 +75,7 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
     private List<Area> proAreas, cityAreas, areaArea;
     private int count = 59;
     //偏好设置
-    SharedPreferences sp;
+    private SharedPreferences sp;
 
 
     //自定义倒计时类,实现60秒后重新获取验证码
@@ -218,12 +218,12 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 community.setId(communitiesList.get(position).getId());
                 community.setName(communitiesList.get(position).getName());
-                communityAdjust.setImageResource(R.drawable.right);
+                communityAdjust.setImageResource(R.mipmap.right);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                communityAdjust.setImageResource(R.drawable.exclamation);
+                communityAdjust.setImageResource(R.mipmap.exclamation);
             }
         });
         /**
@@ -493,10 +493,10 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         public void afterTextChanged(Editable s) {
             if (temp.length() == 6) {
                 inputValidatecodeEditText.clearFocus();
-                validateCodeAdjust.setImageResource(R.drawable.right);
+                validateCodeAdjust.setImageResource(R.mipmap.right);
                 mlist.set(0, true);
             } else {
-                validateCodeAdjust.setImageResource(R.drawable.exclamation);
+                validateCodeAdjust.setImageResource(R.mipmap.exclamation);
                 mlist.set(0, false);
             }
             registerAdjust();
@@ -522,11 +522,11 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
             if (temp.length() >= 6) {
-                passwordAdjust.setImageResource(R.drawable.right);
+                passwordAdjust.setImageResource(R.mipmap.right);
                 mlist.set(1, true);
 
             } else {
-                passwordAdjust.setImageResource(R.drawable.exclamation);
+                passwordAdjust.setImageResource(R.mipmap.exclamation);
                 mlist.set(1, false);
             }
             registerAdjust();
@@ -551,11 +551,11 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
         public void afterTextChanged(Editable s) {
             String password = passwordEditText.getText().toString();
             if (temp.toString().equals(password)) {
-                confirmPasswordAdjust.setImageResource(R.drawable.right);
+                confirmPasswordAdjust.setImageResource(R.mipmap.right);
                 mlist.set(2, true);
                 confirmpasswordEditText.clearFocus();
             } else {
-                confirmPasswordAdjust.setImageResource(R.drawable.exclamation);
+                confirmPasswordAdjust.setImageResource(R.mipmap.exclamation);
                 mlist.set(2, false);
             }
             registerAdjust();

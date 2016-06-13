@@ -160,9 +160,9 @@ public class User_addAddressActivity extends AppCompatActivity {
                 if (address_name.length() == 16) {
                     show("无法输入，超出字数限制！");
                 } else if (address_name.length() == 0) {
-                    address_adjust1.setImageResource(R.drawable.invalid);
+                    address_adjust1.setImageResource(R.mipmap.invalid);
                 } else {
-                    address_adjust1.setImageResource(R.drawable.valid);
+                    address_adjust1.setImageResource(R.mipmap.valid);
                     true1 = true;
                 }
             }
@@ -191,11 +191,11 @@ public class User_addAddressActivity extends AppCompatActivity {
                     if (!showFirst) {
                         showFirst = true;
                     }
-                    address_adjust2.setImageResource(R.drawable.invalid);
+                    address_adjust2.setImageResource(R.mipmap.invalid);
                 } else if (address_tel.length() == 0) {
-                    address_adjust2.setImageResource(R.drawable.invalid);
+                    address_adjust2.setImageResource(R.mipmap.invalid);
                 } else if (address_tel.length() == 11) {
-                    address_adjust2.setImageResource(R.drawable.valid);
+                    address_adjust2.setImageResource(R.mipmap.valid);
                     true2 = true;
                 }
             }
@@ -217,9 +217,9 @@ public class User_addAddressActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (address_detail.length() == 0) {
-                    address_adjust4.setImageResource(R.drawable.invalid);
+                    address_adjust4.setImageResource(R.mipmap.invalid);
                 } else {
-                    address_adjust4.setImageResource(R.drawable.valid);
+                    address_adjust4.setImageResource(R.mipmap.valid);
                     true4 = true;
                     ButtonListener();//按钮的监听
                 }

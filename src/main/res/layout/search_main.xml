@@ -19,7 +19,7 @@
             android:padding="5dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/back"/>
+            android:src="@mipmap/back"/>
 
         <ImageView
             android:padding="2dp"
@@ -55,7 +55,7 @@
                 android:layout_height="28dp"
                 android:layout_marginRight="2dp"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/search_clear"
+                android:src="@mipmap/search_clear"
                 android:visibility="gone"/>
         </FrameLayout>
 
@@ -110,7 +110,7 @@
               android:verticalSpacing="10sp"
               android:id="@+id/hotGridView"
               android:layout_width="match_parent"
-              android:layout_height="60dp"></GridView>
+              android:layout_height="60dp"/>
           <!--暂时放个简单的分割线吧-->
           <TextView
               android:background="#FFF"

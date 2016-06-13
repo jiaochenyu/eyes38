@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"
@@ -27,7 +27,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/user_house"/>
+            android:src="@mipmap/user_house"/>
     </RelativeLayout>
     <!-- 内容 -->
     <ScrollView
@@ -58,7 +58,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:padding="2dp"
-                        android:src="@drawable/user_order_detail_present"/>
+                        android:src="@mipmap/user_order_detail_present"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -124,7 +124,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:padding="2dp"
-                    android:src="@drawable/user_order_detail_purse"/>
+                    android:src="@mipmap/user_order_detail_purse"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -169,7 +169,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:padding="5dp"
-                        android:src="@drawable/user_order_detail_dingwei"/>
+                        android:src="@mipmap/user_order_detail_dingwei"/>
 
                     <TextView
                         android:id="@+id/user_order_detail_person"

@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
-            android:src="@drawable/back"/>
+            android:src="@mipmap/back"/>
 
         <TextView
             android:id="@+id/sort_sort_title"
@@ -27,7 +27,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/good_detail_defult"
+                    android:src="@mipmap/good_detail_defult"
                     android:contentDescription="@string/goods_detail_pic_description" />
                 <!--显示规格-->
                 <LinearLayout
@@ -123,7 +124,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_right"/>
+                        android:src="@mipmap/arrow_right"/>
                 </LinearLayout>
                 <!--分割线-->
                 <TextView
@@ -145,7 +146,7 @@
                     android:id="@+id/goods_detail_txt_pic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitXY" />
             </LinearLayout>
         </ScrollView>
 
@@ -162,12 +163,12 @@
             <RadioButton
                 android:id="@+id/goods_detail_radio_consult"
                 style="@style/goods_detail_raio_consult"
-                android:drawableTop="@drawable/consult"/>
+                android:drawableTop="@mipmap/consult"/>
 
             <RadioButton
                 android:id="@+id/goods_detail_radio_cart"
                 style="@style/goods_detail_radio_car"
-                android:drawableTop="@drawable/goods_detail_cart" />
+                android:drawableTop="@mipmap/goods_detail_cart" />
 
 
 

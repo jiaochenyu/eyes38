@@ -31,14 +31,14 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/sort_title_background"></android.support.v7.widget.RecyclerView>
+                android:background="@color/sort_title_background"/>
 
             <FrameLayout
                 android:id="@+id/right"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="@color/sort_content_background"></FrameLayout>
+            android:background="@color/sort_content_background"/>
         </LinearLayout>
 
     </LinearLayout>

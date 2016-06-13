@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eyes38">
 
-    <!--所需的权限-->
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 所需的权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".Application.Application"
         android:allowBackup="true"
@@ -18,14 +19,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- user -->
         <activity android:name=".user_activity.User_phone_setActivity" />
@@ -68,16 +63,25 @@
             android:name=".fragment.search.SearchActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.GuideActivity" />
+
         <activity android:name=".activity.home.LoadActivity" />
         <activity android:name=".user_activity.User_order_detailActivity" />
         <activity android:name=".activity.PaySelectActivity" />
-        <!--监听网络广播的服务-->
+        <!-- 监听网络广播的服务 -->
 
         <service android:name=".utils.NetworkStateService">
             <intent-filter>
                 <action android:name="com.eyes38.network.state" />
             </intent-filter>
         </service>
+
+        <activity android:name=".activity.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

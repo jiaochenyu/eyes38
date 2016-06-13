@@ -37,6 +37,7 @@ import com.example.eyes38.fragment.home.HomeRecycleView;
 import com.example.eyes38.fragment.home.HomeSpinnerView;
 import com.example.eyes38.fragment.search.SearchActivity;
 import com.example.eyes38.utils.LoadMoreFooterView;
+import com.viewpagerindicator.PageIndicator;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.CacheMode;
@@ -95,7 +96,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public static final int IMAGE_UPDATE = 1;
     public static final int REFRESHTIME = 5 * 1000;
     public static final int IMAGE_CHANGED = 2;
-
+    private PageIndicator indicator;
     ImageView mImageView;
     int height;
     RelativeLayout mRelativeLayout;
@@ -253,7 +254,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     Home_ad_adapter myAdapter = new Home_ad_adapter(mViewList);
                     mViewPager.setAdapter(myAdapter);
                     setlunboLinstener();
-                    // mViewPager.setCurrentItem(mCurrentItem);
+                    mViewPager.setCurrentItem(2);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -296,7 +298,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                         hcc.setGoods_platform_price(market_price);
                                         hcc.setGoods_stock(stock_num);
                                         hcc.setGoods_description(description);
-                                        if (type.equals("week")){
+                                        if (type.equals("week")) {
                                             hcc.setExtension("true");
                                         }
                                         mmList.add(hcc);
@@ -422,6 +424,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     //初始化视图
     private void initView() {
+        indicator = (PageIndicator) view.findViewById(R.id.home_indicator);
         ptrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.home_content_ptr);
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
@@ -431,19 +434,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         home_fangdajing.setOnClickListener(this);
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.cartitle);
         home_yzcpgengduo = (ImageView) view.findViewById(R.id.home_yzcpgengduo);
-        home_sort1layout= (LinearLayout) view.findViewById(R.id.home_sort1layout);
+        home_sort1layout = (LinearLayout) view.findViewById(R.id.home_sort1layout);
         home_sort1layout.setOnClickListener(this);
         home_sort1image = (ImageView) view.findViewById(R.id.home_sort1image);
         home_sort1text = (TextView) view.findViewById(R.id.home_sort1text);
-        home_sort2layout= (LinearLayout) view.findViewById(R.id.home_sort2layout);
+        home_sort2layout = (LinearLayout) view.findViewById(R.id.home_sort2layout);
         home_sort2layout.setOnClickListener(this);
         home_sort2image = (ImageView) view.findViewById(R.id.home_sort2image);
         home_sort2text = (TextView) view.findViewById(R.id.home_sort2text);
-        home_sort3layout= (LinearLayout) view.findViewById(R.id.home_sort3layout);
+        home_sort3layout = (LinearLayout) view.findViewById(R.id.home_sort3layout);
         home_sort3layout.setOnClickListener(this);
         home_sort3image = (ImageView) view.findViewById(R.id.home_sort3image);
         home_sort3text = (TextView) view.findViewById(R.id.home_sort3text);
-        home_sort4layout= (LinearLayout) view.findViewById(R.id.home_sort4layout);
+        home_sort4layout = (LinearLayout) view.findViewById(R.id.home_sort4layout);
         home_sort4layout.setOnClickListener(this);
         home_sort4image = (ImageView) view.findViewById(R.id.home_sort4image);
         home_sort4text = (TextView) view.findViewById(R.id.home_sort4text);
@@ -466,33 +469,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.home_sort1layout:
                 Intent intent1 = new Intent(mMainActivity, SortMenuActivity.class);
                 Bundle bundle = new Bundle();
-                SortContentContent scc = new SortContentContent(1,"水果",null);
-                bundle.putSerializable("values",scc);
-                intent1.putExtra("values",bundle);
+                SortContentContent scc = new SortContentContent(1, "水果", null);
+                bundle.putSerializable("values", scc);
+                intent1.putExtra("values", bundle);
                 startActivity(intent1);
                 break;
             case R.id.home_sort2layout:
                 Intent intent2 = new Intent(mMainActivity, SortMenuActivity.class);
                 Bundle bundle2 = new Bundle();
-                SortContentContent scc2 = new SortContentContent(2,"鲜肉",null);
-                bundle2.putSerializable("values",scc2);
-                intent2.putExtra("values",bundle2);
+                SortContentContent scc2 = new SortContentContent(2, "鲜肉", null);
+                bundle2.putSerializable("values", scc2);
+                intent2.putExtra("values", bundle2);
                 startActivity(intent2);
                 break;
             case R.id.home_sort3layout:
                 Intent intent3 = new Intent(mMainActivity, SortMenuActivity.class);
                 Bundle bundle3 = new Bundle();
-                SortContentContent scc3 = new SortContentContent(3,"水产",null);
-                bundle3.putSerializable("values",scc3);
-                intent3.putExtra("values",bundle3);
+                SortContentContent scc3 = new SortContentContent(3, "水产", null);
+                bundle3.putSerializable("values", scc3);
+                intent3.putExtra("values", bundle3);
                 startActivity(intent3);
                 break;
             case R.id.home_sort4layout:
                 Intent intent4 = new Intent(mMainActivity, SortMenuActivity.class);
                 Bundle bundle4 = new Bundle();
-                SortContentContent scc4 = new SortContentContent(4,"水产",null);
-                bundle4.putSerializable("values",scc4);
-                intent4.putExtra("values",bundle4);
+                SortContentContent scc4 = new SortContentContent(4, "水产", null);
+                bundle4.putSerializable("values", scc4);
+                intent4.putExtra("values", bundle4);
                 startActivity(intent4);
                 break;
         }

@@ -19,7 +19,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/defult"/>
+            android:src="@mipmap/defult"/>
     </LinearLayout>W
     <LinearLayout
         android:layout_weight="2"

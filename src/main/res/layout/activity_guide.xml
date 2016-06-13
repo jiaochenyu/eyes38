@@ -3,11 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.eyes38.activity.GuideActivity">
-    <android.support.v4.view.ViewPager
-        android:id="@+id/guide_viewpage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/guide_viewpage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fillColor="@color/white"
+            android:paddingBottom="40dp"
+            android:layout_alignBottom="@id/guide_viewpage"/>
+
 
 </RelativeLayout>

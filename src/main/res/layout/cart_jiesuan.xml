@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:onClick="user_myorder_back"
             android:padding="3dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             style="@style/pagetitletext"
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/pay_jianjian" />
+                    android:src="@mipmap/pay_jianjian" />
 
             </RelativeLayout>
 
@@ -372,7 +372,7 @@
                         android:layout_height="34dp"
                         android:button="@null"
                         android:checked="true"
-                        android:drawableLeft="@drawable/wechat"
+                        android:drawableLeft="@mipmap/wechat"
                         android:drawableRight="@drawable/pay_radio_onclick"
                         android:text="         使用[微信钱包]支付"
                         android:textColor="#444444" />

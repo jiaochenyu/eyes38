@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:onClick="back"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/background"
-                android:paddingLeft="10dp"></android.support.v7.widget.RecyclerView>
+                android:paddingLeft="10dp"/>
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
         <LinearLayout

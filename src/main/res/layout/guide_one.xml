@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="第一页"/>
-
+        android:src="@drawable/guide_one"
+        android:scaleType="fitXY"/>
 </LinearLayout>

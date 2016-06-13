@@ -17,7 +17,7 @@
             android:layout_width="10dp"
             android:layout_height="15dp"
             android:scaleType="fitXY"
-            android:src="@drawable/home_shutiao"/>
+            android:src="@mipmap/home_shutiao"/>
 
         <TextView
             android:id="@+id/zhuantiname"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/home_gengduo"/>
+        android:src="@mipmap/home_gengduo"/>
 
 </LinearLayout>
 

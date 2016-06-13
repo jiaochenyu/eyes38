@@ -1,7 +1,6 @@
 package com.example.eyes38.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -122,14 +121,14 @@ public class SortMenuActivity extends AppCompatActivity {
                         //显示footview
                         footview.setVisibility(View.VISIBLE);
                         loading.setBackgroundResource(R.drawable.anim);
-                        final AnimationDrawable animDrawable = (AnimationDrawable) loading
+                        /*final AnimationDrawable animDrawable = (AnimationDrawable) loading
                                 .getBackground();
                         loading.post(new Runnable() {
                             @Override
                             public void run() {
                                 animDrawable.start();
                             }
-                        });
+                        });*/
                         handler.sendMessageDelayed(new Message(), 2000);
 //                        loadMoreData();
 //                        Log.e("load","加载");
@@ -209,7 +208,7 @@ public class SortMenuActivity extends AppCompatActivity {
         request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
 //        request.add("category_id",category_id);
         //一次请求六条数据
-        request.add("limit", 6);
+        request.add("limit", 8);
         //请求第几页
         request.add("page", count);
         count++;
