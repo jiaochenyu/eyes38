@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 这是 主页 文字单击颜色变化 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="@color/topical"/>
+    <item android:state_checked="false" android:color="@color/bottomtext"/>
+</selector>

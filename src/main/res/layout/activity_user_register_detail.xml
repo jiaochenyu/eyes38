@@ -14,9 +14,9 @@
         <ImageView
             android:id="@+id/user_register_detail_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="back"
-            android:src="@drawable/arrow_left" />
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"

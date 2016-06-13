@@ -11,7 +11,14 @@
     <RelativeLayout
         android:id="@+id/usertitle"
         style="@style/pagetitle">
+        <ImageView
+            android:onClick="Event_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
+<<<<<<< HEAD
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -32,6 +39,12 @@
                 android:textSize="15sp"/>
 
         </LinearLayout>
+=======
+        <TextView
+            android:id="@+id/sort_sort_title"
+            style="@style/pagetitletext"
+            android:text="@string/event_title" />
+>>>>>>> f7391f4f30cafae632be3b40f2a049f03c28b6db
     </RelativeLayout>
     <!--上部分日期显示-->
     <RelativeLayout

@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.UserOrderBean;
 import com.example.eyes38.beans.UserOrderGoods;
+import com.example.eyes38.fragment.user.AllFragment;
+import com.example.eyes38.fragment.user.PayFragment;
 import com.example.eyes38.user_activity.User_order_detailActivity;
 import com.example.eyes38.utils.CartDialogDelete;
 import com.yolanda.nohttp.NoHttp;
@@ -47,7 +51,7 @@ public class User_order_AllAdapter extends RecyclerView.Adapter<User_order_AllAd
     SharedPreferences sp;  //偏好设置 看用户登录是否登录
     private int setPosition;//取消位置
     private OnItemClickListener mOnItemClickListener = null;
-
+    private ViewHolder mViewHolder;
     public User_order_AllAdapter(List<UserOrderBean> list, Context context) {
         mList = list;
         mContext = context;
@@ -74,6 +78,7 @@ public class User_order_AllAdapter extends RecyclerView.Adapter<User_order_AllAd
             @Override
             public void onClick(View v) {
                 setPosition = position;
+                mViewHolder=holder;
                 Log.e("setPosition", setPosition + "");
                 showDeleteDialog();//点击订单取消
 
@@ -167,9 +172,10 @@ public class User_order_AllAdapter extends RecyclerView.Adapter<User_order_AllAd
                     JSONObject object = new JSONObject(result);
                     boolean deleteOrder = object.getBoolean("success");
                     if (deleteOrder) {
-                        mList.remove(setPosition);
-                        notifyDataSetChanged();
                         Toast.makeText(mContext, "取消成功", Toast.LENGTH_SHORT).show();
+                        mViewHolder.order_status_id.setText("订单取消");
+                        mViewHolder.order_cancel.setVisibility(View.GONE);
+                        mViewHolder.pay_order.setVisibility(View.GONE);
                     } else {
                         Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
                     }

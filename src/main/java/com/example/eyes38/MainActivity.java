@@ -104,12 +104,17 @@ public class MainActivity extends AppCompatActivity {
         stopService(intent);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         /**
          * 记录上一次点击的页面编号
          */
+<<<<<<< HEAD
+
+=======
+>>>>>>> 6ad8e3e63b7615a6ca392b68553668142175805d
         showFragment(record);
         switch (record) {
             case HOME:

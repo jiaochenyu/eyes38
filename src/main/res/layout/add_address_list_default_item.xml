@@ -8,12 +8,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1.1">
 
         <CheckBox
             android:id="@+id/address_checkbox_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
             android:button="@null"
             android:drawableLeft="@drawable/cart_checkbox"
             />
@@ -41,6 +42,7 @@
                 android:id="@+id/address_default_delete_image"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:padding="1dp"
                 android:layout_weight="1"
                 android:src="@drawable/delete_address"/>
 
@@ -50,6 +52,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:layout_marginRight="5dp"
                 android:text="删除"
                 android:textSize="13sp"/>
         </LinearLayout>
@@ -59,44 +62,43 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.05"
+        android:layout_weight="0.08"
         android:background="#F2F2F2"
-        android:textSize="0.1sp"/>
+        android:textSize="1sp"/>
     <!--下部分数据-->
     <LinearLayout
+        android:id="@+id/add_address_default_modify"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
             <TextView
                 android:id="@+id/add_address_default_name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:padding="6dp"
+                android:padding="10dp"
                 android:text="曹付俊"
                 android:textSize="13sp"/>
 
             <TextView
                 android:id="@+id/add_address_default_tel"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:paddingLeft="12sp"
+                android:layout_alignParentRight="true"
+                android:paddingRight="10dp"
                 android:text="15538299972"
                 android:textSize="13sp"/>
-        </LinearLayout>
+        </RelativeLayout>
         <!--地址第二行-->
         <LinearLayout
-            android:id="@+id/add_address_default_modify"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.5">
@@ -105,7 +107,7 @@
                 android:id="@+id/add_address_default"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:text="[默认]"
                 android:textColor="@color/topical"
@@ -116,7 +118,7 @@
                 android:id="@+id/add_address_default_province"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingLeft="6dp"
+                android:paddingLeft="10dp"
                 android:gravity="center"
                 android:text="江苏省 苏州市 姑苏区"
                 android:textSize="13sp"/>

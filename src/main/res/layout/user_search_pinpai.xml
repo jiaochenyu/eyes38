@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/search_caixi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_weight="2"
+            android:id="@+id/search_common"
+            style="@style/search2_bottom_radio"
+            android:checked="true"
+            android:text="一般菜系" />
+        <RadioButton
+            android:layout_weight="2"
+            android:id="@+id/search_special"
+            style="@style/search2_bottom_radio"
+            android:text="一周菜谱" />
+
+    </RadioGroup>
+
+
+</merge>

@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.User_order_AllAdapter;
+import com.example.eyes38.adapter.User_order_PayAdapter;
 import com.example.eyes38.beans.UserOrderBean;
 import com.example.eyes38.beans.UserOrderGoods;
 import com.example.eyes38.user_activity.User_orderActivity;
@@ -48,13 +49,13 @@ import in.srain.cube.views.ptr.PtrHandler;
  * Created by cfj on 2016/5/8.
  */
 public class PayFragment extends Fragment {
-    private static final int MFINISH = 223;
+    public static final int MFINISH = 223;
     private static final int MWHAT = 224;
     User_orderActivity mMainActivity;
     View view;
     RecyclerView mRecyclerView;
     String order_id;
-    User_order_AllAdapter mUser_order_allAdapter = null;//适配器
+    User_order_PayAdapter mUser_order_payAdapter = null;//适配器
     //用来存放全部订单的集合
     List<UserOrderBean> mList;
     List<UserOrderGoods> mGoodsList;
@@ -67,11 +68,12 @@ public class PayFragment extends Fragment {
     private String customer_id, usernameValue, passwordValue;
     //Nohttp工具
     private RequestQueue mRequestQueue;
-    Handler mHandler = new Handler() {
+    public Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MFINISH:
+                    HttpMethod();//重新请求数据
                     break;
             }
             super.handleMessage(msg);
@@ -185,15 +187,15 @@ public class PayFragment extends Fragment {
                         user_order_pay_header.setVisibility(View.GONE);
                         user_order_pay_footer.setVisibility(View.VISIBLE);
                     }
-                    if (mUser_order_allAdapter == null) {
-                        mUser_order_allAdapter = new User_order_AllAdapter(mList, getContext());
-                        mRecyclerView.setAdapter(mUser_order_allAdapter);
+                    if (mUser_order_payAdapter == null) {
+                        mUser_order_payAdapter = new User_order_PayAdapter(mList, getContext());
+                        mRecyclerView.setAdapter(mUser_order_payAdapter);
                     } else {
-                        mUser_order_allAdapter.notifyDataSetChanged();
+                        mUser_order_payAdapter.notifyDataSetChanged();
                     }
-                    mUser_order_allAdapter = new User_order_AllAdapter(mList,getContext());
-                    mRecyclerView.setAdapter(mUser_order_allAdapter);
-                    mUser_order_allAdapter.notifyDataSetChanged();
+                    mUser_order_payAdapter = new User_order_PayAdapter(mList,getContext());
+                    mRecyclerView.setAdapter(mUser_order_payAdapter);
+                    mUser_order_payAdapter.notifyDataSetChanged();
                     Message message = new Message();
                     message.what = MFINISH;
                     mHandler.sendMessage(message);

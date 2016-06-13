@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:context="com.example.eyes38.user_activity.User_orderActivity">
     <!--设置主体内容-->
-
     <FrameLayout
         android:id="@+id/user_order_pay_container"
         android:layout_width="match_parent"

@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.User_receiptaddressAdapter;
@@ -52,6 +55,21 @@ public class User_take_addressActivity extends AppCompatActivity {
     private String address_id;//判断是否是默认地址
     private String header;//请求头信息
     private SpinnerSelect mSpinnerSelect;//记录选中的spinner的位置
+    private Toast toast;//用于快速更新的toast
+
+    Handler mmHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+                case User_receiptaddressAdapter.DeleteMethod:
+                    refresh();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +174,7 @@ public class User_take_addressActivity extends AppCompatActivity {
                             mListView.add(receiptAddress);
                         }
                     }
-                    mAdapter = new User_receiptaddressAdapter(mContext, mListView,header);
+                    mAdapter = new User_receiptaddressAdapter(mContext, mListView,header,mmHandler);
                     add_address_list.setAdapter(mAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -215,5 +233,6 @@ public class User_take_addressActivity extends AppCompatActivity {
     public void user_toaddAddress(View view) {
         Intent intent = new Intent(User_take_addressActivity.this, User_addAddressActivity.class);
         startActivity(intent);
+        finish();
     }
 }
