@@ -123,7 +123,6 @@ public class EventDay3 extends Fragment {
                         Goods goods = new Goods(product_id, name, image, extension4, 0, price, 0, stock_num, description);
                         goods.setExtension("true");
                         mList.add(goods);
-
                     }
                     mEventRecycleViewAdapter = new EventRecycleViewAdapter(mList, getActivity());
                     mRecyclerView.setAdapter(mEventRecycleViewAdapter);
@@ -131,7 +130,6 @@ public class EventDay3 extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
         }
