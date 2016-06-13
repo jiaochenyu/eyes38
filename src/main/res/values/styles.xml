@@ -239,6 +239,30 @@
         <item name="android:textColor">@drawable/bottom_text_selector</item>
         <item name="android:background">@drawable/user_selector_line</item>
     </style>
+    <!--我的搜索radio-->
+    <style name="search_bottom_radio">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@drawable/bottom_text_selector</item>
+    </style>
+    <!--我的分类搜索-->
+    <style name="search2_bottom_radio">
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#F2F2F2</item>
+        <item name="android:background">@drawable/search_background</item>
+    </style>
     <!--新建收货地址-->
     <style name="addaddress_linear">
         <item name="android:layout_width">match_parent</item>

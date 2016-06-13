@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/search_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_weight="2"
+            android:id="@+id/search_comprise"
+            style="@style/search_bottom_radio"
+            android:checked="true"
+            android:text="综合" />
+        <RadioButton
+            android:id="@+id/search_num"
+            style="@style/search_bottom_radio"
+            android:text="销量" />
+        <RadioButton
+            android:id="@+id/search_num_down"
+            style="@style/search_bottom_radio"
+            android:drawableLeft="@drawable/search_on"/>
+
+        <RadioButton
+            android:id="@+id/search_price"
+            style="@style/search_bottom_radio"
+            android:text="价格" />
+        <RadioButton
+            android:id="@+id/search_price_down"
+            style="@style/search_bottom_radio"
+            android:drawableLeft="@drawable/search_on"/>
+        <Button
+            android:padding="5dp"
+            android:background="@android:color/transparent"
+            android:layout_weight="2"
+            android:drawableRight="@drawable/search_choice_none"
+            android:id="@+id/search_sift"
+            style="@style/search_bottom_radio"
+            android:text="筛选" />
+
+    </RadioGroup>
+
+
+</merge>

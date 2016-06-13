@@ -54,7 +54,8 @@ import in.srain.cube.views.ptr.PtrHandler;
  * Created by cfj on 2016/5/21.
  */
 public class AllFragment extends Fragment {
-    private static final int MFINISH = 222;
+    public static final int MFINISH2 = 225;
+    public static final int MFINISH = 222;
     private static final int MWHAT = 221;
     User_orderActivity mMainActivity;
     View view;
@@ -76,11 +77,10 @@ public class AllFragment extends Fragment {
     private String customer_id, usernameValue, passwordValue;
     //Nohttp工具
     private RequestQueue mRequestQueue;
-    Handler mHandler = new Handler() {
+    public   Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             switch (msg.what) {
                 case MFINISH:
                     break;

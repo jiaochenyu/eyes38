@@ -8,4 +8,4 @@
              android:gravity="center"
              android:text=""
              android:textColor="@drawable/event_day_bottonline"
-             android:textSize="14.0dip" />
+             android:textSize="14dp" />

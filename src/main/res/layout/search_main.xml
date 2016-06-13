@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:background="#F2F2F2"
               android:orientation="vertical"
     >
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/topical"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/search_back"
             android:layout_width="0dp"
@@ -22,13 +23,13 @@
             android:src="@mipmap/back"/>
 
         <ImageView
-            android:padding="2dp"
-            android:src="@mipmap/logos"
             android:id="@+id/search_spinnner"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="2.5"
+            android:padding="2dp"
+            android:src="@mipmap/logos"
             >
         </ImageView>
 
@@ -41,21 +42,25 @@
             android:layout_weight="8">
 
             <EditText
-                android:padding="5dp"
                 android:id="@+id/search_edit"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@drawable/search_back"
                 android:imeOptions="actionSearch"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:padding="5dp"/>
 
             <ImageView
                 android:id="@+id/search_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
-                android:layout_marginRight="2dp"
                 android:layout_gravity="right|center_vertical"
+<<<<<<< HEAD
                 android:src="@mipmap/search_clear"
+=======
+                android:layout_marginRight="2dp"
+                android:src="@drawable/search_clear"
+>>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
                 android:visibility="gone"/>
         </FrameLayout>
 
@@ -65,12 +70,13 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:focusable="false"
             android:layout_weight="2"
             android:background="@color/topical"
+            android:focusable="false"
             android:text="搜索"
             android:textColor="#FFF"/>
     </LinearLayout>
+<<<<<<< HEAD
     <!-- 内容 -->
    <FrameLayout
        android:layout_weight="28"
@@ -144,24 +150,144 @@
               android:layout_weight="2"
               android:layout_width="match_parent"
               android:layout_height="0dp"/>
+=======
+>>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
 
-      </LinearLayout>
-       <LinearLayout
-           android:id="@+id/result_linear"
-           android:visibility="gone"
-           android:orientation="vertical"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
-           <android.support.v7.widget.RecyclerView
-               android:id="@+id/result_recycle"
-               android:layout_weight="12"
-               android:layout_width="match_parent"
-               android:layout_height="0dp">
-           </android.support.v7.widget.RecyclerView>
-       </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="28">
+
+        <LinearLayout
+            android:id="@+id/now_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/hottext"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:background="#F2F2F2"
+                android:gravity="center_vertical"
+                android:padding="5sp"
+                android:text="热门搜索"
+                android:textColor="@color/topical"
+                android:textSize="12sp"/>
+            <!--暂时放个简单的分割线吧-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FFF"/>
+
+            <GridView
+                android:id="@+id/hotGridView"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="20dp"
+                android:layout_weight="8"
+                android:columnWidth="50dp"
+                android:horizontalSpacing="10sp"
+                android:minHeight="90dp"
+                android:numColumns="3"
+                android:padding="10dp"
+                android:verticalSpacing="10sp"></GridView>
+            <!--暂时放个简单的分割线吧-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FFF"/>
+
+            <TextView
+                android:id="@+id/agotext"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:background="#f2f2f2"
+                android:gravity="center_vertical"
+                android:padding="5sp"
+                android:text="历史搜索"
+                android:textColor="@color/topical"
+                android:textSize="12sp"/>
+
+            <ListView
+                android:id="@+id/bad_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="10"
+                android:background="#FFF">
+            </ListView>
+
+            <Button
+                android:id="@+id/history_clear"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:background="#FFF"
+                android:gravity="center"
+                android:text="清除历史搜索"
+                android:textColor="@color/topical"/>
+        </LinearLayout>
+
+            <!--侧滑主布局-->
+        <RelativeLayout
+            android:id="@+id/result_linear"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.example.eyes38.fragment.search.utils.SlidingMenu
+                android:id="@+id/id_menu"
+                app:rightPadding="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+                    <include layout="@layout/left_menu" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                        <!--头喽-->
+                        <LinearLayout
+                            android:id="@+id/recycle_head"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="vertical">
+                                <include
+                                    layout="@layout/user_search_merge"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    />
+                            </LinearLayout>
+                        </LinearLayout>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/result_recycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="12">
+                        </android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.example.eyes38.fragment.search.utils.SlidingMenu>
+
+        </RelativeLayout>
 
 
+    </FrameLayout>
 
-   </FrameLayout>
-
-    </LinearLayout>
+</LinearLayout>

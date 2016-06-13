@@ -2,11 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eyes38">
 
+<<<<<<< HEAD
     <!-- 所需的权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+=======
+    <!--所需的权限-->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<<<<<<< HEAD
+    <!-- 所需的权限 -->
+=======
+>>>>>>> 6ad8e3e63b7615a6ca392b68553668142175805d
+>>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -66,6 +78,12 @@
 
         <activity android:name=".activity.home.LoadActivity" />
         <activity android:name=".user_activity.User_order_detailActivity" />
+<<<<<<< HEAD
+
+        <!--监听网络广播-->
+
+=======
+>>>>>>> 6ad8e3e63b7615a6ca392b68553668142175805d
         <activity android:name=".activity.PaySelectActivity" />
         <!-- 监听网络广播的服务 -->
 

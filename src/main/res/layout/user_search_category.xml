@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/search_category"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_weight="2"
+            android:id="@+id/search_fruit"
+            style="@style/search2_bottom_radio"
+            android:checked="true"
+            android:text="水果" />
+        <RadioButton
+            android:layout_weight="2"
+            android:id="@+id/search_meat"
+            style="@style/search2_bottom_radio"
+            android:text="鲜肉" />
+        <RadioButton
+            android:layout_weight="2"
+            android:id="@+id/search_water"
+            style="@style/search2_bottom_radio"
+            android:text="水产" />
+        <RadioButton
+            android:layout_weight="2"
+            android:id="@+id/search_green"
+            style="@style/search2_bottom_radio"
+            android:text="蔬菜" />
+        <RadioButton
+            android:layout_weight="2"
+            android:id="@+id/search_riyong"
+            style="@style/search2_bottom_radio"
+            android:text="日用品" />
+    </RadioGroup>
+
+
+</merge>

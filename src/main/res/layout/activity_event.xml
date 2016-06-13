@@ -18,17 +18,41 @@
             android:padding="5dp"
             android:src="@mipmap/back" />
 
+<<<<<<< HEAD
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="Event_back"
+                android:padding="5dp"
+                android:src="@drawable/back"/>
+
+            <TextView
+                style="@style/pagetitletext"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="一周菜谱"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+=======
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
             android:text="@string/event_title" />
+>>>>>>> f7391f4f30cafae632be3b40f2a049f03c28b6db
     </RelativeLayout>
     <!--上部分日期显示-->
     <RelativeLayout
-        android:background="#F2F2F2"
         android:id="@+id/event_date_tab"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#F2F2F2">
+
         <com.example.eyes38.EventActivity.EventSyncHorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
@@ -36,20 +60,21 @@
             android:fadingEdge="none"
             android:scrollbars="none"
             >
+
             <RelativeLayout
                 android:id="@+id/event_day_relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
                 android:background="@color/topical"
+                android:gravity="top"
                 >
                 <RadioGroup
                     android:id="@+id/event_day_radiogroup"
                     android:layout_width="match_parent"
+                    android:layout_height="38dp"
                     android:layout_alignParentTop="true"
                     android:background="#F2F2F2"
-                    android:orientation="horizontal"
-                    android:layout_height="38dp">
+                    android:orientation="horizontal">
                 </RadioGroup>
                 <!--下划线-->
                 <ImageView
@@ -63,6 +88,7 @@
             </RelativeLayout>
 
         </com.example.eyes38.EventActivity.EventSyncHorizontalScrollView>
+
         <ImageView
             android:id="@+id/event_day_scroll_left"
             android:layout_width="wrap_content"
@@ -70,8 +96,13 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:paddingBottom="1dp"
+<<<<<<< HEAD
             android:src="@mipmap/event_day_navagation_scroll_left"
             android:visibility="gone" >
+=======
+            android:src="@drawable/event_day_navagation_scroll_left"
+            android:visibility="gone">
+>>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
         </ImageView>
 
         <ImageView
@@ -80,17 +111,27 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+<<<<<<< HEAD
             android:paddingBottom="1dip"
             android:src="@mipmap/event_day_navagation_scroll_right"
             android:visibility="visible" >
+=======
+            android:paddingBottom="1dp"
+            android:src="@drawable/event_day_navagation_scroll_right"
+            android:visibility="visible">
+>>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
         </ImageView>
     </RelativeLayout>
 
     <!--内容-->
     <android.support.v4.view.ViewPager
         android:id="@+id/event_content_viewpager"
+<<<<<<< HEAD
         style="@style/pagecontent">
+=======
+        style="@style/pagecontent"
+        >
+>>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
     </android.support.v4.view.ViewPager>
-
 
 </LinearLayout>

@@ -17,6 +17,38 @@
             android:padding="5dp"
             android:src="@mipmap/back" />
 
+<<<<<<< HEAD
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <ImageView
+                android:id="@+id/user_order_detail_back"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/back"/>
+            <TextView
+                style="@style/pagetitletext"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="订单详情"
+                />
+
+            <ImageView
+                android:id="@+id/user_order_detail_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:padding="5dp"
+                android:src="@drawable/user_order_detail"/>
+        </LinearLayout>
+=======
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
@@ -27,7 +59,12 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+<<<<<<< HEAD
             android:src="@mipmap/user_house"/>
+=======
+            android:src="@drawable/user_house"/>
+>>>>>>> 6ad8e3e63b7615a6ca392b68553668142175805d
+>>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
     </RelativeLayout>
     <!-- 内容 -->
     <ScrollView
@@ -308,15 +345,6 @@
                     android:layout_weight="6"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"/>
-                <Button
-                    android:singleLine="true"
-                    android:id="@+id/user_order_detail_cancel"
-                    android:layout_margin="5dp"
-                    android:background="#FFF"
-                    android:text="取消订单"
-                    android:layout_weight="2"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"/>
                 <Button
                     android:singleLine="true"
                     android:id="@+id/user_order_detail_go_to_pay"

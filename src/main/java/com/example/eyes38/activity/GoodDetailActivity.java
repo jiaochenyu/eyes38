@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+<<<<<<< HEAD
+=======
 import android.os.Handler;
+>>>>>>> 6ad8e3e63b7615a6ca392b68553668142175805d
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -38,6 +41,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 
 public class GoodDetailActivity extends AppCompatActivity {
@@ -54,6 +58,8 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
+<<<<<<< HEAD
+=======
     public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
         @Override
         public void handleMessage(Message msg) {
@@ -71,6 +77,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         }
     };
 
+>>>>>>> 6ad8e3e63b7615a6ca392b68553668142175805d
     private CartGoods mCartGoods;
     private List<CartGoods> mList;
     private SharedPreferences sp;  //偏好设置 获取账号 密码
@@ -218,18 +225,23 @@ public class GoodDetailActivity extends AppCompatActivity {
 //                    finish();
                     break;
                 case R.id.goods_detail_radio_buynow:
-                    //立即购买 跳转到购物车
-                    List<CartGoods> buynowList = new ArrayList<>();
-                    CartGoods cartGoods = new CartGoods();
-                    cartGoods.setExtension1(goods.getExtension());
-                    cartGoods.setProduct_name(goods.getGoods_name());
-                    cartGoods.setGoods(goods);
-                    cartGoods.setQuantity(1); // 立即加入1件商品到购物车
-                    cartGoods.setPrice(goods.getGoods_platform_price());
-                    buynowList.add(cartGoods);
-                    Intent intentBuynow = new Intent(GoodDetailActivity.this,PayActivity.class);
-                    intentBuynow.putExtra("list", (Serializable) buynowList);
-                    startActivity(intentBuynow);
+                    if (!Application.isLogin) {
+                        //如果用户没登录  购物车显示空
+                        Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
+                    }else {
+                        //立即购买 跳转到购物车
+                        List<CartGoods> buynowList = new ArrayList<>();
+                        CartGoods cartGoods = new CartGoods();
+                        cartGoods.setExtension1(goods.getExtension());
+                        cartGoods.setProduct_name(goods.getGoods_name());
+                        cartGoods.setGoods(goods);
+                        cartGoods.setQuantity(1); // 立即加入1件商品到购物车
+                        cartGoods.setPrice(goods.getGoods_platform_price());
+                        buynowList.add(cartGoods);
+                        Intent intentBuynow = new Intent(GoodDetailActivity.this,PayActivity.class);
+                        intentBuynow.putExtra("list", (Serializable) buynowList);
+                        startActivity(intentBuynow);
+                    }
                     break;
                 case R.id.goods_detail_radio_addcart:
                     //加入购物车

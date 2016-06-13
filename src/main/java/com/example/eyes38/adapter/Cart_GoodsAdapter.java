@@ -164,6 +164,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
             holder.mPriceTextView.setText(st);
             holder.mTitleTextView.setText(mList.get(position).getProduct_name());
             holder.mCountTextView.setText(mList.get(position).getQuantity() + "");
+            String st2 = df.format(mList.get(position).getPrice());
+            holder.mItemPrice.setText(st2);
             /**
              *  判断一周菜谱按钮是否显示：四种状态
              *  extension==null显示两个按钮,
@@ -219,8 +221,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
             holder.mWeekOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击一周菜谱
             holder.mDayOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击了当日订单
         }
-
-
     }
 
     //初始化 mOnRecyclerViewItemClickListener
@@ -239,7 +239,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
         //显示商品item
         CheckBox mCheckBox;
         ImageView mImageView;
-        TextView mTitleTextView, mPriceTextView, mCountTextView, mDeleteTextView;// 商品名称, 商品价格， 增减数量  ,删除按钮
+        TextView mTitleTextView, mPriceTextView, mCountTextView, mDeleteTextView,mItemPrice;// 商品名称, 商品价格， 增减数量  ,删除按钮,单价
         Button addButton, subButton, mDayOrder, mWeekOrder;
 
         public CartGoodsViewHolder(View itemView) {
@@ -259,6 +259,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
             mDayOrder = (Button) mView.findViewById(R.id.dayOrder); // 当日订单按钮
             mWeekOrder = (Button) mView.findViewById(R.id.weekOrder); // 当周订单按钮
             mDeleteTextView = (TextView) mView.findViewById(R.id.delete); //删除按钮
+            mItemPrice  = (TextView) mView.findViewById(R.id.item_price); // 单价
         }
     }
 
@@ -380,7 +381,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position = (int) buttonView.getTag();
             mList.get(position).setSelected(isChecked);
-            Log.e("hahahhaahahahhaa",getAllGoodsCount()+" ");
             mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
             //通知改变总价格 将总价格传给Handler
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));

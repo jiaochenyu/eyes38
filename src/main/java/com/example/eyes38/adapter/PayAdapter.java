@@ -54,6 +54,8 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayHolder>  {
         DecimalFormat df = new DecimalFormat("0.00");
         String st = df.format(mList.get(position).getPrice() * mList.get(position).getQuantity());
         holder.listPrice.setText(st);
+        String st2 = df.format(mList.get(position).getPrice());
+        holder.itemPrice.setText(st2);
     }
     @Override
     public int getItemCount() {
@@ -68,7 +70,7 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayHolder>  {
 
     class PayHolder extends RecyclerView.ViewHolder{
         ImageView mImageView; // 图片
-        TextView goodsName , orderType, listPrice, goodsNum ; // 商品名,订单类型，商品价钱，商品数量
+        TextView goodsName , orderType, listPrice, goodsNum,itemPrice ; // 商品名,订单类型，商品价钱，商品数量
 
         public PayHolder(View itemView) {
             super(itemView);
@@ -77,6 +79,7 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.PayHolder>  {
             orderType = (TextView) itemView.findViewById(R.id.ordertype);
             listPrice = (TextView) itemView.findViewById(R.id.pay_list_price);
             goodsNum = (TextView) itemView.findViewById(R.id.goodsNum);
+            itemPrice = (TextView) itemView.findViewById(R.id.item_price);
         }
     }
 }
