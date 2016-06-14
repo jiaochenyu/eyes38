@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+              xmlns:app="http://schemas.android.com/tools"
+
+              android:orientation="vertical">
     <!-- 顶部标题栏 -->
     <!--顶部标题-->
     <RelativeLayout
@@ -39,15 +40,6 @@
             android:src="@mipmap/home_fangdajing"
             />
     </RelativeLayout>
-
-
-    <!-- 内容 -->
-
-    <!--<ScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/home_content_ptr"

@@ -55,12 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_gravity="right|center_vertical"
-<<<<<<< HEAD
-                android:src="@mipmap/search_clear"
-=======
                 android:layout_marginRight="2dp"
-                android:src="@drawable/search_clear"
->>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
+                android:src="@mipmap/search_clear"
                 android:visibility="gone"/>
         </FrameLayout>
 
@@ -76,82 +72,6 @@
             android:text="搜索"
             android:textColor="#FFF"/>
     </LinearLayout>
-<<<<<<< HEAD
-    <!-- 内容 -->
-   <FrameLayout
-       android:layout_weight="28"
-       android:layout_width="match_parent"
-       android:layout_height="0dp">
-      <LinearLayout
-          android:id="@+id/now_linear"
-          android:visibility="visible"
-          android:orientation="vertical"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent">
-          <TextView
-              android:background="#F2F2F2"
-              android:gravity="center_vertical"
-              android:layout_weight="2"
-              android:padding="5sp"
-              android:id="@+id/hottext"
-              android:text="热门搜索"
-              android:textSize="12sp"
-              android:layout_gravity="center_vertical"
-              android:textColor="@color/topical"
-              android:layout_width="match_parent"
-              android:layout_height="0dp"/>
-          <!--暂时放个简单的分割线吧-->
-          <TextView
-              android:background="#FFF"
-              android:layout_width="match_parent"
-              android:layout_height="1dp"/>
-          <GridView
-              android:padding="10dp"
-              android:layout_margin="50dp"
-              android:layout_weight="11"
-              android:numColumns="3"
-              android:columnWidth="50dp"
-              android:minHeight="90dp"
-              android:horizontalSpacing="10sp"
-              android:verticalSpacing="10sp"
-              android:id="@+id/hotGridView"
-              android:layout_width="match_parent"
-              android:layout_height="60dp"/>
-          <!--暂时放个简单的分割线吧-->
-          <TextView
-              android:background="#FFF"
-              android:layout_width="match_parent"
-              android:layout_height="1dp"/>
-          <TextView
-              android:background="#f2f2f2"
-              android:gravity="center_vertical"
-              android:layout_weight="2"
-              android:padding="5sp"
-              android:id="@+id/agotext"
-              android:text="历史搜索"
-              android:textSize="12sp"
-              android:layout_gravity="center_vertical"
-              android:textColor="@color/topical"
-              android:layout_width="match_parent"
-              android:layout_height="0dp"/>
-          <ListView
-              android:background="#FFF"
-              android:id="@+id/bad_list"
-              android:layout_weight="10"
-              android:layout_width="match_parent"
-              android:layout_height="0dp">
-          </ListView>
-          <Button
-              android:id="@+id/history_clear"
-              android:gravity="center"
-              android:text="清除历史搜索"
-              android:textColor="@color/topical"
-              android:background="#FFF"
-              android:layout_weight="2"
-              android:layout_width="match_parent"
-              android:layout_height="0dp"/>
-=======
->>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -194,7 +114,7 @@
                 android:minHeight="90dp"
                 android:numColumns="3"
                 android:padding="10dp"
-                android:verticalSpacing="10sp"></GridView>
+                android:verticalSpacing="10sp"/>
             <!--暂时放个简单的分割线吧-->
             <TextView
                 android:layout_width="match_parent"
