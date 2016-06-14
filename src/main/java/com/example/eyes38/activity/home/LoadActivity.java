@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.view.WindowManager;
 
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
@@ -24,7 +24,9 @@ public class LoadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
-        handler.sendEmptyMessageDelayed(END,5000);
+        //隐藏状态栏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        handler.sendEmptyMessageDelayed(END,3000);
     }
 
     private Handler handler = new Handler(){
@@ -37,10 +39,4 @@ public class LoadActivity extends AppCompatActivity {
         }
     };
 
-    public void loadend(View view) {
-        Intent intent = new Intent(LoadActivity.this, MainActivity.class);
-        startActivity(intent);
-        handler.removeMessages(END);
-        finish();
-    }
 }

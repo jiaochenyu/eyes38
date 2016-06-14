@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:padding="5dp"
             android:onClick="back"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"

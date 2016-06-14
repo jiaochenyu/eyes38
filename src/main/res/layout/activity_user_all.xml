@@ -39,7 +39,7 @@
                     android:id="@+id/user_getmesssage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/notice"/>
+                    android:src="@mipmap/notice"/>
             </LinearLayout>
             <!--下部分空白-->
             <LinearLayout

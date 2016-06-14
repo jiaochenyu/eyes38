@@ -1,13 +1,14 @@
 package com.example.eyes38.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
 
 /**
@@ -32,7 +33,9 @@ public class Cart_EmptyAdapter extends RecyclerView.Adapter<Cart_EmptyAdapter.Ca
         holder.mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "点击了随便看看", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra("cart",1);
+                mContext.startActivity(intent);
             }
         });
 

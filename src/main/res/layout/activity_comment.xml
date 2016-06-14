@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:onClick="back"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"
@@ -25,18 +25,50 @@
             android:text="@string/goods_comment_title" />
     </RelativeLayout>
     <!-- 内容 -->
-    <LinearLayout style="@style/pagecontent"
+    <RelativeLayout style="@style/pagecontent"
         android:id="@+id/comment_exist">
         <!--导入商品评价导航栏-->
-        <include layout="@layout/goods_comments_merge"
+        <!--<include layout="@layout/goods_comments_merge"
+            android:id="@+id/goods_comment_merage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"/>-->
+        <RadioGroup
+            android:id="@+id/goods_comment_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_radiogroup_topborder"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/comment_all"
+                style="@style/comment_menu_radio"
+                android:checked="true"
+                android:text="全部" />
+
+
+            <RadioButton
+                android:id="@+id/comment_great"
+                style="@style/comment_menu_radio"
+                android:text="好评" />
+
+            <RadioButton
+                android:id="@+id/comment_middle"
+                style="@style/comment_menu_radio"
+                android:text="中评" />
+
+
+            <RadioButton
+                android:id="@+id/comment_bad"
+                style="@style/comment_menu_radio"
+                android:text="差评" />
+        </RadioGroup>
 
         <in.srain.cube.views.ptr.PtrClassicFrameLayout
+            android:layout_below="@id/goods_comment_rg"
             android:visibility="visible"
             android:id="@+id/goods_comment_ptr"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             cube_ptr:ptr_duration_to_close="300"
             cube_ptr:ptr_duration_to_close_header="2000"
             cube_ptr:ptr_keep_header_when_refresh="true"
@@ -51,7 +83,9 @@
                 android:background="@color/comment_background"
                 android:layout_marginTop="10dp"/>
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
-        <RelativeLayout style="@style/pagecontent"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/comment_none"
             android:visibility="gone">
             <ImageView
@@ -60,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/article"/>
+                android:src="@mipmap/article"/>
             <TextView
                 android:id="@+id/comment_reply_none_textview"
                 android:layout_width="wrap_content"
@@ -70,5 +104,27 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/goods_comment_reply_none"/>
         </RelativeLayout>
+<<<<<<< HEAD
+=======
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+>>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
+        <ImageView
+            android:id="@+id/comment_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+<<<<<<< HEAD
+            android:src="@mipmap/comment_add"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="50dp" />
+=======
+            android:src="@mipmap/add"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp" />
+>>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
+    </RelativeLayout>
 </LinearLayout>

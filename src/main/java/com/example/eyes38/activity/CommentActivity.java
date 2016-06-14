@@ -1,17 +1,25 @@
 package com.example.eyes38.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.Comment_Adapter;
 import com.example.eyes38.beans.Comments;
+import com.example.eyes38.beans.Goods;
+import com.example.eyes38.utils.CommentAddDialog;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.example.eyes38.utils.SpaceItemDecoration;
 import com.yolanda.nohttp.NoHttp;
@@ -40,6 +48,7 @@ public class CommentActivity extends AppCompatActivity {
     public static final int GREAT = 2;
     public static final int MIDDLE = 3;
     public static final int BAD = 4;
+    public static final int COMMITCOMMENT = 200;
     private RecyclerView mRecyclerView;
     private List<Comments> mList;
     private LinearLayoutManager linearLayoutManager;
@@ -51,6 +60,11 @@ public class CommentActivity extends AppCompatActivity {
     private int product_id;
     //评论有无，显示不同区域
     private RelativeLayout noneComment;
+    private ImageView commentAdd;
+    private SharedPreferences sharedPreferences;
+    private int record = ALL;
+    private Toast mToast;
+    private Goods goods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +92,7 @@ public class CommentActivity extends AppCompatActivity {
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        getHttpRequest(record);
                         ptrFrame.refreshComplete();
                     }
                 }, 1800);
@@ -90,6 +105,74 @@ public class CommentActivity extends AppCompatActivity {
                 resetCommentData(checkedId);
             }
         });
+        //天机评论
+        commentAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //显示评论框
+                final CommentAddDialog.Builder builder = new CommentAddDialog.Builder(CommentActivity.this);
+                builder.setCancelOnClickListener("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCommitOnClickListener("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (Application.isLogin){
+                            String comment  = builder.getmEditText();
+                            if (comment.equals("")){
+                                show("评论不能为空!");
+                            }else {
+                                int rating = builder.getmRatingBar();
+                                commitComment(comment,rating);
+                            }
+                        }else {
+                            show("当前未登录，请先登录");
+                        }
+                    }
+                });
+                builder.create().show();
+
+            }
+        });
+    }
+
+    private void commitComment(String comment1, int ratingBar) {
+        //获取用户的id,账号密码加密
+        String username = sharedPreferences.getString("USER_NAME", "");
+        String password = sharedPreferences.getString("PASSWORD", "");
+        String header = username + "" + password;
+        String newHeader = new String(Base64.encode(header.getBytes(), Base64.DEFAULT));//加密后的header
+        String Authorization = "Basic " + newHeader;
+        int author_id = Integer.parseInt(sharedPreferences.getString("CUSTOMER_ID", ""));
+        String author_type = "customer";
+        String comment = comment1;
+        String comment_type = "product";
+        int item_id = product_id;
+        int parent_id = 0;
+        int rating = ratingBar;
+        int store_id = goods.getStore();
+        int active = 1;
+        String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
+        Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.POST);
+        //添加头
+        mRequest.addHeader("Authorization", Authorization);
+        mRequest.add("author_id", author_id);
+        mRequest.add("author_type", author_type);
+        mRequest.add("comment", comment);
+        mRequest.add("comment_type", comment_type);
+        mRequest.add("item_id", item_id);
+        mRequest.add("parent_id", parent_id);
+        mRequest.add("rating", rating);
+        mRequest.add("store_id", store_id);
+        mRequest.add("active", active);
+
+        //设置缓存
+        mRequest.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
+        mRequestQueue.add(COMMITCOMMENT, mRequest, mOnResponseListener);
     }
 
     private void resetCommentData(int checkId) {
@@ -97,15 +180,19 @@ public class CommentActivity extends AppCompatActivity {
         switch (checkId) {
             case R.id.comment_all:
                 getHttpRequest(ALL);
+                record = ALL;
                 break;
             case R.id.comment_great:
                 getHttpRequest(GREAT);
+                record = GREAT;
                 break;
             case R.id.comment_middle:
                 getHttpRequest(MIDDLE);
+                record = MIDDLE;
                 break;
             case R.id.comment_bad:
                 getHttpRequest(BAD);
+                record = BAD;
                 break;
         }
     }
@@ -140,6 +227,7 @@ public class CommentActivity extends AppCompatActivity {
         mList.add(c2);
         mList.add(c3);
         mList.add(c4);*/
+        sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
         getProductId();
         getHttpRequest(ALL);
     }
@@ -147,7 +235,8 @@ public class CommentActivity extends AppCompatActivity {
     private void getProductId() {
         //获取传来的商品id
         Intent intent = getIntent();
-        product_id = intent.getIntExtra("product_id", 1);
+        goods = (Goods) intent.getSerializableExtra("goods");
+        product_id = goods.getGoods_id();
     }
 
     private void getHttpRequest(int what) {
@@ -251,7 +340,7 @@ public class CommentActivity extends AppCompatActivity {
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
                         int rating = jsonObject.getInt("rating");
-                        if (rating <= 1) {
+                        if (rating <= 2) {
                             int comment_id = jsonObject.getInt("comment_id");
                             int item_id = jsonObject.getInt("item_id");
                             String path = "";
@@ -268,6 +357,21 @@ public class CommentActivity extends AppCompatActivity {
                 }
 
             }
+            if (what == COMMITCOMMENT){
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    boolean success = object.getBoolean("success");
+                    if (success){
+                        show("评论成功");
+                        getHttpRequest(record);
+                    }else {
+                        show("发表失败！");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             initAdapter();
         }
 
@@ -282,6 +386,16 @@ public class CommentActivity extends AppCompatActivity {
         }
     };
 
+    private void show(String text) {
+        //显示信息
+        if (mToast == null) {
+            mToast = Toast.makeText(CommentActivity.this, text, Toast.LENGTH_LONG);
+        } else {
+            mToast.setText(text);
+        }
+        mToast.show();
+    }
+
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.goods_comment_recycler);
         linearLayoutManager = new LinearLayoutManager(this);
@@ -292,6 +406,7 @@ public class CommentActivity extends AppCompatActivity {
         ptrFrame = (PtrClassicFrameLayout) findViewById(R.id.goods_comment_ptr);
         mRadioGroup = (RadioGroup) findViewById(R.id.goods_comment_rg);
         noneComment = (RelativeLayout) findViewById(R.id.comment_none);
+        commentAdd = (ImageView) findViewById(R.id.comment_add);
     }
 
     public void back(View view) {

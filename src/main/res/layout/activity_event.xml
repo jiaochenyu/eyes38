@@ -16,8 +16,31 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
+<<<<<<< HEAD
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="Event_back"
+                android:padding="5dp"
+                android:src="@mipmap/back"/>
+
+            <TextView
+                style="@style/pagetitletext"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="一周菜谱"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+=======
+>>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
@@ -25,10 +48,11 @@
     </RelativeLayout>
     <!--上部分日期显示-->
     <RelativeLayout
-        android:background="#F2F2F2"
         android:id="@+id/event_date_tab"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#F2F2F2">
+
         <com.example.eyes38.EventActivity.EventSyncHorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
@@ -36,20 +60,21 @@
             android:fadingEdge="none"
             android:scrollbars="none"
             >
+
             <RelativeLayout
                 android:id="@+id/event_day_relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
                 android:background="@color/topical"
+                android:gravity="top"
                 >
                 <RadioGroup
                     android:id="@+id/event_day_radiogroup"
                     android:layout_width="match_parent"
+                    android:layout_height="38dp"
                     android:layout_alignParentTop="true"
                     android:background="#F2F2F2"
-                    android:orientation="horizontal"
-                    android:layout_height="38dp">
+                    android:orientation="horizontal">
                 </RadioGroup>
                 <!--下划线-->
                 <ImageView
@@ -63,6 +88,7 @@
             </RelativeLayout>
 
         </com.example.eyes38.EventActivity.EventSyncHorizontalScrollView>
+
         <ImageView
             android:id="@+id/event_day_scroll_left"
             android:layout_width="wrap_content"
@@ -70,8 +96,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:paddingBottom="1dp"
-            android:src="@drawable/event_day_navagation_scroll_left"
+            android:src="@mipmap/event_day_navagation_scroll_left"
             android:visibility="gone" >
+
         </ImageView>
 
         <ImageView
@@ -81,7 +108,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingBottom="1dip"
-            android:src="@drawable/event_day_navagation_scroll_right"
+            android:src="@mipmap/event_day_navagation_scroll_right"
             android:visibility="visible" >
         </ImageView>
     </RelativeLayout>
@@ -89,9 +116,8 @@
     <!--内容-->
     <android.support.v4.view.ViewPager
         android:id="@+id/event_content_viewpager"
-        style="@style/pagecontent"
-      >
-    </android.support.v4.view.ViewPager>
+        style="@style/pagecontent">
 
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

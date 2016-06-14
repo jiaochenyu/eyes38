@@ -303,11 +303,24 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+    <!--添加评论的dialog-->
+    <style name="comment_Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">@color/sort_title_background</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 
     <style name="comment_ratingbar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/comment_ratingbar</item>
         <item name="android:minHeight">20dp</item>
         <item name="android:maxHeight">20dp</item>
+    </style>
+
+    <style name="comment_add_ratingbar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/comment_add_ratingbar</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:maxHeight">40dp</item>
     </style>
 
     <!--评论界面导航栏属性-->

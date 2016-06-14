@@ -4,7 +4,7 @@
               android:layout_height="90dp">
     <ImageView
         android:layout_marginLeft="5dp"
-        android:src="@drawable/defult"
+        android:src="@mipmap/defult"
         android:layout_weight="1"
         android:id="@+id/add_order_image"
         android:layout_width="0dp"

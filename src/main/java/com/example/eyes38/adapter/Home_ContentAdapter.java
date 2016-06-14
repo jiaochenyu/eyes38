@@ -38,10 +38,13 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private OnMoreItemClickListener mOnItemClickListener = null;
     LinearLayout mLinearLayout;
     String name;
+    int district_id;
 
-    public Home_ContentAdapter(Context mContext, List<HomeContent> mList) {
+
+    public Home_ContentAdapter(Context mContext, List<HomeContent> mList,int district_id) {
         this.mContext = mContext;
         this.mList = mList;
+        this.district_id = district_id;
     }
 
     @Override
@@ -103,6 +106,7 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         if (homeContent.equals("一周菜谱")) {
                             //这是一周菜谱的页面
                             Intent intent = new Intent(mContext, EventActivity.class);
+                            intent.putExtra("values",district_id);
                             mContext.startActivity(intent);
                         } else {
                             //这是除了一周菜谱之外的页面,显示了商品的列表

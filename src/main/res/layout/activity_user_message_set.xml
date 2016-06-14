@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <ImageView
-                android:src="@drawable/notice"
+                android:src="@mipmap/notice"
                 android:id="@+id/user_getmesssage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

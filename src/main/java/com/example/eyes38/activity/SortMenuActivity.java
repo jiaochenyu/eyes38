@@ -1,7 +1,6 @@
 package com.example.eyes38.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -122,14 +121,14 @@ public class SortMenuActivity extends AppCompatActivity {
                         //显示footview
                         footview.setVisibility(View.VISIBLE);
                         loading.setBackgroundResource(R.drawable.anim);
-                        final AnimationDrawable animDrawable = (AnimationDrawable) loading
+                        /*final AnimationDrawable animDrawable = (AnimationDrawable) loading
                                 .getBackground();
                         loading.post(new Runnable() {
                             @Override
                             public void run() {
                                 animDrawable.start();
                             }
-                        });
+                        });*/
                         handler.sendMessageDelayed(new Message(), 2000);
 //                        loadMoreData();
 //                        Log.e("load","加载");
@@ -205,11 +204,11 @@ public class SortMenuActivity extends AppCompatActivity {
     private void getHttpMedthod() {
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
-        request.add("limit", "28");
+        //request.add("limit", "28");
         request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
 //        request.add("category_id",category_id);
         //一次请求六条数据
-        request.add("limit", 6);
+        request.add("limit", 8);
         //请求第几页
         request.add("page", count);
         count++;
@@ -245,10 +244,17 @@ public class SortMenuActivity extends AppCompatActivity {
                             String txt_pic = jsonObject.getString("description");
                             float price = (float) jsonObject.getDouble("price");
                             float market_price = (float) jsonObject.getDouble("market_price");
+                            String belongs_to_store = jsonObject.getString("belongs_to_store");
                             JSONObject search = jsonObject.getJSONObject("product_search");
                             int comment_count = search.getInt("comment_num");
                             int stock = search.getInt("stock_num");
-                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic);
+                            int store;
+                            if (belongs_to_store != null){
+                                store =1;
+                            }else {
+                                store = Integer.parseInt(belongs_to_store);
+                            }
+                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic,store);
                             mList.add(goods);
                         }
                         sort_sortAdapter.notifyDataSetChanged();

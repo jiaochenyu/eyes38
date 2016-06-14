@@ -23,4 +23,5 @@
     <color name="register_detail_background">#F0F0F0</color>
     <color name="comment_background">#F3F3F3</color>
     <color name="comment_line">#E7E7E7</color>
+    <color name="guide_button">#e57100</color>
 </resources>

@@ -33,7 +33,7 @@ public class NetworkStateService extends Service {
                 if (info != null && info.isAvailable()) {
                     //当NetworkInfo不为空且是可用的情况下，获取当前网络的Type状态
                     NetState = true;
-                    Toast.makeText(context, "太好了，已经连接网络了！", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context, "太好了，已经连接网络了！", Toast.LENGTH_LONG).show();
                 } else {
                     NetState = false;
                     //提示用户无网络连接

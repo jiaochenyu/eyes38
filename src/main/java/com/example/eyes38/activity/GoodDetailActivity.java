@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.os.Handler;
 import android.os.Message;
+=======
+>>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
@@ -54,6 +57,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
+<<<<<<< HEAD
     public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
         @Override
         public void handleMessage(Message msg) {
@@ -71,6 +75,8 @@ public class GoodDetailActivity extends AppCompatActivity {
         }
     };
 
+=======
+>>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
     private CartGoods mCartGoods;
     private List<CartGoods> mList;
     private SharedPreferences sp;  //偏好设置 获取账号 密码
@@ -146,7 +152,7 @@ public class GoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GoodDetailActivity.this, CommentActivity.class);
-                intent.putExtra("product_id", goods.getGoods_id());
+                intent.putExtra("goods", goods);
                 startActivity(intent);
             }
         });
@@ -173,7 +179,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private void setViewToData() {
         //将数据写入各个控件
         Glide.with(this).load(goods.getPath()).into(goodsPicImageView);
-        goodsUnitTextView.setText(goods.getGoods_platform_price() + goods.getGoods_unit());
+        goodsUnitTextView.setText(goods.getGoods_platform_price() +"/"+ goods.getGoods_unit());
         goodsStockTextView.setText(goods.getGoods_stock() + "");
         goodsRemarkTextView.setText(goods.getGoods_name());
         //截取字符串中的url
@@ -218,18 +224,23 @@ public class GoodDetailActivity extends AppCompatActivity {
 //                    finish();
                     break;
                 case R.id.goods_detail_radio_buynow:
-                    //立即购买 跳转到购物车
-                    List<CartGoods> buynowList = new ArrayList<>();
-                    CartGoods cartGoods = new CartGoods();
-                    cartGoods.setExtension1(goods.getExtension());
-                    cartGoods.setProduct_name(goods.getGoods_name());
-                    cartGoods.setGoods(goods);
-                    cartGoods.setQuantity(1); // 立即加入1件商品到购物车
-                    cartGoods.setPrice(goods.getGoods_platform_price());
-                    buynowList.add(cartGoods);
-                    Intent intentBuynow = new Intent(GoodDetailActivity.this,PayActivity.class);
-                    intentBuynow.putExtra("list", (Serializable) buynowList);
-                    startActivity(intentBuynow);
+                    if (!Application.isLogin) {
+                        //如果用户没登录  购物车显示空
+                        Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
+                    }else {
+                        //立即购买 跳转到购物车
+                        List<CartGoods> buynowList = new ArrayList<>();
+                        CartGoods cartGoods = new CartGoods();
+                        cartGoods.setExtension1(goods.getExtension());
+                        cartGoods.setProduct_name(goods.getGoods_name());
+                        cartGoods.setGoods(goods);
+                        cartGoods.setQuantity(1); // 立即加入1件商品到购物车
+                        cartGoods.setPrice(goods.getGoods_platform_price());
+                        buynowList.add(cartGoods);
+                        Intent intentBuynow = new Intent(GoodDetailActivity.this,PayActivity.class);
+                        intentBuynow.putExtra("list", (Serializable) buynowList);
+                        startActivity(intentBuynow);
+                    }
                     break;
                 case R.id.goods_detail_radio_addcart:
                     //加入购物车

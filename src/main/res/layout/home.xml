@@ -3,8 +3,9 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-    >
+              xmlns:app="http://schemas.android.com/tools"
+
+              android:orientation="vertical">
     <!-- 顶部标题栏 -->
     <!--顶部标题-->
     <RelativeLayout
@@ -36,18 +37,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="-5dp"
             android:padding="5dp"
-            android:src="@drawable/home_fangdajing"
+            android:src="@mipmap/home_fangdajing"
             />
     </RelativeLayout>
-
-
-    <!-- 内容 -->
-
-    <!--<ScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/home_content_ptr"
@@ -72,11 +64,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 <!--顶部广告轮播图-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
             <android.support.v4.view.ViewPager
                 android:id="@+id/main_ad_show"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 />
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/home_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:fillColor="@color/white"
+                    android:paddingBottom="40dp"
+                    android:layout_alignBottom="@id/main_ad_show"/>
+            </RelativeLayout>
 <!--四个大类图标-->
             <LinearLayout
                 android:layout_width="match_parent"

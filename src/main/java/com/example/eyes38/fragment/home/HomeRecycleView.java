@@ -175,7 +175,11 @@ public class HomeRecycleView {
             @Override
             public void onItemClick(View view, HomeContentContent hcc) {
                 //跳转到商品详情页面,传一个goods对象,键值是values,
+<<<<<<< HEAD
                  Goods goods = new Goods();
+=======
+                Goods goods = new Goods();
+>>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
                 goods.setGoods_id(hcc.getGoods_id());
                 goods.setGoods_name(hcc.getGoods_name());
                 goods.setPath(hcc.getPath());

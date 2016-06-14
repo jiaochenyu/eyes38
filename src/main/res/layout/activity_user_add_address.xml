@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:onClick="add_address_set_back"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"
@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
-                android:src="@drawable/invalid"
+                android:src="@mipmap/invalid"
                 android:visibility="invisible" />
         </LinearLayout>
         <!--分割线-->
@@ -82,7 +82,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
-                android:src="@drawable/invalid"
+                android:src="@mipmap/invalid"
                 android:visibility="invisible" />
         </LinearLayout>
         <!--分割线-->
@@ -111,7 +111,7 @@
                 android:dropDownWidth="10dp"
                 android:gravity="center|right"
                 android:spinnerMode="dialog"
-                android:textAlignment="gravity"></Spinner>
+                android:textAlignment="gravity"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -139,7 +139,7 @@
                 android:layout_weight="15"
                 android:gravity="center|right"
                 android:spinnerMode="dialog"
-                android:textAlignment="gravity"></Spinner>
+                android:textAlignment="gravity"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -169,7 +169,7 @@
                 android:dropDownWidth="100dp"
                 android:gravity="center|right"
                 android:spinnerMode="dialog"
-                android:textAlignment="gravity"></Spinner>
+                android:textAlignment="gravity"/>
         </LinearLayout>
 
         <!--分割线-->
@@ -200,7 +200,7 @@
                 android:dropDownWidth="100dp"
                 android:gravity="center|right"
                 android:spinnerMode="dialog"
-                android:textAlignment="gravity"></Spinner>
+                android:textAlignment="gravity"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
@@ -230,7 +230,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
-                android:src="@drawable/invalid"
+                android:src="@mipmap/invalid"
                 android:visibility="invisible" />
         </LinearLayout>
         <!--分割线-->

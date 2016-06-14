@@ -20,7 +20,7 @@
             android:padding="5dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/back"/>
+            android:src="@mipmap/back"/>
 
         <ImageView
             android:id="@+id/search_spinnner"
@@ -56,7 +56,7 @@
                 android:layout_height="28dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="2dp"
-                android:src="@drawable/search_clear"
+                android:src="@mipmap/search_clear"
                 android:visibility="gone"/>
         </FrameLayout>
 
@@ -116,7 +116,7 @@
                 android:minHeight="90dp"
                 android:numColumns="3"
                 android:padding="10dp"
-                android:verticalSpacing="10sp"></GridView>
+                android:verticalSpacing="10sp"/>
             <!--暂时放个简单的分割线吧-->
             <TextView
                 android:layout_width="match_parent"

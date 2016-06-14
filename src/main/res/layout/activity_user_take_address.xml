@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:onClick="user_take_address"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"
@@ -113,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background"
-            android:divider="@null"></ListView>
+            android:divider="@null"/>
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
     <!--</FrameLayout>-->
 

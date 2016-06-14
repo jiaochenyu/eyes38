@@ -8,7 +8,7 @@
         android:id="@+id/comment_portrait"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/portrait_mode"/>
+        android:src="@mipmap/portrait_mode"/>
     <TextView
         android:layout_marginTop="5dp"
         android:id="@+id/comment_username"
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
-        android:src="@drawable/comment_reply"/>
+        android:src="@mipmap/comment_reply"/>
     <TextView
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"

@@ -54,6 +54,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
     public static final int UPDATEWEEKFINISH = 390; //更新购物车操作 设置当周订单的日期
     public static final int UPDATDAYFINISH = 391; //更新购物车操作 设置为当日订单（将extension设置为true）
     public static final int DeleteMethod = 520;
+    Toast mToast; //优化吐司
     private List<CartGoods> mList;
     private Context mContext;
     private OnRecyclerViewItemClickListener mOnRecyclerViewItemClickListener = null;//监听事件
@@ -164,6 +165,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
             holder.mPriceTextView.setText(st);
             holder.mTitleTextView.setText(mList.get(position).getProduct_name());
             holder.mCountTextView.setText(mList.get(position).getQuantity() + "");
+            String st2 = df.format(mList.get(position).getPrice());
+            holder.mItemPrice.setText(st2);
             /**
              *  判断一周菜谱按钮是否显示：四种状态
              *  extension==null显示两个按钮,
@@ -219,8 +222,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
             holder.mWeekOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击一周菜谱
             holder.mDayOrder.setOnClickListener(new ButtonOnClickListener(position)); // 点击了当日订单
         }
-
-
     }
 
     //初始化 mOnRecyclerViewItemClickListener
@@ -239,7 +240,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
         //显示商品item
         CheckBox mCheckBox;
         ImageView mImageView;
-        TextView mTitleTextView, mPriceTextView, mCountTextView, mDeleteTextView;// 商品名称, 商品价格， 增减数量  ,删除按钮
+        TextView mTitleTextView, mPriceTextView, mCountTextView, mDeleteTextView,mItemPrice;// 商品名称, 商品价格， 增减数量  ,删除按钮,单价
         Button addButton, subButton, mDayOrder, mWeekOrder;
 
         public CartGoodsViewHolder(View itemView) {
@@ -259,6 +260,7 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
             mDayOrder = (Button) mView.findViewById(R.id.dayOrder); // 当日订单按钮
             mWeekOrder = (Button) mView.findViewById(R.id.weekOrder); // 当周订单按钮
             mDeleteTextView = (TextView) mView.findViewById(R.id.delete); //删除按钮
+            mItemPrice  = (TextView) mView.findViewById(R.id.item_price); // 单价
         }
     }
 
@@ -316,7 +318,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
                     setPosition(position);
                     if (mList.get(getPosition()).getQuantity() >= mList.get(getPosition()).getGoods().getGoods_stock()) {
                         //如果大于库存
-                        Toast.makeText(mContext, "库存不足", Toast.LENGTH_SHORT).show();
+                        showToast("库存不足");
+                        //Toast.makeText(mContext, "库存不足", Toast.LENGTH_SHORT).show();
                     } else {
                         mList.get(getPosition()).setQuantity(mList.get(getPosition()).getQuantity() + 1);
                         shoppingCartId = mList.get(position).getShopping_cart_id();
@@ -327,7 +330,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
                     setPosition(position);
                     //减法操作
                     if (mList.get(position).getQuantity() <= 1) {
-                        Toast.makeText(mContext, "商品数量最少为1", Toast.LENGTH_SHORT).show();
+                        showToast("商品数量最少为1");
+                        //Toast.makeText(mContext, "商品数量最少为1", Toast.LENGTH_SHORT).show();
                     } else {
                         mList.get(getPosition()).setQuantity(mList.get(getPosition()).getQuantity() - 1);
                         shoppingCartId = mList.get(position).getShopping_cart_id();
@@ -380,7 +384,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int position = (int) buttonView.getTag();
             mList.get(position).setSelected(isChecked);
-            Log.e("hahahhaahahahhaa",getAllGoodsCount()+" ");
             mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
             //通知改变总价格 将总价格传给Handler
             mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice()));
@@ -688,7 +691,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
                     if (resultADD) {
                         addMethod();
                     } else {
-                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                        showToast("请求失败");
+                       // Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -704,7 +708,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
                     if (resultMINUS) {
                         minusMethod();
                     } else {
-                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                        showToast("请求失败");
+                        //Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -718,7 +723,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
                     if (resultDelete) {
                         deleteMethod();
                     } else {
-                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                        showToast("请求失败");
+                        //Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -738,7 +744,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
                         mList.get(getPosition()).setExtension1(extension1);
                         notifyDataSetChanged();
                     } else {
-                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                        showToast("请求失败");
+                       // Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -758,7 +765,8 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
                         mList.get(getPosition()).setExtension1(extension1);
                         notifyDataSetChanged();
                     } else {
-                        Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
+                        showToast("请求失败");
+                        //Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -807,5 +815,15 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
         mHandler.sendMessage(mHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); // 显示总数量
         mHandler.sendMessage(mHandler.obtainMessage(NOTIFICHANGEPRICE, getTotalPrice())); //显示总价格
         mainHandler.sendMessage(mainHandler.obtainMessage(CARTGOODSCOUNT, getAllGoodsCount())); //改变徽章
+    }
+
+    //显示吐司
+    private void showToast(String text) {
+        if (mToast == null) {
+            mToast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
+        } else {
+            mToast.setText(text);
+        }
+        mToast.show();
     }
 }

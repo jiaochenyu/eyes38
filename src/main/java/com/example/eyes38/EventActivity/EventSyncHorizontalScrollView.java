@@ -36,6 +36,14 @@ public class EventSyncHorizontalScrollView extends HorizontalScrollView {
     public EventSyncHorizontalScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
+    /**
+     *
+     * @param l X
+     * @param t  Y
+     * @param oldl
+     * @param oldt
+     */
     protected void onScrollChanged(int l,int t, int oldl, int oldt){
         if (!mContext.isFinishing()&&view!=null&&leftImage!=null&&rightImage!=null){
             if (view.getWidth()<=windowWitdh){
@@ -47,12 +55,16 @@ public class EventSyncHorizontalScrollView extends HorizontalScrollView {
                     rightImage.setVisibility(View.VISIBLE);
                 }else if (view.getWidth()-1==windowWitdh){
                     leftImage.setVisibility(View.VISIBLE);
+                    rightImage.setVisibility(View.VISIBLE);
+                }else if ((l+windowWitdh)==view.getWidth()){
+                    //到了最右面
+                    leftImage.setVisibility(View.VISIBLE);
                     rightImage.setVisibility(View.GONE);
-                }else {
+                }
+                else {
                     leftImage.setVisibility(View.VISIBLE);
                     rightImage.setVisibility(View.VISIBLE);
                 }
-
             }
         }
 
