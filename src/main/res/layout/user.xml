@@ -172,7 +172,7 @@
                     />
 
                 <RadioButton
-                    android:padding="2dp"
+                    android:padding="5dp"
                     android:id="@+id/user_send"
                     style="@style/user_radio"
                     android:drawableTop="@drawable/user_deliver"

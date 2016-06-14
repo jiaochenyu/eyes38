@@ -104,13 +104,27 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/goods_comment_reply_none"/>
         </RelativeLayout>
+<<<<<<< HEAD
+=======
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+>>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
         <ImageView
             android:id="@+id/comment_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:src="@mipmap/comment_add"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="50dp" />
+=======
+            android:src="@mipmap/add"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp" />
+>>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
     </RelativeLayout>
 </LinearLayout>

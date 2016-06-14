@@ -104,6 +104,15 @@ public class MainActivity extends AppCompatActivity {
         stopService(intent);
     }
 
+    //获取intent
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Intent intentCart = getIntent();
+        record = intentCart.getIntExtra("cart",1);
+    }
 
     @Override
     protected void onResume() {
