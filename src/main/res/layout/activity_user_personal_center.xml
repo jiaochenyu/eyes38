@@ -128,6 +128,7 @@
                 style="@style/user_person_center_text1"/>
             <!--手机-->
             <EditText
+                android:padding="5dp"
                 android:id="@+id/person_center_name"
                 android:background="@drawable/edittext"
                 android:text=""
@@ -153,18 +154,19 @@
                 style="@style/user_person_center_text1"/>
             <!--手机-->
             <TextView
+                android:layout_marginRight="10dp"
                 android:layout_weight="15"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
             <Spinner
+                android:layout_marginRight="20dp"
                 android:visibility="gone"
                 android:spinnerMode="dialog"
                 android:id="@+id/spinner_sex"
                 android:entries="@array/sex"
-                android:layout_weight="4"
                 android:textAlignment="gravity"
-                android:gravity="center|right"
-                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"></Spinner>
         </LinearLayout>
         <!--分割线-->
@@ -184,6 +186,7 @@
                 style="@style/user_person_center_text1"/>
             <!--手机-->
             <EditText
+                android:padding="5dp"
                 android:id="@+id/person_center_email"
                 android:background="@drawable/edittext"
                 android:text=""

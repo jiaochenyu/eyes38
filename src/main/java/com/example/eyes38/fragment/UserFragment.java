@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.eyes38.Application.Application;
 import com.example.eyes38.MainActivity;
 import com.example.eyes38.R;
@@ -32,6 +33,7 @@ import com.example.eyes38.user_activity.User_phone_setActivity;
 import com.example.eyes38.user_activity.User_take_addressActivity;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -40,18 +42,21 @@ import com.yolanda.nohttp.rest.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 
 /**
  * Created by jcy on 2016/5/8.
  */
 public class UserFragment extends Fragment {
     public static final int REFRESH = 400;
+    public static final int IMAGEWHAT = 209;
     private static final int INWHAT1 = 520;
     private static final int INWHAT2 = 521;
     private static final int INWHAT3 = 522;
     private static final int INWHAT4 = 523;
     MainActivity mMainActivity;
-    ImageView user_set, user_message;
+    ImageView user_set, user_message, user_main_image;
     View view;
     private String custom_id, username, password;
     RequestQueue mRequestQueue;
@@ -133,6 +138,15 @@ public class UserFragment extends Fragment {
 
     //获取个人中心数量
     private void getHttpMethod() {
+        //头像
+        String addHeader = username + ":" + password;
+        String newHeader = new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));//加密后的header
+        String lastHeader = "Basic " + newHeader;
+        String imageUrl = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/" + custom_id;
+        Request<String> requestimage = NoHttp.createStringRequest(imageUrl, RequestMethod.GET);
+        requestimage.addHeader("Authorization", lastHeader);
+        requestimage.setCacheMode(CacheMode.DEFAULT);
+        mRequestQueue.add(IMAGEWHAT, requestimage, mOnResponseListener);
         //待付款
         String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/" + custom_id + "/statistics";
         Request<String> request1 = NoHttp.createStringRequest(url, RequestMethod.GET);
@@ -200,6 +214,20 @@ public class UserFragment extends Fragment {
                     JSONObject object1 = object.getJSONObject("data");
                     String aftersaleOrdersCount = object1.getString("aftersaleOrdersCount");
                     user_back.setText("待付款(" + aftersaleOrdersCount + ")");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (what == IMAGEWHAT) {
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONObject object1 = object.getJSONObject("data");
+                    String image_uri = object1.getString("image");
+                    Glide.with(getActivity())
+                            .load(image_uri)
+                            .bitmapTransform(new CropCircleTransformation(getActivity()))
+                            .error(R.drawable.user_photo)
+                            .into(user_main_image);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -343,6 +371,7 @@ public class UserFragment extends Fragment {
         user_tel_set = (TextView) view.findViewById(R.id.username_tel_set);
         user_set = (ImageView) view.findViewById(R.id.user_set);
         user_message = (ImageView) view.findViewById(R.id.user_message);
+        user_main_image = (ImageView) view.findViewById(R.id.user_main_image);
         user_person_set = (LinearLayout) view.findViewById(R.id.user_person_set);
         user_myorder = (LinearLayout) view.findViewById(R.id.user_myorder);
         user_mycredits = (LinearLayout) view.findViewById(R.id.user_mycredits);

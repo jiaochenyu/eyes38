@@ -625,7 +625,6 @@ public class SearchActivity extends AppCompatActivity {
                 mleftMenu.toggle();
                 //为什么要多点击几次,才正确显示呢?????
 
-
             }
 
         });
@@ -752,7 +751,6 @@ public class SearchActivity extends AppCompatActivity {
                     for (int i = 0; i < 9; i++) {
                         gridList.add(mGridList.get(integers.get(i)));
                     }
-
                     mGridAdapter = new GridAdapter(SearchActivity.this, gridList);
                     mGridView.setAdapter(mGridAdapter);
                 } catch (JSONException e) {
@@ -780,6 +778,7 @@ public class SearchActivity extends AppCompatActivity {
         }
         mToast.show();
     }
+
 }
 
 
