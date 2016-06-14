@@ -16,6 +16,7 @@ public class Goods implements Serializable {
     private int goods_stock;//商品库存
     private String goods_description;//商品图文详情
     private String extension = "false" ; //是否是一周菜谱
+    private int store;
     public Goods() {
     }
 
@@ -29,6 +30,28 @@ public class Goods implements Serializable {
         this.goods_comment_count = goods_comment_count;
         this.goods_stock = goods_stock;
         this.goods_description = goods_description;
+    }
+
+    public Goods(int goods_id, String goods_name, String path, String goods_unit, float goods_market_price, float goods_platform_price, int goods_comment_count, int goods_stock, String goods_description, int store) {
+        this.goods_id = goods_id;
+        this.goods_name = goods_name;
+        this.path = path;
+        this.goods_unit = goods_unit;
+        this.goods_market_price = goods_market_price;
+        this.goods_platform_price = goods_platform_price;
+        this.goods_comment_count = goods_comment_count;
+        this.goods_stock = goods_stock;
+        this.goods_description = goods_description;
+        this.extension = extension;
+        this.store = store;
+    }
+
+    public int getStore() {
+        return store;
+    }
+
+    public void setStore(int store) {
+        this.store = store;
     }
 
     public int getGoods_id() {

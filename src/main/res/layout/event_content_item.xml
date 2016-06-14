@@ -6,28 +6,6 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-<<<<<<< HEAD
-    <LinearLayout
-        android:layout_weight="8"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <ImageView
-            android:id="@+id/event_content_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:scaleType="fitXY"
-            android:src="@mipmap/defult"/>
-    </LinearLayout>W
-    <LinearLayout
-        android:layout_weight="2"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <TextView
-            android:id="@+id/event_content_text"
-=======
 
             <ImageView
                 android:id="@+id/event_imageview"
@@ -48,7 +26,6 @@
                 android:singleLine="true"
                 android:text="苹果"/>
         <LinearLayout
->>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/event_item_nametextview"

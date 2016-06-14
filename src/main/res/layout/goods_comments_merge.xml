@@ -20,9 +20,7 @@
         <RadioButton
             android:id="@+id/comment_great"
             style="@style/comment_menu_radio"
-            android:text="好评"
-
-            />
+            android:text="好评" />
 
         <RadioButton
             android:id="@+id/comment_middle"
@@ -34,7 +32,6 @@
             android:id="@+id/comment_bad"
             style="@style/comment_menu_radio"
             android:text="差评" />
-
     </RadioGroup>
 
 

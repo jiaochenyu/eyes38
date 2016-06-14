@@ -244,10 +244,17 @@ public class SortMenuActivity extends AppCompatActivity {
                             String txt_pic = jsonObject.getString("description");
                             float price = (float) jsonObject.getDouble("price");
                             float market_price = (float) jsonObject.getDouble("market_price");
+                            String belongs_to_store = jsonObject.getString("belongs_to_store");
                             JSONObject search = jsonObject.getJSONObject("product_search");
                             int comment_count = search.getInt("comment_num");
                             int stock = search.getInt("stock_num");
-                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic);
+                            int store;
+                            if (belongs_to_store != null){
+                                store =1;
+                            }else {
+                                store = Integer.parseInt(belongs_to_store);
+                            }
+                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic,store);
                             mList.add(goods);
                         }
                         sort_sortAdapter.notifyDataSetChanged();

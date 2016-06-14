@@ -1,6 +1,7 @@
 package com.example.eyes38.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,10 @@ public class GuideActivity extends AppCompatActivity {
     }
 
     public void start(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isFirstTime",true);
+        editor.apply();
         Intent intent = new Intent(GuideActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

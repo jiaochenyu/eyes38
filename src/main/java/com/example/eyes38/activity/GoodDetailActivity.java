@@ -4,11 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
-import android.os.Handler;
->>>>>>> 6ad8e3e63b7615a6ca392b68553668142175805d
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
@@ -41,7 +36,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 
 public class GoodDetailActivity extends AppCompatActivity {
@@ -58,26 +52,6 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-<<<<<<< HEAD
-=======
-    public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //从购物车中接收数据
-            switch (msg.what) {
-                case CARTGOODSCOUNT:
-                    if (((Integer) msg.obj) != 0) {
-                        mCartBadgeView.setText(msg.obj + "");
-                        mCartBadgeView.show();
-                    } else {
-                        mCartBadgeView.hide();
-                    }
-            }
-        }
-    };
-
->>>>>>> 6ad8e3e63b7615a6ca392b68553668142175805d
     private CartGoods mCartGoods;
     private List<CartGoods> mList;
     private SharedPreferences sp;  //偏好设置 获取账号 密码
@@ -153,7 +127,7 @@ public class GoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GoodDetailActivity.this, CommentActivity.class);
-                intent.putExtra("product_id", goods.getGoods_id());
+                intent.putExtra("goods", goods);
                 startActivity(intent);
             }
         });

@@ -188,7 +188,6 @@ public class User_personal_centerActivity extends AppCompatActivity {
                         image_button.setImageResource(R.mipmap.user_photo);
                         Log.e("TAGm", "1");
                     } else if (!image_uri.equals("")){
-<<<<<<< HEAD
                         //如何通过uri找到本地图片呢,草 ，不开心  真心不会
                         image_button.setImageResource(R.mipmap.user_photo);
                       /*  try {
@@ -199,10 +198,6 @@ public class User_personal_centerActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         Log.e("TAGm", "2");*/
-=======
-                        image_button.setImageResource(R.drawable.user_photo);
-
->>>>>>> 8e24ee704d7712d433fb39ed0fe4c1d9c1d1c139
                     }
                     //用户名
                     person_center_tel.setText(username);
