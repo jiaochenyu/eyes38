@@ -165,15 +165,9 @@
                 android:id="@+id/spinner_sex"
                 android:entries="@array/sex"
                 android:textAlignment="gravity"
-<<<<<<< HEAD
                 android:gravity="center"
                 android:layout_width="60dp"
-                android:layout_height="match_parent"></Spinner>
-=======
-                android:gravity="center|right"
-                android:layout_width="0dp"
                 android:layout_height="match_parent"/>
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
         </LinearLayout>
         <!--分割线-->
         <TextView

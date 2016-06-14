@@ -13,7 +13,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -30,12 +30,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.android.support:design:23.3.0'
-<<<<<<< HEAD
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
-
-
-=======
     compile 'fr.baloomba:viewpagerindicator:2.4.2'
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
 }

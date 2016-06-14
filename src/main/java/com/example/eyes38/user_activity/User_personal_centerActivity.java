@@ -1,17 +1,9 @@
 package com.example.eyes38.user_activity;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,16 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
-<<<<<<< HEAD
-import com.example.eyes38.utils.GetPathFromUri4kitkat;
 import com.example.eyes38.utils.GetToken;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
-=======
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -56,13 +43,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-<<<<<<< HEAD
-import java.io.IOException;
-import java.net.URL;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-=======
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
+
 
 public class User_personal_centerActivity extends AppCompatActivity {
     public static final int mWHAT = 321;
@@ -206,13 +189,11 @@ public class User_personal_centerActivity extends AppCompatActivity {
                     sex = object1.getString("sex");
                     eamil = object1.getString("email");
                     image_uri = object1.getString("image");
-<<<<<<< HEAD
                     Glide.with(User_personal_centerActivity.this)
                             .load(image_uri)
                             .bitmapTransform(new CropCircleTransformation(User_personal_centerActivity.this))
-                            .error(R.drawable.user_photo)
+                            .error(R.mipmap.user_photo)
                             .into(image_button);
-=======
                     Log.e("image下拉的uri", image_uri);
                     if (image_uri.equals("")) {
                         image_button.setImageResource(R.mipmap.user_photo);
@@ -229,7 +210,6 @@ public class User_personal_centerActivity extends AppCompatActivity {
                         }
                         Log.e("TAGm", "2");*/
                     }
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
                     //用户名
                     person_center_tel.setText(username);
                     person_center_tel.setTextSize(15);
@@ -382,7 +362,7 @@ public class User_personal_centerActivity extends AppCompatActivity {
                                         Glide.with(User_personal_centerActivity.this)
                                                 .load(headImagePath)
                                                 .bitmapTransform(new CropCircleTransformation(User_personal_centerActivity.this))
-                                                .error(R.drawable.user_photo)
+                                                .error(R.mipmap.user_photo)
                                                 .into(image_button);
 
                                     } else {

@@ -226,7 +226,7 @@ public class EventDay1 extends Fragment {
                         float price = (float) jsonObject2.getDouble("price");
                         String extension4 = jsonObject2.getString("extension4"); // 单位
                         int stock_num = jsonObject2.getInt("stock_num");
-                        float market_price = (float) jsonObject.getDouble("market_price");
+                        float market_price = (float) jsonObject2.getDouble("market_price");
                         String description = jsonObject2.getString("description");
                         Goods goods = new Goods(product_id, name, image, extension4, market_price, price, 0, stock_num, description);
                         //获取日期

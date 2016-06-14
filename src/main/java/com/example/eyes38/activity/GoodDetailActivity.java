@@ -4,11 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.os.Handler;
-import android.os.Message;
-=======
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
@@ -57,26 +52,6 @@ public class GoodDetailActivity extends AppCompatActivity {
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
     private RadioButton mConsultButton, mCartButton, mBuynowButton, mAddCartButton;  //咨询按钮 ，购物车按钮 ,立即购买，添加到购物车
-<<<<<<< HEAD
-    public Handler goodDetailHandler = new Handler() {  //购物车图标上的徽章改变值
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //从购物车中接收数据
-            switch (msg.what) {
-                case CARTGOODSCOUNT:
-                    if (((Integer) msg.obj) != 0) {
-                        mCartBadgeView.setText(msg.obj + "");
-                        mCartBadgeView.show();
-                    } else {
-                        mCartBadgeView.hide();
-                    }
-            }
-        }
-    };
-
-=======
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
     private CartGoods mCartGoods;
     private List<CartGoods> mList;
     private SharedPreferences sp;  //偏好设置 获取账号 密码

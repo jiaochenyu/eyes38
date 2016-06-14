@@ -226,7 +226,7 @@ public class UserFragment extends Fragment {
                     Glide.with(getActivity())
                             .load(image_uri)
                             .bitmapTransform(new CropCircleTransformation(getActivity()))
-                            .error(R.drawable.user_photo)
+                            .error(R.mipmap.user_photo)
                             .into(user_main_image);
                 } catch (JSONException e) {
                     e.printStackTrace();

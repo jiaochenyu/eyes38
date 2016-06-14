@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
     android:gravity="center"
     android:background="@drawable/comment_add_border">
 
@@ -14,20 +13,11 @@
         android:background="@drawable/comment_border"
         android:textColor="@color/them_color"
         android:hint="@string/comment_add_hint"/>
-=======
-    android:gravity="center">
-
-    <EditText
-        android:id="@+id/comment_add_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
->>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
 
     <RatingBar
         android:id="@+id/comment_add_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:stepSize="1"
         android:max="5"
         style="@style/comment_add_ratingbar"
@@ -56,24 +46,4 @@
             android:textColor="@color/white"
             android:background="@color/them_color"/>
     </LinearLayout>
-
-
-=======
-        android:layout_below="@id/comment_add_content" />
-
-    <Button
-        android:layout_marginLeft="100dp"
-        android:id="@+id/comment_add_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/comment_add_rating"/>
-
-    <Button
-        android:layout_marginRight="100dp"
-        android:layout_alignParentRight="true"
-        android:id="@+id/comment_add_commit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/comment_add_rating"/>
->>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
 </RelativeLayout>

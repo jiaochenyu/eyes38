@@ -140,10 +140,6 @@ public class User_loginActivity extends AppCompatActivity {
         editor.putString("USER_NAME", usernameValue);
         editor.putString("PASSWORD", passwordValue);
         Application.isLogin = true;
-<<<<<<< HEAD
-        editor.putString("CUSTOMER_ID", customer_id+"");
-=======
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
         editor.putString("CUSTOMER_ID", customer_id);
         editor.putBoolean("STATE", Application.isLogin);
         editor.apply();

@@ -1,6 +1,5 @@
 package com.example.eyes38.utils;
 
-<<<<<<< HEAD
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
@@ -13,19 +12,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.eyes38.R;
-=======
-import android.app.Dialog;
-import android.content.Context;
->>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
 
 /**
  * Created by jqchen on 2016/6/13.
  */
-<<<<<<< HEAD
+
 public class CommentAddDialog extends Dialog {
-=======
-public class CommentAddDialog extends Dialog  {
->>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
 
     public CommentAddDialog(Context context) {
         super(context);
@@ -34,7 +26,6 @@ public class CommentAddDialog extends Dialog  {
     public CommentAddDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
-<<<<<<< HEAD
 
     public static class Builder {
         private EditText mEditText;
@@ -48,7 +39,7 @@ public class CommentAddDialog extends Dialog  {
             this.mContext = mContext;
         }
 
-        public Builder setContentView(View view) {
+        public CommentAddDialog.Builder setContentView(View view) {
             this.mView = view;
             return this;
         }
@@ -61,13 +52,13 @@ public class CommentAddDialog extends Dialog  {
             return (int) mRatingBar.getRating();
         }
 
-        public Builder setCancelOnClickListener(String cancelButtonText, DialogInterface.OnClickListener listener) {
+        public CommentAddDialog.Builder setCancelOnClickListener(String cancelButtonText, OnClickListener listener) {
             this.cancelButtonText = cancelButtonText;
             this.cancelOnClickListener = listener;
             return this;
         }
 
-        public Builder setCommitOnClickListener(String commitButtonText, DialogInterface.OnClickListener listener) {
+        public CommentAddDialog.Builder setCommitOnClickListener(String commitButtonText, OnClickListener listener) {
             this.commitButtonText = commitButtonText;
             this.commitOnClickListener = listener;
             return this;
@@ -113,9 +104,5 @@ public class CommentAddDialog extends Dialog  {
             dialog.setContentView(layout);
             return dialog;
         }
-=======
-    public static class Builder{
-
->>>>>>> f87f9acf95aedcdface69eed795d843d6e760907
     }
 }
