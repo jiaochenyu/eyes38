@@ -297,7 +297,6 @@ public class UserRegisterDetailActivity extends AppCompatActivity {
                         JSONObject object = new JSONObject(result);
                         boolean success = object.getBoolean("success");
                         String msg = object.getString("msg");
-                        Log.e("注册", success + msg);
                         if (success) {
                             //保存注册信息并跳转到mainactivity
                             saveLoginInformation();

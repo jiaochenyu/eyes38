@@ -18,7 +18,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,7 +142,6 @@ public class User_personal_centerActivity extends AppCompatActivity {
         String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/" + customer_id;
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add("email", update_email);
-        Log.e("image上传的uri", mUri + "");
         request.add("image", mUri + "");
         request.add("firstname", update_name);
         request.add("sex", update_sex);
@@ -183,10 +181,8 @@ public class User_personal_centerActivity extends AppCompatActivity {
                     sex = object1.getString("sex");
                     eamil = object1.getString("email");
                     image_uri = object1.getString("image");
-                    Log.e("image下拉的uri", image_uri);
                     if (image_uri.equals("")) {
                         image_button.setImageResource(R.mipmap.user_photo);
-                        Log.e("TAGm", "1");
                     } else if (!image_uri.equals("")){
                         //如何通过uri找到本地图片呢,草 ，不开心  真心不会
                         image_button.setImageResource(R.mipmap.user_photo);
@@ -197,7 +193,7 @@ public class User_personal_centerActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Log.e("TAGm", "2");*/
+                     */
                     }
                     //用户名
                     person_center_tel.setText(username);
@@ -363,7 +359,6 @@ public class User_personal_centerActivity extends AppCompatActivity {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, PHOTORESULT);
         mUri = uri;
-        Log.e("image_uri", mUri + "");
     }
 
 

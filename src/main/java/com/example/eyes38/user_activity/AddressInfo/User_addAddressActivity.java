@@ -183,7 +183,6 @@ public class User_addAddressActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-        Log.e("EditText中又什么",address_name.getText().toString());
                 String text = address_tel.getText().toString();
                 Pattern pattern = Pattern.compile("[0-9]*");
                 Matcher matcher = pattern.matcher(text);
@@ -452,7 +451,6 @@ public class User_addAddressActivity extends AppCompatActivity {
             }else if (what == mWHAT5) {
                 //请求成功,增加收货地址
                 String result = response.get();
-                Log.e("dwdw",result);
                 try {
 
                 } catch (Exception e) {
@@ -521,7 +519,6 @@ public class User_addAddressActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 num3 = districtList3.get(position);
-                Log.e("看num3",num3+"");
                 mReceipt.setDistrict_id(num3+"");
                 flag3 = true;
                 mSpinnerSelect.setArea_select(position);

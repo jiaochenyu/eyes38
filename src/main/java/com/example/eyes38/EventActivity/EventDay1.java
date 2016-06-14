@@ -90,7 +90,7 @@ public class EventDay1 extends Fragment {
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         EventSpacesItemDecoration decoration = new EventSpacesItemDecoration(16); // 设置item 的间距
         mRecyclerView.addItemDecoration(decoration);*/
-        mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         footView = (LinearLayout) view.findViewById(R.id.footview);
         loading = (ImageView) view.findViewById(R.id.footview_image);
@@ -226,12 +226,12 @@ public class EventDay1 extends Fragment {
                         float price = (float) jsonObject2.getDouble("price");
                         String extension4 = jsonObject2.getString("extension4"); // 单位
                         int stock_num = jsonObject2.getInt("stock_num");
-                        float market_price = (float) jsonObject.getDouble("market_price");
+                        float market_price = (float) jsonObject2.getDouble("market_price");
                         String description = jsonObject2.getString("description");
                         Goods goods = new Goods(product_id, name, image, extension4, market_price, price, 0, stock_num, description);
                         //获取日期
                         Calendar c = Calendar.getInstance();
-                        c.add(Calendar.DATE, 2);
+                        c.add(Calendar.DATE, 0);
                         String date = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE);
                         goods.setExtension(date);
                         mList.add(goods);
@@ -240,6 +240,7 @@ public class EventDay1 extends Fragment {
                     mEventRecycleViewAdapter = new EventRecycleViewAdapter(mList, getActivity());
                     mRecyclerView.setAdapter(mEventRecycleViewAdapter);
                     mEventRecycleViewAdapter.notifyDataSetChanged();
+                    initListener();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -270,6 +271,7 @@ public class EventDay1 extends Fragment {
                             mList.add(goods);
                         }
                         mEventRecycleViewAdapter.notifyDataSetChanged();
+                        initListener();
                     } else {
                         isLoad = false;
                     }

@@ -1,5 +1,6 @@
 package com.example.eyes38.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.PaySelectAdapter;
 import com.example.eyes38.beans.Receipt;
+import com.example.eyes38.user_activity.AddressInfo.User_addAddressActivity;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -173,6 +175,8 @@ public class PaySelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //跳转到新建收货地址
+                Intent intent = new Intent(PaySelectActivity.this, User_addAddressActivity.class);
+                startActivity(intent);
             }
         });
         mBackImageView.setOnClickListener(new View.OnClickListener() {

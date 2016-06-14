@@ -144,7 +144,6 @@ public class Home_ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     public void onItemClick(View view, HomeContentContent hcc) {
                         //跳转到商品详情页面,传一个goods对象,键值是values,
                         Goods goods = new Goods();
-                        Log.e("hcc",hcc.toString());
                         goods.setGoods_id(hcc.getGoods_id());
                         goods.setGoods_name(hcc.getGoods_name());
                         goods.setPath(hcc.getPath());

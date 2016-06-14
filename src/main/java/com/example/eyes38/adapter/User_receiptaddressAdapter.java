@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -247,7 +246,6 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add("address_id", mDatas.get(position1).getAddress_id());
-        Log.e("affaf", mDatas.get(position1).getAddress_id() + "|||" + position1);
         request.addHeader("Authorization", head); // 添加请求头
         mRequestQueue.add(SETDETAULTRECEIPTADDRESS, request, mOnResponseListener);
     }

@@ -57,7 +57,6 @@ public class Home_ContentContentAdapter extends RecyclerView.Adapter<Home_Conten
             Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
         }
         holder.itemView.setTag(mList.get(position));
-        Log.e("price01",mList.get(position).toString());
         holder.priceTextvew.setText(mList.get(position).getGoods_platform_price()+"");
         holder.danweiTexiview.setText(mList.get(position).getGoods_unit()+"");
     }

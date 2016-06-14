@@ -1,11 +1,10 @@
 package com.example.eyes38.user_activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -51,7 +50,6 @@ public class User_orderActivity extends AppCompatActivity {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
         int flag=bundle.getInt("TAG");
-        Log.e("cfj",""+flag);
         if (flag==0) {
             showFragment(ALL);
             user_order_all.setChecked(true);

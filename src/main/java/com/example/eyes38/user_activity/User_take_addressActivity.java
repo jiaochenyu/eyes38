@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -182,7 +181,6 @@ public class User_take_addressActivity extends AppCompatActivity {
             } else if (what == mjudge) {
                 //spinner获取数据
                 String result = response.get();
-                Log.e("kankanres", result);
                 try {
                     //解析第一层
                     JSONObject object = new JSONObject(result);

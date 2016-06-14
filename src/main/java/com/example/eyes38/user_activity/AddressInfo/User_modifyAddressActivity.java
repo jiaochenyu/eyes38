@@ -332,7 +332,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             String header = "Basic " + newHeader;
             request5.addHeader("Authorization", header);
             //增加post请求中得body
-            Log.e("fafafa",mReceipt.toString());
             request5.add("address_1", mReceipt.getAddress_1());
             request5.add("country_id", mReceipt.getCountry_id());
             request5.add("customer_id", mReceipt.getCustomer_id());
