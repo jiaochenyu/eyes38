@@ -110,9 +110,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     // 定义的五个指示点
     private View dot0;
     private View dot1;
-    private View dot2;
-    private View dot3;
-    private View dot4;
+
 
     //4个home_sort的图标和文字初始化
     private ImageView home_sort1image;
@@ -475,14 +473,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         dotList = new ArrayList<View>();
         dot0 = view.findViewById(R.id.home_dot0);
         dot1 = view.findViewById(R.id.home_dot1);
-        dot2 = view.findViewById(R.id.home_dot2);
-        dot3 = view.findViewById(R.id.home_dot3);
-        dot4 = view.findViewById(R.id.home_dot4);
         dots.add(dot0);
         dots.add(dot1);
-        dots.add(dot2);
-        dots.add(dot3);
-        dots.add(dot4);
     }
 
     @Override
@@ -595,11 +587,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //            newPosition=(position)%2;
 //            oldPosition=(position)%2+1;
             if (position%2==0){
-                newPosition=0;
-                oldPosition=1;
-            }else {
                 newPosition=1;
                 oldPosition=0;
+            }else {
+                newPosition=0;
+                oldPosition=1;
             }
             dots.get(oldPosition).setBackgroundResource(R.drawable.dot_normal);
             dots.get(newPosition).setBackgroundResource(R.drawable.dot_focused);
