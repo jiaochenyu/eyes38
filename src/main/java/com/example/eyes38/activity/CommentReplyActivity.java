@@ -37,8 +37,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class CommentReplyActivity extends AppCompatActivity {
-    public static final int GETCOMMENT = 1;
-    public static final int SENDCOMMENT = 2;
+    public static final int GETCOMMENT = 100;
+    public static final int SENDCOMMENT = 200;
     //    评论回复界面
     private List<CommentReply> mList;
     private RecyclerView mRecyclerView;
@@ -51,6 +51,8 @@ public class CommentReplyActivity extends AppCompatActivity {
     private String commentreply;
     private RequestQueue mRequestQueue = NoHttp.newRequestQueue();
     private Toast mToast;
+    private String Authorization;
+    private CommentReplyAdapter commentReplyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,8 @@ public class CommentReplyActivity extends AppCompatActivity {
                         String path = "";
                         String comment = jsonObject.getString("comment");
                         String create_date = jsonObject.getString("create_date");
-                        CommentReply commentReply = new CommentReply(id, comment_id, author_name, path, comment, create_date);
+                        int author_id = jsonObject.getInt("author_id");
+                        CommentReply commentReply = new CommentReply(id, comment_id, author_name, path, comment, create_date,author_id);
                         mList.add(commentReply);
                     }
                 } catch (JSONException e) {
@@ -118,6 +121,22 @@ public class CommentReplyActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     //回复失败
                     resetInputComment();
+                }
+            }
+            for (int i = 0; i < mList.size(); i++) {
+                if (what == mList.get(i).getComment_id()){
+                    String result = response.get();
+                    try {
+                        JSONObject object = new JSONObject(result);
+                        JSONObject object1 = object.getJSONObject("data");
+                        String path = object1.getString("image");
+                        if (!path.equals("null")){
+                            mList.get(i).setPath(path);
+                            commentReplyAdapter.notifyItemChanged(i);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -163,7 +182,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                 String password = preferences.getString("PASSWORD", "");
                 String header = username + "" + password;
                 String newHeader = new String(Base64.encode(header.getBytes(), Base64.DEFAULT));//加密后的header
-                String Authorization = "Basic " + newHeader;
+                Authorization = "Basic " + newHeader;
                 int author_id = Integer.parseInt(preferences.getString("CUSTOMER_ID", ""));
                 String author_type = "customer";
                 String comment = commentreply;
@@ -206,10 +225,19 @@ public class CommentReplyActivity extends AppCompatActivity {
     private void setAdapter() {
         //如果没有评论，显示评论为空的界面
         Collections.reverse(mList);
-        CommentReplyAdapter commentReplyAdapter = new CommentReplyAdapter(mList);
+        commentReplyAdapter = new CommentReplyAdapter(mList,this);
         mRecyclerView.setAdapter(commentReplyAdapter);
+        getHeaderImage();
+    }
 
-
+    private void getHeaderImage() {
+        for (int i = 0; i < mList.size(); i++) {
+            CommentReply cr = mList.get(i);
+            String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/"+cr.getAuthor_id();
+            Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+            mRequest.addHeader("Authorization", Authorization);
+            mRequestQueue.add(cr.getComment_id(), mRequest, mOnResponseListener);
+        }
     }
 
     private void initView() {

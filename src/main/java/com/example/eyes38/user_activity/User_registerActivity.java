@@ -161,7 +161,6 @@ public class User_registerActivity extends AppCompatActivity {
     private void getValidate() {
         //获取验证码，并跳转到注册详细信息界面
         boolean result = ValidateCode.getValideCode(telNum);
-        Log.e("result", "" + result);
         Intent intent = new Intent(User_registerActivity.this, UserRegisterDetailActivity.class);
         intent.putExtra("telNum", telNum);
         startActivity(intent);

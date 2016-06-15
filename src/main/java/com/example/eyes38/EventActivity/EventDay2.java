@@ -90,11 +90,10 @@ public class EventDay2 extends Fragment{
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         EventSpacesItemDecoration decoration = new EventSpacesItemDecoration(16); // 设置item 的间距
         mRecyclerView.addItemDecoration(decoration);*/
-        mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         footView = (LinearLayout) view.findViewById(R.id.footview);
         loading = (ImageView) view.findViewById(R.id.footview_image);
-
     }
 
     //初始化数据
@@ -236,6 +235,7 @@ public class EventDay2 extends Fragment{
                         String date = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE);
                         goods.setExtension(date);
                         mList.add(goods);
+
                     }
                     isLoad = true;
                     mEventRecycleViewAdapter = new EventRecycleViewAdapter(mList, getActivity());

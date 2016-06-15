@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="150dp"
+              android:layout_height="250dp"
               android:background="@color/white"
               android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.1">
+        android:layout_weight="3">
 
         <CheckBox
             android:id="@+id/address_checkbox_default"
@@ -108,6 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
+                android:paddingBottom="3dp"
                 android:gravity="center_vertical"
                 android:text="[默认]"
                 android:textColor="@color/topical"
@@ -119,6 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingLeft="10dp"
+                android:paddingBottom="3dp"
                 android:gravity="center"
                 android:text="江苏省 苏州市 姑苏区"
                 android:textSize="13sp"/>
@@ -128,6 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingLeft="3dp"
+                android:paddingBottom="3dp"
                 android:gravity="center"
                 android:text="我家的"
                 android:textSize="13sp"/>

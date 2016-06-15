@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,7 +129,6 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();//先隐藏此窗口
                 String order_id = mList.get(setPosition).getOrder_id();
-                Log.e("order_id", order_id + "");
                 //进行删除网络请求
                 getDeleteNoHttpMethod(order_id);
             }

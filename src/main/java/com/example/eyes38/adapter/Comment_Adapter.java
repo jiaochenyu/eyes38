@@ -10,11 +10,14 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.activity.CommentReplyActivity;
 import com.example.eyes38.beans.Comments;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by jqchen on 2016/5/20.
@@ -38,6 +41,12 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
+        if (!mList.get(position).getPath().equals("")){
+            Glide.with(context).load(mList.get(position).getPath())
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .error(R.mipmap.user_photo)
+                    .into(holder.portraitImageView);
+        }
         holder.comment_usernamTextView.setText(mList.get(position).getAuthor_name());
         holder.comment_contentTextView.setText(mList.get(position).getComment());
         holder.comment_timeTextView.setText(mList.get(position).getCreate_date());
@@ -60,8 +69,7 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView replyImageView;
-        //用户头像，暂时未用到
-//        ImageView portraitImageView;
+        ImageView portraitImageView;
         RatingBar mRatingBar;
         TextView comment_usernamTextView, comment_contentTextView, comment_timeTextView;
 
@@ -72,6 +80,7 @@ public class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.MyView
             comment_contentTextView = (TextView) itemView.findViewById(R.id.comment_content);
             comment_timeTextView = (TextView) itemView.findViewById(R.id.comment_time);
             replyImageView = (ImageView) itemView.findViewById(R.id.comment_reply);
+            portraitImageView = (ImageView) itemView.findViewById(R.id.comment_portrait);
         }
     }
     //已经弃用

@@ -9,8 +9,8 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +47,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private Goods goods;
     private ImageView goodsPicImageView, goodsTxtPicImageView;
     private TextView goodsUnitTextView, goodsStockTextView, goodsRemarkTextView, goodsCommentCountTextView;
-    private LinearLayout linearLayout;
+    private RelativeLayout relativeLayout;
     private ImageView backImageView;
     private CartBadgeView mCartBadgeView;  //购物车图标徽章
     private Button mButton;
@@ -102,7 +102,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         goodsStockTextView = (TextView) findViewById(R.id.goods_detail_stock);
         goodsRemarkTextView = (TextView) findViewById(R.id.goods_detai_remark);
         goodsCommentCountTextView = (TextView) findViewById(R.id.goods_detail_commentcount);
-        linearLayout = (LinearLayout) findViewById(R.id.goods_comment_layout);
+        relativeLayout = (RelativeLayout) findViewById(R.id.goods_comment_layout);
         backImageView = (ImageView) findViewById(R.id.goods_detail_back);
         mButton = (Button) findViewById(R.id.goods_detail_carbutton);
         mConsultButton = (RadioButton) findViewById(R.id.goods_detail_radio_consult);
@@ -123,7 +123,7 @@ public class GoodDetailActivity extends AppCompatActivity {
 
     private void initListener() {
         //对评论区域监听
-        linearLayout.setOnClickListener(new View.OnClickListener() {
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GoodDetailActivity.this, CommentActivity.class);
@@ -191,6 +191,13 @@ public class GoodDetailActivity extends AppCompatActivity {
             switch (i) {
                 case R.id.goods_detail_radio_consult:
                     //联系我
+                    if (Application.isLogin){
+                        Intent newintent = new Intent(GoodDetailActivity.this,CustomerServiceActivity.class);
+                        startActivity(newintent);
+                    }else {
+                        Toast.makeText(GoodDetailActivity.this,"当前未登录，请先登录！",Toast.LENGTH_LONG).show();
+                    }
+
                     break;
                 case R.id.goods_detail_radio_cart:
                     //跳转到购物车

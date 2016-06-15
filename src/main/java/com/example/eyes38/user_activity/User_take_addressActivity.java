@@ -8,10 +8,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.eyes38.R;
@@ -56,14 +56,18 @@ public class User_take_addressActivity extends AppCompatActivity {
     private String header;//请求头信息
     private SpinnerSelect mSpinnerSelect;//记录选中的spinner的位置
     private Toast toast;//用于快速更新的toast
+    RelativeLayout addressnone;
 
     Handler mmHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
-                case User_receiptaddressAdapter.DeleteMethod:
+                case User_receiptaddressAdapter.SETMODIFYMethod:
                     refresh();
+                    break;
+                case User_receiptaddressAdapter.FINISHTIHE:
+                    finish();
                     break;
             }
             super.handleMessage(msg);
@@ -80,7 +84,8 @@ public class User_take_addressActivity extends AppCompatActivity {
         //初始化数据并显示
         refresh();
         //下拉刷新的监听
-        listener();
+         listener();
+
     }
 
     private void listener() {
@@ -136,6 +141,7 @@ public class User_take_addressActivity extends AppCompatActivity {
         mRequestQueue.add(what, request, mOnResponseListener);
     }
 
+
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
@@ -161,6 +167,7 @@ public class User_take_addressActivity extends AppCompatActivity {
                         String district_id = jsonObject.getString("district_id");
                         String maddress_id = jsonObject.getString("address_id");
                         String mcustomer_id = jsonObject.getString("customer_id");
+                        int zone_id = jsonObject.getInt("zone_id");
                         receiptAddress.setDistrict_id(district_id);
                         receiptAddress.setFirstname(firstname);
                         receiptAddress.setMobile(mobile);
@@ -168,21 +175,32 @@ public class User_take_addressActivity extends AppCompatActivity {
                         receiptAddress.setDistrict(district);
                         receiptAddress.setAddress_id(maddress_id);
                         receiptAddress.setCustomer_id(mcustomer_id);
+                        receiptAddress.setZone_id(zone_id);
                         if (address_id.equals(maddress_id)) {
                             mListView.add(0, receiptAddress);
                         } else {
                             mListView.add(receiptAddress);
                         }
                     }
-                    mAdapter = new User_receiptaddressAdapter(mContext, mListView,header,mmHandler);
-                    add_address_list.setAdapter(mAdapter);
+
+
+                    if (mListView.size() == 0) {
+                        //没有收货地址
+                        addressnone.setVisibility(View.VISIBLE);
+                        ptrFrame.setVisibility(View.GONE);
+                    } else {
+                        //有收货地址
+                        addressnone.setVisibility(View.GONE);
+                        ptrFrame.setVisibility(View.VISIBLE);
+                        mAdapter = new User_receiptaddressAdapter(mContext, mListView, header, mmHandler);
+                        add_address_list.setAdapter(mAdapter);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (what == mjudge) {
                 //spinner获取数据
                 String result = response.get();
-                Log.e("kankanres", result);
                 try {
                     //解析第一层
                     JSONObject object = new JSONObject(result);
@@ -206,22 +224,10 @@ public class User_take_addressActivity extends AppCompatActivity {
         }
     };
 
-//    private void adjustViews() {
-//        int count=add_address_list.getCount();//count表示listview当前数据的个数
-//        if (count==0){
-//            //表示当前没有地址，则显示空页面
-//            add_address_header.setVisibility(View.VISIBLE);
-//        }else {
-//            //表示当前显示的有地址，则显示listview
-//            add_address_footer.setVisibility(View.VISIBLE);
-//        }
-//    }
-
     private void initViews() {
         ptrFrame = (PtrFrameLayout) findViewById(R.id.user_take_address_ptr);
         add_address_list = (ListView) findViewById(R.id.add_address_list);
-        //  add_address_footer= (LinearLayout) findViewById(R.id.add_address_header);
-        // add_address_header= (LinearLayout) findViewById(R.id.add_address_footer);
+        addressnone = (RelativeLayout) findViewById(R.id.address_none);
     }
 
     //尼玛还是返回键
@@ -232,6 +238,7 @@ public class User_take_addressActivity extends AppCompatActivity {
     //go go去新建收货地址
     public void user_toaddAddress(View view) {
         Intent intent = new Intent(User_take_addressActivity.this, User_addAddressActivity.class);
+        intent.putExtra("flag", "address");
         startActivity(intent);
         finish();
     }

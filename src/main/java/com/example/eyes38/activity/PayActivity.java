@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -304,7 +303,6 @@ public class PayActivity extends AppCompatActivity {
         double goodsPrice = 0;
         for (int i = 0; i < mList.size(); i++) {
             goodsPrice += mList.get(i).getPrice() * mList.get(i).getQuantity();
-            Log.e("传过来的值",goodsPrice+" "+mList.get(i).getPrice()+"   "+mList.get(i).getQuantity());
         }
         return goodsPrice;
     }
