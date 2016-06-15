@@ -105,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //获取intent
-
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

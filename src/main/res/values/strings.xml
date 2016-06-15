@@ -84,5 +84,6 @@
     <string name="address_manager">收货地址管理</string>
     <string name="pull_up_load">上拉加载数据</string>
     <string name="comment_add_hint">想说些什么？</string>
+    <string name="customer_service">客服</string>
 
 </resources>

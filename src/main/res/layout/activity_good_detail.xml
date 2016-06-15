@@ -38,6 +38,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <ImageView
+                    android:layout_marginTop="2dp"
                     android:id="@+id/goods_detail_pic"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
@@ -93,17 +94,18 @@
                     android:layout_height="10dp"
                     android:background="@color/background"/>
                 <!--评论区域-->
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/goods_comment_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1">
+                        android:layout_marginTop="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -122,10 +124,11 @@
                     </LinearLayout>
                     <!--右边箭头-->
                     <ImageView
+                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/arrow_right"/>
-                </LinearLayout>
+                </RelativeLayout>
                 <!--分割线-->
                 <TextView
                     android:layout_width="match_parent"

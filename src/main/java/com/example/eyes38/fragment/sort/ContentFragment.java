@@ -46,6 +46,7 @@ public class ContentFragment extends Fragment {
 
     private final static int mWhat = 520;
     private PtrClassicFrameLayout ptrFrame;
+    private RequestQueue mRequestQueue;
 
     @Nullable
     @Override
@@ -77,6 +78,7 @@ public class ContentFragment extends Fragment {
                 frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        getHttpMedthod();
                         ptrFrame.refreshComplete();
                     }
                 },1800);
@@ -93,7 +95,7 @@ public class ContentFragment extends Fragment {
     }
 
     private void initData() {
-        mList = new ArrayList<>();
+        mRequestQueue = NoHttp.newRequestQueue();
         getHttpMedthod();
 
         /*mmList = new ArrayList<>();
@@ -142,7 +144,6 @@ public class ContentFragment extends Fragment {
     }
 
     private void getHttpMedthod() {
-        RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
@@ -168,6 +169,7 @@ public class ContentFragment extends Fragment {
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray array = object.getJSONArray("data");
+                    mList = new ArrayList<>();
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
                         int parent_id = jsonObject.getInt("parent_id");

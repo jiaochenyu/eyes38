@@ -44,11 +44,11 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
 public class CommentActivity extends AppCompatActivity {
-    public static final int ALL = 1;
-    public static final int GREAT = 2;
-    public static final int MIDDLE = 3;
-    public static final int BAD = 4;
-    public static final int COMMITCOMMENT = 200;
+    public static final int ALL = 100;
+    public static final int GREAT = 200;
+    public static final int MIDDLE = 300;
+    public static final int BAD = 400;
+    public static final int COMMITCOMMENT = 500;
     private RecyclerView mRecyclerView;
     private List<Comments> mList;
     private LinearLayoutManager linearLayoutManager;
@@ -65,6 +65,8 @@ public class CommentActivity extends AppCompatActivity {
     private int record = ALL;
     private Toast mToast;
     private Goods goods;
+    private Comment_Adapter comment_adapter;
+    private String Authorization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +148,7 @@ public class CommentActivity extends AppCompatActivity {
         String password = sharedPreferences.getString("PASSWORD", "");
         String header = username + "" + password;
         String newHeader = new String(Base64.encode(header.getBytes(), Base64.DEFAULT));//加密后的header
-        String Authorization = "Basic " + newHeader;
+        Authorization = "Basic " + newHeader;
         int author_id = Integer.parseInt(sharedPreferences.getString("CUSTOMER_ID", ""));
         String author_type = "customer";
         String comment = comment1;
@@ -208,10 +210,21 @@ public class CommentActivity extends AppCompatActivity {
             Collections.reverse(mList);
             noneComment.setVisibility(View.GONE);
             ptrFrame.setVisibility(View.VISIBLE);
-            Comment_Adapter comment_adapter = new Comment_Adapter(mList, this);
+            comment_adapter = new Comment_Adapter(mList, this);
             mRecyclerView.setAdapter(comment_adapter);
+            getHeaderImage();
         }
 
+    }
+
+    private void getHeaderImage() {
+        for (int i = 0; i < mList.size(); i++) {
+            Comments c = mList.get(i);
+            String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/"+c.getAuthor_id();
+            Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+            mRequest.addHeader("Authorization", Authorization);
+            mRequestQueue.add(c.getComment_id(), mRequest, mOnResponseListener);
+        }
     }
 
     private void initData() {
@@ -274,9 +287,11 @@ public class CommentActivity extends AppCompatActivity {
                         String comment = jsonObject.getString("comment");
                         String create_date = jsonObject.getString("create_date");
                         int store_id = jsonObject.getInt("store_id");
-                        Comments comments = new Comments(comment_id,item_id,path,author_name,rating,comment,create_date,store_id);
+                        int author_id = jsonObject.getInt("author_id");
+                        Comments comments = new Comments(comment_id,item_id,path,author_name,rating,comment,create_date,store_id,author_id);
                         mList.add(comments);
                     }
+                    initAdapter();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -298,10 +313,12 @@ public class CommentActivity extends AppCompatActivity {
                             String comment = jsonObject.getString("comment");
                             String create_date = jsonObject.getString("create_date");
                             int store_id = jsonObject.getInt("store_id");
-                            Comments comments = new Comments(comment_id,item_id,path,author_name,rating,comment,create_date,store_id);
+                            int author_id = jsonObject.getInt("author_id");
+                            Comments comments = new Comments(comment_id,item_id,path,author_name,rating,comment,create_date,store_id,author_id);
                             mList.add(comments);
                         }
                     }
+                    initAdapter();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -323,10 +340,12 @@ public class CommentActivity extends AppCompatActivity {
                             String comment = jsonObject.getString("comment");
                             String create_date = jsonObject.getString("create_date");
                             int store_id = jsonObject.getInt("store_id");
-                            Comments comments = new Comments(comment_id,item_id,path,author_name,rating,comment,create_date,store_id);
+                            int author_id = jsonObject.getInt("author_id");
+                            Comments comments = new Comments(comment_id,item_id,path,author_name,rating,comment,create_date,store_id,author_id);
                             mList.add(comments);
                         }
                     }
+                    initAdapter();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -348,10 +367,12 @@ public class CommentActivity extends AppCompatActivity {
                             String comment = jsonObject.getString("comment");
                             String create_date = jsonObject.getString("create_date");
                             int store_id = jsonObject.getInt("store_id");
-                            Comments comments = new Comments(comment_id,item_id,path,author_name,rating,comment,create_date,store_id);
+                            int author_id = jsonObject.getInt("author_id");
+                            Comments comments = new Comments(comment_id,item_id,path,author_name,rating,comment,create_date,store_id,author_id);
                             mList.add(comments);
                         }
                     }
+                    initAdapter();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -372,7 +393,22 @@ public class CommentActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            initAdapter();
+            for (int i = 0; i < mList.size(); i++) {
+                if (what == mList.get(i).getComment_id()){
+                    String result = response.get();
+                    try {
+                        JSONObject object = new JSONObject(result);
+                        JSONObject object1 = object.getJSONObject("data");
+                        String path = object1.getString("image");
+                        if (!path.equals("null")){
+                            mList.get(i).setPath(path);
+                            comment_adapter.notifyItemChanged(i);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
 
         @Override

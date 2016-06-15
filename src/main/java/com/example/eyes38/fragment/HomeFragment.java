@@ -77,9 +77,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //封装的spinner的实现类
     HomeSpinnerView mHomeSpinnerView;
     ImageView home_fangdajing;
-    ImageView home_xptjgengduo;
     ImageView home_yzcpgengduo;
-    private int mWhat = 123;
     private int mWhatspinner = 124;
     private int mWhatlunbo = 125;
     private int mWhatfoursort = 126;
@@ -147,18 +145,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 return true;
             }
         });
-        //caculate(inflater);
         refresh();
         return view;
     }
-
-    private void caculate(LayoutInflater inflater) {
-//        inflater = LayoutInflater.from(mMainActivity);
-//        RelativeLayout relativeLayout ;
-//        relativeLayout= (RelativeLayout) view.findViewById(R.id.cartitle);
-
-    }
-
 
     private void listener() {
         LoadMoreFooterView header = new LoadMoreFooterView(view.getContext());

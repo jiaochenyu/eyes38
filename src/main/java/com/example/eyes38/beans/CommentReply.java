@@ -13,6 +13,7 @@ public class CommentReply implements Serializable {
      * path 头像地址
      * comment 回复内容
      * create_date 评论时间
+     * author_id 评论人id
      */
     private int id;
     private int comment_id;
@@ -20,16 +21,26 @@ public class CommentReply implements Serializable {
     private String path;
     private String comment;
     private String create_date;
+    private int author_id;
     public CommentReply() {
     }
 
-    public CommentReply(int id, int comment_id, String author_name, String path, String comment, String create_date) {
+    public CommentReply(int id, int comment_id, String author_name, String path, String comment, String create_date,int author_id) {
         this.id = id;
         this.comment_id = comment_id;
         this.author_name = author_name;
         this.path = path;
         this.comment = comment;
         this.create_date = create_date;
+        this.author_id = author_id;
+    }
+
+    public int getAuthor_id() {
+        return author_id;
+    }
+
+    public void setAuthor_id(int author_id) {
+        this.author_id = author_id;
     }
 
     public int getId() {
