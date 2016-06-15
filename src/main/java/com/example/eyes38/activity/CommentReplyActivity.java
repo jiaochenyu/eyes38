@@ -68,6 +68,7 @@ public class CommentReplyActivity extends AppCompatActivity {
         //获取回复
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
         Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        mRequest.setCacheMode(CacheMode.DEFAULT);
         int item_id = mComments.getItem_id();
         int parent_id = mComments.getComment_id();
         mRequest.add("item_id", item_id);
@@ -194,6 +195,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                 int active = 1;
                 String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
                 Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.POST);
+                mRequest.setCacheMode(CacheMode.DEFAULT);
                 //添加头
                 mRequest.addHeader("Authorization", Authorization);
                 mRequest.add("author_id", author_id);
@@ -235,6 +237,7 @@ public class CommentReplyActivity extends AppCompatActivity {
             CommentReply cr = mList.get(i);
             String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/"+cr.getAuthor_id();
             Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+            mRequest.setCacheMode(CacheMode.DEFAULT);
             mRequest.addHeader("Authorization", Authorization);
             mRequestQueue.add(cr.getComment_id(), mRequest, mOnResponseListener);
         }

@@ -174,6 +174,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         RequestQueue mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
         Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        mRequest.setCacheMode(CacheMode.DEFAULT);
         //添加属性，筛选评论
         mRequest.add("item_id", goods.getGoods_id());
         mRequest.add("parent_id", 0);
@@ -264,6 +265,7 @@ public class GoodDetailActivity extends AppCompatActivity {
     private void getCartNoHttp() {
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.setCacheMode(CacheMode.DEFAULT);
         request.addHeader("Authorization", authorization());
         mRequestQueue.add(CARTGOODSCOUNT, request, mOnResponseListener);
     }
@@ -305,6 +307,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         try {
             String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + shoppingCartId;
             Request<String> request = NoHttp.createStringRequest(url, RequestMethod.PUT);
+            request.setCacheMode(CacheMode.DEFAULT);
             request.addHeader("Authorization", authorization()); // 添加请求头
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("quantity", quantity);
@@ -321,6 +324,7 @@ public class GoodDetailActivity extends AppCompatActivity {
         //增加商品接口
         String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.setCacheMode(CacheMode.DEFAULT);
         request.addHeader("Authorization", authorization());
         request.add("extension1", goods.getExtension());
         request.add("price", goods.getGoods_platform_price());

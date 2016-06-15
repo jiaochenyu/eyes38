@@ -160,6 +160,7 @@ public class CommentActivity extends AppCompatActivity {
         int active = 1;
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
         Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.POST);
+        mRequest.setCacheMode(CacheMode.DEFAULT);
         //添加头
         mRequest.addHeader("Authorization", Authorization);
         mRequest.add("author_id", author_id);

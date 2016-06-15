@@ -104,7 +104,7 @@ public class SortFragment extends Fragment {
         String url = "http://38eye.test.ilexnet.com/api/mobile/category/list";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         //request.setRequestFailedReadCache(true);
-        request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
+        request.setCacheMode(CacheMode.DEFAULT);
         request.add("active",1);
         request.add("parent_id",0);
         mRequestQueue.add(mWhat, request, mOnResponseListener);

@@ -148,6 +148,7 @@ public class ContentFragment extends Fragment {
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
         //request.setRequestFailedReadCache(true);
+        request.setCacheMode(CacheMode.DEFAULT);
         request.add("active",1);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
