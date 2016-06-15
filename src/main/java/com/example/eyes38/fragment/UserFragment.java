@@ -10,7 +10,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -177,12 +176,10 @@ public class UserFragment extends Fragment {
         public void onSucceed(int what, Response<String> response) {
             if (what == INWHAT1) {
                 String result = response.get();
-                Log.e("result", result + "");
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONObject object1 = object.getJSONObject("data");
                     String unPayedOrders = object1.getString("unPayedOrdersCount");
-                    Log.e("ggg", unPayedOrders);
                     user_pay.setText("待付款(" + unPayedOrders + ")");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -213,7 +210,7 @@ public class UserFragment extends Fragment {
                     JSONObject object = new JSONObject(result);
                     JSONObject object1 = object.getJSONObject("data");
                     String aftersaleOrdersCount = object1.getString("aftersaleOrdersCount");
-                    user_back.setText("待付款(" + aftersaleOrdersCount + ")");
+                    user_back.setText("待退货(" + aftersaleOrdersCount + ")");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

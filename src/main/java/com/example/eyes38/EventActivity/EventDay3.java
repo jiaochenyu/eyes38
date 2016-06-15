@@ -102,7 +102,6 @@ public class EventDay3 extends Fragment {
         mList = new ArrayList<>();
         mEventRecycleViewAdapter = new EventRecycleViewAdapter(mList, getActivity());
         mRecyclerView.setAdapter(mEventRecycleViewAdapter);
-
         //获取district id
         Intent intent = getActivity().getIntent();
         districtID = intent.getIntExtra("values", -1);
@@ -164,6 +163,7 @@ public class EventDay3 extends Fragment {
     }
 
     private void initListener() {
+
         mEventRecycleViewAdapter.setOnRecyclerViewItemClickListener(new EventRecycleViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void OnItemClick(View view, Goods goods) {
@@ -172,6 +172,7 @@ public class EventDay3 extends Fragment {
                 bundle.putSerializable("values", goods);
                 intent.putExtra("values", bundle);
                 getActivity().startActivity(intent);
+
             }
         });
     }
@@ -255,6 +256,8 @@ public class EventDay3 extends Fragment {
                     mEventRecycleViewAdapter = new EventRecycleViewAdapter(mList, getActivity());
                     mRecyclerView.setAdapter(mEventRecycleViewAdapter);
                     mEventRecycleViewAdapter.notifyDataSetChanged();
+
+                    initListener();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -298,6 +301,7 @@ public class EventDay3 extends Fragment {
                             mList.add(goods);
                         }
                         mEventRecycleViewAdapter.notifyDataSetChanged();
+                        initListener();
                     } else {
                         isLoad = false;
                     }

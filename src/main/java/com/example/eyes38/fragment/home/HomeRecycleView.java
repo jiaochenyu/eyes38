@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.eyes38.activity.GoodDetailActivity;
@@ -123,11 +122,6 @@ public class HomeRecycleView {
                                 }
 
                                 hc = new HomeContent(zhuantiname, mmList);
-                                if (mmList.size() == 0) {
-                                    Log.e("看看mmlist里有什么", zhuantiname);
-                                } else {
-                                    Log.e("看看mmlist里有什么", zhuantiname + mmList.get(0).toString());
-                                }
                                 mList.add(hc);
                             }
                         }

@@ -55,7 +55,6 @@ public class HomeSpinnerView implements AdapterView.OnItemSelectedListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case FINSH:
-                    Log.e("handler", "hhhhhhh");
                     //初始化适配器
                     initAdapter();
                     //这是监听

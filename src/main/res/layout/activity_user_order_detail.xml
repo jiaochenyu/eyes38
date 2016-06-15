@@ -39,7 +39,9 @@
                 android:padding="5dp"
                 android:src="@mipmap/user_order_detail"/>
         </LinearLayout>
-        <TextView
+<<<<<<< HEAD
+=======
+     <!--   <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
             android:text="@string/orders_detail" />
@@ -49,9 +51,9 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@mipmap/user_house"/>
->>>>>>> ea04c136c8bf22ee6b9d142d273e372a178a1f53
+            android:src="@mipmap/user_house"/>-->
 
+>>>>>>> 7c73afd93024b382328b4b412d024df52741753b
     </RelativeLayout>
     <!-- 内容 -->
     <ScrollView

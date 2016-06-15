@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -807,7 +806,6 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
         mList.remove(getPosition());
         notifyDataSetChanged();
         //判断购物车是否为空如果为空显示空页面
-        Log.e("mlist大小",mList.size()+"");
         if (mList.size() == 1) {
             //通知cartFragment 显示空界面。
             mHandler.sendEmptyMessage(DeleteMethod);

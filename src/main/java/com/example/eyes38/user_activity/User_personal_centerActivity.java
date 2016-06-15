@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,10 +193,10 @@ public class User_personal_centerActivity extends AppCompatActivity {
                             .bitmapTransform(new CropCircleTransformation(User_personal_centerActivity.this))
                             .error(R.mipmap.user_photo)
                             .into(image_button);
-                    Log.e("image下拉的uri", image_uri);
+<<<<<<< HEAD
+=======
                     if (image_uri.equals("")) {
                         image_button.setImageResource(R.mipmap.user_photo);
-                        Log.e("TAGm", "1");
                     } else if (!image_uri.equals("")){
                         //如何通过uri找到本地图片呢,草 ，不开心  真心不会
                         image_button.setImageResource(R.mipmap.user_photo);
@@ -208,8 +207,9 @@ public class User_personal_centerActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Log.e("TAGm", "2");*/
+                     */
                     }
+>>>>>>> 7c73afd93024b382328b4b412d024df52741753b
                     //用户名
                     person_center_tel.setText(username);
                     person_center_tel.setTextSize(15);

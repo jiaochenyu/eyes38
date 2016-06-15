@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.User_order_orderAdapter;
 import com.example.eyes38.beans.UserOrderBean;
 import com.example.eyes38.beans.UserOrderGoods;
-import com.example.eyes38.fragment.HomeFragment;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -196,7 +194,6 @@ public class User_order_detailActivity extends AppCompatActivity {
         user_order_detail_person.setText(mUserOrderBean.getShipping_name());
         //设置收货人手机号
         String mobile = mUserOrderBean.getShipping_mobile();
-        Log.e("mobile",mobile);
         String mobile_noe = mobile.substring(0, 3);
         String mobile_two = mobile.substring(mobile.length()-4, mobile.length());
         user_order_detail_tel.setText(mobile_noe + "****" + mobile_two);

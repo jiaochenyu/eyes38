@@ -5,12 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +18,6 @@ import android.widget.Toast;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.UserOrderBean;
 import com.example.eyes38.beans.UserOrderGoods;
-import com.example.eyes38.fragment.user.AllFragment;
-import com.example.eyes38.fragment.user.PayFragment;
 import com.example.eyes38.user_activity.User_order_detailActivity;
 import com.example.eyes38.utils.CartDialogDelete;
 import com.yolanda.nohttp.NoHttp;
@@ -79,7 +74,6 @@ public class User_order_AllAdapter extends RecyclerView.Adapter<User_order_AllAd
             public void onClick(View v) {
                 setPosition = position;
                 mViewHolder=holder;
-                Log.e("setPosition", setPosition + "");
                 showDeleteDialog();//点击订单取消
 
             }
@@ -129,7 +123,6 @@ public class User_order_AllAdapter extends RecyclerView.Adapter<User_order_AllAd
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();//先隐藏此窗口
                 String order_id = mList.get(setPosition).getOrder_id();
-                Log.e("order_id", order_id + "");
                 //进行删除网络请求
                 getDeleteNoHttpMethod(order_id);
             }

@@ -1,5 +1,6 @@
 package com.example.eyes38;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -21,7 +22,15 @@ import com.example.eyes38.fragment.SortFragment;
 import com.example.eyes38.fragment.UserFragment;
 import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.utils.CartBadgeView;
+import com.example.eyes38.utils.MessageSQLiteHelp;
 import com.example.eyes38.utils.NetworkStateService;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import cn.jpush.android.api.BasicPushNotificationBuilder;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int USER = 4;
     //记录点击的是那一页的编号
     public static int record = HOME;
+    private MessageSQLiteHelp myHelps;
     private RadioGroup mRadioGroup;
     private HomeFragment mHomeFragment;
     private SortFragment mSortFragment;
@@ -80,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //开启极光推送 和消息数据库
+        jPushMethod();
         //注册网络监听广播的服务
         registerNetService();
 //        registerNet();
@@ -87,6 +99,25 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initData();
         initListeners();
+    }
+
+    private void jPushMethod() {
+        myHelps = new MessageSQLiteHelp(this);
+        JPushInterface.init(this);
+
+        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(MainActivity.this);
+        builder.statusBarDrawable = R.mipmap.logos;
+        builder.notificationDefaults = Notification.DEFAULT_VIBRATE;//震动
+        builder.notificationFlags = Notification.FLAG_SHOW_LIGHTS; //闪烁灯
+        JPushInterface.setPushNotificationBuilder(1, builder);
+        Set<String> sets = new HashSet<>();
+        sets.add("38eyes");
+        JPushInterface.setTags(this, sets, new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+            }
+        });
+
     }
 
     private void registerNetService() {
@@ -109,12 +140,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Intent intentCart = getIntent();
-        record = intentCart.getIntExtra("cart",1);
+        record = intentCart.getIntExtra("cart", 1);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        //设置徽章 样式
+            Boolean login_state = sp.getBoolean("STATE", false);
+            if (login_state) {
+                mCartBadgeView.hide();
+            } else {
+                if (getCartGoodsCount() == 0) {
+                    mCartBadgeView.hide();
+                } else {
+                    mCartBadgeView.show();
+                }
+            }
         /**
          * 记录上一次点击的页面编号
          */

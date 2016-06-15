@@ -57,7 +57,6 @@ public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.mTextView.setText(mList.get(position).getContent());
         Glide.with(mContext).load(mList.get(position).getPath()).into(holder.mImageView);
-//        Log.e("jqchen",mList.get(position));
 
         //将对象保存在itemview的tag中，以便点击时进行获取
         holder.itemView.setTag(mList.get(position));
