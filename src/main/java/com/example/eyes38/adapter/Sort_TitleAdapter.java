@@ -63,9 +63,11 @@ public class Sort_TitleAdapter extends RecyclerView.Adapter<Sort_TitleAdapter.My
         //如果选中，背景颜色修改为content的背景颜色
         if (mList.get(position).isSeltcted()){
             //选中
+            holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.text));
             holder.itemView.setBackgroundResource(R.color.sort_content_background);
         }else {
             //未选中
+            holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.them_color));
             holder.itemView.setBackgroundResource(R.color.sort_title_background);
         }
 

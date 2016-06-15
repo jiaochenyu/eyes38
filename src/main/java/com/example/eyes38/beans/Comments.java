@@ -15,6 +15,7 @@ public class Comments implements Serializable{
      * comment 内容
      * create_date 评论时间
      * store_id 商品的存储id
+     * author_id 评论人id
      */
     private int comment_id;
     private int item_id;
@@ -24,8 +25,9 @@ public class Comments implements Serializable{
     private String comment;
     private String create_date;
     private int store_id;
+    private int author_id;
 
-    public Comments(int comment_id, int item_id, String path, String author_name, int rating, String comment, String create_date, int store_id) {
+    public Comments(int comment_id, int item_id, String path, String author_name, int rating, String comment, String create_date, int store_id,int author_id) {
         this.comment_id = comment_id;
         this.item_id = item_id;
         this.path = path;
@@ -34,6 +36,15 @@ public class Comments implements Serializable{
         this.comment = comment;
         this.create_date = create_date;
         this.store_id = store_id;
+        this.author_id = author_id;
+    }
+
+    public int getAuthor_id() {
+        return author_id;
+    }
+
+    public void setAuthor_id(int author_id) {
+        this.author_id = author_id;
     }
 
     public int getComment_id() {

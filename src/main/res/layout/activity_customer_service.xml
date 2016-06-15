@@ -4,56 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.eyes38.activity.CommentReplyActivity">
-    <!--商品评价回复界面-->
-    <!--顶部标题-->
+    tools:context=".activity.CustomerServiceActivity">
+
     <RelativeLayout
-        android:id="@+id/sorttitle"
-        android:layout_width="match_parent"
+        android:id="@+id/usertitle"
         android:layout_height="40dp"
+        android:layout_width="match_parent"
         android:background="@color/topical">
-        <!--sort_sort_title分类中标题-->
+
         <ImageView
-            android:id="@+id/goods_detail_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="5dp"
             android:onClick="back"
+            android:padding="5dp"
             android:src="@mipmap/back" />
 
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
-            android:text="@string/goods_comment_reply" />
+            android:text="@string/customer_service" />
     </RelativeLayout>
-    <!-- 内容 -->
-    <LinearLayout style="@style/pagecontent">
+
+    <RelativeLayout
+       style="@style/pagecontent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/comment_reply_recyclerview"
+            android:id="@+id/servicecustomer_recyclerview"
+            android:paddingTop="5dp"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@color/comment_background"/>
+            android:layout_height="match_parent"
+            android:background="@color/sort_title_background" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_alignBottom="@id/servicecustomer_recyclerview"
+            android:padding="5dp">
+
             <EditText
-                android:id="@+id/comment_reply_content_edittext"
-                android:layout_weight="6"
+                android:id="@+id/servicecustomer_content"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/comment_border"
-                android:hint="想说些什么呀~"/>
-            <Button
-                android:id="@+id/comment_reply_send"
                 android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:background="@drawable/comment_border"
+                android:hint="@string/comment_add_hint" />
+
+            <Button
+                android:id="@+id/servicecustomer_send"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
                 android:background="@color/them_color"
-                android:textColor="@color/white"
-                android:text="发送"/>
+                android:text="发送"
+                android:textColor="@color/white" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
+
 </LinearLayout>

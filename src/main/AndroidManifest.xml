@@ -4,6 +4,7 @@
           android:versionCode="205"
           android:versionName="2.0.5">
 
+<<<<<<< HEAD
     <!--所需的权限-->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -45,6 +46,18 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 
+=======
+    <!-- 所需的权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+>>>>>>> bc5b4c46d1d8a1f13f6779271d373bf8bad55e3d
 
     <application
         android:name=".Application.Application"
@@ -97,6 +110,7 @@
             android:launchMode="singleTask"/>
         <activity
             android:name=".fragment.search.SearchActivity"
+<<<<<<< HEAD
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.GuideActivity"/>
 
@@ -104,6 +118,14 @@
         <activity android:name=".user_activity.User_order_detailActivity"/>
         <activity android:name=".activity.PaySelectActivity"/>
         <!--监听网络广播的服务-->
+=======
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.GuideActivity" />
+        <activity android:name=".activity.home.LoadActivity" />
+        <activity android:name=".user_activity.User_order_detailActivity" />
+        <activity android:name=".activity.PaySelectActivity" />
+        <!-- 监听网络广播的服务 -->
+>>>>>>> bc5b4c46d1d8a1f13f6779271d373bf8bad55e3d
 
         <service android:name=".utils.NetworkStateService">
             <intent-filter>
@@ -118,6 +140,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+<<<<<<< HEAD
 
         <!--极光推送-->
         <!-- Required SDK核心功能 -->
@@ -219,6 +242,11 @@
             android:value="cb56d2707045f378953b331c"/>
         <!-- </>值来自开发者平台取得的AppKey -->
 
+=======
+        <activity
+            android:name=".activity.CustomerServiceActivity"
+            android:windowSoftInputMode="adjustUnspecified"/>
+>>>>>>> bc5b4c46d1d8a1f13f6779271d373bf8bad55e3d
     </application>
 
 </manifest>
