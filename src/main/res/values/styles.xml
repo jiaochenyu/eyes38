@@ -246,7 +246,6 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingTop">5dp</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@drawable/bottom_text_selector</item>
     </style>
@@ -258,7 +257,6 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingTop">5dp</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#F2F2F2</item>
         <item name="android:background">@drawable/search_background</item>
@@ -305,11 +303,24 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+    <!--添加评论的dialog-->
+    <style name="comment_Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">@color/sort_title_background</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 
     <style name="comment_ratingbar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/comment_ratingbar</item>
         <item name="android:minHeight">20dp</item>
         <item name="android:maxHeight">20dp</item>
+    </style>
+
+    <style name="comment_add_ratingbar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/comment_add_ratingbar</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:maxHeight">40dp</item>
     </style>
 
     <!--评论界面导航栏属性-->
@@ -345,4 +356,13 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--小圆点的样式-->
+    <style name="dot_style">
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_height">10dp</item>
+        <item name="android:background">@drawable/dot_normal</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
 </resources>

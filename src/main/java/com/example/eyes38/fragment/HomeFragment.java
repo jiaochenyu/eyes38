@@ -9,13 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -94,9 +95,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public static final int RECYCLEFINSH = 4;
     int mCurrentItem = Integer.MAX_VALUE / 2;
     public static final int IMAGE_UPDATE = 1;
-    public static final int REFRESHTIME = 5 * 1000;
+    public static final int REFRESHTIME = 3 * 1000;
     public static final int IMAGE_CHANGED = 2;
-    private PageIndicator indicator;
+    PageIndicator mPageIndicator;//小圆点
+    Home_ad_adapter mHome_ad_adapter;//轮播图的适配器
     ImageView mImageView;
     int height;
     RelativeLayout mRelativeLayout;
@@ -104,6 +106,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ArrayList<Home_district> mCity;//城市的信息
     int district_id;
     private HomeContent hc;
+
+    private List<View> dots; // 图片标题正文的那些点
+    private List<View> dotList;
+    // 定义的五个指示点
+    private View dot0;
+    private View dot1;
+    private View dot2;
+    private View dot3;
+    private View dot4;
 
     //4个home_sort的图标和文字初始化
     private ImageView home_sort1image;
@@ -118,10 +129,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private PtrFrameLayout ptrFrame;
     private RecyclerView homerecycle;
     private ArrayAdapter<String> spinnerapapter;
-    private LinearLayout home_sort1layout;
-    private LinearLayout home_sort2layout;
-    private LinearLayout home_sort3layout;
-    private LinearLayout home_sort4layout;
+    private List<String> dataliste;//装轮播图的地址
 
 
     @Nullable
@@ -130,10 +138,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.home, null);
         mMainActivity = (MainActivity) getActivity();
         initView();
-        // caculate();
+        final ImageView celliangimageView= (ImageView) view.findViewById(R.id.home_jisuan);
+        ViewTreeObserver vto = celliangimageView.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            public boolean onPreDraw() {
+                height = celliangimageView.getMeasuredHeight();
+                int width = celliangimageView.getMeasuredWidth();
+                return true;
+            }
+        });
+        //caculate(inflater);
         refresh();
         return view;
     }
+
+    private void caculate(LayoutInflater inflater) {
+//        inflater = LayoutInflater.from(mMainActivity);
+//        RelativeLayout relativeLayout ;
+//        relativeLayout= (RelativeLayout) view.findViewById(R.id.cartitle);
+
+    }
+
 
     private void listener() {
         LoadMoreFooterView header = new LoadMoreFooterView(view.getContext());
@@ -167,8 +192,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         request.add("district_id", district_id);
         request.setCacheMode(CacheMode.DEFAULT);
         mRequestQueue.add(what, request, mOnResponseListener);
-        mRequestQueue.add(what, request, mOnResponseListener);
-
     }
 
     //ResponseListener
@@ -244,18 +267,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         String address = jsonObject.getString("image");
                         mList.add(address);
                     }
-                    mViewList = new ArrayList<View>();
-                    for (int i = 0; i < mList.size(); i++) {
-                        View view = View.inflate(mMainActivity, R.layout.home_ad_item, null);
-                        ImageView mItemIvContent = (ImageView) view.findViewById(R.id.item_iv_content);
-                        Glide.with(mMainActivity).load(mList.get(i)).into(mItemIvContent);
-                        mViewList.add(view);
-                    }
-                    Home_ad_adapter myAdapter = new Home_ad_adapter(mViewList);
-                    mViewPager.setAdapter(myAdapter);
-                    setlunboLinstener();
-                    mViewPager.setCurrentItem(2);
+                        mViewList = new ArrayList<>();
+                    for (int j = 0; j < 2; j++) {
+                        for (int i = 0; i < mList.size(); i++) {
+                            View view = View.inflate(mMainActivity, R.layout.home_ad_item, null);
+                            ImageView mItemIvContent = (ImageView) view.findViewById(R.id.item_iv_content);
+                            Glide.with(mMainActivity).load(mList.get(i)).into(mItemIvContent);
+                            mViewList.add(view);
+                            dots.get(i).setVisibility(View.VISIBLE);
+                            dotList.add(dots.get(i));
+                        }}
 
+                    Home_ad_adapter myAdapter = new Home_ad_adapter(mViewList,mMainActivity);
+                    mViewPager.setAdapter(myAdapter);
+                    mViewPager.setCurrentItem(2);
+                    mViewPager.setOnPageChangeListener(new MyPageChangeListener());
+                    // mViewPager.setOnPageChangeListener((ViewPager.OnPageChangeListener) new MyPageChangeListener());
+                    setlunboLinstener();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -333,6 +361,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         spinnerapapter.setDropDownViewResource(R.layout.home_spinner_item);
         mSpinner.setDropDownHorizontalOffset(200);
         mSpinner.setDropDownVerticalOffset(height);
+        Log.e("fawfw",height+"");
         //  4:spinner加载适配器
         mSpinner.setAdapter(spinnerapapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -389,7 +418,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initrecycleAdapter() {
-        hcAdapter = new Home_ContentAdapter(mMainActivity, mrecycleList,district_id);
+        hcAdapter = new Home_ContentAdapter(mMainActivity, mrecycleList, district_id);
         mRecyclerView.setAdapter(hcAdapter);
         LinearLayoutManager linear = new LinearLayoutManager(mMainActivity);
         mRecyclerView.setLayoutManager(linear);
@@ -424,7 +453,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     //初始化视图
     private void initView() {
-        indicator = (PageIndicator) view.findViewById(R.id.home_indicator);
+        init();
+        dataliste=new ArrayList<>();
+        dataliste.add("http://hz-ifs.ilexnet.com/eyes38/水果.jpg");
+        dataliste.add("http://hz-ifs.ilexnet.com/eyes38/蔬菜3.png");
+        mViewList = new ArrayList<View>();
         ptrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.home_content_ptr);
         mViewPager = (ViewPager) view.findViewById(R.id.main_ad_show);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
@@ -432,24 +465,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mImageView = (ImageView) view.findViewById(R.id.home_jisuan);
         home_fangdajing = (ImageView) view.findViewById(R.id.home_fangdajing);
         home_fangdajing.setOnClickListener(this);
-        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.cartitle);
+        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.home_cartitle);
         home_yzcpgengduo = (ImageView) view.findViewById(R.id.home_yzcpgengduo);
-        home_sort1layout = (LinearLayout) view.findViewById(R.id.home_sort1layout);
-        home_sort1layout.setOnClickListener(this);
         home_sort1image = (ImageView) view.findViewById(R.id.home_sort1image);
+        home_sort1image.setOnClickListener(this);
         home_sort1text = (TextView) view.findViewById(R.id.home_sort1text);
-        home_sort2layout = (LinearLayout) view.findViewById(R.id.home_sort2layout);
-        home_sort2layout.setOnClickListener(this);
         home_sort2image = (ImageView) view.findViewById(R.id.home_sort2image);
+        home_sort2image.setOnClickListener(this);
         home_sort2text = (TextView) view.findViewById(R.id.home_sort2text);
-        home_sort3layout = (LinearLayout) view.findViewById(R.id.home_sort3layout);
-        home_sort3layout.setOnClickListener(this);
         home_sort3image = (ImageView) view.findViewById(R.id.home_sort3image);
+        home_sort3image.setOnClickListener(this);
         home_sort3text = (TextView) view.findViewById(R.id.home_sort3text);
-        home_sort4layout = (LinearLayout) view.findViewById(R.id.home_sort4layout);
-        home_sort4layout.setOnClickListener(this);
         home_sort4image = (ImageView) view.findViewById(R.id.home_sort4image);
+        home_sort4image.setOnClickListener(this);
         home_sort4text = (TextView) view.findViewById(R.id.home_sort4text);
+    }
+
+    private void init() {
+        dots = new ArrayList<View>();
+        dotList = new ArrayList<View>();
+        dot0 = view.findViewById(R.id.home_dot0);
+        dot1 = view.findViewById(R.id.home_dot1);
+        dot2 = view.findViewById(R.id.home_dot2);
+        dot3 = view.findViewById(R.id.home_dot3);
+        dot4 = view.findViewById(R.id.home_dot4);
+        dots.add(dot0);
+        dots.add(dot1);
+        dots.add(dot2);
+        dots.add(dot3);
+        dots.add(dot4);
     }
 
     @Override
@@ -466,7 +510,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getContext(), SearchActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.home_sort1layout:
+            case R.id.home_sort1image:
                 Intent intent1 = new Intent(mMainActivity, SortMenuActivity.class);
                 Bundle bundle = new Bundle();
                 SortContentContent scc = new SortContentContent(1, "水果", null);
@@ -474,7 +518,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 intent1.putExtra("values", bundle);
                 startActivity(intent1);
                 break;
-            case R.id.home_sort2layout:
+            case R.id.home_sort2image:
                 Intent intent2 = new Intent(mMainActivity, SortMenuActivity.class);
                 Bundle bundle2 = new Bundle();
                 SortContentContent scc2 = new SortContentContent(2, "鲜肉", null);
@@ -482,7 +526,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 intent2.putExtra("values", bundle2);
                 startActivity(intent2);
                 break;
-            case R.id.home_sort3layout:
+            case R.id.home_sort3image:
                 Intent intent3 = new Intent(mMainActivity, SortMenuActivity.class);
                 Bundle bundle3 = new Bundle();
                 SortContentContent scc3 = new SortContentContent(3, "水产", null);
@@ -490,7 +534,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 intent3.putExtra("values", bundle3);
                 startActivity(intent3);
                 break;
-            case R.id.home_sort4layout:
+            case R.id.home_sort4image:
                 Intent intent4 = new Intent(mMainActivity, SortMenuActivity.class);
                 Bundle bundle4 = new Bundle();
                 SortContentContent scc4 = new SortContentContent(4, "水产", null);
@@ -505,20 +549,71 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         //获取spinner的数据并实现
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/sell-district/list", mWhatspinner);
         //获取轮播图的数据并实现,最新接口没数据,用的测试接口的数据
+       getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/article-api/banner-images?code=app_home_banner", mWhatlunbo);
+        //teste(dataliste);
+        //获取四大类的数据并实现
+         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/home-category/list", mWhatfoursort);
+        //获取recycleView的数据并实现
+         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mWhatrecycle);
+         listener();
+    }
+//
+//    private void teste(List<String> datalist) {
+//        for (int j = 0; j < 2; j++) {
+//            for (int i = 0; i < datalist.size(); i++) {
+//                View view = View.inflate(mMainActivity, R.layout.home_ad_item, null);
+//                ImageView mItemIvContent = (ImageView) view.findViewById(R.id.item_iv_content);
+//                Glide.with(mMainActivity).load(datalist.get(i)).into(mItemIvContent);
+//                mViewList.add(view);
+//                dots.get(i).setVisibility(View.VISIBLE);
+//                dotList.add(dots.get(i));
+//            }
+//        }
+//        Home_ad_adapter myAdapter = new Home_ad_adapter(mViewList);
+//        mViewPager.setAdapter(myAdapter);
+//        mViewPager.setCurrentItem(2);
+////        mPageIndicator = (PageIndicator) view.findViewById(R.id.home_PageIndicator);
+//       // mPageIndicator.setViewPager(mViewPager);
+//        setlunboLinstener();
+//    }
+
+    private void refresh1() {
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/article-api/banner-images?code=app_home_banner", mWhatlunbo);
+        //teste(dataliste);
         //获取四大类的数据并实现
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/home-category/list", mWhatfoursort);
         //获取recycleView的数据并实现
         getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mWhatrecycle);
         listener();
     }
+    private class MyPageChangeListener implements ViewPager.OnPageChangeListener {
 
-    private void refresh1() {
-        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/article-api/banner-images?code=app_home_banner", mWhatlunbo);
-        //获取四大类的数据并实现
-        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/home-category/list", mWhatfoursort);
-        //获取recycleView的数据并实现
-        getHttpMethod("http://38eye.test.ilexnet.com/api/mobile/special-product/listConfig", mWhatrecycle);
-        listener();
+        private int oldPosition ;
+        private int newPosition ;
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+//            newPosition=(position)%2;
+//            oldPosition=(position)%2+1;
+            if (position%2==0){
+                newPosition=0;
+                oldPosition=1;
+            }else {
+                newPosition=1;
+                oldPosition=0;
+            }
+            dots.get(oldPosition).setBackgroundResource(R.drawable.dot_normal);
+            dots.get(newPosition).setBackgroundResource(R.drawable.dot_focused);
+        }
     }
 }

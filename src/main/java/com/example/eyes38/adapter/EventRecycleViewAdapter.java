@@ -33,7 +33,6 @@ public class EventRecycleViewAdapter extends RecyclerView.Adapter<EventRecycleVi
         if (mOnRecyclerViewItemClickListener != null) {
             mOnRecyclerViewItemClickListener.OnItemClick(v, (Goods) v.getTag());
         }
-
     }
     //实现点击事件
 

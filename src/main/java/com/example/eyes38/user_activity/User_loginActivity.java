@@ -98,9 +98,14 @@ public class User_loginActivity extends AppCompatActivity {
                 //请求成功
                 String result = response.get();
                 if (result.equals("密码错误")){
+                    show("密码输入错误，请重新输入！");
                     resetEditTex();
                 }
-                else {
+                else if (result.equals("该号码未注册")){
+                    show("该号码未注册!");
+                    resetEditTex();
+                    username.setText("");
+                }else {
                     //登录成功
                     try {
                         JSONObject jsonObject = new JSONObject(result);
@@ -146,7 +151,6 @@ public class User_loginActivity extends AppCompatActivity {
 
     private void resetEditTex() {
         //密码错误
-        show("密码输入错误，请重新输入！");
         password.setText("");
     }
 

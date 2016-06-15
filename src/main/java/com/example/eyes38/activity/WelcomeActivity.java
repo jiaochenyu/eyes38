@@ -19,9 +19,6 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isFirstTime",true);
-            editor.apply();
             Intent intent = new Intent(WelcomeActivity.this, GuideActivity.class);
             startActivity(intent);
             finish();

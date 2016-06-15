@@ -11,17 +11,18 @@
     <RelativeLayout
         android:id="@+id/usertitle"
         style="@style/pagetitle">
+
         <ImageView
-            android:onClick="user_personal_center_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:onClick="user_personal_center_back"
             android:padding="5dp"
-            android:src="@mipmap/back" />
+            android:src="@mipmap/back"/>
 
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
-            android:text="@string/user_message" />
+            android:text="@string/user_message"/>
     </RelativeLayout>
 
     <!-- 内容 -->
@@ -52,37 +53,40 @@
 
                     <ImageView
                         android:id="@+id/user_person_photo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
                         android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
                         android:src="@mipmap/user_photo"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
         <!--我只是一道分割线-->
-       <TextView
-           android:background="#f2f2f2"
-           android:layout_weight="0.5"
-           android:layout_width="match_parent"
-           android:layout_height="0dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:background="#f2f2f2"/>
         <!--用户名-->
         <LinearLayout
-            android:background="#FFF"
-            style="@style/user_person_center_linear">
+            style="@style/user_person_center_linear"
+            android:background="#FFF">
+
             <TextView
-                android:text=""
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""/>
+
             <TextView
                 style="@style/user_person_center_text1"
                 android:text="用户名"/>
             <!--手机-->
             <TextView
-                android:layout_marginRight="40dp"
                 android:id="@+id/person_center_tel"
                 style="@style/user_person_center_text2"
+                android:layout_marginRight="40dp"
                 android:text=""/>
 
         </LinearLayout>
@@ -94,109 +98,120 @@
         <!--积分-->
         <LinearLayout
             style="@style/user_person_center_linear">
+
             <TextView
-                android:text=""
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""/>
+
             <TextView
-                android:text="积分"
-                style="@style/user_person_center_text1"/>
+                style="@style/user_person_center_text1"
+                android:text="积分"/>
             <!--手机-->
             <TextView
-                android:text=""
+                style="@style/user_person_center_text2"
                 android:layout_marginRight="40dp"
-                style="@style/user_person_center_text2"/>
+                android:text=""/>
 
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:text=""
-            style="@style/user_person_center_line2"/>
+            style="@style/user_person_center_line2"
+            android:text=""/>
 
         <!--姓名-->
         <LinearLayout
             style="@style/user_person_center_linear">
-            <TextView
-                android:text=""
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:text="姓名"
-                style="@style/user_person_center_text1"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""/>
+
+            <TextView
+                style="@style/user_person_center_text1"
+                android:text="姓名"/>
             <!--手机-->
             <EditText
                 android:id="@+id/person_center_name"
-                android:background="@drawable/edittext"
-                android:text=""
+                style="@style/user_person_center_text2"
                 android:layout_marginRight="40dp"
-                style="@style/user_person_center_text2"/>
+                android:background="@drawable/edittext"
+                android:padding="5dp"
+                android:text=""/>
 
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:text=""
-            style="@style/user_person_center_line2"/>
+            style="@style/user_person_center_line2"
+            android:text=""/>
 
         <!--性别-->
         <LinearLayout
             style="@style/user_person_center_linear">
+
             <TextView
-                android:text=""
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""/>
+
             <TextView
-                android:text="性别"
-                style="@style/user_person_center_text1"/>
+                style="@style/user_person_center_text1"
+                android:text="性别"/>
             <!--手机-->
             <TextView
-                android:layout_weight="15"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="15"/>
+
             <Spinner
-                android:visibility="gone"
-                android:spinnerMode="dialog"
                 android:id="@+id/spinner_sex"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
                 android:entries="@array/sex"
-                android:layout_weight="4"
+                android:gravity="center"
+                android:spinnerMode="dialog"
                 android:textAlignment="gravity"
-                android:gravity="center|right"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:visibility="gone"/>
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:text=""
-            style="@style/user_person_center_line2"/>
+            style="@style/user_person_center_line2"
+            android:text=""/>
         <!--姓名-->
         <LinearLayout
             style="@style/user_person_center_linear">
+
             <TextView
-                android:text=""
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""/>
+
             <TextView
-                android:text="邮箱"
-                style="@style/user_person_center_text1"/>
+                style="@style/user_person_center_text1"
+                android:text="邮箱"/>
             <!--手机-->
             <EditText
                 android:id="@+id/person_center_email"
-                android:background="@drawable/edittext"
-                android:text=""
+                style="@style/user_person_center_text2"
                 android:layout_marginRight="40dp"
-                style="@style/user_person_center_text2"/>
+                android:background="@drawable/edittext"
+                android:padding="5dp"
+                android:text=""/>
         </LinearLayout>
         <!--分割线-->
         <TextView
-            android:text=""
-            android:background="#f2f2f2"
-            android:layout_weight="1.5"
             android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:background="#f2f2f2"
+            android:text=""/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -204,11 +219,11 @@
             android:layout_weight="2">
 
             <TextView
-                android:text=""
-                android:background="#f2f2f2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="#f2f2f2"
+                android:text=""/>
 
             <Button
                 android:id="@+id/person_center_save"
@@ -221,19 +236,19 @@
                 android:textSize="15sp"/>
 
             <TextView
-                android:text=""
-                android:background="#f2f2f2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="#f2f2f2"
+                android:text=""/>
 
         </LinearLayout>
-        <LinearLayout
-            android:background="#F2f2f2"
-            android:layout_weight="8"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:background="#F2f2f2"/>
 
 
     </LinearLayout>

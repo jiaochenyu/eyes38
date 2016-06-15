@@ -127,7 +127,7 @@ public class GoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GoodDetailActivity.this, CommentActivity.class);
-                intent.putExtra("product_id", goods.getGoods_id());
+                intent.putExtra("goods", goods);
                 startActivity(intent);
             }
         });

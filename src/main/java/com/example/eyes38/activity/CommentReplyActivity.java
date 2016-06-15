@@ -50,6 +50,7 @@ public class CommentReplyActivity extends AppCompatActivity {
     //存储回复内容
     private String commentreply;
     private RequestQueue mRequestQueue = NoHttp.newRequestQueue();
+    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,14 +144,14 @@ public class CommentReplyActivity extends AppCompatActivity {
                 if (Application.isLogin) {
                     //当前为登录状态
                     if (commentreply.equals("")) {
-                        Toast.makeText(CommentReplyActivity.this, "内容不能为空！", Toast.LENGTH_LONG).show();
+                        show("内容不能为空");
                         resetInputComment();
                     } else {
                         sendCommentReply();
                     }
                 } else {
                     //当前为未登录状态，提示用户登录
-                    Toast.makeText(CommentReplyActivity.this, "当前未登录，请先登录！", Toast.LENGTH_LONG).show();
+                    show("当前未登录，请先登录！");
                     resetInputComment();
                 }
 
@@ -227,6 +228,16 @@ public class CommentReplyActivity extends AppCompatActivity {
         mList = new ArrayList<>();
         Intent intent = getIntent();
         mComments = (Comments) intent.getSerializableExtra("values");
+    }
+
+    private void show(String text) {
+        //显示信息
+        if (mToast == null) {
+            mToast = Toast.makeText(CommentReplyActivity.this, text, Toast.LENGTH_LONG);
+        } else {
+            mToast.setText(text);
+        }
+        mToast.show();
     }
 
     public void back(View view) {

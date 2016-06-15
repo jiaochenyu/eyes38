@@ -1,15 +1,9 @@
 package com.example.eyes38.user_activity;
 
 import android.app.Dialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,8 +22,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
+import com.example.eyes38.utils.GetToken;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -43,15 +43,16 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+
 public class User_personal_centerActivity extends AppCompatActivity {
     public static final int mWHAT = 321;
     public static final int MFINISH = 322;
     public static final int MWHAT2 = 323;
     public static final int MFINISH2 = 344;
-    Context mContext;
-    private ContentResolver mContentResolver;
     //图片上传部分
-    private Uri mUri;
+    private String mUri;
     private String image_uri;
     private static final String IMAGE_UNSPECIFIED = "image/*";
     public static final int NONE = 0;
@@ -59,20 +60,24 @@ public class User_personal_centerActivity extends AppCompatActivity {
     private static final int PHOTOZOOM = 2;//缩放
     private static final int PHOTORESULT = 3;//缩放
     Dialog mDialog;//头像上传弹框
-    private Bitmap resultBmp;
     //先从偏好设置中取出账号
     private SharedPreferences sp;
     //初始化数据
     private String customer_id, username, firstname, sex, eamil;
     //更新的数据
-    private String update_name, update_email, update_sex, update_image;
+    private String update_name, update_email, update_sex;
     //定义控件
     private TextView person_center_tel;
     private EditText person_center_name, person_center_email;
     private Spinner mSpinner;
-    private ImageView image_button;
     private RequestQueue mRequestQueue;
     private Button user_person_center_save;
+    Intent mIntent;
+    //七牛云
+    public static final String TAG = "MyText";
+    String netPath = "http://o8oqvjhsv.bkt.clouddn.com";//外链域名
+    String name = "caojunzzia";//我要上传的空间名
+    private ImageView image_button;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -142,7 +147,9 @@ public class User_personal_centerActivity extends AppCompatActivity {
         String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/" + customer_id;
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add("email", update_email);
-        request.add("image", mUri + "");
+        if (mUri != null) {
+            request.add("image", mUri + "");
+        }
         request.add("firstname", update_name);
         request.add("sex", update_sex);
         mRequestQueue.add(MWHAT2, request, mOnResponseListener);
@@ -181,6 +188,11 @@ public class User_personal_centerActivity extends AppCompatActivity {
                     sex = object1.getString("sex");
                     eamil = object1.getString("email");
                     image_uri = object1.getString("image");
+                    Glide.with(User_personal_centerActivity.this)
+                            .load(image_uri)
+                            .bitmapTransform(new CropCircleTransformation(User_personal_centerActivity.this))
+                            .error(R.mipmap.user_photo)
+                            .into(image_button);
                     if (image_uri.equals("")) {
                         image_button.setImageResource(R.mipmap.user_photo);
                     } else if (!image_uri.equals("")){
@@ -246,7 +258,6 @@ public class User_personal_centerActivity extends AppCompatActivity {
         person_center_email = (EditText) findViewById(R.id.person_center_email);
         //初始化偏好设置
         sp = this.getSharedPreferences("userInfo", MODE_PRIVATE);//偏好设置
-        mContentResolver=getContentResolver();
     }
 
     //返回键
@@ -299,6 +310,7 @@ public class User_personal_centerActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == NONE) {
             return;
         }
@@ -317,33 +329,49 @@ public class User_personal_centerActivity extends AppCompatActivity {
         }
         //处理结果
         if (requestCode == PHOTORESULT) {
+            //返回数据
             Bundle bundle = data.getExtras();
             if (bundle != null) {
                 Bitmap bitmap = bundle.getParcelable("data");
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 image_button.setImageBitmap(bitmap);
                 //获得imageView中设置的图片
                 BitmapDrawable drawable = (BitmapDrawable) image_button.getDrawable();
-                Bitmap bmp = drawable.getBitmap();
-                //获得图片的宽，并创建结果bitmap
-                int width = bmp.getWidth();
-                resultBmp = Bitmap.createBitmap(width, width,
-                        Bitmap.Config.ARGB_8888);//该函数创建一个带有特定宽度、高度和颜色格式的位图。
-                Paint paint = new Paint();//创建新画笔
-                Canvas canvas = new Canvas(resultBmp);//为该位图创建一个画布
-                //去锯齿
-                paint.setAntiAlias(true);
-                paint.setFilterBitmap(true);
-                paint.setDither(true);
-                //画圆
-                canvas.drawCircle(width / 2, width / 2, width / 2, paint);//圆心坐标  半径 和画笔
-                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));// 选择交集去上层图片
-                canvas.drawBitmap(bmp, 0, 0, paint);//将位图画到指定坐标
-                image_button.setImageBitmap(resultBmp);
+                final Bitmap bmp = drawable.getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imgbyte = baos.toByteArray();
+                GetToken mGetToken;
+                final String token;
+                //imageName为上传空间中的名称，为了确保唯一，使用（id+系统当前时间）命名
+                final String imgname = customer_id + System.currentTimeMillis() + ".jpg";
+                final String headImagePath = "http://o8oqvjhsv.bkt.clouddn.com/" + imgname;
+                mUri = headImagePath;
+                if (imgbyte != null) {
+                    mGetToken = new GetToken();
+                    token = mGetToken.getToken(name);
+                    UploadManager uploadManager = new UploadManager();
+                    uploadManager.put(imgbyte, imgname, token,
+                            new UpCompletionHandler() {
+                                @Override
+                                public void complete(String key, ResponseInfo info, JSONObject res) {
+                                    if (info.statusCode == 200) {
+                                        Toast.makeText(getApplication(), "完成上传", Toast.LENGTH_LONG).show();
+                                        Glide.with(User_personal_centerActivity.this)
+                                                .load(headImagePath)
+                                                .bitmapTransform(new CropCircleTransformation(User_personal_centerActivity.this))
+                                                .error(R.mipmap.user_photo)
+                                                .into(image_button);
+
+                                    } else {
+                                        Toast.makeText(getApplication(), info.statusCode + "上传失败", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }, null);
+
+                }
+
             }
         }
-
     }
 
     private void startPhotoZoom(Uri uri) {
@@ -358,8 +386,5 @@ public class User_personal_centerActivity extends AppCompatActivity {
         intent.putExtra("outputY", 120);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, PHOTORESULT);
-        mUri = uri;
     }
-
-
 }

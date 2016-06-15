@@ -27,6 +27,7 @@ public class GridAdapter extends BaseAdapter implements View.OnClickListener {
     private Context mContext;
     List<Goods> mList;
     LayoutInflater mInflater;
+
     public GridAdapter(Context context, List<Goods> list) {
         mContext = context;
         mList = list;
@@ -66,7 +67,11 @@ public class GridAdapter extends BaseAdapter implements View.OnClickListener {
         }
         Goods goods = mList.get(position);
         String content = goods.getGoods_name();
-        viewHolder.text.setText(content);
+        if (content.length() <= 4) {
+            viewHolder.text.setText(content);
+        } else {
+            viewHolder.text.setText(content.substring(content.length() - 4, content.length() - 1));
+        }
         viewHolder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
