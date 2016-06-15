@@ -59,12 +59,14 @@ import java.util.Random;
 
 public class SearchActivity extends AppCompatActivity {
     public static final int mWhat2 = 25;
+    public static final int MSHIFWHAT = 398;
     //创建数据库辅助类对象
     MyHelper myHelper;
     //声明一个数据库操作类
     SQLiteDatabase mDatabase;
     //声明一个游标对象
     Cursor mCursor;
+
     Button history_clear;//清空历史记录按钮
     String text;
     Toast mToast;
@@ -105,7 +107,6 @@ public class SearchActivity extends AppCompatActivity {
     private EditText search_by_low, search_by_high;
     //确定及取消
     private Button search_window_cancel, search_window_yes;
-
     private Button search_sift;
     RecyclerView resultRecyclerView;
     ListView listView;
@@ -133,13 +134,10 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.search_main);
         initViews();
         initListeners();
-
-
     }
 
     //请求http获取
     private void getHttpMetod() {
-        mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         request.add("limit", "28");
@@ -202,7 +200,6 @@ public class SearchActivity extends AppCompatActivity {
                             });
                         }
 
-
                     }
                     //此时判断resultList的大小
                     if (resultList.size() == 0) {
@@ -213,17 +210,8 @@ public class SearchActivity extends AppCompatActivity {
                         listView.setVisibility(View.VISIBLE);
                         show("抱歉，没有找到你想要的商品");
                     }
-                    if (mSearchRecycleViewAdapter == null) {
-                        mSearchRecycleViewAdapter = new SearchRecycleViewAdapter(resultList, SearchActivity.this);
-                        resultRecyclerView.setAdapter(mSearchRecycleViewAdapter);
-                    } else {
-                        mSearchRecycleViewAdapter.notifyDataSetChanged();
-                    }
-                    //判断
-                    AdjustSearchChange();
-                    //筛选部分的监听
-                    SearchShifListener();
 
+                    mSearchRecycleViewAdapter.notifyDataSetChanged();
                     //接着判断editText内容
                     mEditText.addTextChangedListener(new TextWatcher() {
                         @Override
@@ -261,124 +249,97 @@ public class SearchActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            } else if (what == MSHIFWHAT) {
+                //请求成功
+                String result = response.get();
+                mList = new ArrayList<>();//ssssss
+                resultList.clear();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray data = object.getJSONArray("data");
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject jsonObject = data.getJSONObject(i);
+                        int id = jsonObject.getInt("product_id");
+                        String name = jsonObject.getString("name");
+                        String path = jsonObject.getString("image");
+                        String unit = jsonObject.getString("extension4");
+                        String txt_pic = jsonObject.getString("description");
+                        float price = (float) jsonObject.getDouble("price");
+                        float market_price = (float) jsonObject.getDouble("market_price");
+                        JSONObject search = jsonObject.getJSONObject("product_search");
+                        int comment_count = search.getInt("comment_num");
+                        int sales_num = search.getInt("sales");
+                        int stock = search.getInt("stock_num");
+                        SearchGoods searchGoods = new SearchGoods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic, "false", sales_num);
+                        mList.add(searchGoods);
+                    }
+                    for (int i = 0; i < mList.size(); i++) {
+                        //匹配条件  加上排序条件
+                        if (mList.get(i).getGoods_name().contains(text.trim())) {
+                            //默认按销量*0.6+价格*0.4+评价*0.2排序
+                            resultList.add(mList.get(i));
+                        }
+                    }
+                    //此时判断resultList的大小
+                    if (resultList.size() == 0) {
+                        //未匹配结果,切换到之前界面
+                        show("抱歉，没有找到你想要的商品");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }else if (what == mWhat2) {
+                //请求成功
+                String result = response.get();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    JSONArray array = object.getJSONArray("data");
+                    if (array.length() != 0) {
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            int id = jsonObject.getInt("product_id");
+                            String name = jsonObject.getString("name");
+                            String path = jsonObject.getString("image");
+                            String unit = jsonObject.getString("extension4");
+                            String txt_pic = jsonObject.getString("description");
+                            float price = (float) jsonObject.getDouble("price");
+                            float market_price = (float) jsonObject.getDouble("market_price");
+                            JSONObject search = jsonObject.getJSONObject("product_search");
+                            int comment_count = search.getInt("comment_num");
+                            int stock = search.getInt("stock_num");
+                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic);
+                            mGridList.add(goods);
+                        }
+                    }
+                    //随机生成9个(28以内的)不重复的随机整数
+                    Random random = new Random();
+                    boolean[] bool = new boolean[28];
+                    List<Integer> integers = new ArrayList<>();
+                    List<Goods> gridList = new ArrayList<>();
+                    int randInt;
+                    for (int i = 0; i < 9; i++) {
+                        do {
+                            randInt = random.nextInt(28);
+                        } while (bool[randInt]);
+                        bool[randInt] = true;
+                        integers.add(randInt);
+                    }
+                    for (int i = 0; i < 9; i++) {
+                        gridList.add(mGridList.get(integers.get(i)));
+                    }
+                    mGridAdapter = new GridAdapter(SearchActivity.this, gridList);
+                    mGridView.setAdapter(mGridAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
-        private void AdjustSearchChange() {
-            //价格
-            search_price.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //在判断价格升序还是降序
-                    search_price.setTextColor(getResources().getColor(R.color.topical));
-                    search_num.setTextColor(getResources().getColor(R.color.bottomtext));
-                    search_price_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            search_price.setTextColor(getResources().getColor(R.color.topical));
-                            Collections.sort(resultList, new Comparator<SearchGoods>() {
-                                @Override
-                                public int compare(SearchGoods gd1, SearchGoods gd2) {
-                                    //综合排名按降序排列>从低到高
-                                    if (gd1.getGoods_platform_price() > gd2.getGoods_platform_price()) {
-                                        return 1;
-                                    }
-                                    if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
-                                        return 0;
-                                    }
-                                    return -1;
-                                }
-                            });
-                            mSearchRecycleViewAdapter.notifyDataSetChanged();
-                        }
-                    });
-                    Collections.sort(resultList, new Comparator<SearchGoods>() {
-                        @Override
-                        public int compare(SearchGoods gd1, SearchGoods gd2) {
-                            //综合排名按降序排列>从低到高
-                            if (gd1.getGoods_platform_price() < gd2.getGoods_platform_price()) {
-                                return 1;
-                            }
-                            if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
-                                return 0;
-                            }
-                            return -1;
-                        }
-                    });
-                    mSearchRecycleViewAdapter.notifyDataSetChanged();
-                }
-            });
-            //综合
-            search_comprise.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    search_price.setTextColor(getResources().getColor(R.color.bottomtext));
-                    search_num.setTextColor(getResources().getColor(R.color.bottomtext));
-                    Collections.sort(resultList, new Comparator<SearchGoods>() {
-                        @Override
-                        public int compare(SearchGoods gd1, SearchGoods gd2) {
-                            //价格默认排名按降序排列
-                            if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 < gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
-                                return 1;
-                            }
-                            if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 == gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
-                                return 0;
-                            }
-                            return -1;
-                        }
-                    });
-                    mSearchRecycleViewAdapter.notifyDataSetChanged();
-                }
-            });
-            //销量
-            search_num.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    search_num.setTextColor(getResources().getColor(R.color.topical));
-                    search_price.setTextColor(getResources().getColor(R.color.bottomtext));
-                    //在对升序还是降序进行监听
-                    search_num_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            search_num.setTextColor(getResources().getColor(R.color.topical));
-                            Collections.sort(resultList, new Comparator<SearchGoods>() {
-                                @Override
-                                public int compare(SearchGoods gd1, SearchGoods gd2) {
-                                    //综合排名按降序排列
-                                    if (gd1.getSales() > gd2.getSales()) {
-                                        return 1;
-                                    }
-                                    if (gd1.getSales() == gd2.getSales()) {
-                                        return 0;
-                                    }
-                                    return -1;
-                                }
-                            });
-                            mSearchRecycleViewAdapter.notifyDataSetChanged();
-                        }
-                    });
-                    Collections.sort(resultList, new Comparator<SearchGoods>() {
-                        @Override
-                        public int compare(SearchGoods gd1, SearchGoods gd2) {
-                            //综合排名默认按降序排列
-                            if (gd1.getSales() < gd2.getSales()) {
-                                return 1;
-                            }
-                            if (gd1.getSales() == gd2.getSales()) {
-                                return 0;
-                            }
-                            return -1;
-                        }
-                    });
-                    mSearchRecycleViewAdapter.notifyDataSetChanged();
-                }
-            });
-
-        }
 
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-
+            Toast.makeText(SearchActivity.this, "数据请求失败，请重试!", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -387,9 +348,138 @@ public class SearchActivity extends AppCompatActivity {
         }
     };
 
+    private void AdjustSearchChange() {
+        //价格
+        search_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpleDefine();
+                //在判断价格升序还是降序
+                search_num_down.setChecked(false);
+                search_price_down.setClickable(true);
+                search_price.setTextColor(getResources().getColor(R.color.topical));
+                search_num.setTextColor(getResources().getColor(R.color.bottomtext));
+                search_price_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        simpleDefine();
+                        search_num_down.setClickable(false);
+                        search_num.setTextColor(getResources().getColor(R.color.bottomtext));
+                        search_price.setTextColor(getResources().getColor(R.color.topical));
+                        Collections.sort(resultList, new Comparator<SearchGoods>() {
+                            @Override
+                            public int compare(SearchGoods gd1, SearchGoods gd2) {
+                                //综合排名按降序排列>从低到高
+                                if (gd1.getGoods_platform_price() > gd2.getGoods_platform_price()) {
+                                    return 1;
+                                }
+                                if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
+                                    return 0;
+                                }
+                                return -1;
+                            }
+                        });
+                        mSearchRecycleViewAdapter.notifyDataSetChanged();
+                    }
+                });
+                Collections.sort(resultList, new Comparator<SearchGoods>() {
+                    @Override
+                    public int compare(SearchGoods gd1, SearchGoods gd2) {
+                        //综合排名按降序排列>从低到高
+                        if (gd1.getGoods_platform_price() < gd2.getGoods_platform_price()) {
+                            return 1;
+                        }
+                        if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
+                            return 0;
+                        }
+                        return -1;
+                    }
+                });
+                mSearchRecycleViewAdapter.notifyDataSetChanged();
+            }
+        });
+        //综合
+        search_comprise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpleDefine();
+                search_price.setTextColor(getResources().getColor(R.color.bottomtext));
+                search_num.setTextColor(getResources().getColor(R.color.bottomtext));
+                Collections.sort(resultList, new Comparator<SearchGoods>() {
+                    @Override
+                    public int compare(SearchGoods gd1, SearchGoods gd2) {
+                        //价格默认排名按降序排列
+                        if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 < gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
+                            return 1;
+                        }
+                        if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 == gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
+                            return 0;
+                        }
+                        return -1;
+                    }
+                });
+                mSearchRecycleViewAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+        //销量
+        search_num.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                simpleDefine();
+                search_num.setTextColor(getResources().getColor(R.color.topical));
+                search_price.setTextColor(getResources().getColor(R.color.bottomtext));
+                search_price_down.setChecked(false);
+                search_num_down.setClickable(true);
+                //在对升序还是降序进行监听
+                search_num_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        simpleDefine();
+                        search_price.setTextColor(getResources().getColor(R.color.bottomtext));
+                        search_price_down.setClickable(false);
+                        search_num.setTextColor(getResources().getColor(R.color.topical));
+                        Collections.sort(resultList, new Comparator<SearchGoods>() {
+                            @Override
+                            public int compare(SearchGoods gd1, SearchGoods gd2) {
+                                //综合排名按降序排列
+                                if (gd1.getSales() > gd2.getSales()) {
+                                    return 1;
+                                }
+                                if (gd1.getSales() == gd2.getSales()) {
+                                    return 0;
+                                }
+                                return -1;
+                            }
+                        });
+                        mSearchRecycleViewAdapter.notifyDataSetChanged();
+                    }
+                });
+                Collections.sort(resultList, new Comparator<SearchGoods>() {
+                    @Override
+                    public int compare(SearchGoods gd1, SearchGoods gd2) {
+                        //综合排名默认按降序排列
+                        if (gd1.getSales() < gd2.getSales()) {
+                            return 1;
+                        }
+                        if (gd1.getSales() == gd2.getSales()) {
+                            return 0;
+                        }
+                        return -1;
+                    }
+                });
+                mSearchRecycleViewAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     //事件监听
     private void initListeners() {
+        //判断
+        AdjustSearchChange();
+        //筛选部分的监听
+        SearchShifListener();
         search_sift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -536,6 +626,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initViews() {
         mGridView = (GridView) findViewById(R.id.hotGridView);
+        mRequestQueue = NoHttp.newRequestQueue();
         //绑定gridview
         gridViewSearch();
         history_clear = (Button) findViewById(R.id.history_clear);
@@ -561,6 +652,8 @@ public class SearchActivity extends AppCompatActivity {
         resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycle);
         mList = new ArrayList<>();
         resultList = new ArrayList<>();
+        mSearchRecycleViewAdapter = new SearchRecycleViewAdapter(resultList, SearchActivity.this);
+        resultRecyclerView.setAdapter(mSearchRecycleViewAdapter);
         banList = new ArrayList<>();
         setAdapter();
         someViewListener();
@@ -587,10 +680,13 @@ public class SearchActivity extends AppCompatActivity {
 
     //筛选按钮的监听
     private void SearchShifListener() {
+        //烦躁烦躁烦躁烦躁烦躁
         //确定按钮的监听
         search_window_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //重新请求下数据
+                getShifHttpMetod();
                 if (mCheckBox.isChecked()) {
                     Iterator<SearchGoods> iterator = resultList.iterator();
                     while (iterator.hasNext()) {
@@ -600,7 +696,6 @@ public class SearchActivity extends AppCompatActivity {
                         }
                     }
                 }
-
                 float low, high;
                 //价格区间
                 String text1 = search_by_low.getText().toString();
@@ -624,7 +719,6 @@ public class SearchActivity extends AppCompatActivity {
                 mSearchRecycleViewAdapter.notifyDataSetChanged();
                 mleftMenu.toggle();
                 //为什么要多点击几次,才正确显示呢?????
-
             }
 
         });
@@ -634,9 +728,22 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mleftMenu.toggle();
+                //还原默认设置
+                mCheckBox.setChecked(false);
+                search_by_low.setText("");
+                search_by_high.setText("");
             }
         });
 
+    }
+
+    //每次筛选之间重新获取resultList集合
+    private void getShifHttpMetod() {
+        String url = "http://38eye.test.ilexnet.com/api/mobile/product-api/products";
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.add("limit", "28");
+        request.setCacheMode(CacheMode.DEFAULT);
+        mRequestQueue.add(MSHIFWHAT, request, mOnResponseListener);
     }
 
     private void someViewListener() {
@@ -696,80 +803,12 @@ public class SearchActivity extends AppCompatActivity {
 
     //获取28个中9个数据
     private void getHttpMetod2() {
-        mRequestQueue = NoHttp.newRequestQueue();
         String url = "http://38eye.test.ilexnet.com/api/mobile/product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         request.add("limit", "28");
         request.setCacheMode(CacheMode.DEFAULT);
-        mRequestQueue.add(mWhat2, request, mOnResponseListener2);
+        mRequestQueue.add(mWhat2, request, mOnResponseListener);
     }
-
-    private OnResponseListener<String> mOnResponseListener2 = new OnResponseListener<String>() {
-        @Override
-        public void onStart(int what) {
-
-        }
-
-        @Override
-        public void onSucceed(int what, Response<String> response) {
-            if (what == mWhat2) {
-                //请求成功
-                String result = response.get();
-                try {
-                    JSONObject object = new JSONObject(result);
-                    JSONArray array = object.getJSONArray("data");
-                    if (array.length() != 0) {
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            int id = jsonObject.getInt("product_id");
-                            String name = jsonObject.getString("name");
-                            String path = jsonObject.getString("image");
-                            String unit = jsonObject.getString("extension4");
-                            String txt_pic = jsonObject.getString("description");
-                            float price = (float) jsonObject.getDouble("price");
-                            float market_price = (float) jsonObject.getDouble("market_price");
-                            JSONObject search = jsonObject.getJSONObject("product_search");
-                            int comment_count = search.getInt("comment_num");
-                            int stock = search.getInt("stock_num");
-                            Goods goods = new Goods(id, name, path, unit, market_price, price, comment_count, stock, txt_pic);
-                            mGridList.add(goods);
-                        }
-                    }
-                    //随机生成9个(28以内的)不重复的随机整数
-                    Random random = new Random();
-                    boolean[] bool = new boolean[28];
-                    List<Integer> integers = new ArrayList<>();
-                    List<Goods> gridList = new ArrayList<>();
-                    int randInt;
-                    for (int i = 0; i < 9; i++) {
-                        do {
-                            randInt = random.nextInt(28);
-                        } while (bool[randInt]);
-                        bool[randInt] = true;
-                        integers.add(randInt);
-                    }
-                    for (int i = 0; i < 9; i++) {
-                        gridList.add(mGridList.get(integers.get(i)));
-                    }
-                    mGridAdapter = new GridAdapter(SearchActivity.this, gridList);
-                    mGridView.setAdapter(mGridAdapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-
-        }
-
-        @Override
-        public void onFinish(int what) {
-
-        }
-    };
-
     public void show(String text) {
         if (mToast == null) {
             mToast = Toast.makeText(SearchActivity.this, text, Toast.LENGTH_LONG);
@@ -777,6 +816,39 @@ public class SearchActivity extends AppCompatActivity {
             mToast.setText(text);
         }
         mToast.show();
+    }
+
+    public void simpleDefine() {
+        //相当于确定操作
+        if (mCheckBox.isChecked()) {
+            Iterator<SearchGoods> iterator = resultList.iterator();
+            while (iterator.hasNext()) {
+                SearchGoods searchGoods = iterator.next();
+                if (searchGoods.getGoods_stock() == 0) {
+                    iterator.remove();
+                }
+            }
+        }
+        float low, high;
+        //价格区间
+        String text1 = search_by_low.getText().toString();
+        String text2 = search_by_high.getText().toString();
+        if (text1.equals("")) {
+            text1 = "-0.1";
+        }
+        if (text2.equals("")) {
+            text2 = "9999999999";
+        }
+        low = Float.parseFloat(text1);
+        high = Float.parseFloat(text2);
+        //这里需要使用增强的for循环，不然容易显示错误
+        Iterator<SearchGoods> iterator = resultList.iterator();
+        while (iterator.hasNext()) {
+            SearchGoods searchGoods = iterator.next();
+            if (searchGoods.getGoods_platform_price() < low || searchGoods.getGoods_platform_price() > high) {
+                iterator.remove();
+            }
+        }
     }
 
 }

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,10 +51,13 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
     SharedPreferences sp;  //偏好设置 看用户登录是否登录
     private int setPosition;//取消位置
     private OnItemClickListener mOnItemClickListener = null;
-    public  Handler handler=new PayFragment().mHandler;
-    public User_order_PayAdapter(List<UserOrderBean> list, Context context) {
+    public Handler handler = new PayFragment().mHandler;
+    private ComeBack comeBack;
+
+    public User_order_PayAdapter(List<UserOrderBean> list, Context context, ComeBack comeBack) {
         mList = list;
         mContext = context;
+        this.comeBack=comeBack;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -77,7 +81,6 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
             @Override
             public void onClick(View v) {
                 setPosition = position;
-                Log.e("setPosition", setPosition + "");
                 showDeleteDialog();//点击订单取消
 
             }
@@ -171,8 +174,9 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
                     boolean deleteOrder = object.getBoolean("success");
                     if (deleteOrder) {
                         mList.remove(setPosition);
-                        if (mList.size()==0){
-                          handler.sendEmptyMessage(new PayFragment().MFINISH);
+                        if (mList.size() == 0) {
+                            //handler.sendEmptyMessage(new PayFragment().MFINISH);
+                            comeBack.getNotity();
                         }
                         notifyDataSetChanged();
                         Toast.makeText(mContext, "取消成功", Toast.LENGTH_SHORT).show();

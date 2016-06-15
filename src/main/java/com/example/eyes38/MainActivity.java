@@ -117,6 +117,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //设置徽章 样式
+            Boolean login_state = sp.getBoolean("STATE", false);
+            if (login_state) {
+                mCartBadgeView.hide();
+            } else {
+                if (getCartGoodsCount() == 0) {
+                    mCartBadgeView.hide();
+                } else {
+                    mCartBadgeView.show();
+                }
+            }
         /**
          * 记录上一次点击的页面编号
          */

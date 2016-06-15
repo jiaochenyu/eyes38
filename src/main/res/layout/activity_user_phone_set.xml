@@ -70,41 +70,6 @@
             android:text=""
             android:textSize="0.1sp"/>
 
-        <!--手机绑定-->
-        <LinearLayout
-            android:onClick="user_bindphone_set"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2.45"
-            android:background="#FFF">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:layout_weight="2"
-                android:gravity="center|right"
-                android:text="手机绑定"
-                android:textSize="15sp"/>
-
-
-            <!--手机绑定-->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:layout_weight="6"
-                android:gravity="center|right"
-                android:text="已绑定15538299972"
-                android:textColor="#d9d9d9"
-                android:textSize="15sp"/>
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:src="@mipmap/indicator_right"/>
-        </LinearLayout>
         <!--分割线-->
         <TextView
             android:layout_width="match_parent"
@@ -112,13 +77,6 @@
             android:layout_weight="0.1"
             android:text=""
             android:textSize="0.1sp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.67"
-            android:background="#fff">
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

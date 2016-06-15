@@ -4,6 +4,7 @@ package com.example.eyes38.fragment.user;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ProviderInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.eyes38.R;
+import com.example.eyes38.adapter.ComeBack;
 import com.example.eyes38.adapter.User_order_AllAdapter;
 import com.example.eyes38.adapter.User_order_PayAdapter;
 import com.example.eyes38.beans.UserOrderBean;
@@ -57,6 +59,7 @@ public class PayFragment extends Fragment {
     String order_id;
     User_order_PayAdapter mUser_order_payAdapter = null;//适配器
     //用来存放全部订单的集合
+     private String header;
     List<UserOrderBean> mList;
     List<UserOrderGoods> mGoodsList;
     UserOrderBean mUserOrderBean;
@@ -73,7 +76,7 @@ public class PayFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MFINISH:
-                    HttpMethod();//重新请求数据
+                    HttpMethod();
                     break;
             }
             super.handleMessage(msg);
@@ -127,7 +130,7 @@ public class PayFragment extends Fragment {
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         String addHeader = usernameValue + ":" + passwordValue;
         newHeader = new String(Base64.encode(addHeader.getBytes(), Base64.DEFAULT));//加密后的header
-        String header = "Basic " + newHeader;
+        header = "Basic " + newHeader;
         request.addHeader("Authorization", header);
         mRequestQueue.add(MWHAT, request, mOnResponseListener);
     }
@@ -175,7 +178,6 @@ public class PayFragment extends Fragment {
                             String image = object3.getString("image");//物品图片
                             userOrderGoods = new UserOrderGoods(image, name, price, quantity,order_id);
                             mGoodsList.add(userOrderGoods);
-
                         }
                         mUserOrderBean = new UserOrderBean(create_date, order_status_id, total_count, total, mGoodsList, order_no, shipping_name, shipping_mobile, shipping_address,order_goods_amount, shipping_district_id,order_id);
                         mList.add(mUserOrderBean);
@@ -183,23 +185,19 @@ public class PayFragment extends Fragment {
                     //先判断应该显示哪个界面
                     if (mList.size() == 0) {
                         user_order_pay_header.setVisibility(View.VISIBLE);
-                    } else {
+                    }else {
                         user_order_pay_header.setVisibility(View.GONE);
                         user_order_pay_footer.setVisibility(View.VISIBLE);
-                    }
-                    if (mUser_order_payAdapter == null) {
-                        mUser_order_payAdapter = new User_order_PayAdapter(mList, getContext());
-                        mRecyclerView.setAdapter(mUser_order_payAdapter);
-                    } else {
-                        mUser_order_payAdapter.notifyDataSetChanged();
-                    }
-                    mUser_order_payAdapter = new User_order_PayAdapter(mList,getContext());
-                    mRecyclerView.setAdapter(mUser_order_payAdapter);
-                    mUser_order_payAdapter.notifyDataSetChanged();
-                    Message message = new Message();
-                    message.what = MFINISH;
-                    mHandler.sendMessage(message);
+                        mUser_order_payAdapter = new User_order_PayAdapter(mList, getContext(),new ComeBack(){
+                            @Override
+                            public void getNotity() {
+                                HttpMethod();
+                                mUser_order_payAdapter.notifyDataSetChanged();
+                            }
+                        });
 
+                        mRecyclerView.setAdapter(mUser_order_payAdapter);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -234,7 +232,6 @@ public class PayFragment extends Fragment {
         customer_id = sp.getString("CUSTOMER_ID", "");
         usernameValue = sp.getString("USER_NAME", "");
         passwordValue = sp.getString("PASSWORD", "");
-
     }
 
 

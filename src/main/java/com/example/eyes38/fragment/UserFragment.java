@@ -213,7 +213,7 @@ public class UserFragment extends Fragment {
                     JSONObject object = new JSONObject(result);
                     JSONObject object1 = object.getJSONObject("data");
                     String aftersaleOrdersCount = object1.getString("aftersaleOrdersCount");
-                    user_back.setText("待付款(" + aftersaleOrdersCount + ")");
+                    user_back.setText("待退货(" + aftersaleOrdersCount + ")");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
