@@ -10,16 +10,15 @@
         android:src="@mipmap/user_photo"
         android:layout_alignParentRight="true"/>
     <TextView
+        android:layout_marginRight="10dp"
         android:id="@+id/service_customer_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="20dp"
+        android:padding="15dp"
         android:maxWidth="200dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/service_customer"
         android:layout_centerVertical="true"
-        android:gravity="center"
-        android:background="@mipmap/consult_right"
+        android:background="@drawable/consult_right"
         android:text="大黄真黄"/>
 
 </RelativeLayout>

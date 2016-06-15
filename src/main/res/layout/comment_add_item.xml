@@ -9,7 +9,9 @@
         android:layout_margin="20dp"
         android:id="@+id/comment_add_content"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:maxHeight="200dp"
         android:background="@drawable/comment_border"
         android:textColor="@color/them_color"
         android:hint="@string/comment_add_hint"/>

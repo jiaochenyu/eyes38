@@ -8,10 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.Consult;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by jqchen on 2016/6/14.
@@ -54,6 +57,9 @@ public class CustomerServiceAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }else if (holder instanceof ItemRightViewHolder){
             ItemRightViewHolder right = (ItemRightViewHolder) holder;
             right.mTextView.setText(mList.get(position).getInfo());
+            Glide.with(mContext).load(mList.get(position).getPath())
+                    .bitmapTransform(new CropCircleTransformation(mContext))
+                    .into(right.mImageView);
         }
     }
 
