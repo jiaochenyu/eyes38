@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -464,8 +465,10 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
         builder.setYesButtonClick("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Log.e("点击了确定","yes");
                 dialog.dismiss();
                 int shoppingCartIds = mList.get(getPosition()).getShopping_cart_id();
+                Log.e("shoppingcartids",shoppingCartIds+"");
                 //进行删除网络请求
                 getDeleteNoHttpMethod(shoppingCartIds);
             }
@@ -719,7 +722,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     boolean resultDelete = jsonObject.getBoolean("success");
+                    Log.e("执行了请求","yes");
                     if (resultDelete) {
+                        Log.e("执行了请求",resultDelete+"");
                         deleteMethod();
                     } else {
                         showToast("请求失败");
@@ -803,7 +808,9 @@ public class Cart_GoodsAdapter extends RecyclerView.Adapter implements View.OnCl
     //删除操作
     private void deleteMethod() {
         //删除操作
+        Log.e("删除前了集合大小",mList.size()+"");
         mList.remove(getPosition());
+        Log.e("执行了删除",mList.size()+"");
         notifyDataSetChanged();
         //判断购物车是否为空如果为空显示空页面
         if (mList.size() == 1) {

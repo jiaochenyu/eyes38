@@ -1,6 +1,7 @@
 package com.example.eyes38.EventActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -148,6 +149,13 @@ public class EventDay3 extends Fragment {
                         //显示footview
                         footView.setVisibility(View.VISIBLE);
                         loading.setBackgroundResource(R.drawable.anim);
+                        final AnimationDrawable animationDrawable = (AnimationDrawable) loading.getBackground();
+                        loading.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                animationDrawable.start();
+                            }
+                        });
                         mHandler.sendMessageDelayed(new Message(), 2000);
                         isScrolling = false;
                     }

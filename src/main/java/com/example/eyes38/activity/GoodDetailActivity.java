@@ -19,6 +19,7 @@ import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.utils.CartBadgeView;
 import com.example.eyes38.utils.Substring;
 import com.yolanda.nohttp.NoHttp;
@@ -195,6 +196,8 @@ public class GoodDetailActivity extends AppCompatActivity {
                         Intent newintent = new Intent(GoodDetailActivity.this,CustomerServiceActivity.class);
                         startActivity(newintent);
                     }else {
+                        Intent intent = new Intent(GoodDetailActivity.this, User_loginActivity.class);
+                        startActivity(intent);
                         Toast.makeText(GoodDetailActivity.this,"当前未登录，请先登录！",Toast.LENGTH_LONG).show();
                     }
 
@@ -208,6 +211,8 @@ public class GoodDetailActivity extends AppCompatActivity {
                 case R.id.goods_detail_radio_buynow:
                     if (!Application.isLogin) {
                         //如果用户没登录  购物车显示空
+                        Intent intent2 = new Intent(GoodDetailActivity.this, User_loginActivity.class);
+                        startActivity(intent2);
                         Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
                     }else {
                         //立即购买 跳转到购物车
@@ -238,6 +243,8 @@ public class GoodDetailActivity extends AppCompatActivity {
         // 取出用户登录状态， 如果为1 代表登录 如果为0 是没有登录
         if (!Application.isLogin) {
             //如果用户没登录  购物车显示空
+            Intent intent = new Intent(GoodDetailActivity.this, User_loginActivity.class);
+            startActivity(intent);
             Toast.makeText(GoodDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
         } else {
             //登录了 进行判断购物车中商品是否已经存在

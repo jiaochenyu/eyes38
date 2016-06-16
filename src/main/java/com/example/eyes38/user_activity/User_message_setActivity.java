@@ -115,7 +115,7 @@ public class User_message_setActivity extends AppCompatActivity {
         initStates();
         mMessageAdapter.notifyDataSetChanged();
     }
-    
+
     //返回键
     public void user_message_back(View view) {
         finish();
