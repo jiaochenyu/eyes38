@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -78,6 +79,7 @@ public class AllFragment extends Fragment {
     UserOrderBean mUserOrderBean;
     UserOrderGoods userOrderGoods;
     String order_id;
+    private Button cancel_order,pay_order,follow_order,evaluate_order;
     private boolean addFlag, totalFlag, flag;//用于加载的判断
     private int dataAllCount;//请求数据的总量
     private int everyRequestStart = 0, everyRequest;//一次请求的数据量
@@ -95,7 +97,7 @@ public class AllFragment extends Fragment {
                 case MFINISH:
                     if (dataAllCount <= 0) {
                         //没有数据可以继续加载
-                        Toast.makeText(getActivity(), "加载完毕，没有数据可以继续加载!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "加载完毕!", Toast.LENGTH_SHORT).show();
                         footView.setVisibility(View.GONE);
                     } else {
                         everyRequestStart = everyRequest;
@@ -339,7 +341,6 @@ public class AllFragment extends Fragment {
 
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-            Toast.makeText(getActivity(), "数据加载完毕！", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -357,6 +358,11 @@ public class AllFragment extends Fragment {
         mList = new ArrayList<>();
         mUser_order_allAdapter = new User_order_AllAdapter(mList, getContext());
         mRecyclerView.setAdapter(mUser_order_allAdapter);
+        //按钮部分
+        cancel_order= (Button) view.findViewById(R.id.cancel_order);
+        pay_order= (Button) view.findViewById(R.id.pay_order);
+        follow_order= (Button) view.findViewById(R.id.follow_order);
+        evaluate_order= (Button) view.findViewById(R.id.evalute_order);
         //加载部分
         footView = (LinearLayout) view.findViewById(R.id.user_all_footview);
         loading = (ImageView) view.findViewById(R.id.user_all_footview_image);

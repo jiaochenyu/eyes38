@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@drawable/comment_add_border">
+  >
 
     <EditText
         android:layout_margin="20dp"

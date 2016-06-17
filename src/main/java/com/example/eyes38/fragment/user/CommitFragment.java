@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.User_order_AllAdapter;
+import com.example.eyes38.adapter.User_order_evaluteAdapter;
 import com.example.eyes38.beans.UserOrderBean;
 import com.example.eyes38.beans.UserOrderGoods;
 import com.example.eyes38.user_activity.User_orderActivity;
@@ -47,7 +48,7 @@ public class CommitFragment extends Fragment {
     View view;
     RecyclerView mRecyclerView;
     private double goods_total;
-    User_order_AllAdapter mUser_order_allAdapter = null;//适配器
+    User_order_evaluteAdapter mUser_order_allAdapter = null;//适配器
     //用来存放全部订单的集合
     List<UserOrderBean> mList;
     List<UserOrderGoods> mGoodsList;
@@ -114,7 +115,7 @@ public class CommitFragment extends Fragment {
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONObject object1 = object.getJSONObject("data");
-                    JSONArray array = object1.getJSONArray("evaluated");
+                    JSONArray array = object1.getJSONArray("delivered");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object2 = array.getJSONObject(i);
                         String order_no = object2.getString("order_no");//物品订单号
@@ -156,7 +157,7 @@ public class CommitFragment extends Fragment {
                         user_order_commit_footer.setVisibility(View.VISIBLE);
                     }
                     if (mUser_order_allAdapter == null) {
-                        mUser_order_allAdapter = new User_order_AllAdapter(mList, getContext());
+                        mUser_order_allAdapter = new User_order_evaluteAdapter(mList, getContext());
                         mRecyclerView.setAdapter(mUser_order_allAdapter);
                     } else {
                         mUser_order_allAdapter.notifyDataSetChanged();

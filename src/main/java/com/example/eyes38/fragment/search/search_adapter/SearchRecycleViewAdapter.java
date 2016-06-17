@@ -73,6 +73,7 @@ public class SearchRecycleViewAdapter extends RecyclerView.Adapter<SearchRecycle
         holder.name.setText(mList.get(position).getGoods_name());
         holder.price.setText(mList.get(position).getGoods_platform_price() + "");
         holder.size.setText(mList.get(position).getGoods_unit());
+        holder.num.setText("销量:"+mList.get(position).getSales());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +96,7 @@ public class SearchRecycleViewAdapter extends RecyclerView.Adapter<SearchRecycle
     //新建一个eventRecycleViewHolder类
     public class EventRecycleViewHolder extends RecyclerView.ViewHolder {
         ImageView pic;
-        TextView name, price, size;
+        TextView name, price, size,num;
         View mView;
 
         public EventRecycleViewHolder(View itemView) {
@@ -105,6 +106,7 @@ public class SearchRecycleViewAdapter extends RecyclerView.Adapter<SearchRecycle
             name = (TextView) itemView.findViewById(R.id.sort_sort_item_nametextview);
             price = (TextView) itemView.findViewById(R.id.sort_sort_item_pricetextview);
             size = (TextView) itemView.findViewById(R.id.sort_sort_item_unittextview);
+            num= (TextView) itemView.findViewById(R.id.sort_sort_item_xiaoliang);
         }
     }
 }

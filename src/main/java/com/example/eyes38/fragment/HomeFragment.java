@@ -256,7 +256,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     }
                         mViewList = new ArrayList<>();
                     for (int j = 0; j < 2; j++) {
-                        for (int i = 0; i < mList.size(); i++) {
+                        for (int i = 0; i < 2; i++) {
                             View view = View.inflate(mMainActivity, R.layout.home_ad_item, null);
                             ImageView mItemIvContent = (ImageView) view.findViewById(R.id.item_iv_content);
                             Glide.with(mMainActivity).load(mList.get(i)).into(mItemIvContent);

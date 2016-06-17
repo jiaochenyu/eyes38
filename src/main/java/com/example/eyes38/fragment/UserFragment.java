@@ -55,6 +55,7 @@ public class UserFragment extends Fragment {
     private static final int INWHAT3 = 522;
     private static final int INWHAT4 = 523;
     MainActivity mMainActivity;
+    Context mContext;
     ImageView user_set, user_message, user_main_image;
     View view;
     private String custom_id, username, password;
@@ -67,7 +68,6 @@ public class UserFragment extends Fragment {
     LinearLayout user_address;//我的积分
     TextView user_tel_set;
     SharedPreferences sp;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,6 +95,7 @@ public class UserFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getHttpMethod();
         updateUsername();
     }
 
@@ -122,7 +123,6 @@ public class UserFragment extends Fragment {
             }
         }
     };
-
     //更新个人页面基本信息
     private void updateUsername() {
         //设置登录名
@@ -304,7 +304,6 @@ public class UserFragment extends Fragment {
         });
 
     }
-
 
     //跳转到我的收货地址管理页面
     private void toMyAddress() {
