@@ -93,11 +93,11 @@
 
             <ImageView
                 android:id="@+id/comment_reply_none_imageview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="80dp"
-                android:src="@mipmap/article" />
+                android:src="@mipmap/notice" />
 
             <TextView
                 android:id="@+id/comment_reply_none_textview"

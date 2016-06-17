@@ -39,7 +39,10 @@
                 android:padding="5dp"
                 android:src="@mipmap/user_order_detail"/>
         </LinearLayout>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0155c541ac19b90e8b2d130c35baf4556e633a45
     </RelativeLayout>
     <!-- 内容 -->
     <ScrollView

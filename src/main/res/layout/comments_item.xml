@@ -10,6 +10,7 @@
         android:layout_height="30dp"
         android:src="@mipmap/user_photo"/>
     <TextView
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:id="@+id/comment_username"
         android:layout_width="wrap_content"
