@@ -51,13 +51,6 @@
         </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
-    <!--分割-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:background="#F2F2F2"
-        android:textSize="1sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,6 +59,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -118,6 +112,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/handerOrder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2">
@@ -128,6 +123,7 @@
                 android:layout_weight="7"/>
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/cancel_order"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
@@ -137,6 +133,7 @@
                 android:text="取消订单"/>
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/pay_order"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
@@ -144,6 +141,34 @@
                 android:layout_weight="1.5"
                 android:background="#F2F2F2"
                 android:text="去支付"/>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/follow_order"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_margin="15dp"
+                android:layout_weight="1.5"
+                android:background="#F2F2F2"
+                android:text="催单"/>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/pingjia_order"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_margin="15dp"
+                android:layout_weight="1.5"
+                android:background="#F2F2F2"
+                android:text="去评价"/>
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/evalute_order"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_margin="15dp"
+                android:layout_weight="1.5"
+                android:background="#F2F2F2"
+                android:text="确认收货"/>
         </LinearLayout>
 
     </LinearLayout>

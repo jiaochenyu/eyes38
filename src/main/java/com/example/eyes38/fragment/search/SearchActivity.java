@@ -66,13 +66,11 @@ public class SearchActivity extends AppCompatActivity {
     SQLiteDatabase mDatabase;
     //声明一个游标对象
     Cursor mCursor;
-
     Button history_clear;//清空历史记录按钮
     String text;
     Toast mToast;
     public static final int mWhat = 911;
     public static final int mFinish = 922;
-    private Context mContext;
     //数据库总量
     private List<SearchGoods> mList;
     //搜索结果
@@ -93,8 +91,10 @@ public class SearchActivity extends AppCompatActivity {
     private EditText mEditText;
     private boolean flag;
     private boolean notify;
+    //销量和价格判断
+    private boolean numFlag, priceFlag;
     //综合等radiobutton
-    private RadioButton search_comprise, search_num, search_price, search_num_down, search_price_down;
+    private RadioButton search_comprise, search_num, search_price;
     //有无库存
     private CheckBox mCheckBox;
     //两个radiogroup
@@ -199,7 +199,6 @@ public class SearchActivity extends AppCompatActivity {
                                 }
                             });
                         }
-
                     }
                     //此时判断resultList的大小
                     if (resultList.size() == 0) {
@@ -289,7 +288,7 @@ public class SearchActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-            }else if (what == mWhat2) {
+            } else if (what == mWhat2) {
                 //请求成功
                 String result = response.get();
                 try {
@@ -339,7 +338,6 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-            Toast.makeText(SearchActivity.this, "数据请求失败，请重试!", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -354,48 +352,43 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 simpleDefine();
-                //在判断价格升序还是降序
-                search_num_down.setChecked(false);
-                search_price_down.setClickable(true);
-                search_price.setTextColor(getResources().getColor(R.color.topical));
-                search_num.setTextColor(getResources().getColor(R.color.bottomtext));
-                search_price_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        simpleDefine();
-                        search_num_down.setClickable(false);
-                        search_num.setTextColor(getResources().getColor(R.color.bottomtext));
-                        search_price.setTextColor(getResources().getColor(R.color.topical));
-                        Collections.sort(resultList, new Comparator<SearchGoods>() {
-                            @Override
-                            public int compare(SearchGoods gd1, SearchGoods gd2) {
-                                //综合排名按降序排列>从低到高
-                                if (gd1.getGoods_platform_price() > gd2.getGoods_platform_price()) {
-                                    return 1;
-                                }
-                                if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
-                                    return 0;
-                                }
-                                return -1;
+                if (!priceFlag) {
+                    search_price.setText("价格 ∧");
+                    //点击了价格按钮，这样的话price和升序按钮都变金黄色，此时做出升序排序操作
+                    Collections.sort(resultList, new Comparator<SearchGoods>() {
+                        @Override
+                        public int compare(SearchGoods gd1, SearchGoods gd2) {
+                            //综合排名按降序排列>从低到高
+                            if (gd1.getGoods_platform_price() < gd2.getGoods_platform_price()) {
+                                return 1;
                             }
-                        });
-                        mSearchRecycleViewAdapter.notifyDataSetChanged();
-                    }
-                });
-                Collections.sort(resultList, new Comparator<SearchGoods>() {
-                    @Override
-                    public int compare(SearchGoods gd1, SearchGoods gd2) {
-                        //综合排名按降序排列>从低到高
-                        if (gd1.getGoods_platform_price() < gd2.getGoods_platform_price()) {
-                            return 1;
+                            if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
+                                return 0;
+                            }
+                            return -1;
                         }
-                        if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
-                            return 0;
+                    });
+                    mSearchRecycleViewAdapter.notifyDataSetChanged();
+                    priceFlag=true;
+                } else {
+                    search_price.setText("价格 ∨");
+                    //将价格排序按钮变成降序
+                    Collections.sort(resultList, new Comparator<SearchGoods>() {
+                        @Override
+                        public int compare(SearchGoods gd1, SearchGoods gd2) {
+                            //综合排名按降序排列>从低到高
+                            if (gd1.getGoods_platform_price() > gd2.getGoods_platform_price()) {
+                                return 1;
+                            }
+                            if (gd1.getGoods_platform_price() == gd2.getGoods_platform_price()) {
+                                return 0;
+                            }
+                            return -1;
                         }
-                        return -1;
-                    }
-                });
-                mSearchRecycleViewAdapter.notifyDataSetChanged();
+                    });
+                    mSearchRecycleViewAdapter.notifyDataSetChanged();
+                    priceFlag=false;
+                }
             }
         });
         //综合
@@ -403,12 +396,10 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 simpleDefine();
-                search_price.setTextColor(getResources().getColor(R.color.bottomtext));
-                search_num.setTextColor(getResources().getColor(R.color.bottomtext));
                 Collections.sort(resultList, new Comparator<SearchGoods>() {
                     @Override
                     public int compare(SearchGoods gd1, SearchGoods gd2) {
-                        //价格默认排名按降序排列
+                        //价格默认排名按升序排列
                         if (gd1.getSales() * 0.6 + gd1.getGoods_platform_price() * 0.4 + gd1.getGoods_comment_count() * 0.2 < gd2.getSales() * 0.6 + gd2.getGoods_platform_price() * 0.4 + gd2.getGoods_comment_count() * 0.2) {
                             return 1;
                         }
@@ -428,51 +419,48 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 simpleDefine();
-                search_num.setTextColor(getResources().getColor(R.color.topical));
-                search_price.setTextColor(getResources().getColor(R.color.bottomtext));
-                search_price_down.setChecked(false);
-                search_num_down.setClickable(true);
-                //在对升序还是降序进行监听
-                search_num_down.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        simpleDefine();
-                        search_price.setTextColor(getResources().getColor(R.color.bottomtext));
-                        search_price_down.setClickable(false);
-                        search_num.setTextColor(getResources().getColor(R.color.topical));
-                        Collections.sort(resultList, new Comparator<SearchGoods>() {
-                            @Override
-                            public int compare(SearchGoods gd1, SearchGoods gd2) {
-                                //综合排名按降序排列
-                                if (gd1.getSales() > gd2.getSales()) {
-                                    return 1;
-                                }
-                                if (gd1.getSales() == gd2.getSales()) {
-                                    return 0;
-                                }
-                                return -1;
+                if (!numFlag) {
+                    search_num.setText("销量 ∧");
+                    //销量按钮点击啦，字体和升序按钮都亮啦！
+                    Collections.sort(resultList, new Comparator<SearchGoods>() {
+                        @Override
+                        public int compare(SearchGoods gd1, SearchGoods gd2) {
+                            //综合排名默认按降序排列
+                            if (gd1.getSales() < gd2.getSales()) {
+                                return 1;
                             }
-                        });
-                        mSearchRecycleViewAdapter.notifyDataSetChanged();
-                    }
-                });
-                Collections.sort(resultList, new Comparator<SearchGoods>() {
-                    @Override
-                    public int compare(SearchGoods gd1, SearchGoods gd2) {
-                        //综合排名默认按降序排列
-                        if (gd1.getSales() < gd2.getSales()) {
-                            return 1;
+                            if (gd1.getSales() == gd2.getSales()) {
+                                return 0;
+                            }
+                            return -1;
                         }
-                        if (gd1.getSales() == gd2.getSales()) {
-                            return 0;
+                    });
+
+                    mSearchRecycleViewAdapter.notifyDataSetChanged();
+                    numFlag=true;
+                } else {
+                    search_num.setText("销量 ∨");
+                    Collections.sort(resultList, new Comparator<SearchGoods>() {
+                        @Override
+                        public int compare(SearchGoods gd1, SearchGoods gd2) {
+                            //综合排名按降序排列
+                            if (gd1.getSales() > gd2.getSales()) {
+                                return 1;
+                            }
+                            if (gd1.getSales() == gd2.getSales()) {
+                                return 0;
+                            }
+                            return -1;
                         }
-                        return -1;
-                    }
-                });
-                mSearchRecycleViewAdapter.notifyDataSetChanged();
+                    });
+                    mSearchRecycleViewAdapter.notifyDataSetChanged();
+                    numFlag=false;
+                }
+
             }
         });
     }
+
 
     //事件监听
     private void initListeners() {
@@ -637,8 +625,6 @@ public class SearchActivity extends AppCompatActivity {
         search_comprise = (RadioButton) findViewById(R.id.search_comprise);
         search_num = (RadioButton) findViewById(R.id.search_num);
         search_price = (RadioButton) findViewById(R.id.search_price);
-        search_num_down = (RadioButton) findViewById(R.id.search_num_down);
-        search_price_down = (RadioButton) findViewById(R.id.search_price_down);
         //筛选监听
         searchByShit();
         myHelper = new MyHelper(SearchActivity.this);
@@ -809,6 +795,7 @@ public class SearchActivity extends AppCompatActivity {
         request.setCacheMode(CacheMode.DEFAULT);
         mRequestQueue.add(mWhat2, request, mOnResponseListener);
     }
+
     public void show(String text) {
         if (mToast == null) {
             mToast = Toast.makeText(SearchActivity.this, text, Toast.LENGTH_LONG);

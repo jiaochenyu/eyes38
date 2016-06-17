@@ -39,6 +39,7 @@
                 android:padding="5dp"
                 android:src="@mipmap/user_order_detail"/>
         </LinearLayout>
+
     </RelativeLayout>
     <!-- 内容 -->
     <ScrollView

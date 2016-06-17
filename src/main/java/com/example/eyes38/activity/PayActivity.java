@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -22,6 +21,7 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.PayAdapter;
 import com.example.eyes38.beans.CartGoods;
 import com.example.eyes38.beans.Receipt;
+import com.example.eyes38.user_activity.User_orderActivity;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -49,6 +49,7 @@ public class PayActivity extends AppCompatActivity {
     public final static int mDefaultAdressWhat = 2;
     public final static int mPeiSong = 3;
     public final static int mJPUSHWhat = 4;
+    public final static int mDELETEFINISH = 5; //删除购物车
     private ImageView payBackImag; //返回
     private RelativeLayout mPayAddressRl, mNotEmptyRl;
     private TextView allGoodsPrice, peisongMoney, totalPrice; //收货地址(显示默认)、总价、运费、总价格(商品价格+运费)
@@ -294,7 +295,10 @@ public class PayActivity extends AppCompatActivity {
             }
 
             if (what == mJPUSHWhat) {
-
+                //极光推送
+            }
+            if (what == mDELETEFINISH){
+                //删除购物车
             }
 
         }
@@ -410,7 +414,14 @@ public class PayActivity extends AppCompatActivity {
                 Show("支付成功!");
                 //推送消息
                 pushMessage();
-
+                //并且删除购物车
+                getDeleteNoHttpMethod();
+                //跳转到个人中心代发货
+                Intent intent = new Intent(PayActivity.this, User_orderActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("TAG",2);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
 
             // 无论成功与否,返回订单号
@@ -437,7 +448,6 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void pushMessage() {
-        Log.e("支付成功","支付成功");
         String id = sp.getString("CUSTOMER_ID", "");
         String name = sp.getString("USER_NAME", "");
         String path = "http://10.40.7.37:8080/JPush_web/PushServlet";
@@ -449,4 +459,15 @@ public class PayActivity extends AppCompatActivity {
         mRequestQueue.add(mJPUSHWhat, request, mOnResponseListener);
     }
 
+    private void getDeleteNoHttpMethod() {
+        for (int i = 0; i < mList.size(); i++) {
+            String url = "http://38eye.test.ilexnet.com/api/mobile/cart-api/cart/" + mList.get(i).getShopping_cart_id();
+            mRequestQueue = NoHttp.newRequestQueue();
+            Request<String> request = NoHttp.createStringRequest(url, RequestMethod.DELETE);
+            request.addHeader("Authorization", authorization()); // 添加请求头
+            mRequestQueue.add(mDELETEFINISH, request, mOnResponseListener);
+
+        }
+
+    }
 }

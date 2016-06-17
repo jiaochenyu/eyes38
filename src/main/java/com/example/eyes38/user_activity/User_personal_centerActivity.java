@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.eyes38.R;
+import com.example.eyes38.fragment.UserFragment;
 import com.example.eyes38.utils.GetToken;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -72,7 +73,6 @@ public class User_personal_centerActivity extends AppCompatActivity {
     private Spinner mSpinner;
     private RequestQueue mRequestQueue;
     private Button user_person_center_save;
-    Intent mIntent;
     //七牛云
     public static final String TAG = "MyText";
     String netPath = "http://o8oqvjhsv.bkt.clouddn.com";//外链域名
@@ -120,7 +120,6 @@ public class User_personal_centerActivity extends AppCompatActivity {
     }
 
     private void initEditListener() {
-
         //对确定按钮进行监听
         user_person_center_save.setOnClickListener(new View.OnClickListener() {
             @Override

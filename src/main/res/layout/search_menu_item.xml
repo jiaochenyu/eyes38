@@ -10,6 +10,7 @@
                 android:orientation="vertical">
 
     <ImageView
+        android:padding="5dp"
         android:id="@+id/sort_sort_item_imageview"
         android:layout_width="130dp"
         android:layout_height="130dp"
@@ -18,13 +19,13 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:gravity="bottom|left"
+        android:layout_marginTop="5dp"
+        android:gravity="bottom|left|center"
         android:id="@+id/sort_sort_item_nametextview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/sort_sort_item_imageview"
         android:text="苹果" />
-
     <TextView
         android:layout_marginBottom="0dp"
         android:id="@+id/sort_sort_item_remark"
@@ -45,17 +46,30 @@
         android:layout_toRightOf="@id/sort_sort_item_remark"
         android:textSize="18sp"
         android:text="3.4" />
-
     <TextView
         android:layout_marginBottom="0dp"
         android:id="@+id/sort_sort_item_unittextview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/goods_detail_addcar"
+        android:layout_below="@id/sort_sort_item_nametextview"
+        android:layout_marginLeft="70dp"
+        android:textSize="18sp"
+        android:text="3.4/500g" />
+
+    <TextView
+        android:layout_marginBottom="0dp"
+        android:id="@+id/sort_sort_item_xiaoliang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:gravity="bottom|right"
+        android:textSize="18sp"
+        android:textColor="@color/topical"
+        android:gravity="bottom"
+        android:layout_marginLeft="10dp"
         android:layout_below="@id/sort_sort_item_nametextview"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:text="3.4/500g" />
+        android:text="销量" />
 
 </RelativeLayout>

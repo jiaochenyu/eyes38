@@ -78,20 +78,12 @@ public class User_orderActivity extends AppCompatActivity {
          */
         switch (index) {
             case ALL:
-                if (mAllFragment == null) {
                     mAllFragment = new AllFragment();
                     mFragmentTransaction.add(R.id.user_fragment_container, mAllFragment);
-                } else {
-                    mFragmentTransaction.show(mAllFragment);
-                }
                 break;
             case PAY:
-                if (mPayFragment == null) {
-                    mPayFragment = new PayFragment();
-                    mFragmentTransaction.add(R.id.user_fragment_container, mPayFragment);
-                } else {
-                    mFragmentTransaction.show(mPayFragment);
-                }
+                mPayFragment = new PayFragment();
+                mFragmentTransaction.add(R.id.user_fragment_container, mPayFragment);
                 break;
             case DELIEVER:
                 if (mDelieverFragment == null) {

@@ -33,11 +33,11 @@
                 />
 
             <ImageView
-                android:padding="2dp"
                 android:id="@+id/user_message"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="2dp"
                 android:src="@mipmap/tz"/>
 
             <TextView
@@ -53,218 +53,219 @@
         android:id="@+id/usercontent"
         style="@style/pagecontent">
 
-    <LinearLayout
-        android:id="@+id/user_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <!--头像部分-->
         <LinearLayout
-            android:id="@+id/user_person_set"
+            android:id="@+id/user_content"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4.72"
-            android:background="@mipmap/ubgg"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--仅仅只是头像部分哦-->
+            <!--头像部分-->
             <LinearLayout
-                android:id="@+id/user_photo"
+                android:id="@+id/user_person_set"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3.53"
+                android:layout_weight="4.72"
+                android:background="@mipmap/ubgg"
                 android:orientation="vertical">
-                <ImageView
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/user_main_image"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_gravity="center" />
-            </LinearLayout>
-            <!---用户电话喽-->
-            <LinearLayout
-                android:layout_marginBottom="10sp"
-                android:id="@+id/user_tel"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.59"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/username_tel_set"
+                <!--仅仅只是头像部分哦-->
+                <LinearLayout
+                    android:id="@+id/user_photo"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1.18"
-                    android:gravity="center"
-                    android:text="15538299972"
-                    android:textColor="#FFF"
-                    android:textSize="20sp"/>
+                    android:layout_weight="3.53"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/user_main_image"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"/>
+
+                </LinearLayout>
+                <!---用户电话喽-->
+                <LinearLayout
+                    android:id="@+id/user_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="10sp"
+                    android:layout_weight="0.59"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/username_tel_set"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.18"
+                        android:gravity="center"
+                        android:text="15538299972"
+                        android:textColor="#FFF"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <!--我只是一道分割线-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.67"
+                android:background="#F2F2F2"/>
+            <!--我的订单-->
+            <LinearLayout
+                android:id="@+id/user_myorder"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.45"
+                android:background="#FFF">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center|right"
+                    android:text="我的订单"
+                    android:textSize="15sp"/>
+                <!--查看我的订单-->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="0dp"
+                    android:layout_weight="6"
+                    android:gravity="center|right"
+                    android:text="查看我的订单"
+                    android:textColor="#d9d9d9"
+                    android:textSize="15sp"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:src="@mipmap/indicator_right"/>
+            </LinearLayout>
+
+            <!--我只是一道分割线啦-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.001"
+                android:text=""
+                android:textSize="0.1sp"/>
+            <!--待....-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.56"
+                android:background="@drawable/user_set_border"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFF"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/user_purse"
+                        style="@style/user_radio"
+                        android:checked="true"
+                        android:drawableTop="@drawable/user_pay"
+                        android:padding="5dp"
+                        android:text="待付款"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/user_send"
+                        style="@style/user_radio"
+                        android:drawableTop="@drawable/user_deliver"
+                        android:padding="5dp"
+                        android:text="待发货"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/user_receive"
+                        style="@style/user_radio"
+                        android:drawableTop="@drawable/user_receive"
+                        android:padding="5dp"
+                        android:text="待收货"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/user_back"
+                        style="@style/user_radio"
+                        android:drawableTop="@drawable/user_back"
+                        android:padding="5dp"
+                        android:text="退货"
+                        />
+                </RadioGroup>
+
+            </LinearLayout>
+            <!--我只是一道分割线啦-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.001"
+                android:text=""
+                android:textSize="10sp"/>
+            <!--积分管理-->
+            <LinearLayout
+                android:id="@+id/user_mycredits"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#fff">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:src="@mipmap/ion_coupon"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="12"
+                    android:gravity="center_vertical"
+                    android:text="积分管理"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+            <!--我只是一道分割线啦-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.001"
+                android:text=""
+                android:textSize="0.1sp"/>
+            <!--收货地址管理-->
+            <LinearLayout
+                android:id="@+id/user_myaddress"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#fff">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:src="@mipmap/ion_message"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="12"
+                    android:gravity="center_vertical"
+                    android:text="收货地址管理"
+                    android:textSize="15sp"/>
+
             </LinearLayout>
 
 
         </LinearLayout>
-        <!--我只是一道分割线-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.67"
-            android:background="#F2F2F2"/>
-        <!--我的订单-->
-        <LinearLayout
-            android:id="@+id/user_myorder"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2.45"
-            android:background="#FFF">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:layout_weight="2"
-                android:gravity="center|right"
-                android:text="我的订单"
-                android:textSize="15sp"/>
-            <!--查看我的订单-->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:layout_weight="6"
-                android:gravity="center|right"
-                android:text="查看我的订单"
-                android:textColor="#d9d9d9"
-                android:textSize="15sp"/>
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:src="@mipmap/indicator_right"/>
-        </LinearLayout>
-
-        <!--我只是一道分割线啦-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text=""
-            android:textSize="0.1sp"
-            android:layout_weight="0.001"/>
-        <!--待....-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.56"
-            android:background="@drawable/user_set_border"
-            android:orientation="horizontal">
-
-            <RadioGroup
-                android:id="@+id/group"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFF"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:checked="true"
-                    android:id="@+id/user_purse"
-                    android:padding="5dp"
-                    style="@style/user_radio"
-                    android:drawableTop="@drawable/user_pay"
-                    android:text="待付款"
-                    />
-
-                <RadioButton
-                    android:padding="5dp"
-                    android:id="@+id/user_send"
-                    style="@style/user_radio"
-                    android:drawableTop="@drawable/user_deliver"
-                    android:text="待发货"
-                    />
-
-                <RadioButton
-                    android:padding="5dp"
-                    android:id="@+id/user_receive"
-                    style="@style/user_radio"
-                    android:drawableTop="@drawable/user_receive"
-                    android:text="待收货"
-                    />
-
-                <RadioButton
-                    android:padding="5dp"
-                    android:id="@+id/user_back"
-                    style="@style/user_radio"
-                    android:drawableTop="@drawable/user_back"
-                    android:text="退货"
-                    />
-            </RadioGroup>
-
-        </LinearLayout>
-<!--我只是一道分割线啦-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text=""
-            android:textSize="10sp"
-            android:layout_weight="0.001"/>
-        <!--积分管理-->
-        <LinearLayout
-            android:id="@+id/user_mycredits"
-            android:background="#fff"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <ImageView
-                android:src="@mipmap/ion_coupon"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="积分管理"
-                android:textSize="15sp"
-                android:layout_weight="12"
-                android:gravity="center_vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"/>
-
-        </LinearLayout>
-        <!--我只是一道分割线啦-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text=""
-            android:textSize="0.1sp"
-            android:layout_weight="0.001"/>
-        <!--收货地址管理-->
-        <LinearLayout
-            android:id="@+id/user_myaddress"
-            android:background="#fff"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <ImageView
-                android:src="@mipmap/ion_message"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="收货地址管理"
-                android:textSize="15sp"
-                android:layout_weight="12"
-                android:gravity="center_vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"/>
-
-        </LinearLayout>
-
-
-
-
-
-
-    </LinearLayout>
-
 
 
     </ScrollView>
 
 
-    </LinearLayout>
+</LinearLayout>

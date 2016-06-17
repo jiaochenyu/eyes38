@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -17,12 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.eyes38.Application.Application;
 import com.example.eyes38.R;
 import com.example.eyes38.beans.UserOrderBean;
 import com.example.eyes38.beans.UserOrderGoods;
-import com.example.eyes38.fragment.user.PayFragment;
 import com.example.eyes38.user_activity.User_order_detailActivity;
 import com.example.eyes38.utils.CartDialogDelete;
+import com.example.eyes38.utils.CommentAddDialog;
 import com.example.eyes38.utils.DividerItemDecoration;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -40,8 +40,7 @@ import java.util.List;
  * .
  * Created by weixiao on 2016/6/4.
  */
-public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAdapter.ViewHolder> implements View.OnClickListener {
-    public static final int PAYDELETE = 36;
+public class User_order_evaluteAdapter extends RecyclerView.Adapter<User_order_evaluteAdapter.ViewHolder> implements View.OnClickListener {
     //数据源
     List<UserOrderBean> mList;
     Context mContext;
@@ -51,13 +50,11 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
     SharedPreferences sp;  //偏好设置 看用户登录是否登录
     private int setPosition;//取消位置
     private OnItemClickListener mOnItemClickListener = null;
-    public Handler handler = new PayFragment().mHandler;
-    private ComeBack comeBack;
-
-    public User_order_PayAdapter(List<UserOrderBean> list, Context context, ComeBack comeBack) {
+    private ViewHolder mViewHolder;
+    private Toast  mToast;
+    public User_order_evaluteAdapter(List<UserOrderBean> list, Context context) {
         mList = list;
         mContext = context;
-        this.comeBack=comeBack;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -76,32 +73,61 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.pingjia_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //显示评论框
+                final CommentAddDialog.Builder builder = new CommentAddDialog.Builder(mContext);
+                builder.setCancelOnClickListener("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCommitOnClickListener("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (Application.isLogin){
+                            String comment  = builder.getmEditText();
+                            if (comment.equals("")){
+                                show("评论不能为空!");
+                            }else {
+                                show("评论成功!");
+                            }
+                        }else {
+                            show("当前未登录，请先登录");
+                        }
+                    }
+                });
+                builder.create().show();
+            }
+        });
         //设置取消订单按钮点击事件
         holder.order_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setPosition = position;
+                mViewHolder = holder;
                 showDeleteDialog();//点击订单取消
 
             }
         });
         holder.create_date.setText(mList.get(position).getCreate_date() + "");
-        if (mList.get(position).getOrder_status_id() == 16) {
-            holder.order_status_id.setText("待付款");
-            holder.order_cancel.setVisibility(View.VISIBLE);
-            holder.pay_order.setVisibility(View.VISIBLE);
-            holder.evalute_order.setVisibility(View.GONE);
+        if (mList.get(position).getOrder_status_id() == 5) {
+            holder.order_status_id.setText("已完成");
+            holder.order_cancel.setVisibility(View.GONE);
+            holder.pay_order.setVisibility(View.GONE);
             holder.follow_order.setVisibility(View.GONE);
-        } else if (mList.get(position).getOrder_status_id() == 7) {
-            holder.order_status_id.setText("订单取消");
-            holder.handerOrder.setVisibility(View.GONE);
+            holder.evalute_order.setVisibility(View.GONE);
+            holder.pingjia_order.setVisibility(View.VISIBLE);
         }
         holder.total_count.setText(mList.get(position).getTotal_count() + "");
         holder.total.setText("¥ " + mList.get(position).getTotal());
         List<UserOrderGoods> list = mList.get((position)).getmList();//获取内部图片的list集合
         GridLayoutManager manager = new GridLayoutManager(mContext, 1);
         holder.mheadRecyclView.setLayoutManager(manager);
-        holder.mheadRecyclView.addItemDecoration(new DividerItemDecoration(mContext,1));
+        holder.mheadRecyclView.addItemDecoration(new DividerItemDecoration(mContext, 1));
         mSecondAdapter = new User_order_orderAdapter(list, mContext);
         holder.mheadRecyclView.setAdapter(mSecondAdapter);
         mSecondAdapter.setOnItemClickListener(new User_order_orderAdapter.OnRecyclerViewItemClickListener() {
@@ -176,13 +202,9 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
                     JSONObject object = new JSONObject(result);
                     boolean deleteOrder = object.getBoolean("success");
                     if (deleteOrder) {
-                        mList.remove(setPosition);
-                        if (mList.size() == 0) {
-                            //handler.sendEmptyMessage(new PayFragment().MFINISH);
-                            comeBack.getNotity();
-                        }
-                        notifyDataSetChanged();
                         Toast.makeText(mContext, "取消成功", Toast.LENGTH_SHORT).show();
+                        mViewHolder.order_status_id.setText("订单取消");
+                        mViewHolder.handerOrder.setVisibility(View.GONE);
                     } else {
                         Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
                     }
@@ -227,7 +249,7 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
         TextView total_count;//总共数量
         TextView total;//总共价格（支付金额）
         RecyclerView mheadRecyclView;
-        Button order_cancel, pay_order,follow_order,evalute_order;//订单取消按钮
+        Button order_cancel, pay_order, follow_order, evalute_order, pingjia_order;//订单取消按钮
         LinearLayout handerOrder;
 
         public ViewHolder(View itemView) {
@@ -239,10 +261,20 @@ public class User_order_PayAdapter extends RecyclerView.Adapter<User_order_PayAd
             mheadRecyclView = (RecyclerView) itemView.findViewById(R.id.order_item_recycle);
             order_cancel = (Button) itemView.findViewById(R.id.cancel_order);
             pay_order = (Button) itemView.findViewById(R.id.pay_order);
-            follow_order= (Button) itemView.findViewById(R.id.follow_order);
-            evalute_order= (Button) itemView.findViewById(R.id.evalute_order);
-            handerOrder= (LinearLayout) itemView.findViewById(R.id.handerOrder);
+            follow_order = (Button) itemView.findViewById(R.id.follow_order);
+            evalute_order = (Button) itemView.findViewById(R.id.evalute_order);
+            pingjia_order = (Button) itemView.findViewById(R.id.pingjia_order);
+            handerOrder = (LinearLayout) itemView.findViewById(R.id.handerOrder);
         }
+    }
+    private void show(String text) {
+        //显示信息
+        if (mToast == null) {
+            mToast = Toast.makeText(mContext, text, Toast.LENGTH_LONG);
+        } else {
+            mToast.setText(text);
+        }
+        mToast.show();
     }
 
 

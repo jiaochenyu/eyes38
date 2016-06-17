@@ -60,7 +60,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:name=".Application.Application"
         android:allowBackup="true"
@@ -126,15 +125,15 @@
         <activity android:name=".activity.home.LoadActivity"/>
         <activity android:name=".user_activity.User_order_detailActivity"/>
         <activity android:name=".activity.PaySelectActivity"/>
-        <!--监听网络广播的服务-->
+
+        <!-- 监听网络广播的服务 -->
 
         <service android:name=".utils.NetworkStateService">
             <intent-filter>
                 <action android:name="com.eyes38.network.state"/>
             </intent-filter>
         </service>
-=======
->>>>>>> 0155c541ac19b90e8b2d130c35baf4556e633a45
+
 
         <activity android:name=".activity.WelcomeActivity">
             <intent-filter>

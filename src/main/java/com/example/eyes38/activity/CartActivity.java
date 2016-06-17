@@ -358,6 +358,12 @@ public class CartActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getIsCartEmptyHttpMethod();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mRequestQueue.stop();
