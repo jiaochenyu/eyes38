@@ -2,7 +2,9 @@ package com.example.eyes38.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eyes38.R;
 import com.example.eyes38.adapter.PayAdapter;
@@ -29,9 +32,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import c.b.BP;
+import c.b.PListener;
+
 
 public class PayActivity extends AppCompatActivity {
     public final static int mAdressIDWhat = 1;
@@ -44,6 +54,7 @@ public class PayActivity extends AppCompatActivity {
     private TextView goPay;  // 去付款
     private RadioGroup mPayRadioGroup; //支付方式
     private RadioButton mWeChatRadioButton; //微信支付
+    private RadioButton alipayRadioButton; //微信支付
     private RecyclerView mGoodsRecyclerView; // 显示订单商品
     private List<CartGoods> mList; // 把购物车选中的商品信息传过来
     private float peisong = 0;
@@ -54,6 +65,9 @@ public class PayActivity extends AppCompatActivity {
     private Receipt mReceipt;
     private String address_id; //收货地址id
     private float jiesuanMoney;  //总金额 商品金额+配送费用
+    private int PLUGINVERSION = 7;
+    private boolean payStyle = false;
+    private Toast mToast;
 
     public float getPeisong() {
         return peisong;
@@ -99,6 +113,9 @@ public class PayActivity extends AppCompatActivity {
 
 
     private void initViews() {
+        mWeChatRadioButton = (RadioButton) findViewById(R.id.weChatPay);
+        alipayRadioButton = (RadioButton) findViewById(R.id.alipayPay);
+        goPay = (TextView) findViewById(R.id.gopay);
         payBackImag = (ImageView) findViewById(R.id.pay_back);
         mPayAddressRl = (RelativeLayout) findViewById(R.id.pay_adress);
         mNotEmptyRl = (RelativeLayout) findViewById(R.id.gopay_address_notempty);
@@ -142,7 +159,22 @@ public class PayActivity extends AppCompatActivity {
         });*/
         payBackImag.setOnClickListener(clickListener);
         mPayAddressRl.setOnClickListener(clickListener);
+        goPay.setOnClickListener(clickListener);
+        mWeChatRadioButton.setOnClickListener(clickListener);
+        alipayRadioButton.setOnClickListener(clickListener);
     }
+
+    private void gopay(boolean style) {
+        //第三方支付
+        int pluginVersion = BP.getPluginVersion();
+        if (pluginVersion < PLUGINVERSION) {// 为0说明未安装支付插件, 否则就是支付插件的版本低于官方最新版
+            Show(pluginVersion == 0 ? "监测到本机尚未安装支付插件,无法进行支付,请先安装插件(无流量消耗)"
+                    : "监测到本机的支付插件不是最新版,最好进行更新,请先更新插件(无流量消耗)");
+            installBmobPayPlugin("bp.db");
+        }
+        pay(style,jiesuanMoney);
+    }
+
 
     //**********账号密码进行base64加密
     private String authorization() {
@@ -291,9 +323,15 @@ public class PayActivity extends AppCompatActivity {
                     break;
                 case R.id.weChatPay:
                     //选择了微信支付方式
+                    payStyle = false;
+                    break;
+                case R.id.alipayPay:
+                    //选择了支付宝支付方式
+                    payStyle = true;
                     break;
                 case R.id.gopay:
                     //付款之前先判断收货地址 和支付方式
+                    gopay(payStyle);
                     break;
             }
         }
@@ -311,4 +349,79 @@ public class PayActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    private void Show(String text) {
+        //显示信息
+        if (mToast == null) {
+            mToast = Toast.makeText(PayActivity.this, text, Toast.LENGTH_LONG);
+        } else {
+            mToast.setText(text);
+        }
+        mToast.show();
+    }
+    private void installBmobPayPlugin(String fileName) {
+        try {
+            InputStream is = getAssets().open(fileName);
+            File file = new File(Environment.getExternalStorageDirectory()
+                    + File.separator + fileName + ".apk");
+            if (file.exists())
+                file.delete();
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] temp = new byte[1024];
+            int i = 0;
+            while ((i = is.read(temp)) > 0) {
+                fos.write(temp, 0, i);
+            }
+            fos.close();
+            is.close();
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.parse("file://" + file),
+                    "application/vnd.android.package-archive");
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void pay(final boolean alipayOrWechatPay,float countMoney) {
+        Show("正在获取订单...");
+        BP.pay("商品", "商品", countMoney, alipayOrWechatPay, new PListener() {
+
+            // 因为网络等原因,支付结果未知(小概率事件),出于保险起见稍后手动查询
+            @Override
+            public void unknow() {
+                Show("支付结果未知,请稍后手动查询");
+            }
+
+            // 支付成功,如果金额较大请手动查询确认
+            @Override
+            public void succeed() {
+                Show("支付成功!");
+            }
+
+            // 无论成功与否,返回订单号
+            @Override
+            public void orderId(String orderId) {
+                // 此处应该保存订单号,比如保存进数据库等,以便以后查询
+                Show("获取订单成功!请等待跳转到支付页面~");
+            }
+
+            // 支付失败,原因可能是用户中断支付操作,也可能是网络原因
+            @Override
+            public void fail(int code, String reason) {
+
+                // 当code为-2,意味着用户中断了操作
+                // code为-3意味着没有安装BmobPlugin插件
+                if (code == -3) {
+                    Show("监测到你尚未安装支付插件,无法进行支付,请先安装插件(已打包在本地,无流量消耗),安装结束后重新支付");
+                    installBmobPayPlugin("bp.db");
+                } else {
+                    Show("支付取消!");
+                }
+            }
+        });
+    }
+
 }

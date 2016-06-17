@@ -39,21 +39,6 @@
                 android:padding="5dp"
                 android:src="@mipmap/user_order_detail"/>
         </LinearLayout>
-<<<<<<< HEAD
-=======
-     <!--   <TextView
-            android:id="@+id/sort_sort_title"
-            style="@style/pagetitletext"
-            android:text="@string/orders_detail" />
-        <ImageView
-            android:id="@+id/user_order_detail_home"
-            android:padding="5dp"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@mipmap/user_house"/>-->
-
->>>>>>> 7c73afd93024b382328b4b412d024df52741753b
     </RelativeLayout>
     <!-- 内容 -->
     <ScrollView

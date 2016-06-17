@@ -56,13 +56,7 @@
                         android:id="@+id/user_person_photo"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
-                        android:layout_gravity="center"
-<<<<<<< HEAD
-                       />
-=======
-                        android:layout_marginTop="20dp"
-                        android:src="@mipmap/user_photo"/>
->>>>>>> 7c73afd93024b382328b4b412d024df52741753b
+                        android:layout_gravity="center" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

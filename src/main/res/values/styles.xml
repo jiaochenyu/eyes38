@@ -115,7 +115,7 @@
     <style name="goods_detail_unit_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/goods_detail_addcar</item>
     </style>
     <!--商品详情备注字体属性-->
@@ -125,8 +125,7 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:background">@color/white</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
     </style>
     <!--商品详情界面 购买区域radiogroup属性-->
     <style name="goods_detail_raio_consult">

@@ -19,6 +19,7 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.Comment_Adapter;
 import com.example.eyes38.beans.Comments;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.utils.CommentAddDialog;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.example.eyes38.utils.SpaceItemDecoration;
@@ -133,6 +134,8 @@ public class CommentActivity extends AppCompatActivity {
                             }
                         }else {
                             show("当前未登录，请先登录");
+                            Intent intent = new Intent(CommentActivity.this, User_loginActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });
