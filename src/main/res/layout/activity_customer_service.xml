@@ -27,18 +27,11 @@
 
     <RelativeLayout
        style="@style/pagecontent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/servicecustomer_recyclerview"
-            android:paddingTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/sort_title_background" />
-
         <LinearLayout
+            android:id="@+id/servicecustomer_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/servicecustomer_recyclerview"
+            android:layout_alignParentBottom="true"
             android:padding="5dp">
 
             <EditText
@@ -58,6 +51,13 @@
                 android:text="发送"
                 android:textColor="@color/white" />
         </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/servicecustomer_recyclerview"
+            android:paddingTop="5dp"
+            android:layout_above="@id/servicecustomer_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/sort_title_background" />
     </RelativeLayout>
 
 </LinearLayout>

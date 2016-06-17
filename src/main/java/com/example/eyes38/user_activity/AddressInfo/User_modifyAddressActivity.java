@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,11 +52,11 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     private static final int mFinish2 = 563;
     private static final int mFinish3 = 565;
     private static final int mFinish4 = 568;
-    private boolean true1, true2, true3, true4, onlyTrue;
+    private boolean true1, true2, true3, true4; //分别代表收货人信息,电话号码,区级地区,详细地址,
     private boolean showFirst;//只用于提示手机号码一次
-    private ImageView address_adjust1, address_adjust2, address_adjust3, address_adjust4;//四个用于判断的图片
+    private ImageView address_adjust1, address_adjust2, address_adjust4;//四个用于判断的图片
     private Toast mToast;
-    private boolean flag, flag1, flag2, flag3, flag4,flag5;
+    private boolean flag, flag1, flag2, flag3, flag4, flag5;
     private Button address_button;
     private EditText address_name, address_tel, address_detail;//控件
     private Spinner province, city, area, plot;
@@ -74,7 +73,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     ArrayAdapter<String> proAdapter, cityAdapter, areaAdapter, plotAdapter;//适配器
     private ReceiptAddress mReceipt;//收货地址的javabean
     private ReceiptAddress mReceiptAddress;//接收传递过来的收货地址javabean
-    String[] tmp;
+    String[] tmp;//保存spinner的值
     //Handler
     private Handler mHandler = new Handler() {
         @Override
@@ -117,26 +116,37 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         initListener1();//监听省事件
         initListener2();//监听市级事件
         initListener3();//监听区级事件
+        initListener4();//监听小区事件
     }
 
     private void ButtonListener() {
         address_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //获取所有控件中得内容,存到mReceipt中,用来传值
-                mReceipt.setCustomer_id(customer_id);
-                mReceipt.setFirstname(address_name.getText().toString());
-                mReceipt.setMobile(address_tel.getText().toString());
-                mReceipt.setAddress_1(address_detail.getText().toString());
-                //取到了所有需要的参数,现在用增加收货地址的接口保存收货地址
-                flag4 = true;
-                httpMethod();
-                //跳转到前一个页面
-                Intent intent = new Intent(User_modifyAddressActivity.this, User_take_addressActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
+                                              @Override
+                                              public void onClick(View v) {
+                                                  //获取所有控件中得内容,存到mReceipt中,用来传值
+                                                  mReceipt.setCustomer_id(customer_id);
+                                                  mReceipt.setFirstname(address_name.getText().toString());
+                                                  mReceipt.setMobile(address_tel.getText().toString());
+                                                  mReceipt.setAddress_1(address_detail.getText().toString());
+                                                  //取到了所有需要的参数,现在用增加收货地址的接口保存收货地址
+                                                  if (!true1) {
+                                                      show("收货人不合法");
+                                                  } else if (!true2) {
+                                                      show("电话号码不合法");
+                                                  } else if (!true3) {
+                                                      show("地区选择不合法");
+                                                  } else if (!true4) {
+                                                      show("详细地址为空!");
+                                                  } else {
+                                                      flag4 = true;
+                                                      httpMethod();
+                                                      //跳转到前一个页面
+                                                      Intent intent = new Intent(User_modifyAddressActivity.this, User_take_addressActivity.class);
+                                                      startActivity(intent);
+                                                      finish();
+                                                  }
+                                              }
+                                          }
         );
     }
 
@@ -148,7 +158,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (address_name.length() == 0) {
 
-                    address_adjust1.setVisibility(View.VISIBLE);//默认设置不合法
+                    //address_adjust1.setVisibility(View.VISIBLE);//默认设置不合法
                 }
 
             }
@@ -163,6 +173,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                     show("无法输入，超出字数限制！");
                 } else if (address_name.length() == 0) {
                     address_adjust1.setImageResource(R.mipmap.invalid);
+                    true1 = false;
                 } else {
                     address_adjust1.setImageResource(R.mipmap.valid);
                     true1 = true;
@@ -174,7 +185,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (address_tel.length() == 0) {
-                    address_adjust2.setVisibility(View.VISIBLE);//默认设置不合法
+                    //address_adjust2.setVisibility(View.VISIBLE);//默认设置不合法
                 }
             }
 
@@ -193,11 +204,20 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         showFirst = true;
                     }
                     address_adjust2.setImageResource(R.mipmap.invalid);
+                    true2 = false;
                 } else if (address_tel.length() == 0) {
                     address_adjust2.setImageResource(R.mipmap.invalid);
+                    true2 = false;
                 } else if (address_tel.length() == 11) {
-                    address_adjust2.setImageResource(R.mipmap.valid);
-                    true2 = true;
+                    if (isMobile(text)) {
+                        address_adjust2.setImageResource(R.mipmap.valid);
+                        true2 = true;
+                        ButtonListener();
+                    } else {
+                        address_adjust2.setImageResource(R.mipmap.invalid);
+                        true2 = false;
+                        ButtonListener();
+                    }
                 }
             }
         });
@@ -206,7 +226,8 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (address_detail.length() == 0) {
-                    address_adjust4.setVisibility(View.VISIBLE);//默认设置不合法
+                    //address_adjust4.setVisibility(View.VISIBLE);//默认设置不合法
+                    true4 = false;
                 }
             }
 
@@ -219,6 +240,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (address_detail.length() == 0) {
                     address_adjust4.setImageResource(R.mipmap.invalid);
+                    true4 = false;
                 } else {
                     address_adjust4.setImageResource(R.mipmap.valid);
                     true4 = true;
@@ -229,11 +251,30 @@ public class User_modifyAddressActivity extends AppCompatActivity {
 
     }
 
+    //判断电话号码是否合法
+    public static boolean isMobile(String str) {
+        Pattern p = null;
+        Matcher m = null;
+        boolean b = false;
+        p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
+        m = p.matcher(str);
+        b = m.matches();
+        return b;
+    }
+
     private void initViews() {
+        //开始传过来的信息都是正确的
+        true1 = true;
+        true2 = true;
+        true3 = true;
+        true4 = true;
         address_button = (Button) findViewById(R.id.modify_address_button);
         address_adjust1 = (ImageView) findViewById(R.id.modify_address_adjust1);
         address_adjust2 = (ImageView) findViewById(R.id.modify_address_adjust2);
         address_adjust4 = (ImageView) findViewById(R.id.modify_address_adjust4);
+        address_adjust1.setImageResource(R.mipmap.valid);
+        address_adjust2.setImageResource(R.mipmap.valid);
+        address_adjust4.setImageResource(R.mipmap.valid);
         city_linear = (LinearLayout) findViewById(R.id.modify_city_linear);
         area_linear = (LinearLayout) findViewById(R.id.modify_area_linear);
         plot_linear = (LinearLayout) findViewById(R.id.modify_plot_linear);
@@ -270,6 +311,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         address_name.setText(mReceiptAddress.getFirstname());
         address_tel.setText(mReceiptAddress.getMobile());
         address_detail.setText(mReceiptAddress.getAddress_1());
+        mReceipt.setZone_id(mReceiptAddress.getZone_id());
         String district = mReceiptAddress.getDistrict();
         tmp = district.split(" ");
     }
@@ -321,12 +363,12 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             flag3 = false;
         }
         if (flag4) {
-//          //http://38eye.test.ilexnet.com/api/mobile/address-to-community/detail/105
+            //http://38eye.test.ilexnet.com/api/mobile/address-to-community/detail/105
             //http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses/105修改收货地址
             //http://38eye.test.ilexnet.com/api/mobile/address-to-community/detail/106
             //http://38eye.test.ilexnet.com/api/mobile/address-to-community/save这个接口用来保存收货箱
             //修改收货地址
-            String url5 = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses/"+mReceiptAddress.getAddress_id();
+            String url5 = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customer-addresses/" + mReceiptAddress.getAddress_id();
             Request<String> request5 = NoHttp.createStringRequest(url5, RequestMethod.POST);
             //增加头信息
             String header = "Basic " + newHeader;
@@ -338,11 +380,12 @@ public class User_modifyAddressActivity extends AppCompatActivity {
             request5.add("district_id", mReceipt.getDistrict_id());
             request5.add("firstname", mReceipt.getFirstname());
             request5.add("mobile", mReceipt.getMobile());
+            request5.add("zone_id", mReceipt.getZone_id());
             request5.setCacheMode(CacheMode.DEFAULT);
             mRequestQueue.add(mWHAT5, request5, mOnResponseListener);
             flag4 = false;
         }
-        if(flag5){
+        if (flag5) {
             String url6 = "http://38eye.test.ilexnet.com/api/mobile/address-to-community/save";
             Request<String> request6 = NoHttp.createStringRequest(url6, RequestMethod.POST);
             //增加头信息
@@ -453,7 +496,20 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                         String name = object2.getString("name");
                         plotList.add(name);//第三级县数据
                     }
-                    plot.setAdapter(plotAdapter);
+                    // plot.setSelection(mReceiptAddress.getZone_id(), true);//设置spinner的默认值
+                    if (plotList.size() != 0) {
+                        //找到收货小区,允许修改
+                        true3 = true;
+                        plot.setAdapter(plotAdapter);
+                        plot.setSelection(mReceiptAddress.getZone_id(), true);//设置spinner的默认值
+                        plot_linear.setVisibility(View.VISIBLE);
+                        ButtonListener();
+                    } else {
+                        //没有收货小区,不能修改
+                        true3 = false;
+                        plot_linear.setVisibility(View.GONE);
+                        ButtonListener();
+                    }
                     Message message = new Message();
                     message.what = mFinish4;
                 } catch (Exception e) {
@@ -463,13 +519,13 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                 //请求成功,修改收货地址
                 String result = response.get();
                 try {
-                    flag5=true;
+                    flag5 = true;
                     httpMethod();
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else if (what == mWHAT6){
+            } else if (what == mWHAT6) {
                 //请求成功,修改收货箱成功
                 String result = response.get();
                 try {
@@ -536,7 +592,6 @@ public class User_modifyAddressActivity extends AppCompatActivity {
                 num3 = districtList3.get(position);
                 mReceipt.setDistrict_id(num3 + "");
                 flag3 = true;
-                true3 = true;
                 httpMethod();//费尽心机获取区级数据
 
             }
@@ -553,6 +608,7 @@ public class User_modifyAddressActivity extends AppCompatActivity {
         plot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mReceipt.setZone_id(position);
             }
 
             @Override
@@ -593,6 +649,8 @@ public class User_modifyAddressActivity extends AppCompatActivity {
     }
 
     public void update_password_back3(View view) {
+        Intent intent = new Intent(User_modifyAddressActivity.this, User_take_addressActivity.class);
+        startActivity(intent);
         finish();
     }
 }

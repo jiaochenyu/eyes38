@@ -25,7 +25,6 @@ import com.example.eyes38.utils.CartBadgeView;
 import com.example.eyes38.utils.MessageSQLiteHelp;
 import com.example.eyes38.utils.NetworkStateService;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import cn.jpush.android.api.BasicPushNotificationBuilder;
@@ -91,32 +90,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //开启极光推送 和消息数据库
-        jPushMethod();
+
         //注册网络监听广播的服务
         registerNetService();
+        myHelps = new MessageSQLiteHelp(this);
 //        registerNet();
         //初始化组件
         initView();
         initData();
+        jPushMethod();
         initListeners();
     }
 
     private void jPushMethod() {
-        myHelps = new MessageSQLiteHelp(this);
-        JPushInterface.init(this);
 
+        JPushInterface.init(this);
+        JPushInterface.resumePush(this);
+        String id = sp.getString("CUSTOMER_ID", "");
+        JPushInterface.setAlias(this, id, new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+
+            }
+        });
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(MainActivity.this);
         builder.statusBarDrawable = R.mipmap.logos;
         builder.notificationDefaults = Notification.DEFAULT_VIBRATE;//震动
         builder.notificationFlags = Notification.FLAG_SHOW_LIGHTS; //闪烁灯
         JPushInterface.setPushNotificationBuilder(1, builder);
-        Set<String> sets = new HashSet<>();
+      /*  Set<String> sets = new HashSet<>();
         sets.add("38eyes");
         JPushInterface.setTags(this, sets, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
             }
-        });
+        });*/
+
+
 
     }
 
@@ -146,6 +156,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        jPushMethod();
+        //设置徽章 样式
+            Boolean login_state = sp.getBoolean("STATE", false);
+            if (login_state) {
+                mCartBadgeView.hide();
+            } else {
+                if (getCartGoodsCount() == 0) {
+                    mCartBadgeView.hide();
+                } else {
+                    mCartBadgeView.show();
+                }
+            }
         /**
          * 记录上一次点击的页面编号
          */

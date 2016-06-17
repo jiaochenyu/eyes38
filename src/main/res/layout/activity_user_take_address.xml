@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".user_activity.User_take_addressActivity">
+              xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".user_activity.User_take_addressActivity">
     <!--顶部标题-->
     <RelativeLayout
         android:id="@+id/usertitle"
@@ -16,106 +16,63 @@
             android:layout_height="match_parent"
             android:onClick="user_take_address"
             android:padding="5dp"
-            android:src="@mipmap/back" />
+            android:src="@mipmap/back"/>
 
         <TextView
             android:id="@+id/sort_sort_title"
             style="@style/pagetitletext"
-            android:text="@string/address_manager" />
+            android:text="@string/address_manager"/>
     </RelativeLayout>
 
-    <!--设置主体内容-->
+    <RelativeLayout
+        style="@style/pagecontent">
 
-    <!--<FrameLayout-->
-    <!--android:id="@+id/add_address_container"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="28"-->
-    <!--android:background="@color/sort_title_background">-->
-    <!--&lt;!&ndash;空白时的页面&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:visibility="gone"-->
-    <!--android:id="@+id/add_address_header"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical">-->
-    <!--&lt;!&ndash;上部分空白&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="4">-->
-    <!--</LinearLayout>-->
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="6"-->
-    <!--android:gravity="center">-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/user_getmesssage"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/notice"/>-->
-    <!--</LinearLayout>-->
-    <!--&lt;!&ndash;下部分空白&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="2">-->
-    <!--</LinearLayout>-->
-    <!--&lt;!&ndash;文字部分&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="1">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:text="您未添加任何收货地址。"-->
-    <!--android:textSize="12sp"/>-->
-    <!--</LinearLayout>-->
-    <!--&lt;!&ndash;下部分空白&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="15">-->
-    <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
-    <!--&lt;!&ndash;上部分空白&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:visibility="gone"-->
-    <!--android:id="@+id/add_address_footer"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-    <!--<ListView-->
-    <!--android:id="@+id/add_address_list"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"></ListView>-->
-    <!--</LinearLayout>-->
-
-    <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@+id/user_take_address_ptr"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="28"
-        cube_ptr:ptr_duration_to_close="300"
-        cube_ptr:ptr_duration_to_close_header="2000"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="false"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.7">
-
-        <ListView
-            android:id="@+id/add_address_list"
+        <in.srain.cube.views.ptr.PtrClassicFrameLayout
+            android:id="@+id/user_take_address_ptr"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background"
-            android:divider="@null"/>
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
-    <!--</FrameLayout>-->
+            android:visibility="visible"
+            cube_ptr:ptr_duration_to_close="300"
+            cube_ptr:ptr_duration_to_close_header="2000"
+            cube_ptr:ptr_keep_header_when_refresh="true"
+            cube_ptr:ptr_pull_to_fresh="false"
+            cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+            cube_ptr:ptr_resistance="1.7">
+
+            <ListView
+                android:id="@+id/add_address_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:divider="@null"/>
+        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/address_none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/comment_reply_none_imageview"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="80dp"
+                android:src="@mipmap/notice"/>
+
+            <TextView
+                android:id="@+id/comment_reply_none_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/comment_reply_none_imageview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="暂无收货地址"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <!--新建地址-->
     <LinearLayout
@@ -127,7 +84,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:background="#f2f2f2" />
+            android:background="#f2f2f2"/>
 
         <Button
             android:id="@+id/back_login"
@@ -138,13 +95,13 @@
             android:onClick="user_toaddAddress"
             android:text="新建地址"
             android:textColor="#fff"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:background="#f2f2f2" />
+            android:background="#f2f2f2"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -42,11 +42,6 @@ public class User_phone_setActivity extends AppCompatActivity {
     public void user_set_back(View view) {
         onBackPressed();
     }
-    //前往手机绑定
-    public void user_bindphone_set(View view) {
-        Intent intent=new Intent(User_phone_setActivity.this,User_BindPhoneActivity.class);
-        startActivity(intent);
-    }
     //退出登录
     public void user_back_login(View view) {
         editor=sp.edit();

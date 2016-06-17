@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +17,7 @@ import com.example.eyes38.beans.Consult;
 import com.example.eyes38.utils.ConsultDataBase;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.CacheMode;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
@@ -78,6 +78,7 @@ public class CustomerServiceActivity extends AppCompatActivity {
         String Authorization = "Basic " + newHeader;
         String url = "http://38eye.test.ilexnet.com/api/mobile/customer-api/customers/"+customer_id;
         Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.GET);
+        mRequest.setCacheMode(CacheMode.DEFAULT);
         mRequest.addHeader("Authorization", Authorization);
         mRequestQueue.add(GETHEADER, mRequest, mOnResponseListener);
     }
@@ -131,6 +132,7 @@ public class CustomerServiceActivity extends AppCompatActivity {
         String key = "4139ae26e568353ac337a9299935aa75";
         String url = "http://www.tuling123.com/openapi/api";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.setCacheMode(CacheMode.DEFAULT);
         JSONObject object = new JSONObject();
         try {
             object.put("key",key);
@@ -173,7 +175,6 @@ public class CustomerServiceActivity extends AppCompatActivity {
                     JSONObject object = new JSONObject(result);
                     JSONObject object1 = object.getJSONObject("data");
                     imagePath = object1.getString("image");
-                    Log.e("path",imagePath);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -19,6 +19,7 @@ import com.example.eyes38.R;
 import com.example.eyes38.adapter.Comment_Adapter;
 import com.example.eyes38.beans.Comments;
 import com.example.eyes38.beans.Goods;
+import com.example.eyes38.user_activity.User_loginActivity;
 import com.example.eyes38.utils.CommentAddDialog;
 import com.example.eyes38.utils.LoadMoreFooterView;
 import com.example.eyes38.utils.SpaceItemDecoration;
@@ -133,6 +134,8 @@ public class CommentActivity extends AppCompatActivity {
                             }
                         }else {
                             show("当前未登录，请先登录");
+                            Intent intent = new Intent(CommentActivity.this, User_loginActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });
@@ -160,6 +163,7 @@ public class CommentActivity extends AppCompatActivity {
         int active = 1;
         String url = "http://38eye.test.ilexnet.com/api/mobile/discussion-api/discussions";
         Request<String> mRequest = NoHttp.createStringRequest(url, RequestMethod.POST);
+        mRequest.setCacheMode(CacheMode.DEFAULT);
         //添加头
         mRequest.addHeader("Authorization", Authorization);
         mRequest.add("author_id", author_id);

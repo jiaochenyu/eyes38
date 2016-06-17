@@ -206,7 +206,7 @@ public class SortMenuActivity extends AppCompatActivity {
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         //request.add("limit", "28");
-        request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
+        request.setCacheMode(CacheMode.DEFAULT);
 //        request.add("category_id",category_id);
         //一次请求六条数据
         request.add("limit", 8);
@@ -220,7 +220,7 @@ public class SortMenuActivity extends AppCompatActivity {
         String url = "http://38eye.test.ilexnet.com/api/mobile//product-api/products";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
         //request.add("limit", "28");
-        request.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
+        request.setCacheMode(CacheMode.DEFAULT);
 //        request.add("category_id",category_id);
         //一次请求六条数据
         request.add("limit", 8);

@@ -34,7 +34,8 @@ import java.util.List;
 public class User_receiptaddressAdapter extends BaseAdapter implements View.OnClickListener {
     public static final int DELETERECEIPTADDRESS = 1;  //删除收货地址
     public static final int SETDETAULTRECEIPTADDRESS = 2;  //删除收货地址
-    public static final int DeleteMethod = 3;  //通知更新
+    public static final int SETMODIFYMethod = 3;  //通知更新
+    public static final int FINISHTIHE = 4;  //通知finish
     private Context mContext;
     private List<ReceiptAddress> mDatas;//存收货地址的list
     LayoutInflater mInflater;
@@ -45,7 +46,6 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
     Handler mHandler;
     private Toast toast;//用于快速更新呢的Toast
     private String head;//头信息
-
     public User_receiptaddressAdapter() {
     }
 
@@ -143,7 +143,6 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
             viewHolder.address_delete_text.setOnClickListener(new ItemOnClickListener(position));
             viewHolder.add_address_modify.setOnClickListener(new ItemOnClickListener(position));
             return convertView;
-
         }
     }
 
@@ -217,6 +216,7 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
 
     //修改收货地址
     private void modifyReceiptAddress() {
+        mHandler.sendEmptyMessage(FINISHTIHE);
         Intent intent = new Intent(mContext, User_modifyAddressActivity.class);
         intent.putExtra("modifyvalues", mDatas.get(getModifyposition()));
         mContext.startActivity(intent);
@@ -230,13 +230,6 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
             int position = (int) buttonView.getTag();
             //设置默认地址
             SetDefaultNoHttpMethod(position);
-
-//            ReceiptAddress ra1 = mDatas.get(getPosition());
-//            mDatas.remove(position);
-//            mDatas.add(0, ra1);
-//            notifyDataSetChanged();
-
-
         }
     }
 
@@ -292,12 +285,13 @@ public class User_receiptaddressAdapter extends BaseAdapter implements View.OnCl
         public void onSucceed(int what, Response<String> response) {
             if (what == DELETERECEIPTADDRESS) {
                 //从列表中移除要删除的元素,并通知刷新
-                mDatas.remove(getPosition());
-                notifyDataSetChanged();
+//                mDatas.remove(getPosition());
+//                notifyDataSetChanged();
+                mHandler.sendEmptyMessage(SETMODIFYMethod);
             } else if (what == SETDETAULTRECEIPTADDRESS) {
                 //设置默认地址,网络请求成功之后通知刷新
                 String result = response.get();
-                mHandler.sendEmptyMessage(DeleteMethod);
+                mHandler.sendEmptyMessage(SETMODIFYMethod);
                 showtoast("设置默认地址成功");
 
             }
