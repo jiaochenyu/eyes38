@@ -372,6 +372,7 @@
                         android:layout_height="34dp"
                         android:button="@null"
                         android:checked="true"
+                        android:background="@drawable/cart_item_bottom_border"
                         android:drawableLeft="@mipmap/wechat"
                         android:drawableRight="@drawable/pay_radio_onclick"
                         android:text="         使用[微信钱包]支付"

@@ -270,7 +270,8 @@ public class User_order_AllAdapter extends RecyclerView.Adapter<User_order_AllAd
     private void pushMessage() {
         String id = sp.getString("CUSTOMER_ID", "");
         String name = sp.getString("USER_NAME", "");
-        String path = "http://10.40.7.37:8080/JPush_web/PushServlet";
+        //String path = "http://10.40.7.37:8080/JPush_web/PushServlet";
+        String path = "http://headvip.cn/JPush_web/PushServlet";
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(path, RequestMethod.GET);
         String content = name + "您已经成功催单，我们将尽快发货，";
@@ -282,7 +283,8 @@ public class User_order_AllAdapter extends RecyclerView.Adapter<User_order_AllAd
     private void pushOkMessage() {
         String id = sp.getString("CUSTOMER_ID", "");
         String name = sp.getString("USER_NAME", "");
-        String path = "http://10.40.7.37:8080/JPush_web/PushServlet";
+        //String path = "http://10.40.7.37:8080/JPush_web/PushServlet";
+        String path = "http://headvip.cn/JPush_web/PushServlet";
         mRequestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(path, RequestMethod.GET);
         String content = name + "您已确认收货，谢谢惠顾";
