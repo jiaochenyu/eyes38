@@ -227,6 +227,7 @@ public class SortMenuActivity extends AppCompatActivity {
         //请求第几页
         request.add("page", 1);
         mList.clear();
+        isLoad = true;
         //request.setRequestFailedReadCache(true);
         mRequestQueue.add(mWhat, request, mOnResponseListener);
     }
