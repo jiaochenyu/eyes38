@@ -21,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.eyes38.R;
-import com.example.eyes38.activity.PaySelectActivity;
 import com.example.eyes38.beans.ReceiptAddress;
 import com.example.eyes38.beans.SpinnerSelect;
 import com.example.eyes38.user_activity.User_take_addressActivity;
@@ -131,7 +130,7 @@ public class User_addAddressActivity extends AppCompatActivity {
                     flag4 = true;
                     httpMethod();
                     //跳转到前一个页面
-                    String rString = getIntent().getExtras().getString("flag");
+                  /*  String rString = getIntent().getExtras().getString("flag");
                     if (rString.equals("pay")) {
                         Intent intent = new Intent(User_addAddressActivity.this, PaySelectActivity.class);
                         startActivity(intent);
@@ -140,7 +139,8 @@ public class User_addAddressActivity extends AppCompatActivity {
                         Intent intent = new Intent(User_addAddressActivity.this, User_take_addressActivity.class);
                         startActivity(intent);
                         finish();
-                    }
+                    }*/
+                    finish();
                 }
             });
             break;

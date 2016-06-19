@@ -124,7 +124,8 @@
 
         <activity android:name=".activity.home.LoadActivity"/>
         <activity android:name=".user_activity.User_order_detailActivity"/>
-        <activity android:name=".activity.PaySelectActivity"/>
+        <activity android:name=".activity.PaySelectActivity"
+            android:launchMode="singleTask"/>
 
         <!-- 监听网络广播的服务 -->
 

@@ -69,7 +69,7 @@ public class PaySelectActivity extends AppCompatActivity {
 
     private void initData() {
         sp = this.getSharedPreferences("userInfo", MODE_PRIVATE); //初始化偏好设置
-        mReceiptList = new ArrayList<>();
+
     }
 
     private String authorization() {
@@ -110,6 +110,7 @@ public class PaySelectActivity extends AppCompatActivity {
         public void onSucceed(int what, Response<String> response) {
             if (what == mAdressWhat) {
                 try {
+                    mReceiptList = new ArrayList<>();
                     String result = response.get();
                     JSONObject jsonObject = new JSONObject(result);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -187,5 +188,9 @@ public class PaySelectActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAdressIDNoHttp();
+    }
 }
