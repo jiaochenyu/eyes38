@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void run() {
                         ptrFrame.refreshComplete();
-                        refresh();
+                        refresh1();
                     }
                 }, 1500);
 
